@@ -1,3 +1,6 @@
 from django.contrib import admin
+from words.models import HanjaCharacter
 
-# Register your models here.
+@admin.register(HanjaCharacter)
+class HanjaCharacterAdmin(admin.ModelAdmin):
+  search_fields = ['character']

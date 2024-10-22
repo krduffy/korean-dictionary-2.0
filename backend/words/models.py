@@ -74,3 +74,6 @@ class HanjaCharacter(models.Model):
 
   # 있었지만 지금 사용 안 됩니다.
   explanation = models.CharField(null=True)
+
+  def __str__(self):
+    return self.character

@@ -1,2 +1,3 @@
 venv/*
 backend/backend/.env
+backend/words/management/dictionary_data/*
