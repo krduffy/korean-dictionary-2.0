@@ -15,6 +15,9 @@ class KoreanWord(models.Model):
   word_type = models.CharField(max_length = 3, null=True)
 
   history_info = models.JSONField(null = True, default=None)
+
+  def __str__(self):
+    return f'{self.word} ({self.target_code})'
   
 class Sense(models.Model):
   # The unique identifier for this sense.
@@ -44,6 +47,9 @@ class Sense(models.Model):
   # Seven possible contained fields below
   additional_info = models.JSONField(null = True, default = None)
   # patterns, relations, examples, norms, grammar, proverb, region
+
+  def __str__(self):
+    return f'{self.definition[:20]} ({self.target_code})'
 
 class HanjaCharacter(models.Model):
   # This character. 金, 韓, 朴, 安 are examples of what might be in this field.
