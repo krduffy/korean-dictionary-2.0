@@ -30,10 +30,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
-    'words.apps.WordsConfig'
+    'words.apps.WordsConfig',
+    #'ratelimit',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -130,6 +133,8 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(hours=6),
 }
+
+CORS_ALLOWED_ORIGINS = []
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'user_note_images')
 MEDIA_URL = '/user_note_images/'
