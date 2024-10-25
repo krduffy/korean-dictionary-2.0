@@ -5,7 +5,7 @@ from rest_framework.generics import RetrieveAPIView
 from words.validators import get_hanja_search_param_error, get_korean_search_param_error
 from shared.api_utils import RedirectingListAPIView
 from words.models import HanjaCharacter, KoreanWord
-from words.serializers import HanjaCharacterDetailedSerializer, KoreanWordDetailedSerializer, KoreanWordSearchResultSerializer, HanjaCharacterSearchResultSerializer
+from words.serializers import HanjaCharacterDetailedSerializer, KoreanWordDetailedSerializer, KoreanWordSearchResultSerializer, HanjaCharacterSearchResultSerializer, HanjaCharacterPopupViewSerializer
 from words.queryset_operations import get_korean_search_queryset_with_search_params, filter_hanja_search_with_search_params, get_ordered_korean_search_results, get_ordered_hanja_search_results
 
 class KoreanWordSearchResultsView(RedirectingListAPIView):
@@ -77,3 +77,7 @@ class KoreanWordDetailedView(RetrieveAPIView):
 class HanjaCharacterDetailedView(RetrieveAPIView):
   queryset = HanjaCharacter.objects.all()
   serializer_class = HanjaCharacterDetailedSerializer
+
+class HanjaCharacterPopupView(RetrieveAPIView):
+  queryset = HanjaCharacter.objects.all()
+  serializer_class = HanjaCharacterPopupViewSerializer

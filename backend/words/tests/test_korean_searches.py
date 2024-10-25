@@ -9,7 +9,7 @@ class KoreanWordSearchTests(DbDataMixin, APITestCase):
   
   def setUp(self):
     """Set up data for each test method"""
-    self.search_url = reverse('search_korean')
+    self.search_url = reverse('korean_search')
 
     self.filler_search_term = "가"
     self.filler_search_type = "word_exact"

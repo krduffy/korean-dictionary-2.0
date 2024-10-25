@@ -9,7 +9,7 @@ class HanjaSearchTests(DbDataMixin, APITestCase):
   
   def setUp(self):
     """Set up data for each test method"""
-    self.search_url = reverse('search_hanja')
+    self.search_url = reverse('hanja_search')
 
     self.filler_search_term = "가"
   

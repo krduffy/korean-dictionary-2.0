@@ -1,11 +1,12 @@
 from django.urls import path
-from words.views import KoreanWordSearchResultsView, HanjaCharacterSearchResultsView, KoreanWordDetailedView, HanjaCharacterDetailedView
+from words.views import KoreanWordSearchResultsView, HanjaCharacterSearchResultsView, KoreanWordDetailedView, HanjaCharacterDetailedView, HanjaCharacterPopupView
 
 urlpatterns = [
-  path('search/korean/', KoreanWordSearchResultsView.as_view(), name='search_korean'),
-  path('search/hanja/', HanjaCharacterSearchResultsView.as_view(), name='search_hanja'),
-
-  path('detail/korean/<pk>', KoreanWordDetailedView.as_view(), name='detail_korean'),
-  path('detail/hanja/<pk>', HanjaCharacterDetailedView.as_view(), name='detail_hanja'),
+  path('korean/search/', KoreanWordSearchResultsView.as_view(), name='korean_search'),
+  path('korean/detail/<pk>', KoreanWordDetailedView.as_view(), name='korean_detail'),
+  
+  path('hanja/search/', HanjaCharacterSearchResultsView.as_view(), name='hanja_search'),
+  path('hanja/detail/<pk>', HanjaCharacterDetailedView.as_view(), name='hanja_detail'),
+  path('hanja/popup/<pk>', HanjaCharacterPopupView.as_view(), name='hanja_popup')
 ]
 

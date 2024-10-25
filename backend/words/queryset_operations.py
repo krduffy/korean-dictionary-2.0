@@ -6,6 +6,48 @@ from shared.string_utils import is_hanja
 from words.models import HanjaMeaningReading, KoreanWord
 from users.models import User
 
+def annotate_with_studied(initial_queryset, user):
+
+  studied_annotation = None
+  if user is None or not user.is_authenticated:
+    studied_annotation = Value(False)
+  else:
+    studied_annotation = Case(
+      When(target_code__in=user.studied_words.all().filter(), then=Value(True)),
+      default=Value(False),
+      output_field=BooleanField(),
+    )
+
+  return initial_queryset.annotate(
+    studied = studied_annotation
+  )
+
+def annotate_with_known(initial_queryset, user):
+
+  known_annotation = None
+  if user is None or not user.is_authenticated:
+    known_annotation = Value(False)
+  else:
+    known_annotation = Case(
+      When(target_code__in=user.studied_words.all().filter(), then=Value(True)),
+      default=Value(False),
+      output_field=BooleanField(),
+    )
+
+  return initial_queryset.annotate(
+    known = known_annotation
+  )
+
+def annotate_with_users_that_know(initial_queryset):
+  return initial_queryset.annotate(
+    users_that_know_count=Count("users_that_know")
+  )
+
+def annotate_with_length(initial_queryset):
+  return initial_queryset.annotate(
+    length=Length("word")
+  )
+
 def get_korean_search_queryset_with_search_params(query_params):
   search_term = query_params['search_term']
   search_type = query_params.get('search_type', 'word_exact')
@@ -61,21 +103,14 @@ def get_ordered_korean_search_results(initial_queryset: QuerySet, user: User | N
     Returns: The reordered queryset.
   """
   
-  studied_annotation = None
-  if user is None or not user.is_authenticated:
-    studied_annotation = Value(False)
-  else:
-    studied_annotation = Case(
-      When(target_code__in=user.studied_words.all().filter(), then=Value(True)),
-      default=Value(False),
-      output_field=BooleanField(),
+  annotated_queryset = \
+    annotate_with_studied(
+      annotate_with_users_that_know(
+        annotate_with_length(
+          initial_queryset
+        )
+      ), user
     )
-
-  annotated_queryset = initial_queryset.annotate(
-    studied=studied_annotation,
-    users_that_know_count=Count("users_that_know"),
-    length=Length("word"),
-  )
 
   new_queryset = annotated_queryset.order_by(
     "-studied",               # Words that the user is studying first
@@ -169,7 +204,7 @@ def get_ordered_hanja_search_results_type_hanja_search(initial_queryset, search_
   has_any_char = individual_char_queries[0]
   for query in individual_char_queries:
     has_any_char = has_any_char | query
-  queryset = queryset.filter(has_any_char)
+  queryset = initial_queryset.filter(has_any_char)
 
   # Orders the queryset according to where the characters actually are in search_term.
   # Prevents the order of the queryset for search_term '頭痛' from being the second
@@ -252,3 +287,27 @@ def get_ordered_hanja_search_results(initial_queryset, search_term):
     
   # Search hangul only.
   return get_ordered_hanja_search_results_type_korean_search(initial_queryset, search_term, fallback_fields)
+
+def get_ordered_hanja_popup_example_queryset(initial_queryset, user):
+
+  annotated_queryset = \
+    annotate_with_studied(
+      annotate_with_known(
+        annotate_with_users_that_know(
+          annotate_with_length(
+            initial_queryset
+          )
+        ), user
+      ), user
+    )
+  
+  new_queryset = annotated_queryset.order_by(
+    "-studied",               # Words that the user is studying first
+    "-known",                 # Then by words that the user knows
+    "-users_that_know_count", # Then by the number of users who know the word
+    "length",                 # Shorter words first
+    "word",                   # 가나다순 (alphabetical order)
+    "pk"                      # Tiebreaker by primary key
+  )
+
+  return new_queryset
