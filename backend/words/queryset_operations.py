@@ -17,7 +17,7 @@ def get_korean_search_queryset_with_search_params(query_params):
       # If the word contains any hanja then it will instead check the origin field
       # So searching '單語' will return the word '단어'
       if is_hanja(character):
-        return queryset.objects.filter(origin__exact = search_term)
+        return queryset.filter(origin__exact = search_term)
     
     queryset = KoreanWord.objects.filter(word__exact = search_term)
   elif search_type == 'word_regex':
@@ -32,7 +32,7 @@ def get_korean_search_queryset_with_search_params(query_params):
       # If the word contains any hanja then it will instead check the origin field
       # So searching '.語' will return (among others) the word '단어'
       if is_hanja(character):
-        return queryset.objects.filter(origin__iregex = regized_search_term)
+        return queryset.filter(origin__iregex = regized_search_term)
 
     return queryset.filter(word__iregex = regized_search_term)
   elif search_type == 'definition_contains':
@@ -210,19 +210,27 @@ def get_ordered_hanja_search_results_type_korean_search(initial_queryset, search
     referent=OuterRef('pk'),
     meaning__icontains=search_term
   )
+  is_in_meaning = Case(
+    When(Exists(has_meaning_subquery), then=Value(True)),
+    default=Value(False),
+    output_field=BooleanField(),
+  )
 
-  queryset = initial_queryset.annotate(
-    is_in_reading = is_in_reading,
-    is_in_meaning=Case(
-      When(Exists(has_meaning_subquery), then=Value(True)),
-      default=Value(False),
-      output_field=BooleanField(),
-    ),
-    is_in_explanation = Case(
+  # if search is not at least length 2 a word is never in the explanation.
+  # otherwise, searching '다' would return pretty much every single character due to
+  # words like 한다 and 이다 being in most explanations
+  is_in_explanation = (
+    Case(
       When(explanation__icontains = search_term, then = Value(True)),
       default = Value(False),
       output_field = BooleanField()
-    )
+    ) if len(search_term) > 1 else Value(False)
+  )
+
+  queryset = initial_queryset.annotate(
+    is_in_reading = is_in_reading,
+    is_in_meaning = is_in_meaning,
+    is_in_explanation = is_in_explanation
   ).filter(
     # words that satisfy none of the three need to be excluded
     Q(is_in_reading = True) |

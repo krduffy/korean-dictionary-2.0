@@ -1,1239 +1,1332 @@
 {
-    "word_data": [
+  "word_data": [
+    {
+      "target_code": 29,
+      "word": "ㄴ가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
         {
-            "target_code": 29,
-            "word": "ㄴ가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": null,
-            "senses": [
-                {
-                    "target_code": 8422,
-                    "definition": "하게할 자리에 쓰여, 현재의 사실에 대한 물음을 나타내는 종결 어미.",
-                    "type": "일반어",
-                    "order": 1,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "example": "그게 {정말인가}?"
-                            },
-                            {
-                                "example": "자네 어디 {아픈가}?"
-                            },
-                            {
-                                "example": "그래, 아버님은 {안녕하신가}?"
-                            },
-                            {
-                                "example": "과연 누가 옳고 누가 {그른가} 묻고 싶었다."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "‘이다’의 어간, 받침 없는 형용사 어간, ‘ㄹ’ 받침인 형용사 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
-                            }
-                        ],
-                        "relation_info": [
-                            {
-                                "type": "참고 어휘",
-                                "word": "는가",
-                                "link_target_code": 196329
-                            },
-                            {
-                                "type": "참고 어휘",
-                                "word": "던가",
-                                "link_target_code": 229241
-                            },
-                            {
-                                "type": "참고 어휘",
-                                "word": "은가",
-                                "link_target_code": 730909
-                            },
-                            {
-                                "type": "방언",
-                                "word": "ㄴ강",
-                                "link_target_code": 32
-                            },
-                            {
-                                "type": "방언",
-                                "word": "ㄴ나",
-                                "link_target_code": 40
-                            }
-                        ]
-                    }
-                },
-                {
-                    "target_code": 36031,
-                    "definition": "자기 스스로에게 묻는 물음이나 추측을 나타내는 종결 어미.",
-                    "type": "일반어",
-                    "order": 2,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "example": "난 혹시 저분이 {어머니이신가} 했지."
-                            },
-                            {
-                                "example": "얼굴에 핏기가 없는 것이 어디가 {아픈가} 싶다."
-                            },
-                            {
-                                "example": "물이 {찬가} 보다."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "‘이다’의 어간, 받침 없는 형용사 어간, ‘ㄹ’ 받침인 형용사 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
-                            },
-                            {
-                                "grammar": "주로 ‘-ㄴ가 하다’, ‘-ㄴ가 싶다’, ‘-ㄴ가 보다’ 구성으로 쓰여"
-                            }
-                        ],
-                        "relation_info": [
-                            {
-                                "type": "참고 어휘",
-                                "word": "는가",
-                                "link_target_code": 196329
-                            },
-                            {
-                                "type": "참고 어휘",
-                                "word": "던가",
-                                "link_target_code": 229241
-                            },
-                            {
-                                "type": "참고 어휘",
-                                "word": "은가",
-                                "link_target_code": 730909
-                            },
-                            {
-                                "type": "방언",
-                                "word": "ㄴ강",
-                                "link_target_code": 32
-                            },
-                            {
-                                "type": "방언",
-                                "word": "ㄴ나",
-                                "link_target_code": 40
-                            }
-                        ]
-                    }
-                }
+          "target_code": 8422,
+          "definition": "하게할 자리에 쓰여, 현재의 사실에 대한 물음을 나타내는 종결 어미.",
+          "type": "일반어",
+          "order": 1,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "example_info": [
+              {
+                "example": "그게 {정말인가}?"
+              },
+              {
+                "example": "자네 어디 {아픈가}?"
+              },
+              {
+                "example": "그래, 아버님은 {안녕하신가}?"
+              },
+              {
+                "example": "과연 누가 옳고 누가 {그른가} 묻고 싶었다."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "‘이다’의 어간, 받침 없는 형용사 어간, ‘ㄹ’ 받침인 형용사 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "참고 어휘",
+                "word": "는가",
+                "link_target_code": 196329
+              },
+              {
+                "type": "참고 어휘",
+                "word": "던가",
+                "link_target_code": 229241
+              },
+              {
+                "type": "참고 어휘",
+                "word": "은가",
+                "link_target_code": 730909
+              },
+              {
+                "type": "방언",
+                "word": "ㄴ강",
+                "link_target_code": 32
+              },
+              {
+                "type": "방언",
+                "word": "ㄴ나",
+                "link_target_code": 40
+              }
             ]
+          }
         },
         {
-            "target_code": 30,
-            "word": "ㄴ가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": null,
-            "senses": [
-                {
-                    "target_code": 112218,
-                    "definition": "물음을 나타내는 종결 어미.",
-                    "type": "옛말",
-                    "order": 1,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "source": "석상 11:4",
-                                "example": "安 便安씨오 否는 便安티 아니씨니 安否는 {便安신가 아니신가} 논 마리라.",
-                                "translation": "안(安)은 편안한 것이고 부(否)는 편안하지 않은 것이니 안부는 {편안하신가 않으신가} 묻는 말이다."
-                            },
-                            {
-                                "source": "석상 11:32",
-                                "example": "이 아니 내 鹿母夫人 나흔 {고진가} 즉자히 靑衣려 무르샤.",
-                                "translation": "이 아니 나의 녹모부인이 낳은 {꽃인가} 즉시 청의를 시켜 물으시되."
-                            },
-                            {
-                                "source": "석상 11:34",
-                                "example": "{도긴가} 너기며 모딘 {귀신가} 너겨 두리여 혜다가.",
-                                "translation": "{도둑인가} 여기며 모진 {귀신인가} 여기어 두려워하여 헤매어 다니다."
-                            },
-                            {
-                                "source": "석상 24:51",
-                                "example": "다 사 갑새 보내니 太子ㅣ 아바 {勅書ㅣ신가} 너겨 깃  눈  바다 연자두고 오래 보니.",
-                                "translation": "다른 사람을 값에 보내니 태자가 아버님의 {칙서이신가} 여겨 기뻐하여 한 눈을 빼어 손바닥에 얹어 두고 오래 보니."
-                            },
-                            {
-                                "source": "월석 1:15",
-                                "example": "緊那羅 疑心 神靈이라 혼 디니 사 토 리 이실 {사민가} 사 {아닌가} 야 疑心니.",
-                                "translation": "긴나라는 의심스러운 신령이라는 뜻으로 사람 같지만 뿔이 있어 {사람인지} 아닌지 의심스럽고."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "어간이나 어미 뒤에 붙어"
-                            },
-                            {
-                                "grammar": "의문사가 없는 의문문에 쓰여"
-                            }
-                        ]
-                    }
-                }
+          "target_code": 36031,
+          "definition": "자기 스스로에게 묻는 물음이나 추측을 나타내는 종결 어미.",
+          "type": "일반어",
+          "order": 2,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "example_info": [
+              {
+                "example": "난 혹시 저분이 {어머니이신가} 했지."
+              },
+              {
+                "example": "얼굴에 핏기가 없는 것이 어디가 {아픈가} 싶다."
+              },
+              {
+                "example": "물이 {찬가} 보다."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "‘이다’의 어간, 받침 없는 형용사 어간, ‘ㄹ’ 받침인 형용사 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
+              },
+              {
+                "grammar": "주로 ‘-ㄴ가 하다’, ‘-ㄴ가 싶다’, ‘-ㄴ가 보다’ 구성으로 쓰여"
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "참고 어휘",
+                "word": "는가",
+                "link_target_code": 196329
+              },
+              {
+                "type": "참고 어휘",
+                "word": "던가",
+                "link_target_code": 229241
+              },
+              {
+                "type": "참고 어휘",
+                "word": "은가",
+                "link_target_code": 730909
+              },
+              {
+                "type": "방언",
+                "word": "ㄴ강",
+                "link_target_code": 32
+              },
+              {
+                "type": "방언",
+                "word": "ㄴ나",
+                "link_target_code": 40
+              }
             ]
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 30,
+      "word": "ㄴ가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 112218,
+          "definition": "물음을 나타내는 종결 어미.",
+          "type": "옛말",
+          "order": 1,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "example_info": [
+              {
+                "source": "석상 11:4",
+                "example": "安 便安씨오 否는 便安티 아니씨니 安否는 {便安신가 아니신가} 논 마리라.",
+                "translation": "안(安)은 편안한 것이고 부(否)는 편안하지 않은 것이니 안부는 {편안하신가 않으신가} 묻는 말이다."
+              },
+              {
+                "source": "석상 11:32",
+                "example": "이 아니 내 鹿母夫人 나흔 {고진가} 즉자히 靑衣려 무르샤.",
+                "translation": "이 아니 나의 녹모부인이 낳은 {꽃인가} 즉시 청의를 시켜 물으시되."
+              },
+              {
+                "source": "석상 11:34",
+                "example": "{도긴가} 너기며 모딘 {귀신가} 너겨 두리여 혜다가.",
+                "translation": "{도둑인가} 여기며 모진 {귀신인가} 여기어 두려워하여 헤매어 다니다."
+              },
+              {
+                "source": "석상 24:51",
+                "example": "다 사 갑새 보내니 太子ㅣ 아바 {勅書ㅣ신가} 너겨 깃  눈  바다 연자두고 오래 보니.",
+                "translation": "다른 사람을 값에 보내니 태자가 아버님의 {칙서이신가} 여겨 기뻐하여 한 눈을 빼어 손바닥에 얹어 두고 오래 보니."
+              },
+              {
+                "source": "월석 1:15",
+                "example": "緊那羅 疑心 神靈이라 혼 디니 사 토 리 이실 {사민가} 사 {아닌가} 야 疑心니.",
+                "translation": "긴나라는 의심스러운 신령이라는 뜻으로 사람 같지만 뿔이 있어 {사람인지} 아닌지 의심스럽고."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "어간이나 어미 뒤에 붙어"
+              },
+              {
+                "grammar": "의문사가 없는 의문문에 쓰여"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 142,
+      "word": "ㄹ가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 743,
+          "definition": "해할 자리에 쓰여, 어떤 일에 대한 물음이나 추측을 나타내는 종결 어미. ⇒규범 표기는 ‘-ㄹ까’이다.",
+          "type": "일반어",
+          "order": 1,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "grammar_info": [
+              {
+                "grammar": "‘이다’의 어간, 받침 없는 용언의 어간, ‘ㄹ’ 받침인 용언의 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
+              }
+            ]
+          }
         },
         {
-            "target_code": 142,
-            "word": "ㄹ가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": null,
-            "senses": [
-                {
-                    "target_code": 743,
-                    "definition": "해할 자리에 쓰여, 어떤 일에 대한 물음이나 추측을 나타내는 종결 어미. ⇒규범 표기는 ‘-ㄹ까’이다.",
-                    "type": "일반어",
-                    "order": 1,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "grammar_info": [
-                            {
-                                "grammar": "‘이다’의 어간, 받침 없는 용언의 어간, ‘ㄹ’ 받침인 용언의 어간 또는 어미 ‘-으시-’ 뒤에 붙어"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "target_code": 39283,
-                    "definition": "‘-ㄹ까’의 북한어.",
-                    "type": "북한어",
-                    "order": 2,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {}
-                }
-            ]
-        },
+          "target_code": 39283,
+          "definition": "‘-ㄹ까’의 북한어.",
+          "type": "북한어",
+          "order": 2,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {}
+        }
+      ]
+    },
+    {
+      "target_code": 143,
+      "word": "ㄹ가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
         {
-            "target_code": 143,
-            "word": "ㄹ가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": null,
-            "senses": [
-                {
-                    "target_code": 456476,
-                    "definition": "-ㄹ까.",
-                    "type": "옛말",
-                    "order": 1,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "origin": "野客頻留懼雪霜, 行人不過聽竽籟.",
-                                "source": "두시-초 6:41",
-                                "example": "해 소니 조 머드러셔 눈과 {서릴가} 저코 길 녈 사미 디나가디 아니야셔 피릿 소릴 든논 더니라.",
-                                "translation": "들에 손님이 자주 머무르면서 눈과 {서리일까} 두려워하고 길가는 사람 지나가지 않고서 피리 소리를 듣는 듯 하더라."
-                            },
-                            {
-                                "origin": "扶顚有勸誡, 恐貽識者嗤.",
-                                "source": "두시-초 6:43",
-                                "example": "업더디닐 더위자보미 勸誡 잇니 알 사 우믈 {기틸가} 전노라.",
-                                "translation": "엎어지는 것을 부여잡음이 경계가 있는데 아는 사람이 웃을 일을 {남길까} 두려워하노라."
-                            },
-                            {
-                                "origin": "秪緣恐懼轉須親.",
-                                "source": "두시-초 7:22",
-                                "example": "오직 {저허가} 말야  모로매 親히 다라.",
-                                "translation": "오직 {염려할까} 말미암아 모름지기 아주 친하게 대했었다."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "어간 뒤에 붙어"
-                            },
-                            {
-                                "grammar": "의문사가 없는 의문문에 쓰여"
-                            }
-                        ]
-                    }
-                }
+          "target_code": 456476,
+          "definition": "-ㄹ까.",
+          "type": "옛말",
+          "order": 1,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "example_info": [
+              {
+                "origin": "野客頻留懼雪霜, 行人不過聽竽籟.",
+                "source": "두시-초 6:41",
+                "example": "해 소니 조 머드러셔 눈과 {서릴가} 저코 길 녈 사미 디나가디 아니야셔 피릿 소릴 든논 더니라.",
+                "translation": "들에 손님이 자주 머무르면서 눈과 {서리일까} 두려워하고 길가는 사람 지나가지 않고서 피리 소리를 듣는 듯 하더라."
+              },
+              {
+                "origin": "扶顚有勸誡, 恐貽識者嗤.",
+                "source": "두시-초 6:43",
+                "example": "업더디닐 더위자보미 勸誡 잇니 알 사 우믈 {기틸가} 전노라.",
+                "translation": "엎어지는 것을 부여잡음이 경계가 있는데 아는 사람이 웃을 일을 {남길까} 두려워하노라."
+              },
+              {
+                "origin": "秪緣恐懼轉須親.",
+                "source": "두시-초 7:22",
+                "example": "오직 {저허가} 말야  모로매 親히 다라.",
+                "translation": "오직 {염려할까} 말미암아 모름지기 아주 친하게 대했었다."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "어간 뒤에 붙어"
+              },
+              {
+                "grammar": "의문사가 없는 의문문에 쓰여"
+              }
             ]
-        },
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 490,
+      "word": "ㅭ가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
         {
-            "target_code": 490,
-            "word": "ㅭ가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": null,
-            "senses": [
-                {
-                    "target_code": 419767,
-                    "definition": "-ㄹ까.",
-                    "type": "옛말",
-                    "order": 1,
-                    "category": "",
-                    "pos": "어미",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "source": "월곡 상:17",
-                                "example": "어엿브신 애 {나가가} 저샤 太子ㅅ 겨틔 안시니.",
-                                "translation": "가련하신 마음에 {나가실까} 두려워하시어 태자의 곁에 앉으시니."
-                            },
-                            {
-                                "source": "월곡 상:52",
-                                "example": "셟고 애븐 디여 누를 {가가} 사이라도 만 몯호다.",
-                                "translation": "서럽고 애달픈 뜻이야 누구를 {비교할까} 사람이라도 중생만 못합니다."
-                            },
-                            {
-                                "source": "석상 23:51",
-                                "example": "拘尸城ㅅ 사미 녀느 나라해셔 와 {아가} 너겨 四兵 모도아 城 밧긔 無數히 둘어 셰오.",
-                                "translation": "\"구시성의 사람이 어느 나라에서 와서 {앗을까} 여겨 사병 모아 성 밖에 무수히 둘러 세우고.\""
-                            },
-                            {
-                                "source": "석상 24:49",
-                                "example": "그 夫人이 怨望고 제 이리 {現露가} 야.",
-                                "translation": "그 부인이 원망하고 제 일이 {현로할까} 하여."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "동사, 형용사 어간이나 어미 뒤에 붙어"
-                            }
-                        ]
-                    }
-                }
+          "target_code": 419767,
+          "definition": "-ㄹ까.",
+          "type": "옛말",
+          "order": 1,
+          "category": "",
+          "pos": "어미",
+          "additional_info": {
+            "example_info": [
+              {
+                "source": "월곡 상:17",
+                "example": "어엿브신 애 {나가가} 저샤 太子ㅅ 겨틔 안시니.",
+                "translation": "가련하신 마음에 {나가실까} 두려워하시어 태자의 곁에 앉으시니."
+              },
+              {
+                "source": "월곡 상:52",
+                "example": "셟고 애븐 디여 누를 {가가} 사이라도 만 몯호다.",
+                "translation": "서럽고 애달픈 뜻이야 누구를 {비교할까} 사람이라도 중생만 못합니다."
+              },
+              {
+                "source": "석상 23:51",
+                "example": "拘尸城ㅅ 사미 녀느 나라해셔 와 {아가} 너겨 四兵 모도아 城 밧긔 無數히 둘어 셰오.",
+                "translation": "\"구시성의 사람이 어느 나라에서 와서 {앗을까} 여겨 사병 모아 성 밖에 무수히 둘러 세우고.\""
+              },
+              {
+                "source": "석상 24:49",
+                "example": "그 夫人이 怨望고 제 이리 {現露가} 야.",
+                "translation": "그 부인이 원망하고 제 일이 {현로할까} 하여."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "동사, 형용사 어간이나 어미 뒤에 붙어"
+              }
             ]
-        },
-        {
-            "target_code": 517,
-            "word": "가",
-            "origin": "",
-            "word_type": "어휘",
-            "history_info": {
-                "desc": "현대 국어 ‘가’의 옛말인 ‘’은 15세기 문헌에서부터 나타난다. 15세기의 ‘’은 자음으로 시작하는 조사나 단독으로 실현될 때에는 ‘’으로, 모음으로 시작하는 조사가 결합할 때에는 ‘’으로 실현되어 ‘/’의 교체를 보였다. 16세기에 ‘ㅿ’이 소멸하여 모음으로 시작하는 조사와 결합할 때 ‘’가 나타나기 시작하였다. 18세기 후반에 모음으로 시작하는 조사뿐 아니라 단독으로 실현되는 경우에도 ‘’로 나타나면서 ‘’와 ‘’이 ‘’로 통일된 것으로 보인다. 18세기에 제1음절의 모음 ‘ㆍ’가 ‘ㅏ’로 변하였는데 ‘’도 이러한 변화를 겪었다. ‘ㆍ>ㅏ’의 변화를 겪은 ‘가’가 19세기부터 나타나기 시작하여 현대 국어에 이르렀다. 현재 남부 방언에서는 ‘’에서 ‘ㅿ’이 ‘ㅅ’으로 남은 ‘갓’으로 남아 ‘가새, 가시’ 등으로 사용되고 있다.",
-                "allomorph": ", , , 가, 갓",
-                "word_form": "(15세기~16세기)>(16세기~19세기)>가(19세기~현재)",
-                "history_sense_info": [
-                    {
-                        "history_century_info": [
-                            {
-                                "mark": ", ",
-                                "century": "15",
-                                "history_example_info": [
-                                    {
-                                        "source": "1447 용가 68",
-                                        "example": " {} 아니 말이샤 밀므를 마시니 "
-                                    },
-                                    {
-                                        "source": "1447 월곡 10ㄱ",
-                                        "example": "祥瑞도 하시며 光明도 하시나 {} 업스실 오 몯 뇌 "
-                                    },
-                                    {
-                                        "source": "1447 석상 3:12ㄴ",
-                                        "example": "難陁 象 긼 {} 티차 太子 象 드러 城 나티시고 "
-                                    },
-                                    {
-                                        "source": "1447 석상 19:24ㄱ",
-                                        "example": "이 淸淨 意根로  偈  句를 드러도 그지 업스며 {} 업슨 들  알리니 이 들 알오 能히  句 "
-                                    }
-                                ]
-                            },
-                            {
-                                "mark": ", , ",
-                                "century": "16",
-                                "history_example_info": [
-                                    {
-                                        "source": "1510년대 번노 상:31ㄴ",
-                                        "example": "우믌 {}  믈 머기 돌구 잇니라 "
-                                    },
-                                    {
-                                        "source": "1527 훈몽 중:4ㄴ",
-                                        "example": "邊 {} 변 "
-                                    },
-                                    {
-                                        "source": "1510년대 번노 상:32ㄱ",
-                                        "example": "우믌 {애} 드레와 줄 다 잇니라 "
-                                    },
-                                    {
-                                        "source": "1588 소언 6:77ㄴ",
-                                        "example": "過失이 잇거든 짓디 아니고 위야 {애} 안자 반상을 對여셔 먹디 아니거든 "
-                                    }
-                                ]
-                            },
-                            {
-                                "mark": "",
-                                "century": "17",
-                                "history_example_info": [
-                                    {
-                                        "source": "1613 시언 1:20ㄱ",
-                                        "example": "殷 그 雷 南山ㅅ {애} 잇거 엇디 이 이에 違 디라 "
-                                    },
-                                    {
-                                        "source": "1617 동신속 효8:11ㄴ",
-                                        "example": "뎡복이 엄의 주검 얻고져 여 석 을 믈{을} 조차 듀야에 우더니 "
-                                    }
-                                ]
-                            },
-                            {
-                                "mark": ", ",
-                                "century": "18",
-                                "history_example_info": [
-                                    {
-                                        "source": "1781-1787 왜해 상:11ㄴ",
-                                        "example": "{ㅅ} 변 邊 "
-                                    },
-                                    {
-                                        "source": "1737 어내 2:97ㄴ",
-                                        "example": "子식 야셔 자 기우로 아니며 안 {애} 아니며 셔  발을 기우로 아니며 "
-                                    },
-                                    {
-                                        "source": "1763 노신 1:39ㄴ",
-                                        "example": "져 우믈ᄉ{애} 드레와 줄이 다 現成여 져긔 잇니라 "
-                                    },
-                                    {
-                                        "source": "1790 몽해 상:8ㄱ",
-                                        "example": "傍邊 {} "
-                                    }
-                                ]
-                            },
-                            {
-                                "mark": ", 가, 갓",
-                                "century": "19",
-                                "history_example_info": [
-                                    {
-                                        "source": "1894 훈아 15b",
-                                        "example": "혹  우희 계시며 혹 바다 {에} 계시고 오 여긔 계시고 "
-                                    },
-                                    {
-                                        "source": "1895 진리 24ㄱ",
-                                        "example": "{갓} 변 (邊) "
-                                    },
-                                    {
-                                        "source": "1880 한불 119",
-                                        "example": "{가} 邊 "
-                                    }
-                                ]
-                            }
-                        ]
-                    }
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 517,
+      "word": "가",
+      "origin": "",
+      "word_type": "어휘",
+      "history_info": {
+        "desc": "현대 국어 ‘가’의 옛말인 ‘’은 15세기 문헌에서부터 나타난다. 15세기의 ‘’은 자음으로 시작하는 조사나 단독으로 실현될 때에는 ‘’으로, 모음으로 시작하는 조사가 결합할 때에는 ‘’으로 실현되어 ‘/’의 교체를 보였다. 16세기에 ‘ㅿ’이 소멸하여 모음으로 시작하는 조사와 결합할 때 ‘’가 나타나기 시작하였다. 18세기 후반에 모음으로 시작하는 조사뿐 아니라 단독으로 실현되는 경우에도 ‘’로 나타나면서 ‘’와 ‘’이 ‘’로 통일된 것으로 보인다. 18세기에 제1음절의 모음 ‘ㆍ’가 ‘ㅏ’로 변하였는데 ‘’도 이러한 변화를 겪었다. ‘ㆍ>ㅏ’의 변화를 겪은 ‘가’가 19세기부터 나타나기 시작하여 현대 국어에 이르렀다. 현재 남부 방언에서는 ‘’에서 ‘ㅿ’이 ‘ㅅ’으로 남은 ‘갓’으로 남아 ‘가새, 가시’ 등으로 사용되고 있다.",
+        "allomorph": ", , , 가, 갓",
+        "word_form": "(15세기~16세기)>(16세기~19세기)>가(19세기~현재)",
+        "history_sense_info": [
+          {
+            "history_century_info": [
+              {
+                "mark": ", ",
+                "century": "15",
+                "history_example_info": [
+                  {
+                    "source": "1447 용가 68",
+                    "example": " {} 아니 말이샤 밀므를 마시니 "
+                  },
+                  {
+                    "source": "1447 월곡 10ㄱ",
+                    "example": "祥瑞도 하시며 光明도 하시나 {} 업스실 오 몯 뇌 "
+                  },
+                  {
+                    "source": "1447 석상 3:12ㄴ",
+                    "example": "難陁 象 긼 {} 티차 太子 象 드러 城 나티시고 "
+                  },
+                  {
+                    "source": "1447 석상 19:24ㄱ",
+                    "example": "이 淸淨 意根로  偈  句를 드러도 그지 업스며 {} 업슨 들  알리니 이 들 알오 能히  句 "
+                  }
                 ]
-            },
-            "senses": [
-                {
-                    "target_code": 551436,
-                    "definition": "경계에 가까운 바깥쪽 부분.",
-                    "type": "일반어",
-                    "order": 1,
-                    "category": "",
-                    "pos": "명사",
-                    "additional_info": {
-                        "relation_info": [
-                            {
-                                "type": "상위어",
-                                "word": "근처",
-                                "link_target_code": 128080
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가생이",
-                                "link_target_code": 7026
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갖",
-                                "link_target_code": 28564
-                            },
-                            {
-                                "type": "방언",
-                                "word": "에염",
-                                "link_target_code": 644284
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가헤",
-                                "link_target_code": 13854
-                            },
-                            {
-                                "type": "방언",
-                                "word": "개",
-                                "link_target_code": 28749
-                            },
-                            {
-                                "type": "방언",
-                                "word": "그티",
-                                "link_target_code": 125183
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끗",
-                                "link_target_code": 159123
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끈티",
-                                "link_target_code": 158744
-                            },
-                            {
-                                "type": "방언",
-                                "word": "석드리",
-                                "link_target_code": 505421
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가사",
-                                "link_target_code": 6345
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상",
-                                "link_target_code": 6543
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상이",
-                                "link_target_code": 6789
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상구",
-                                "link_target_code": 6591
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가서리",
-                                "link_target_code": 7037
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가석",
-                                "link_target_code": 7049
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가성",
-                                "link_target_code": 7170
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가시",
-                                "link_target_code": 8735
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가싱이",
-                                "link_target_code": 9275
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가외",
-                                "link_target_code": 9956
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가이",
-                                "link_target_code": 10661
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가테",
-                                "link_target_code": 13549
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가티",
-                                "link_target_code": 13620
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새",
-                                "link_target_code": 6967
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가양",
-                                "link_target_code": 9490
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새이",
-                                "link_target_code": 6995
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가우",
-                                "link_target_code": 10137
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓내",
-                                "link_target_code": 25288
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓디",
-                                "link_target_code": 25315
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓",
-                                "link_target_code": 25226
-                            },
-                            {
-                                "type": "옛말",
-                                "word": "",
-                                "link_target_code": 1086609
-                            }
-                        ]
-                    }
-                },
-                {
-                    "target_code": 554593,
-                    "definition": "어떤 중심 되는 곳에서 가까운 부분.",
-                    "type": "일반어",
-                    "order": 2,
-                    "category": "",
-                    "pos": "명사",
-                    "additional_info": {
-                        "relation_info": [
-                            {
-                                "type": "하위어",
-                                "word": "노변",
-                                "link_target_code": 183654
-                            },
-                            {
-                                "type": "하위어",
-                                "word": "수돗가",
-                                "link_target_code": 542210
-                            },
-                            {
-                                "type": "하위어",
-                                "word": "화롯가",
-                                "link_target_code": 1062087
-                            },
-                            {
-                                "type": "상위어",
-                                "word": "근처",
-                                "link_target_code": 128080
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가생이",
-                                "link_target_code": 7026
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갖",
-                                "link_target_code": 28564
-                            },
-                            {
-                                "type": "방언",
-                                "word": "에염",
-                                "link_target_code": 644284
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가헤",
-                                "link_target_code": 13854
-                            },
-                            {
-                                "type": "방언",
-                                "word": "개",
-                                "link_target_code": 28749
-                            },
-                            {
-                                "type": "방언",
-                                "word": "그티",
-                                "link_target_code": 125183
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끗",
-                                "link_target_code": 159123
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끈티",
-                                "link_target_code": 158744
-                            },
-                            {
-                                "type": "방언",
-                                "word": "석드리",
-                                "link_target_code": 505421
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가사",
-                                "link_target_code": 6345
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상",
-                                "link_target_code": 6543
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상이",
-                                "link_target_code": 6789
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상구",
-                                "link_target_code": 6591
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가서리",
-                                "link_target_code": 7037
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가석",
-                                "link_target_code": 7049
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가성",
-                                "link_target_code": 7170
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가시",
-                                "link_target_code": 8735
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가싱이",
-                                "link_target_code": 9275
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가외",
-                                "link_target_code": 9956
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가이",
-                                "link_target_code": 10661
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가테",
-                                "link_target_code": 13549
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가티",
-                                "link_target_code": 13620
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새",
-                                "link_target_code": 6967
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가양",
-                                "link_target_code": 9490
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새이",
-                                "link_target_code": 6995
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가우",
-                                "link_target_code": 10137
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓내",
-                                "link_target_code": 25288
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓디",
-                                "link_target_code": 25315
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓",
-                                "link_target_code": 25226
-                            },
-                            {
-                                "type": "옛말",
-                                "word": "",
-                                "link_target_code": 1086609
-                            }
-                        ]
-                    }
-                },
-                {
-                    "target_code": 558115,
-                    "definition": "그릇 따위의 아가리의 주변.",
-                    "type": "일반어",
-                    "order": 3,
-                    "category": "",
-                    "pos": "명사",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "example": "참기름을 따를 때 {가에} 흘리지 않도록 조심해라."
-                            }
-                        ],
-                        "relation_info": [
-                            {
-                                "type": "상위어",
-                                "word": "전두리",
-                                "link_target_code": 805707
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가생이",
-                                "link_target_code": 7026
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갖",
-                                "link_target_code": 28564
-                            },
-                            {
-                                "type": "방언",
-                                "word": "에염",
-                                "link_target_code": 644284
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가헤",
-                                "link_target_code": 13854
-                            },
-                            {
-                                "type": "방언",
-                                "word": "개",
-                                "link_target_code": 28749
-                            },
-                            {
-                                "type": "방언",
-                                "word": "그티",
-                                "link_target_code": 125183
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끗",
-                                "link_target_code": 159123
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끈티",
-                                "link_target_code": 158744
-                            },
-                            {
-                                "type": "방언",
-                                "word": "석드리",
-                                "link_target_code": 505421
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가사",
-                                "link_target_code": 6345
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상",
-                                "link_target_code": 6543
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상이",
-                                "link_target_code": 6789
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상구",
-                                "link_target_code": 6591
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가서리",
-                                "link_target_code": 7037
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가석",
-                                "link_target_code": 7049
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가성",
-                                "link_target_code": 7170
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가시",
-                                "link_target_code": 8735
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가싱이",
-                                "link_target_code": 9275
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가외",
-                                "link_target_code": 9956
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가이",
-                                "link_target_code": 10661
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가테",
-                                "link_target_code": 13549
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가티",
-                                "link_target_code": 13620
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새",
-                                "link_target_code": 6967
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가양",
-                                "link_target_code": 9490
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새이",
-                                "link_target_code": 6995
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가우",
-                                "link_target_code": 10137
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓내",
-                                "link_target_code": 25288
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓디",
-                                "link_target_code": 25315
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓",
-                                "link_target_code": 25226
-                            },
-                            {
-                                "type": "옛말",
-                                "word": "",
-                                "link_target_code": 1086609
-                            }
-                        ]
-                    }
-                },
-                {
-                    "target_code": 558844,
-                    "definition": "‘주변’의 뜻을 나타내는 말.",
-                    "type": "일반어",
-                    "order": 4,
-                    "category": "",
-                    "pos": "명사",
-                    "additional_info": {
-                        "example_info": [
-                            {
-                                "example": "{강가}."
-                            },
-                            {
-                                "example": "{냇가}."
-                            },
-                            {
-                                "example": "{우물가}."
-                            }
-                        ],
-                        "grammar_info": [
-                            {
-                                "grammar": "일부 명사 뒤에 붙어"
-                            }
-                        ],
-                        "relation_info": [
-                            {
-                                "type": "하위어",
-                                "word": "하변",
-                                "link_target_code": 1022644
-                            },
-                            {
-                                "type": "상위어",
-                                "word": "둘레",
-                                "link_target_code": 254905
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가생이",
-                                "link_target_code": 7026
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갖",
-                                "link_target_code": 28564
-                            },
-                            {
-                                "type": "방언",
-                                "word": "에염",
-                                "link_target_code": 644284
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가헤",
-                                "link_target_code": 13854
-                            },
-                            {
-                                "type": "방언",
-                                "word": "개",
-                                "link_target_code": 28749
-                            },
-                            {
-                                "type": "방언",
-                                "word": "그티",
-                                "link_target_code": 125183
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끗",
-                                "link_target_code": 159123
-                            },
-                            {
-                                "type": "방언",
-                                "word": "끈티",
-                                "link_target_code": 158744
-                            },
-                            {
-                                "type": "방언",
-                                "word": "석드리",
-                                "link_target_code": 505421
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가사",
-                                "link_target_code": 6345
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상",
-                                "link_target_code": 6543
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상이",
-                                "link_target_code": 6789
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가상구",
-                                "link_target_code": 6591
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가서리",
-                                "link_target_code": 7037
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가석",
-                                "link_target_code": 7049
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가성",
-                                "link_target_code": 7170
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가시",
-                                "link_target_code": 8735
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가싱이",
-                                "link_target_code": 9275
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가외",
-                                "link_target_code": 9956
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가이",
-                                "link_target_code": 10661
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가테",
-                                "link_target_code": 13549
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가티",
-                                "link_target_code": 13620
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새",
-                                "link_target_code": 6967
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가양",
-                                "link_target_code": 9490
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가새이",
-                                "link_target_code": 6995
-                            },
-                            {
-                                "type": "방언",
-                                "word": "가우",
-                                "link_target_code": 10137
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓내",
-                                "link_target_code": 25288
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓디",
-                                "link_target_code": 25315
-                            },
-                            {
-                                "type": "방언",
-                                "word": "갓",
-                                "link_target_code": 25226
-                            },
-                            {
-                                "type": "옛말",
-                                "word": "",
-                                "link_target_code": 1086609
-                            }
-                        ]
-                    }
-                }
+              },
+              {
+                "mark": ", , ",
+                "century": "16",
+                "history_example_info": [
+                  {
+                    "source": "1510년대 번노 상:31ㄴ",
+                    "example": "우믌 {}  믈 머기 돌구 잇니라 "
+                  },
+                  {
+                    "source": "1527 훈몽 중:4ㄴ",
+                    "example": "邊 {} 변 "
+                  },
+                  {
+                    "source": "1510년대 번노 상:32ㄱ",
+                    "example": "우믌 {애} 드레와 줄 다 잇니라 "
+                  },
+                  {
+                    "source": "1588 소언 6:77ㄴ",
+                    "example": "過失이 잇거든 짓디 아니고 위야 {애} 안자 반상을 對여셔 먹디 아니거든 "
+                  }
+                ]
+              },
+              {
+                "mark": "",
+                "century": "17",
+                "history_example_info": [
+                  {
+                    "source": "1613 시언 1:20ㄱ",
+                    "example": "殷 그 雷 南山ㅅ {애} 잇거 엇디 이 이에 違 디라 "
+                  },
+                  {
+                    "source": "1617 동신속 효8:11ㄴ",
+                    "example": "뎡복이 엄의 주검 얻고져 여 석 을 믈{을} 조차 듀야에 우더니 "
+                  }
+                ]
+              },
+              {
+                "mark": ", ",
+                "century": "18",
+                "history_example_info": [
+                  {
+                    "source": "1781-1787 왜해 상:11ㄴ",
+                    "example": "{ㅅ} 변 邊 "
+                  },
+                  {
+                    "source": "1737 어내 2:97ㄴ",
+                    "example": "子식 야셔 자 기우로 아니며 안 {애} 아니며 셔  발을 기우로 아니며 "
+                  },
+                  {
+                    "source": "1763 노신 1:39ㄴ",
+                    "example": "져 우믈ᄉ{애} 드레와 줄이 다 現成여 져긔 잇니라 "
+                  },
+                  {
+                    "source": "1790 몽해 상:8ㄱ",
+                    "example": "傍邊 {} "
+                  }
+                ]
+              },
+              {
+                "mark": ", 가, 갓",
+                "century": "19",
+                "history_example_info": [
+                  {
+                    "source": "1894 훈아 15b",
+                    "example": "혹  우희 계시며 혹 바다 {에} 계시고 오 여긔 계시고 "
+                  },
+                  {
+                    "source": "1895 진리 24ㄱ",
+                    "example": "{갓} 변 (邊) "
+                  },
+                  {
+                    "source": "1880 한불 119",
+                    "example": "{가} 邊 "
+                  }
+                ]
+              }
             ]
+          }
+        ]
+      },
+      "senses": [
+        {
+          "target_code": 551436,
+          "definition": "경계에 가까운 바깥쪽 부분.",
+          "type": "일반어",
+          "order": 1,
+          "category": "",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "상위어",
+                "word": "근처",
+                "link_target_code": 128080
+              },
+              {
+                "type": "방언",
+                "word": "가생이",
+                "link_target_code": 7026
+              },
+              {
+                "type": "방언",
+                "word": "갖",
+                "link_target_code": 28564
+              },
+              {
+                "type": "방언",
+                "word": "에염",
+                "link_target_code": 644284
+              },
+              {
+                "type": "방언",
+                "word": "가헤",
+                "link_target_code": 13854
+              },
+              {
+                "type": "방언",
+                "word": "개",
+                "link_target_code": 28749
+              },
+              {
+                "type": "방언",
+                "word": "그티",
+                "link_target_code": 125183
+              },
+              {
+                "type": "방언",
+                "word": "끗",
+                "link_target_code": 159123
+              },
+              {
+                "type": "방언",
+                "word": "끈티",
+                "link_target_code": 158744
+              },
+              {
+                "type": "방언",
+                "word": "석드리",
+                "link_target_code": 505421
+              },
+              {
+                "type": "방언",
+                "word": "가사",
+                "link_target_code": 6345
+              },
+              {
+                "type": "방언",
+                "word": "가상",
+                "link_target_code": 6543
+              },
+              {
+                "type": "방언",
+                "word": "가상이",
+                "link_target_code": 6789
+              },
+              {
+                "type": "방언",
+                "word": "가상구",
+                "link_target_code": 6591
+              },
+              {
+                "type": "방언",
+                "word": "가서리",
+                "link_target_code": 7037
+              },
+              {
+                "type": "방언",
+                "word": "가석",
+                "link_target_code": 7049
+              },
+              {
+                "type": "방언",
+                "word": "가성",
+                "link_target_code": 7170
+              },
+              {
+                "type": "방언",
+                "word": "가시",
+                "link_target_code": 8735
+              },
+              {
+                "type": "방언",
+                "word": "가싱이",
+                "link_target_code": 9275
+              },
+              {
+                "type": "방언",
+                "word": "가외",
+                "link_target_code": 9956
+              },
+              {
+                "type": "방언",
+                "word": "가이",
+                "link_target_code": 10661
+              },
+              {
+                "type": "방언",
+                "word": "가테",
+                "link_target_code": 13549
+              },
+              {
+                "type": "방언",
+                "word": "가티",
+                "link_target_code": 13620
+              },
+              {
+                "type": "방언",
+                "word": "가새",
+                "link_target_code": 6967
+              },
+              {
+                "type": "방언",
+                "word": "가양",
+                "link_target_code": 9490
+              },
+              {
+                "type": "방언",
+                "word": "가새이",
+                "link_target_code": 6995
+              },
+              {
+                "type": "방언",
+                "word": "가우",
+                "link_target_code": 10137
+              },
+              {
+                "type": "방언",
+                "word": "갓내",
+                "link_target_code": 25288
+              },
+              {
+                "type": "방언",
+                "word": "갓디",
+                "link_target_code": 25315
+              },
+              {
+                "type": "방언",
+                "word": "갓",
+                "link_target_code": 25226
+              },
+              {
+                "type": "옛말",
+                "word": "",
+                "link_target_code": 1086609
+              }
+            ]
+          }
+        },
+        {
+          "target_code": 554593,
+          "definition": "어떤 중심 되는 곳에서 가까운 부분.",
+          "type": "일반어",
+          "order": 2,
+          "category": "",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "하위어",
+                "word": "노변",
+                "link_target_code": 183654
+              },
+              {
+                "type": "하위어",
+                "word": "수돗가",
+                "link_target_code": 542210
+              },
+              {
+                "type": "하위어",
+                "word": "화롯가",
+                "link_target_code": 1062087
+              },
+              {
+                "type": "상위어",
+                "word": "근처",
+                "link_target_code": 128080
+              },
+              {
+                "type": "방언",
+                "word": "가생이",
+                "link_target_code": 7026
+              },
+              {
+                "type": "방언",
+                "word": "갖",
+                "link_target_code": 28564
+              },
+              {
+                "type": "방언",
+                "word": "에염",
+                "link_target_code": 644284
+              },
+              {
+                "type": "방언",
+                "word": "가헤",
+                "link_target_code": 13854
+              },
+              {
+                "type": "방언",
+                "word": "개",
+                "link_target_code": 28749
+              },
+              {
+                "type": "방언",
+                "word": "그티",
+                "link_target_code": 125183
+              },
+              {
+                "type": "방언",
+                "word": "끗",
+                "link_target_code": 159123
+              },
+              {
+                "type": "방언",
+                "word": "끈티",
+                "link_target_code": 158744
+              },
+              {
+                "type": "방언",
+                "word": "석드리",
+                "link_target_code": 505421
+              },
+              {
+                "type": "방언",
+                "word": "가사",
+                "link_target_code": 6345
+              },
+              {
+                "type": "방언",
+                "word": "가상",
+                "link_target_code": 6543
+              },
+              {
+                "type": "방언",
+                "word": "가상이",
+                "link_target_code": 6789
+              },
+              {
+                "type": "방언",
+                "word": "가상구",
+                "link_target_code": 6591
+              },
+              {
+                "type": "방언",
+                "word": "가서리",
+                "link_target_code": 7037
+              },
+              {
+                "type": "방언",
+                "word": "가석",
+                "link_target_code": 7049
+              },
+              {
+                "type": "방언",
+                "word": "가성",
+                "link_target_code": 7170
+              },
+              {
+                "type": "방언",
+                "word": "가시",
+                "link_target_code": 8735
+              },
+              {
+                "type": "방언",
+                "word": "가싱이",
+                "link_target_code": 9275
+              },
+              {
+                "type": "방언",
+                "word": "가외",
+                "link_target_code": 9956
+              },
+              {
+                "type": "방언",
+                "word": "가이",
+                "link_target_code": 10661
+              },
+              {
+                "type": "방언",
+                "word": "가테",
+                "link_target_code": 13549
+              },
+              {
+                "type": "방언",
+                "word": "가티",
+                "link_target_code": 13620
+              },
+              {
+                "type": "방언",
+                "word": "가새",
+                "link_target_code": 6967
+              },
+              {
+                "type": "방언",
+                "word": "가양",
+                "link_target_code": 9490
+              },
+              {
+                "type": "방언",
+                "word": "가새이",
+                "link_target_code": 6995
+              },
+              {
+                "type": "방언",
+                "word": "가우",
+                "link_target_code": 10137
+              },
+              {
+                "type": "방언",
+                "word": "갓내",
+                "link_target_code": 25288
+              },
+              {
+                "type": "방언",
+                "word": "갓디",
+                "link_target_code": 25315
+              },
+              {
+                "type": "방언",
+                "word": "갓",
+                "link_target_code": 25226
+              },
+              {
+                "type": "옛말",
+                "word": "",
+                "link_target_code": 1086609
+              }
+            ]
+          }
+        },
+        {
+          "target_code": 558115,
+          "definition": "그릇 따위의 아가리의 주변.",
+          "type": "일반어",
+          "order": 3,
+          "category": "",
+          "pos": "명사",
+          "additional_info": {
+            "example_info": [
+              {
+                "example": "참기름을 따를 때 {가에} 흘리지 않도록 조심해라."
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "상위어",
+                "word": "전두리",
+                "link_target_code": 805707
+              },
+              {
+                "type": "방언",
+                "word": "가생이",
+                "link_target_code": 7026
+              },
+              {
+                "type": "방언",
+                "word": "갖",
+                "link_target_code": 28564
+              },
+              {
+                "type": "방언",
+                "word": "에염",
+                "link_target_code": 644284
+              },
+              {
+                "type": "방언",
+                "word": "가헤",
+                "link_target_code": 13854
+              },
+              {
+                "type": "방언",
+                "word": "개",
+                "link_target_code": 28749
+              },
+              {
+                "type": "방언",
+                "word": "그티",
+                "link_target_code": 125183
+              },
+              {
+                "type": "방언",
+                "word": "끗",
+                "link_target_code": 159123
+              },
+              {
+                "type": "방언",
+                "word": "끈티",
+                "link_target_code": 158744
+              },
+              {
+                "type": "방언",
+                "word": "석드리",
+                "link_target_code": 505421
+              },
+              {
+                "type": "방언",
+                "word": "가사",
+                "link_target_code": 6345
+              },
+              {
+                "type": "방언",
+                "word": "가상",
+                "link_target_code": 6543
+              },
+              {
+                "type": "방언",
+                "word": "가상이",
+                "link_target_code": 6789
+              },
+              {
+                "type": "방언",
+                "word": "가상구",
+                "link_target_code": 6591
+              },
+              {
+                "type": "방언",
+                "word": "가서리",
+                "link_target_code": 7037
+              },
+              {
+                "type": "방언",
+                "word": "가석",
+                "link_target_code": 7049
+              },
+              {
+                "type": "방언",
+                "word": "가성",
+                "link_target_code": 7170
+              },
+              {
+                "type": "방언",
+                "word": "가시",
+                "link_target_code": 8735
+              },
+              {
+                "type": "방언",
+                "word": "가싱이",
+                "link_target_code": 9275
+              },
+              {
+                "type": "방언",
+                "word": "가외",
+                "link_target_code": 9956
+              },
+              {
+                "type": "방언",
+                "word": "가이",
+                "link_target_code": 10661
+              },
+              {
+                "type": "방언",
+                "word": "가테",
+                "link_target_code": 13549
+              },
+              {
+                "type": "방언",
+                "word": "가티",
+                "link_target_code": 13620
+              },
+              {
+                "type": "방언",
+                "word": "가새",
+                "link_target_code": 6967
+              },
+              {
+                "type": "방언",
+                "word": "가양",
+                "link_target_code": 9490
+              },
+              {
+                "type": "방언",
+                "word": "가새이",
+                "link_target_code": 6995
+              },
+              {
+                "type": "방언",
+                "word": "가우",
+                "link_target_code": 10137
+              },
+              {
+                "type": "방언",
+                "word": "갓내",
+                "link_target_code": 25288
+              },
+              {
+                "type": "방언",
+                "word": "갓디",
+                "link_target_code": 25315
+              },
+              {
+                "type": "방언",
+                "word": "갓",
+                "link_target_code": 25226
+              },
+              {
+                "type": "옛말",
+                "word": "",
+                "link_target_code": 1086609
+              }
+            ]
+          }
+        },
+        {
+          "target_code": 558844,
+          "definition": "‘주변’의 뜻을 나타내는 말.",
+          "type": "일반어",
+          "order": 4,
+          "category": "",
+          "pos": "명사",
+          "additional_info": {
+            "example_info": [
+              {
+                "example": "{강가}."
+              },
+              {
+                "example": "{냇가}."
+              },
+              {
+                "example": "{우물가}."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "일부 명사 뒤에 붙어"
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "하위어",
+                "word": "하변",
+                "link_target_code": 1022644
+              },
+              {
+                "type": "상위어",
+                "word": "둘레",
+                "link_target_code": 254905
+              },
+              {
+                "type": "방언",
+                "word": "가생이",
+                "link_target_code": 7026
+              },
+              {
+                "type": "방언",
+                "word": "갖",
+                "link_target_code": 28564
+              },
+              {
+                "type": "방언",
+                "word": "에염",
+                "link_target_code": 644284
+              },
+              {
+                "type": "방언",
+                "word": "가헤",
+                "link_target_code": 13854
+              },
+              {
+                "type": "방언",
+                "word": "개",
+                "link_target_code": 28749
+              },
+              {
+                "type": "방언",
+                "word": "그티",
+                "link_target_code": 125183
+              },
+              {
+                "type": "방언",
+                "word": "끗",
+                "link_target_code": 159123
+              },
+              {
+                "type": "방언",
+                "word": "끈티",
+                "link_target_code": 158744
+              },
+              {
+                "type": "방언",
+                "word": "석드리",
+                "link_target_code": 505421
+              },
+              {
+                "type": "방언",
+                "word": "가사",
+                "link_target_code": 6345
+              },
+              {
+                "type": "방언",
+                "word": "가상",
+                "link_target_code": 6543
+              },
+              {
+                "type": "방언",
+                "word": "가상이",
+                "link_target_code": 6789
+              },
+              {
+                "type": "방언",
+                "word": "가상구",
+                "link_target_code": 6591
+              },
+              {
+                "type": "방언",
+                "word": "가서리",
+                "link_target_code": 7037
+              },
+              {
+                "type": "방언",
+                "word": "가석",
+                "link_target_code": 7049
+              },
+              {
+                "type": "방언",
+                "word": "가성",
+                "link_target_code": 7170
+              },
+              {
+                "type": "방언",
+                "word": "가시",
+                "link_target_code": 8735
+              },
+              {
+                "type": "방언",
+                "word": "가싱이",
+                "link_target_code": 9275
+              },
+              {
+                "type": "방언",
+                "word": "가외",
+                "link_target_code": 9956
+              },
+              {
+                "type": "방언",
+                "word": "가이",
+                "link_target_code": 10661
+              },
+              {
+                "type": "방언",
+                "word": "가테",
+                "link_target_code": 13549
+              },
+              {
+                "type": "방언",
+                "word": "가티",
+                "link_target_code": 13620
+              },
+              {
+                "type": "방언",
+                "word": "가새",
+                "link_target_code": 6967
+              },
+              {
+                "type": "방언",
+                "word": "가양",
+                "link_target_code": 9490
+              },
+              {
+                "type": "방언",
+                "word": "가새이",
+                "link_target_code": 6995
+              },
+              {
+                "type": "방언",
+                "word": "가우",
+                "link_target_code": 10137
+              },
+              {
+                "type": "방언",
+                "word": "갓내",
+                "link_target_code": 25288
+              },
+              {
+                "type": "방언",
+                "word": "갓디",
+                "link_target_code": 25315
+              },
+              {
+                "type": "방언",
+                "word": "갓",
+                "link_target_code": 25226
+              },
+              {
+                "type": "옛말",
+                "word": "",
+                "link_target_code": 1086609
+              }
+            ]
+          }
         }
-    ],
-    "character_data": [
+      ]
+    },
+    {
+      "target_code": 1027009,
+      "word": "한국",
+      "origin": "韓國",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
         {
-            "character": "金",
-            "decomposition": "⿱人⿻王丷",
-            "radical": "金",
-            "radical_source": "makemeahanzi",
-            "strokes": 8,
-            "grade_level": "중학교",
-            "exam_level": "8급",
-            "result_ranking": 16,
-            "explanation": "金은 '쇠 금' 또는 '성 김'이라는 한자로, '쇠 금'으로 읽을 때는 모든 금속을 통틀어 이르는 말로 쓰이며, 특히 금을 지칭할 때 쓰이기도 한다. '성 김'으로 읽을 때는 한국의 김씨를 뜻하거나 지명을 이를 때 쓴다. 그래서 훈음을 땅이름 김이라 쓰는 경우도 있다.[1]",
-            "meaning_readings": [
-                {
-                    "meaning": "쇠",
-                    "readings": "금"
-                },
-                {
-                    "meaning": "성",
-                    "readings": "김"
-                }
+          "target_code": 28152,
+          "definition": "‘대한 제국’을 줄여 이르는 말.",
+          "type": "일반어",
+          "order": 1,
+          "category": "역사",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "한",
+                "link_target_code": 1026535
+              },
+              {
+                "type": "상위어",
+                "word": "제국",
+                "link_target_code": 830726
+              }
             ]
+          }
         },
         {
-            "character": "兔",
-            "decomposition": "⿸免丶",
-            "radical": "儿",
-            "radical_source": "makemeahanzi",
-            "strokes": 8,
-            "grade_level": "미배정",
-            "exam_level": "준3급",
-            "result_ranking": 7,
-            "explanation": "兔는 '토끼 토'라는 한자로, 동물 토끼를 뜻한다.",
-            "meaning_readings": [
-                {
-                    "meaning": "토끼",
-                    "readings": "토"
-                }
+          "target_code": 59082,
+          "definition": "아시아 대륙 동쪽에 있는 한반도와 그 부속 도서(島嶼)로 이루어진 공화국. 아르오케이(ROK: Republic of Korea) 또는 코리아(Korea)라고도 불린다. 기원전 2333년에 성립된 고조선에서부터 고구려ㆍ백제ㆍ신라의 삼국 시대를 거쳐 통일 신라ㆍ고려ㆍ조선으로 이어져 오다가 1910년에 일제의 침략으로 강제 합병 되었으나, 1945년에 제이 차 세계 대전이 끝나면서 독립하여 1948년에 남쪽 지역만의 총선으로 민주 공화국이 수립되었다. 1950년에 북한이 6ㆍ25 전쟁을 일으킴으로써 휴전선을 사이에 두고 국토 분단이 고착화되었다. 주민은 황색 인종인 한민족(韓民族)이며, 언어는 알타이어계에 속하는 한국어이고 문자는 한글과 한자를 병용한다. 수도는 서울, 면적은 22만 1336㎢, 남한은 9만 9313㎢.",
+          "type": "일반어",
+          "order": 2,
+          "category": "지명",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "대한",
+                "link_target_code": 226142
+              },
+              {
+                "type": "비슷한말",
+                "word": "대한민국",
+                "link_target_code": 226194
+              },
+              {
+                "type": "상위어",
+                "word": "공화국",
+                "link_target_code": 86740
+              }
             ]
-        },
-        {
-            "character": "禁",
-            "decomposition": "⿱林示",
-            "radical": "示",
-            "radical_source": "makemeahanzi",
-            "strokes": 13,
-            "grade_level": "중학교",
-            "exam_level": "준4급",
-            "result_ranking": 9,
-            "explanation": "禁은 '금할 금'이라는 한자로, '금(禁)하다', '금지(禁止)하다' 등을 뜻한다.",
-            "meaning_readings": [
-                {
-                    "meaning": "금할",
-                    "readings": "금"
-                }
-            ]
-        },
-        {
-            "character": "元",
-            "decomposition": "⿱二儿",
-            "radical": "儿",
-            "radical_source": "makemeahanzi",
-            "strokes": 4,
-            "grade_level": "중학교",
-            "exam_level": "준5급",
-            "result_ranking": 11,
-            "explanation": "보통은 처음이라는 의미를 가지고 있다.\n\n중국에서는 위안화를 포함한 전 세계의 화폐를 표기할 때 쓰인다.[1][2]\n\n일본에서는 前(Ex, Former)과 용례가 비슷하지만, 前은 무조건 바로 앞 사람에게만 쓰고, 그보다 더 앞선 사람에게는 元을 쓴다. 따라서 기시다 후미오가 내각총리대신 자리에 있는 2022년 현재 기준으로 바로 전임 총리인 스가 요시히데는 前総理, 아베 신조와 그 앞 총리들은 모두 元総理가 되며, 추후 기시다 후미오가 퇴임하고 새 총리가 취임한다면 기시다가 前総理, 스가 및 그 이전 총리들은 元総理가 된다. 다만 元가 前의 의미도 포함하고 있어 前은 元으로 바꿔 쓰는 것도 가능하다.[3] 前이 바로 앞 사람임을 강조하는 효과가 있기 때문에 바로 전 사람을 칭할 때 前을 쓸 뿐이며, 굳이 바로 전 사람임을 강조할 필요가 없을 경우에는 元를 쓰는 경우도 많다.\n\n갑골문에서는 사람 인(人) 위에 가로로 한 획을 더한 모양이다.\n\n머리의 한 획은 사람의 머리를 나타내는 뜻으로 볼 수 있다. 금문에는 머리모양으로 표시한 것이 남아있다. 머리를 나타내는 뜻이 변하여 으뜸, 우두머리를 뜻하게 되었다. \n\n또는 가로 한 획은 위(上)를 말한다. 세인(世人)들의 머리 위에 있으니 우두머리를 뜻하게 되었다. 파자해 보면 두 이(二) 밑에 어진사람 인(儿)이 있는 형태인데, 실제로 위의 두 이는 윗 상(上)의 옛 형태들 중 하나이다. (𠄞)\n\n주역의 사덕 元, 亨, 利, 貞의 하나이다.\n\n천자문에 수록되면 검을/거무스름할 원이 된다. 역사적으로는 검을 현(玄)자를 피휘해야 했던 시기(북송 추존 황제 성조, 청 제4대 황제 강희제 등)가 있었고, 동 시기에는 玄자를 함부로 쓸 수 없었기에 元자로 대체한 게 지금까지 전해지는 것.",
-            "meaning_readings": [
-                {
-                    "meaning": "으뜸",
-                    "readings": "원"
-                }
-            ]
-        },
-        {
-            "character": "狙",
-            "decomposition": "⿰犭且",
-            "radical": "犭",
-            "radical_source": "makemeahanzi",
-            "strokes": 8,
-            "grade_level": "미배정",
-            "exam_level": "1급",
-            "result_ranking": 2,
-            "explanation": "狙는 '원숭이/엿볼 저'라는 한자로, '원숭이', '엿보다', '노리다' 등을 뜻한다.",
-            "meaning_readings": [
-                {
-                    "meaning": "원숭이/엿볼",
-                    "readings": "저"
-                }
-            ]
-        },
-        {
-            "character": "女",
-            "decomposition": "？",
-            "radical": "女",
-            "radical_source": "makemeahanzi",
-            "strokes": 3,
-            "grade_level": "중학교",
-            "exam_level": "8급",
-            "result_ranking": 16,
-            "explanation": "女는 '계집 녀'라는 한자로, '계집', '여자(女子)', '딸' 등을 뜻한다. \n\n\"계집\"이라는 단어가 현대에는 비칭으로 사용되면서 사용을 꺼리는 경향이 일각에서 생기고 있다. 그러나 한자의 뜻 풀이는 순 우리말+한자어로 표기하며 경우는 순 우리말이 없는 경우나 뜻이 겹치는 경우가 많을 경우에 제한적으로 \"한자어+한자어\"를 쓰는 원칙상 일반적으로 용인되지 않는다. 또, 놈 자(者)의 경우처럼 평칭이었던 순우리말이 현대에는 비칭으로 변한 경우에도 오랫동안 그렇게 옛 명칭으로 불러 온 영향으로 이 원칙을 다르게 적용하지 않으며 굳이 바꾸어 부르지 않고 있다.",
-            "meaning_readings": [
-                {
-                    "meaning": "계집",
-                    "readings": "녀"
-                }
-            ]
+          }
         }
-    ]
+      ]
+    },
+    {
+      "target_code": 1027008,
+      "word": "한국",
+      "origin": "寒菊",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 480876,
+          "definition": "국화과의 재배 식물의 하나. 잎은 작고 깃 모양으로 갈라진다. 11월에 노란색 꽃이 피고 총포가 길다. 한국, 일본, 중국 등지에 분포한다.",
+          "type": "일반어",
+          "order": 1,
+          "category": "식물",
+          "pos": "명사",
+          "additional_info": {}
+        },
+        {
+          "target_code": 484320,
+          "definition": "겨울에 피는 국화. 대개 12월에서 다음 해 1월에 걸쳐 노란 꽃이 피고 백려, 초상, 황금 따위의 품종이 있다.",
+          "type": "일반어",
+          "order": 2,
+          "category": "식물",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "동국",
+                "link_target_code": 245146
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "character_data": [
+    {
+      "character": "金",
+      "decomposition": "⿱人⿻王丷",
+      "radical": "金",
+      "radical_source": "makemeahanzi",
+      "strokes": 8,
+      "grade_level": "중학교",
+      "exam_level": "8급",
+      "result_ranking": 16,
+      "explanation": "金은 '쇠 금' 또는 '성 김'이라는 한자로, '쇠 금'으로 읽을 때는 모든 금속을 통틀어 이르는 말로 쓰이며, 특히 금을 지칭할 때 쓰이기도 한다. '성 김'으로 읽을 때는 한국의 김씨를 뜻하거나 지명을 이를 때 쓴다. 그래서 훈음을 땅이름 김이라 쓰는 경우도 있다.[1]",
+      "meaning_readings": [
+        {
+          "meaning": "쇠",
+          "readings": "금"
+        },
+        {
+          "meaning": "성",
+          "readings": "김"
+        }
+      ]
+    },
+    {
+      "character": "兔",
+      "decomposition": "⿸免丶",
+      "radical": "儿",
+      "radical_source": "makemeahanzi",
+      "strokes": 8,
+      "grade_level": "미배정",
+      "exam_level": "준3급",
+      "result_ranking": 7,
+      "explanation": "兔는 '토끼 토'라는 한자로, 금할 동물 토끼를 뜻한다.",
+      "meaning_readings": [
+        {
+          "meaning": "토끼김",
+          "readings": "토"
+        }
+      ]
+    },
+    {
+      "character": "禁",
+      "decomposition": "⿱林示",
+      "radical": "示",
+      "radical_source": "makemeahanzi",
+      "strokes": 13,
+      "grade_level": "중학교",
+      "exam_level": "준4급",
+      "result_ranking": 9,
+      "explanation": "禁은 '금할 금'이라는 한자로, '금(禁)하다', '금지(禁止)하다' 등을 뜻한다.",
+      "meaning_readings": [
+        {
+          "meaning": "금할",
+          "readings": "금"
+        }
+      ]
+    },
+    {
+      "character": "元",
+      "decomposition": "⿱二儿",
+      "radical": "儿",
+      "radical_source": "makemeahanzi",
+      "strokes": 4,
+      "grade_level": "중학교",
+      "exam_level": "준5급",
+      "result_ranking": 11,
+      "explanation": "보통은 처음이라는 의미를 가지고 있다.\n\n중국에서는 위안화를 포함한 전 세계의 화폐를 표기할 때 쓰인다.[1][2]\n\n일본에서는 前(Ex, Former)과 용례가 비슷하지만, 前은 무조건 바로 앞 사람에게만 쓰고, 그보다 더 앞선 사람에게는 元을 쓴다. 따라서 기시다 후미오가 내각총리대신 자리에 있는 2022년 현재 기준으로 바로 전임 총리인 스가 요시히데는 前総理, 아베 신조와 그 앞 총리들은 모두 元総理가 되며, 추후 기시다 후미오가 퇴임하고 새 총리가 취임한다면 기시다가 前総理, 스가 및 그 이전 총리들은 元総理가 된다. 다만 元가 前의 의미도 포함하고 있어 前은 元으로 바꿔 쓰는 것도 가능하다.[3] 前이 바로 앞 사람임을 강조하는 효과가 있기 때문에 바로 전 사람을 칭할 때 前을 쓸 뿐이며, 굳이 바로 전 사람임을 강조할 필요가 없을 경우에는 元를 쓰는 경우도 많다.\n\n갑골문에서는 사람 인(人) 위에 가로로 한 획을 더한 모양이다.\n\n머리의 한 획은 사람의 머리를 나타내는 뜻으로 볼 수 있다. 금문에는 머리모양으로 표시한 것이 남아있다. 머리를 나타내는 뜻이 변하여 으뜸, 우두머리를 뜻하게 되었다. \n\n또는 가로 한 획은 위(上)를 말한다. 세인(世人)들의 머리 위에 있으니 우두머리를 뜻하게 되었다. 파자해 보면 두 이(二) 밑에 어진사람 인(儿)이 있는 형태인데, 실제로 위의 두 이는 윗 상(上)의 옛 형태들 중 하나이다. (𠄞)\n\n주역의 사덕 元, 亨, 利, 貞의 하나이다.\n\n천자문에 수록되면 검을/거무스름할 원이 된다. 역사적으로는 검을 현(玄)자를 피휘해야 했던 시기(북송 추존 황제 성조, 청 제4대 황제 강희제 등)가 있었고, 동 시기에는 玄자를 함부로 쓸 수 없었기에 元자로 대체한 게 지금까지 전해지는 것.",
+      "meaning_readings": [
+        {
+          "meaning": "으뜸",
+          "readings": "원"
+        }
+      ]
+    },
+    {
+      "character": "狙",
+      "decomposition": "⿰犭且",
+      "radical": "犭",
+      "radical_source": "makemeahanzi",
+      "strokes": 8,
+      "grade_level": "미배정",
+      "exam_level": "1급",
+      "result_ranking": 2,
+      "explanation": "狙는 '원숭이/엿볼 저'라는 한자로, '원숭이', '엿보다', '노리다' 등을 뜻한다.",
+      "meaning_readings": [
+        {
+          "meaning": "원숭이/엿볼",
+          "readings": "저"
+        }
+      ]
+    },
+    {
+      "character": "女",
+      "decomposition": "？",
+      "radical": "女",
+      "radical_source": "makemeahanzi",
+      "strokes": 3,
+      "grade_level": "중학교",
+      "exam_level": "8급",
+      "result_ranking": 16,
+      "explanation": "女는 '계집 녀'라는 한자로, '계집', '여자(女子)', '딸' 등을 뜻한다. \n\n\"계집\"이라는 단어가 현대에는 비칭으로 사용되면서 사용을 꺼리는 경향이 일각에서 생기고 있다. 그러나 한자의 뜻 풀이는 순 우리말+한자어로 표기하며 경우는 순 우리말이 없는 경우나 뜻이 겹치는 경우가 많을 경우에 제한적으로 \"한자어+한자어\"를 쓰는 원칙상 일반적으로 용인되지 않는다. 또, 놈 자(者)의 경우처럼 평칭이었던 순우리말이 현대에는 비칭으로 변한 경우에도 오랫동안 그렇게 옛 명칭으로 불러 온 영향으로 이 원칙을 다르게 적용하지 않으며 굳이 바꾸어 부르지 않고 있다.",
+      "meaning_readings": [
+        {
+          "meaning": "계집",
+          "readings": "녀"
+        }
+      ]
+    }
+  ]
 }
