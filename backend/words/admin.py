@@ -1,5 +1,5 @@
 from django.contrib import admin
-from words.models import KoreanWord, Sense, HanjaCharacter
+from words.models import KoreanWord, Sense, HanjaCharacter, HanjaMeaningReading
 
 class SenseInline(admin.TabularInline):
   model = Sense
@@ -26,6 +26,11 @@ class KoreanWordAdmin(admin.ModelAdmin):
 class SenseAdmin(admin.ModelAdmin):
   search_fields = ['target_code']
 
+class MeaningReadingInline(admin.TabularInline):
+  model = HanjaMeaningReading
+  extra = 0
+
 @admin.register(HanjaCharacter)
 class HanjaCharacterAdmin(admin.ModelAdmin):
   search_fields = ['character']
+  inlines = [MeaningReadingInline]

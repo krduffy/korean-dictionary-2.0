@@ -2,8 +2,13 @@ from django.http import HttpResponseRedirect
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+from rest_framework import status
 
 import math
+
+def get_bad_request(detail_msg):
+  return Response({"detail": detail_msg}, status=status.HTTP_400_BAD_REQUEST)
 
 class RedirectingPagination(PageNumberPagination):
   page_size = 10

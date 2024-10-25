@@ -121,6 +121,7 @@ def recursively_clean_channelitem(obj):
           '<span class="korean-webfont">', '<span class="ngullim">', '</span>', '<FL>', '</FL>', 
           '<strong>', '</strong>', '<i>', '</i>'
         ]
+        new_str = str
         for pattern in deleted_html_patterns:
           new_str = obj.replace(pattern, '')
 
@@ -128,6 +129,9 @@ def recursively_clean_channelitem(obj):
         new_str = re.sub(r'<sense_no>\d*</sense_no>', '', new_str)
         new_str = re.sub(r'<img\b[^>]*>', '', new_str)
         
+        # Getting rid of potentially excessive spacing resulting from previous deletions
+        new_str = re.sub(r'\s+', ' ', new_str)
+
         return html.unescape(new_str)
     else:
         return obj
@@ -168,7 +172,16 @@ def get_as_sense(channel_item):
   sense_additional_info = {info_key: info_value for 
                            info_key, info_value in additional_info_or_none.items() 
                            if info_value is not None}
-  
+
+  if '<DR />' in sense_def:
+    try:
+      sense_def = sense_def.replace(
+        "<DR />",
+        "(" + ", ".join(region_dict['region'] for region_dict in sense_additional_info['region_info']) + ").",
+      )
+    except:
+      pass
+
   new_sense = Sense(target_code = sense_target_code, 
                     referent = sense_referent, 
                     definition = sense_def, 

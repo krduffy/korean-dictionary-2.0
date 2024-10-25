@@ -1,10 +1,13 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser, no_translations
-from words.models import HanjaCharacter
+from words.models import HanjaCharacter, HanjaMeaningReading
+from words.management.dictionary_data.hanja.get_huneum import get_huneum
 import django
 import json
 import re
+import sys
 
 django.setup()
+
 
 enforced_regex_patterns = {
     "character": r"^[\u4E00-\u9FFF]$",
@@ -43,11 +46,20 @@ def get_exam_rank_num(exam_rank):
 class Command(BaseCommand):
   
   def add_arguments(self, parser):
+    parser.add_argument('--drop', action='store_true', help='Drops all HanjaCharacters and HanjaMeaningReadings before execution.')
     parser.add_argument('hanja_fname', type=str, help='Path to the hanja JSON file')
     parser.add_argument('hanzi_fname', type=str, help='Path to the hanzi text file')
 
   @no_translations
   def handle(self, *args, **kwargs):
+
+    drop_all = kwargs['drop']
+
+    if drop_all:
+      HanjaCharacter.objects.all().delete()
+      HanjaMeaningReading.objects.all().delete()
+      self.stdout.write('Dropped all HanjaCharacters and HanjaMeaningReadings.')
+
     # usually,
     # hanja_fname = "words\\management\\dictionary_data\\hanja\\hanja.json"
     # hanzi_fname = "words\\management\\dictionary_data\\hanja\\makemeahanzi-data.txt"
@@ -58,6 +70,7 @@ class Command(BaseCommand):
 
       counter = 0
       chars_to_create = []
+      meaningreadings_to_create = []
 
       json_data = json.load(main_hanja_file)
 
@@ -92,24 +105,38 @@ class Command(BaseCommand):
           if explanation.endswith("\n"):
             explanation = explanation[:-1]
 
-          new_hanja = HanjaCharacter(character = character, 
-                                    meaning_reading = meaning_reading,
-                                    radical = radical,
-                                    radical_source = radical_source,
-                                    strokes = strokes,
-                                    grade_level = grade_level,
-                                    exam_level = exam_level,
-                                    result_ranking = result_ranking,
-                                    explanation = explanation)
+          new_hanja = HanjaCharacter(
+            character = character, 
+            radical = radical,
+            radical_source = radical_source,
+            strokes = strokes,
+            grade_level = grade_level,
+            exam_level = exam_level,
+            result_ranking = result_ranking,
+            explanation = explanation
+          )
+          meaningreading_tuples = get_huneum(meaning_reading)
+          if meaningreading_tuples is not None:
+
+            new_meaningreadings = [HanjaMeaningReading(
+              referent = new_hanja,
+              meaning = meaningreading[0],
+              readings = "".join(reading for reading in meaningreading[1])
+            ) for meaningreading in meaningreading_tuples]
+
+            meaningreadings_to_create.extend(new_meaningreadings)
+
           chars_to_create.append(new_hanja)
           counter += 1
         
-        if counter % 500 == 0:
+        if counter % 1000 == 0:
           self.stdout.write(f'Finished processing {counter} characters')
 
     written_chars = HanjaCharacter.objects.bulk_create(chars_to_create, batch_size=1000)
+    self.stdout.write(self.style.SUCCESS(f'Wrote {len(written_chars)} characters\n'))
     
-    self.stdout.write(self.style.SUCCESS(f'Finished reading main hanja file; wrote {len(written_chars)} characters\n'))
+    written_meaningreadings = HanjaMeaningReading.objects.bulk_create(meaningreadings_to_create, batch_size=1000)
+    self.stdout.write(self.style.SUCCESS(f'Wrote {len(written_meaningreadings)} meaningreadings\n'))
 
     with open(hanzi_fname, 'r', encoding='utf-8') as hanzi_file:
 
