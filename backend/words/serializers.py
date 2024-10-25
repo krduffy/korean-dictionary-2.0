@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from words.models import KoreanWord, Sense, HanjaCharacter
-from words.queryset_operations import get_ordered_hanja_popup_example_queryset
+from words.queryset_operations import get_ordered_hanja_example_queryset
 
 # Mixings for getting user data.
 class GetKoreanWordUserDataMixin:
@@ -86,6 +86,23 @@ class KoreanWordInHanjaCharacterPopupViewSerializer(BaseKoreanWordSerializer):
   pass
   # can add more fields later (?)
 
+class KoreanWordHanjaExampleSenseSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Sense
+    fields = ['target_code', 'order', 'definition']
+    read_only_fields = ['__all__']
+
+class KoreanWordInHanjaExamplesViewSerializer(BaseKoreanWordSerializer):
+  first_sense = serializers.SerializerMethodField()
+
+  class Meta(BaseKoreanWordSerializer.Meta):
+    fields = BaseKoreanWordSerializer.Meta.fields + ['first_sense']
+  
+  def get_first_sense(self, obj):
+    first = obj.senses.all().order_by('order')[0]
+    sense_serializer = KoreanWordHanjaExampleSenseSerializer(first)
+    return sense_serializer.data
+  
 # Base serializer for Hanja characters.
 # has common fields of character, user_data, and meaning_readings
 class BaseHanjaCharacterSerializer(serializers.ModelSerializer, GetHanjaCharacterUserDataMixin):
@@ -132,7 +149,7 @@ class HanjaCharacterPopupViewSerializer(BaseHanjaCharacterSerializer):
   def get_word_results(self, obj):
     user = self.context['request'].user
     queryset = KoreanWord.objects.all().filter(origin__icontains = obj.character)
-    ordered_queryset = get_ordered_hanja_popup_example_queryset(queryset, user)
+    ordered_queryset = get_ordered_hanja_example_queryset(queryset, user)
 
     num_results = 10
     korean_word_serializer = \

@@ -288,7 +288,7 @@ def get_ordered_hanja_search_results(initial_queryset, search_term):
   # Search hangul only.
   return get_ordered_hanja_search_results_type_korean_search(initial_queryset, search_term, fallback_fields)
 
-def get_ordered_hanja_popup_example_queryset(initial_queryset, user):
+def get_ordered_hanja_example_queryset(initial_queryset, user):
 
   annotated_queryset = \
     annotate_with_studied(
