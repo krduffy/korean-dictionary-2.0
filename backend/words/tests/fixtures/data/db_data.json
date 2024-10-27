@@ -1219,6 +1219,197 @@
           }
         }
       ]
+    },
+    {
+      "target_code": 665734,
+      "word": "영국",
+      "origin": "英國",
+      "user_data": null,
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 232755,
+          "definition": "유럽 서부 대서양 가운데 있는 입헌 군주국. 그레이트브리튼섬과 북아일랜드 및 부근 900여 개의 섬으로 이루어진 국가로, 석탄과 철광을 이용한 중공업 및 원료 수입에 의한 각종 공업이 발달하였다. 주민은 대부분이 앵글로ㆍ색슨으로 신교를 신봉하고 주요 언어는 영어이다. 수도는 런던, 면적은 24만 4820㎢.",
+          "type": "일반어",
+          "order": 1,
+          "category": "지명",
+          "pos": "명사",
+          "additional_info": {
+            "norm_info": [
+              {
+                "desc": "‘영국’으로 올라 있다.",
+                "role": "편수 자료(1987년)",
+                "type": "외래어 표기"
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "대영제국",
+                "link_target_code": 222919
+              },
+              {
+                "type": "비슷한말",
+                "word": "영",
+                "link_target_code": 665270
+              },
+              {
+                "type": "비슷한말",
+                "word": "영본국",
+                "link_target_code": 666489
+              },
+              {
+                "type": "비슷한말",
+                "word": "유케이",
+                "link_target_code": 725957
+              },
+              {
+                "type": "참고 어휘",
+                "word": "영연방",
+                "link_target_code": 667871
+              },
+              {
+                "type": "상위어",
+                "word": "국가",
+                "link_target_code": 108346
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 859182,
+      "word": "중국",
+      "origin": "中國",
+      "user_data": null,
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 471575,
+          "definition": "아시아 동부에 있는 나라. 황허강(黃河江)을 중심으로 고대 문명이 일어난 곳으로, 전설적인 삼황오제(三皇五帝) 시대를 시작으로 하나라ㆍ은나라ㆍ주나라ㆍ춘추 전국 시대ㆍ진(秦)나라ㆍ한나라ㆍ삼국 시대ㆍ진(晉)나라ㆍ남북조 시대ㆍ수나라ㆍ당나라ㆍ오대(五代)ㆍ송나라ㆍ원나라ㆍ명나라ㆍ청나라를 거쳐 1912년에 중화민국이 성립되었다. 그 뒤 1949년에 중국 공산당이 대륙을 장악하여 중국 본토에 중화 인민 공화국을 세우고, 국민 정부는 타이완으로 옮겼다. 광대한 영토에 농산물, 지하자원 따위의 각종 자원이 풍부하다.",
+          "type": "일반어",
+          "order": 1,
+          "category": "지명",
+          "pos": "명사",
+          "additional_info": {
+            "norm_info": [
+              {
+                "desc": "‘중국/중화 인민 공화국/중공’으로 올라 있다.",
+                "role": "편수 자료(1987년)",
+                "type": "외래어 표기"
+              }
+            ],
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "강남",
+                "link_target_code": 25815
+              },
+              {
+                "type": "비슷한말",
+                "word": "당국",
+                "link_target_code": 215749
+              },
+              {
+                "type": "비슷한말",
+                "word": "당토",
+                "link_target_code": 217099
+              },
+              {
+                "type": "비슷한말",
+                "word": "한조",
+                "link_target_code": 1029483
+              },
+              {
+                "type": "하위어",
+                "word": "대국",
+                "link_target_code": 218144
+              },
+              {
+                "type": "상위어",
+                "word": "국가",
+                "link_target_code": 108346
+              },
+              {
+                "type": "방언",
+                "word": "둥국",
+                "link_target_code": 255161
+              },
+              {
+                "type": "방언",
+                "word": "듕국",
+                "link_target_code": 257915
+              }
+            ]
+          }
+        },
+        {
+          "target_code": 1358647,
+          "definition": "아시아 동북부에 있는 인민 공화국. 1949년 마오쩌둥이 이끄는 중국 공산당이 국공(國共) 내전에서 승리하고 중국 본토에 세운 국가이다. 매우 광대한 영토로, 신장·내몽골 따위의 변방은 건조·사막 지대이고, 동부의 화베이 지방은 대륙성 기후 지역이며, 화중·화난 지방은 아열대 기후로 농업이 발달하였다.  수도는 베이징, 면적은 959만 6961㎢.",
+          "type": "일반어",
+          "order": 2,
+          "category": "지명",
+          "pos": "명사",
+          "additional_info": {
+            "relation_info": [
+              {
+                "type": "비슷한말",
+                "word": "당가",
+                "link_target_code": 215600
+              },
+              {
+                "type": "비슷한말",
+                "word": "당가자",
+                "link_target_code": 215614
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "target_code": 108343,
+      "word": "국",
+      "origin": "國",
+      "word_type": "어휘",
+      "history_info": null,
+      "senses": [
+        {
+          "target_code": 99286,
+          "definition": "‘나라’의 뜻을 더하는 접미사.",
+          "type": "일반어",
+          "order": 1,
+          "category": "",
+          "pos": "접사",
+          "additional_info": {
+            "example_info": [
+              {
+                "example": "{가입국}."
+              },
+              {
+                "example": "{강대국}."
+              },
+              {
+                "example": "{독립국}."
+              },
+              {
+                "example": "{중립국}."
+              },
+              {
+                "example": "{회원국}."
+              }
+            ],
+            "grammar_info": [
+              {
+                "grammar": "일부 명사 뒤에 붙어"
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "character_data": [
