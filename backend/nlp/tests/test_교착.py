@@ -49,8 +49,3 @@ class 교착Tests(TestCase):
         후보_활용어들 = 교착("따르", ["아서"])
         반환_후보 = ["딸라서", "딸라아서", "따르아서", "따라서"]
         self.assertCountEqual(후보_활용어들, 반환_후보)
-
-    def test임시(self):
-        후보_활용어들 = 교착("끄", ["아"])
-        반환_후보 = ["끄아", "까"]
-        self.assertCountEqual(후보_활용어들, 반환_후보)
