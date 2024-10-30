@@ -1,24 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  font-family: "Nanum Barun Gothic", "New Gulim", "새굴림", "dotum", "돋움";
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+
+  /*font-synthesis: none;*/
+  /*text-rendering: optimizeLegibility;*/
+  /*-webkit-font-smoothing: antialiased;*/
+  /*-moz-osx-font-smoothing: grayscale;*/
+
+  --min-screen-width: 600px;
+  --min-screen-height: 400px;
 }
 
+/* LIGHT COLORS */
+:root {
+  --background-primary: white;
+  --background-secondary: #f3f4f6;
+  --background-tertiary: #e5e7eb;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+
+  --button-color: purple;
+  --button-hover-color: gray;
+  --border-color: #e5e7eb;
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #3b82f6;
+
+  /* Surface colors for cards, modals, etc */
+  --surface-color: white;
+  --surface-hover: #f9fafb;
+
+  /* Status colors if needed */
+  --error-color: #dc2626;
+  --success-color: #16a34a;
+  --warning-color: #d97706;
+}
+
+/* DARK MODE COLORS */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background-primary: #111827;
+    --background-secondary: #1f2937;
+    --background-tertiary: #374151;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-tertiary: #9ca3af;
+
+    --button-color: pink;
+    --button-hover-color: blue;
+    --border-color: #374151;
+
+    --accent-primary: #3b82f6;
+    --accent-secondary: #60a5fa;
+
+    --surface-color: #1f2937;
+    --surface-hover: #374151;
+
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
   }
 }
 
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  color: var(--text-primary);
+  background: var(--background-primary);
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+  height: 100vh;
+  width: 100vw;
+  min-width: var(--min-screen-width);
+  min-height: var(--min-screen-height);
+
+  overflow: scroll;
 }
 
 * {
