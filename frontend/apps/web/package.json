@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@repo/shared": "*",
+    "@repo/shared": "workspace:*",
     "next": "^15.0.2",
     "react": "18.3.1",
     "react-dom": "18.3.1"

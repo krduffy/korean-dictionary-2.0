@@ -2,7 +2,13 @@
   "name": "@repo/shared",
   "version": "0.0.0",
   "private": true,
-  "exports": {},
+  "exports": {
+    "hooks/useCallAPI": "./src/hooks/useCallAPI.ts",
+    "hooks/useFetchProps": "./src/hooks/useFetchProps.ts",
+    "hooks/useForm": "./src/hooks/useForm.ts",
+    "hooks/useLoginForm": "./src/hooks/useLoginForm.ts",
+    "utils/apiAliases": "./src/utils/apiAliases.ts"
+  },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component"

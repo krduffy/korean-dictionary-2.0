@@ -1,93 +1,84 @@
-import React, { useState } from "react";
+"use client";
 
-interface AuthTokens {
-  accessToken: string;
-  // Optional since is http only in web
-  refreshToken?: string;
-}
+import { useState } from "react";
+import {
+  AuthTokens,
+  UseCallAPIArgs,
+  UseCallAPIReturns,
+  RequestConfig,
+} from "../types/apiCallTypes";
 
-interface TokenHandlers {
-  getAccessToken: () => Promise<string>;
-  refreshTokens: () => Promise<AuthTokens>;
-  saveTokens: (tokens: AuthTokens) => Promise<void>;
-}
-
-interface UseCallAPIArgs {
-  tokenHandlers: TokenHandlers;
-  onRefreshFail: () => void;
-}
-
-export const useCallAPI = ({
+export const useCallAPI = <T = any>({
   url,
   tokenHandlers,
   onRefreshFail,
-}: TokenHandlers) => {
+}: UseCallAPIArgs): UseCallAPIReturns<T> => {
   const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState<T | null>(null);
 
-  const responseToJson = async (response) => {
-    const asJSON = await response.json();
-    setResponse(asJSON);
+  const responseToJson = async (response: Response): Promise<T> => {
+    return (await response.json()) as T;
   };
 
-  const tryRefreshAndSave = async () => {
+  const tryRefreshAndSave = async (): Promise<AuthTokens> => {
     const refreshed = await tokenHandlers.refreshTokens();
-
-    if (refreshed) {
+    if (refreshed.access) {
       await tokenHandlers.saveTokens(refreshed);
       return refreshed;
-    } else {
-      onRefreshFail();
-      throw new Error("Failed to refresh tokens");
     }
+    onRefreshFail();
+    throw new Error("Failed to refresh tokens");
   };
 
-  const callAPI = async ({ headers }) => {
+  const callAPI = async (config: RequestConfig = {}): Promise<T> => {
     setSuccessful(false);
     setError(false);
     setLoading(true);
 
-    /* 1 */
     try {
       const accessToken = await tokenHandlers.getAccessToken();
+      const headers = new Headers(config.headers);
 
-      const headers = new Headers();
       if (accessToken) {
-        headers.append("Authorization", `Bearer ${accessToken}`);
+        headers.set("Authorization", `Bearer ${accessToken}`);
       }
 
-      const response = await fetch(url, headers);
+      const response = await fetch(url, {
+        ...config,
+        headers,
+        credentials: "include",
+      });
 
       if (response.status === 403) {
         const refreshed = await tryRefreshAndSave();
-        if (!refreshed) {
-          //
-        }
+        headers.set("Authorization", `Bearer ${refreshed.access}`);
 
-        headers.set("Authorization", `Bearer ${refreshed.accessToken}`);
-        const retryResponse = await fetch(url, headers);
+        const retryResponse = await fetch(url, {
+          ...config,
+          headers,
+          credentials: "include",
+        });
 
         if (retryResponse.ok) {
           setSuccessful(true);
+          await responseToJson(retryResponse);
         } else {
           setError(true);
+          await responseToJson(retryResponse);
         }
-
-        await responseToJson(retryResponse);
-      } else if (response.ok) {
-        setSuccessful(true);
-        await responseToJson(response);
       } else {
-        setError(true);
-        await responseToJson(response);
+        setSuccessful(response.ok);
+        setError(!response.ok);
       }
+
+      const json = await responseToJson(response);
+      setResponse(json);
+      return json;
     } catch (err) {
-      const error =
-        err instanceof Error ? err : new Error("Unknown error occurred");
       setError(true);
-      throw error;
+      throw err instanceof Error ? err : new Error("Unknown error occurred");
     } finally {
       setLoading(false);
     }

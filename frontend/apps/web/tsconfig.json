@@ -5,7 +5,11 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@repo/shared/*": ["../../packages/shared/src/*"]
+    },
   },
   "include": [
     "next-env.d.ts",
