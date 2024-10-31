@@ -48,7 +48,6 @@ export const useCallAPI = <T = any>({
       const response = await fetch(url, {
         ...config,
         headers,
-        credentials: "include",
       });
 
       if (response.status === 403) {
@@ -58,15 +57,12 @@ export const useCallAPI = <T = any>({
         const retryResponse = await fetch(url, {
           ...config,
           headers,
-          credentials: "include",
         });
 
         if (retryResponse.ok) {
           setSuccessful(true);
-          await responseToJson(retryResponse);
         } else {
           setError(true);
-          await responseToJson(retryResponse);
         }
       } else {
         setSuccessful(response.ok);

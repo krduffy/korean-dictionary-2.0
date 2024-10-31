@@ -7,6 +7,7 @@ import { UseFormArgs, RequestConfig } from "../types/apiCallTypes";
 export const useForm = ({
   initialFormData,
   useCallAPIInstance,
+  includeCredentials = false,
 }: UseFormArgs) => {
   const [formData, setFormData] = useState(initialFormData);
 
@@ -21,6 +22,7 @@ export const useForm = ({
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     };
 
     return await callAPI(config);

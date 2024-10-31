@@ -18,6 +18,7 @@ export interface UseCallAPIArgs {
   url: string;
   tokenHandlers: TokenHandlers;
   onRefreshFail: () => void;
+  includeCredentials: boolean;
 }
 
 /* What can be passed into callAPI() as returned from useCallAPI */
@@ -25,6 +26,7 @@ export interface RequestConfig {
   headers?: HeadersInit;
   method?: string;
   body?: BodyInit;
+  credentials?: "include";
 }
 
 /* Returned from useCallAPI. */
