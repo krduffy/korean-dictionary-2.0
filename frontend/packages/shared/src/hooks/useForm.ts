@@ -5,6 +5,7 @@ import { useState } from "react";
 import { UseFormArgs, RequestConfig } from "../types/apiCallTypes";
 
 export const useForm = ({
+  url,
   initialFormData,
   useCallAPIInstance,
   includeCredentials = false,
@@ -25,7 +26,7 @@ export const useForm = ({
       credentials: includeCredentials ? "include" : undefined,
     };
 
-    return await callAPI(config);
+    return await callAPI(url, config);
   };
 
   const updateField = (e: React.ChangeEvent<HTMLInputElement>) => {

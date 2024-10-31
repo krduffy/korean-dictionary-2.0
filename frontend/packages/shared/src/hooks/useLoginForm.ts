@@ -1,22 +1,15 @@
 import { useForm } from "./useForm";
 import { getEndpoint } from "../utils/apiAliases";
-import {
-  InvokablePlatformUseCallAPIHook,
-  TokenHandlers,
-} from "../types/apiCallTypes";
+import { TokenHandlers, UseCallAPIReturns } from "../types/apiCallTypes";
 
 /* Calls the callAPI's token setter on success. */
 export const useLoginForm = ({
-  invokablePlatformUseCallAPIHook,
+  useCallAPIInstance,
   tokenHandlers,
 }: {
-  invokablePlatformUseCallAPIHook: InvokablePlatformUseCallAPIHook;
+  useCallAPIInstance: UseCallAPIReturns;
   tokenHandlers: TokenHandlers;
 }) => {
-  const useCallAPI = invokablePlatformUseCallAPIHook({
-    url: getEndpoint({ endpoint: "login" }),
-  });
-
   const {
     successful,
     error,
@@ -26,11 +19,13 @@ export const useLoginForm = ({
     postForm,
     updateField,
   } = useForm({
+    url: getEndpoint({ endpoint: "login" }),
     initialFormData: {
       username: "",
       password: "",
     },
-    useCallAPIInstance: useCallAPI.useCallAPIReturns,
+    useCallAPIInstance: useCallAPIInstance,
+    includeCredentials: true,
   });
 
   const updatedPost = async (e: React.FormEvent) => {

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { usePanelContext } from "../../web-contexts/PanelContext";
+import { NavBar } from "./navbar/NavBar";
 
 export const DictionaryPage = () => {
   const {
@@ -15,9 +16,12 @@ export const DictionaryPage = () => {
 
   return (
     <div className="h-full">
-      {
-        /* Neither panel is visible. */
-        !leftPanelVisible && !rightPanelVisible ? (
+      <div className="h-[10%]">
+        <NavBar />
+      </div>
+      {/* Neither panel is visible. */}
+      <div className="h-[90%]">
+        {!leftPanelVisible && !rightPanelVisible ? (
           <div className="h-full grid grid-cols-2">
             <div className="col-span-1 flex items-center justify-center">
               <PanelToggler onAdd={() => setLeftPanelVisible(true)} />
@@ -56,8 +60,8 @@ export const DictionaryPage = () => {
               {rightPanel}
             </div>
           </div>
-        )
-      }
+        )}
+      </div>
     </div>
   );
 };

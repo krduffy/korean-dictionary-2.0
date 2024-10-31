@@ -15,7 +15,6 @@ export interface TokenHandlers {
 
 /* Needs to be passed into useCallAPI. */
 export interface UseCallAPIArgs {
-  url: string;
   tokenHandlers: TokenHandlers;
   onRefreshFail: () => void;
   includeCredentials: boolean;
@@ -36,21 +35,15 @@ export interface UseCallAPIReturns<T = any> {
   loading: boolean;
   response: T | null;
   // eslint-disable-next-line no-unused-vars
-  callAPI: (config?: RequestConfig) => Promise<T>;
+  callAPI: (url: string, config?: RequestConfig) => Promise<T>;
 }
 
-/* Used for abstracted versions of the useCallAPI that have set urls like useLoginForm */
+/* Used for abstracted versions of the useCallAPI that need separate access to token handlers like 
+useLoginForm */
 export interface UseCallAPIHookWithTokenHandlerArgs {
   useCallAPIReturns: UseCallAPIReturns;
   tokenHandlers: TokenHandlers;
 }
-/* v A hook that can be invoked with the given url (like useAPICallWeb) */
-export type InvokablePlatformUseCallAPIHook = ({
-  // eslint-disable-next-line no-unused-vars
-  url,
-}: {
-  url: string;
-}) => UseCallAPIHookWithTokenHandlerArgs;
 
 /* FORM */
 /* FormData */
@@ -60,6 +53,8 @@ export interface FormDataState {
 
 /* useForm needs initial data and an  */
 export interface UseFormArgs {
+  url: string;
   initialFormData: FormDataState;
   useCallAPIInstance: UseCallAPIReturns;
+  includeCredentials: boolean;
 }

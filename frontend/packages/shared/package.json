@@ -7,7 +7,10 @@
     "hooks/useFetchProps": "./src/hooks/useFetchProps.ts",
     "hooks/useForm": "./src/hooks/useForm.ts",
     "hooks/useLoginForm": "./src/hooks/useLoginForm.ts",
-    "utils/apiAliases": "./src/utils/apiAliases.ts"
+    "hooks/usePaginatedResults": "./src/hooks/usePaginatedResults.ts",
+    "hooks/usePanel": "./src/hooks/usePanel.ts",
+    "utils/apiAliases": "./src/utils/apiAliases.ts",
+    "utils/basicViews": "./src/utils/basicViews.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

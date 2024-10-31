@@ -2,6 +2,7 @@
 
 import React, { useState, ReactNode, useContext, createContext } from "react";
 import { Panel } from "../web-components/dictionary-page/Panel";
+import { getBasicKoreanSearchViewData } from "@repo/shared/utils/basicViews";
 
 type PanelContextType = {
   leftPanel: ReactNode;
@@ -25,8 +26,14 @@ export const PanelContextProvider: React.FC<{ children: ReactNode }> = ({
   const [leftPanelVisible, setLeftPanelVisible] = useState(true);
   const [rightPanelVisible, setRightPanelVisible] = useState(false);
 
+  const initialPanelView = {
+    type: "korean_search",
+    data: getBasicKoreanSearchViewData(),
+  };
+
   const [leftPanel, setLeftPanel] = useState<ReactNode>(
     <Panel
+      initialView={initialPanelView}
       onClose={() => {
         setLeftPanelVisible(false);
       }}
@@ -34,6 +41,7 @@ export const PanelContextProvider: React.FC<{ children: ReactNode }> = ({
   );
   const [rightPanel, setRightPanel] = useState<ReactNode>(
     <Panel
+      initialView={initialPanelView}
       onClose={() => {
         setRightPanelVisible(false);
       }}

@@ -9,7 +9,6 @@ import {
 } from "../types/apiCallTypes";
 
 export const useCallAPI = <T = any>({
-  url,
   tokenHandlers,
   onRefreshFail,
 }: UseCallAPIArgs): UseCallAPIReturns<T> => {
@@ -32,7 +31,10 @@ export const useCallAPI = <T = any>({
     throw new Error("Failed to refresh tokens");
   };
 
-  const callAPI = async (config: RequestConfig = {}): Promise<T> => {
+  const callAPI = async (
+    url: string,
+    config: RequestConfig = {}
+  ): Promise<T> => {
     setSuccessful(false);
     setError(false);
     setLoading(true);
