@@ -22,7 +22,7 @@ export const useForm = ({
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
+      credentials: includeCredentials ? "include" : undefined,
     };
 
     return await callAPI(config);
