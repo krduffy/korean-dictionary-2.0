@@ -55,7 +55,7 @@ export const usePaginatedResults = ({
 
   useEffect(() => {
     updateSearchResults();
-  }, [currentPage]);
+  }, [currentPage, baseUrl]);
 
   useEffect(() => {
     if (initialPage !== currentPage) {

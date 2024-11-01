@@ -52,7 +52,7 @@ export const useCallAPI = <T = any>({
         headers,
       });
 
-      if (response.status === 403) {
+      if (response.status === 401) {
         const refreshed = await tryRefreshAndSave();
         headers.set("Authorization", `Bearer ${refreshed.access}`);
 

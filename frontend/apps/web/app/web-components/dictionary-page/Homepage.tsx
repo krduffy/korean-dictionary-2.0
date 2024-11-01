@@ -10,7 +10,5 @@ export const Homepage = () => {
     return <div>not successful</div>;
   }
 
-  console.log(props);
-
   return <div>My username is {props?.username}</div>;
 };

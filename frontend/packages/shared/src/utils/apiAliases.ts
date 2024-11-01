@@ -1,3 +1,5 @@
+import { KoreanSearchViewData } from "../types/panelAndViewTypes";
+
 /* Cert requires localhost, not 127.0.0.1 */
 const API_URL = "https://localhost:8000/";
 
@@ -7,7 +9,7 @@ const endpoints = {
   register: "users/auth/register",
   change_password: "users/auth/change_password",
   homepage: "users/my_info",
-  search_korean: "dictionary/korean/search?search_term=가다",
+  search_korean: "dictionary/korean/search",
 } as const;
 
 interface GetEndpointArgs {
@@ -21,4 +23,14 @@ export const getEndpoint = ({ endpoint, pk }: GetEndpointArgs) => {
   } else {
     return API_URL + endpoints[endpoint] + `/${pk}`;
   }
+};
+
+export const getEndpointWithKoreanViewData = ({
+  searchTerm,
+}: {
+  searchTerm: string;
+}) => {
+  return (
+    getEndpoint({ endpoint: "search_korean" }) + "?search_term=" + searchTerm
+  );
 };

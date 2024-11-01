@@ -16,6 +16,27 @@ type PanelContextType = {
   setRightPanelVisible: (newBool: boolean) => void;
 };
 
+type PanelSelfContextType = {
+  updateSelfInMemory: (self: React.ReactNode) => void;
+};
+
+export const PanelSelfContext = createContext<PanelSelfContextType | undefined>(
+  undefined
+);
+export const PanelSelfContextProvider = ({
+  children,
+  updateSelfInMemory,
+}: {
+  children: ReactNode;
+  updateSelfInMemory: (self: React.ReactNode) => void;
+}) => {
+  return (
+    <PanelSelfContext.Provider value={{ updateSelfInMemory }}>
+      {children}
+    </PanelSelfContext.Provider>
+  );
+};
+
 export const PanelContext = createContext<PanelContextType | undefined>(
   undefined
 );
@@ -26,10 +47,15 @@ export const PanelContextProvider: React.FC<{ children: ReactNode }> = ({
   const [leftPanelVisible, setLeftPanelVisible] = useState(true);
   const [rightPanelVisible, setRightPanelVisible] = useState(false);
 
+  const initialSearchConfig = {
+    dictionary: "korean",
+    searchTerm: "",
+  } as const;
   const initialPanelView = {
     type: "korean_search",
-    data: getBasicKoreanSearchViewData(),
-  };
+    data: getBasicKoreanSearchViewData({ searchTerm: "기린" }),
+    searchConfig: initialSearchConfig,
+  } as const;
 
   const [leftPanel, setLeftPanel] = useState<ReactNode>(
     <Panel

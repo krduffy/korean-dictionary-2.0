@@ -1,13 +1,32 @@
 "use client";
 
 import React from "react";
-import { usePanelContext } from "../../web-contexts/PanelContext";
+import {
+  PanelSelfContextProvider,
+  usePanelContext,
+} from "../../web-contexts/PanelContext";
 import { NavBar } from "./navbar/NavBar";
+
+const PanelWrappedWithSelfContext = ({
+  panel,
+  updateSelfInMemory,
+}: {
+  panel: React.ReactNode;
+  updateSelfInMemory: (self: React.ReactNode) => void;
+}) => {
+  return (
+    <PanelSelfContextProvider updateSelfInMemory={updateSelfInMemory}>
+      {panel}
+    </PanelSelfContextProvider>
+  );
+};
 
 export const DictionaryPage = () => {
   const {
     leftPanel,
+    setLeftPanel,
     rightPanel,
+    setRightPanel,
     leftPanelVisible,
     setLeftPanelVisible,
     rightPanelVisible,
@@ -37,14 +56,20 @@ export const DictionaryPage = () => {
               <PanelToggler onAdd={() => setLeftPanelVisible(true)} />
             </div>
             <div className="col-start-2 col-end-4 border-4 border-white bg-background">
-              {rightPanel}
+              <PanelWrappedWithSelfContext
+                panel={rightPanel}
+                updateSelfInMemory={setRightPanel}
+              />
             </div>
           </div>
         ) : /* Only the left panel is visible */
         leftPanelVisible && !rightPanelVisible ? (
           <div className="h-full grid grid-cols-4">
             <div className="col-start-2 col-end-4 border-4 border-white bg-background">
-              {leftPanel}
+              <PanelWrappedWithSelfContext
+                panel={leftPanel}
+                updateSelfInMemory={setLeftPanel}
+              />
             </div>
             <div className="col-start-4 col-end-5 flex items-center justify-center">
               <PanelToggler onAdd={() => setRightPanelVisible(true)} />
@@ -54,10 +79,16 @@ export const DictionaryPage = () => {
           /* Both panels are visible. */
           <div className="h-full grid grid-cols-2">
             <div className="col-span-1 border-4 bg-[color:--background-secondary]">
-              {leftPanel}
+              <PanelWrappedWithSelfContext
+                panel={leftPanel}
+                updateSelfInMemory={setLeftPanel}
+              />
             </div>
             <div className="col-span-1 border-4 bg-[color:--background-secondary]">
-              {rightPanel}
+              <PanelWrappedWithSelfContext
+                panel={rightPanel}
+                updateSelfInMemory={setRightPanel}
+              />
             </div>
           </div>
         )}

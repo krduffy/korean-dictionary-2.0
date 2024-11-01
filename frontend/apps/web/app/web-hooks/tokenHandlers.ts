@@ -28,8 +28,13 @@ export const saveTokens = async (tokens: AuthTokens) => {
   sessionStorage.setItem("access", tokens.access);
 };
 
+export const deleteTokens = async () => {
+  sessionStorage.removeItem("access");
+};
+
 export const allTokenHandlers = {
   getAccessToken,
   refreshTokens,
+  deleteTokens,
   saveTokens,
 };

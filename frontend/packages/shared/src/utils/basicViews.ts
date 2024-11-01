@@ -1,7 +1,11 @@
-import { KoreanSearchViewData } from "your-package/types/viewTypes";
+import { KoreanSearchViewData } from "../types/panelAndViewTypes";
 
-export const getBasicKoreanSearchViewData = (): KoreanSearchViewData => {
+export const getBasicKoreanSearchViewData = ({
+  searchTerm,
+}: {
+  searchTerm: string;
+}): KoreanSearchViewData => {
   return {
-    searchTerm: "주물",
+    searchTerm: searchTerm,
   };
 };
