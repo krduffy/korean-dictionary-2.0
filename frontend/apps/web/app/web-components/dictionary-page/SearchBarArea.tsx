@@ -21,11 +21,13 @@ export const SearchBarArea = ({
         dictionary={searchConfig.dictionary}
         searchConfigSetters={searchConfigSetters}
       />
-      <SearchBar
-        searchTerm={searchConfig.searchTerm}
-        setSearchTerm={searchConfigSetters.setSearchTerm}
-      />
-      <SubmitSearchButton submitSearch={submitSearch} />
+      <form>
+        <SearchBar
+          searchTerm={searchConfig.searchTerm}
+          setSearchTerm={searchConfigSetters.setSearchTerm}
+        />
+        <SubmitSearchButton submitSearch={submitSearch} />
+      </form>
     </div>
   );
 };
@@ -52,11 +54,23 @@ const SearchBar = ({
   setSearchTerm: (searchTerm: string) => void;
 }) => {
   return (
-    <textarea
+    <input
+      type="search"
+      placeholder="검색어를 입력해주세요."
       value={searchTerm}
-      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
         setSearchTerm(e.target.value)
       }
+      className="w-full px-4 py-2 
+      bg-white/10 
+      border border-gray-200/20 
+      rounded-full
+      outline-none 
+      focus:ring-2 focus:ring-blue-500/40 
+      hover:bg-white/20
+      transition-all duration-200
+      placeholder-gray-400
+      text-[color:--text-secondary]"
     />
   );
 };
@@ -66,5 +80,25 @@ const SubmitSearchButton = ({
 }: {
   submitSearch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
-  return <button onClick={submitSearch}>검색</button>;
+  return (
+    <button
+      type="submit"
+      className="px-4 py-2 
+    bg-blue-500 
+    hover:bg-blue-600 
+    active:bg-blue-700
+    text-white 
+    rounded-lg
+    font-medium
+    shadow-sm
+    hover:shadow-md
+    active:shadow-sm
+    transition-all 
+    duration-200
+    flex items-center gap-2"
+      onClick={submitSearch}
+    >
+      검색
+    </button>
+  );
 };

@@ -27,13 +27,25 @@ export const Panel = ({ initialView, onClose }: PanelArgs) => {
   }, [JSON.stringify(view)]);
 
   return (
-    <div>
-      <CloseButton onClose={onClose} />
-      <SearchBarArea
-        searchConfig={view.searchConfig}
-        searchConfigSetters={searchConfigSetters}
-        submitSearch={submitSearch}
-      />
+    <div
+      className="h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
+    rounded-2xl
+    shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+    border border-gray-200/20
+    backdrop-blur-[12px]
+    hover:shadow-[0_8px_35px_rgb(0,0,0,0.16)]
+    transition-shadow duration-300
+    saturate-[1.02]
+"
+    >
+      <div>
+        <SearchBarArea
+          searchConfig={view.searchConfig}
+          searchConfigSetters={searchConfigSetters}
+          submitSearch={submitSearch}
+        />
+        <CloseButton onClose={onClose} />
+      </div>
       <MainContent view={view} />
     </div>
   );
@@ -47,7 +59,7 @@ const MainContent = ({ view }: { view: View }) => {
   useMainContent({ view: view });
 
   if (view.type === "korean_search") {
-    return <KoreanSearchView searchTerm={view.data.searchTerm} />;
+    return <KoreanSearchView data={view.data} />;
   }
 
   return <div>Unknown view.</div>;

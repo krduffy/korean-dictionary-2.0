@@ -25,7 +25,6 @@ export const useSearchSubmitter = ({
   };
 
   const getViewFromSearchConfig = (searchConfig: SearchConfig): View => {
-    console.log(searchConfig);
     return {
       searchConfig: searchConfig,
       type: getType({

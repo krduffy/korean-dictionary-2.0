@@ -26,11 +26,13 @@ export const getEndpoint = ({ endpoint, pk }: GetEndpointArgs) => {
 };
 
 export const getEndpointWithKoreanViewData = ({
-  searchTerm,
+  koreanViewData,
 }: {
-  searchTerm: string;
+  koreanViewData: KoreanSearchViewData;
 }) => {
   return (
-    getEndpoint({ endpoint: "search_korean" }) + "?search_term=" + searchTerm
+    getEndpoint({ endpoint: "search_korean" }) +
+    "?search_term=" +
+    koreanViewData.searchTerm
   );
 };

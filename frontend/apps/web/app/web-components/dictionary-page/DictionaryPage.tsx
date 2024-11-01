@@ -34,7 +34,7 @@ export const DictionaryPage = () => {
   } = usePanelContext();
 
   return (
-    <div className="h-full">
+    <div className="h-full p-3">
       <div className="h-[10%]">
         <NavBar />
       </div>
@@ -55,7 +55,7 @@ export const DictionaryPage = () => {
             <div className="col-start-1 col-end-2 flex items-center justify-center">
               <PanelToggler onAdd={() => setLeftPanelVisible(true)} />
             </div>
-            <div className="col-start-2 col-end-4 border-4 border-white bg-background">
+            <div className="col-start-2 col-end-4">
               <PanelWrappedWithSelfContext
                 panel={rightPanel}
                 updateSelfInMemory={setRightPanel}
@@ -65,7 +65,7 @@ export const DictionaryPage = () => {
         ) : /* Only the left panel is visible */
         leftPanelVisible && !rightPanelVisible ? (
           <div className="h-full grid grid-cols-4">
-            <div className="col-start-2 col-end-4 border-4 border-white bg-background">
+            <div className="col-start-2 col-end-4 bg-background">
               <PanelWrappedWithSelfContext
                 panel={leftPanel}
                 updateSelfInMemory={setLeftPanel}
@@ -78,13 +78,13 @@ export const DictionaryPage = () => {
         ) : (
           /* Both panels are visible. */
           <div className="h-full grid grid-cols-2">
-            <div className="col-span-1 border-4 bg-[color:--background-secondary]">
+            <div className="col-span-1 mr-2">
               <PanelWrappedWithSelfContext
                 panel={leftPanel}
                 updateSelfInMemory={setLeftPanel}
               />
             </div>
-            <div className="col-span-1 border-4 bg-[color:--background-secondary]">
+            <div className="col-span-1 ml-2">
               <PanelWrappedWithSelfContext
                 panel={rightPanel}
                 updateSelfInMemory={setRightPanel}
