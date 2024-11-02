@@ -1,14 +1,14 @@
-import { getEndpointWithKoreanViewData } from "@repo/shared/utils/apiAliases";
+import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases";
 
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "./dictionary-items/KoreanSearchResult";
-import { KoreanSearchViewData } from "@repo/shared/types/panelAndViewTypes";
+import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { LoadingIndicator } from "./string-formatters/LoadingIndicator";
 import { NoResultsMessage } from "./string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 
-export const KoreanSearchView = ({ data }: { data: KoreanSearchViewData }) => {
+export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
   const {
     successful,
     error,
@@ -17,7 +17,7 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchViewData }) => {
     currentPage,
     setCurrentPage,
   } = usePaginatedResults({
-    baseUrl: getEndpointWithKoreanViewData({ koreanViewData: data }),
+    baseUrl: getEndpointWithKoreanSearchConfig({ koreanSearchConfig: data }),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
     initialPage: 1,
   });
@@ -36,7 +36,7 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchViewData }) => {
   }
 
   if (searchResults?.count === 0) {
-    return <NoResultsMessage searchTerm={data.searchTerm} />;
+    return <NoResultsMessage searchTerm={data.search_term} />;
   }
 
   return (

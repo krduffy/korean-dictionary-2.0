@@ -3,15 +3,15 @@ import {
   UsePanelReturns,
   View,
 } from "../types/panelAndViewTypes";
-import { useSearchSubmitter } from "../hooks/useSearchSubmitter";
-import { useSearchConfigSetters } from "../hooks/useSearchConfigSetters";
-import { useState } from "react";
+import { useSearchSubmitter } from "./searching-hooks/useSearchSubmitter";
+import { useSearchConfigSetters } from "./searching-hooks/useSearchConfigSetters";
 
 export const usePanel = ({
   view,
   setView,
 }: {
   view: View;
+  // eslint-disable-next-line no-unused-vars
   setView: (view: View) => void;
 }): UsePanelReturns => {
   const setSearchConfig = (newSearchConfig: SearchConfig) => {

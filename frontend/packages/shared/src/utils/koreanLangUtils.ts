@@ -37,7 +37,7 @@ export const getTopicMarker = (string: string): "은" | "는" | "" => {
     return "";
   }
 
-  if (((charCode - 44032) % 588) % 28 != 0) {
+  if (((charCode - 44032) % 588) % 28 !== 0) {
     return "은";
   }
 

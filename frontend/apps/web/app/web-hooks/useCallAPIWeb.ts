@@ -10,6 +10,7 @@ export const useCallAPIWeb = () => {
   const useCallAPIReturns = useCallAPI({
     tokenHandlers: allTokenHandlers,
     onRefreshFail: onRefreshFail,
+    includeCredentials: false,
   });
 
   return {

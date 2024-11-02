@@ -1,8 +1,8 @@
 import {
   SearchConfigSetters,
   SearchConfig,
-  SearchConfigDictionary,
 } from "@repo/shared/types/panelAndViewTypes";
+import { DictionarySelector } from "./DictionarySelector";
 
 interface SearchBarAreaArgs {
   searchConfig: SearchConfig;
@@ -18,31 +18,17 @@ export const SearchBarArea = ({
   return (
     <div>
       <DictionarySelector
-        dictionary={searchConfig.dictionary}
+        searchConfig={searchConfig}
         searchConfigSetters={searchConfigSetters}
       />
       <form>
         <SearchBar
-          searchTerm={searchConfig.searchTerm}
+          searchTerm={searchConfig.config.search_term}
           setSearchTerm={searchConfigSetters.setSearchTerm}
         />
         <SubmitSearchButton submitSearch={submitSearch} />
       </form>
     </div>
-  );
-};
-
-const DictionarySelector = ({
-  dictionary,
-  searchConfigSetters,
-}: {
-  dictionary: SearchConfigDictionary;
-  searchConfigSetters: SearchConfigSetters;
-}) => {
-  return (
-    <button onClick={() => searchConfigSetters.switchDictionary()}>
-      {dictionary === "korean" ? "한" : "漢"}
-    </button>
   );
 };
 

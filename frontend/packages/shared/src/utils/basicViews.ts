@@ -1,11 +1,12 @@
-import { KoreanSearchViewData } from "../types/panelAndViewTypes";
+import { KoreanSearchConfig } from "../types/panelAndViewTypes";
 
 export const getBasicKoreanSearchViewData = ({
   searchTerm,
 }: {
   searchTerm: string;
-}): KoreanSearchViewData => {
+}): KoreanSearchConfig => {
   return {
-    searchTerm: searchTerm,
+    search_term: searchTerm,
+    search_type: "word_exact",
   };
 };

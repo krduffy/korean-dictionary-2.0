@@ -49,7 +49,7 @@ export const PanelContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const initialSearchConfig = {
     dictionary: "korean",
-    searchTerm: "",
+    config: getBasicKoreanSearchViewData({ searchTerm: "기린" }),
   } as const;
   const initialPanelView = {
     type: "korean_search",

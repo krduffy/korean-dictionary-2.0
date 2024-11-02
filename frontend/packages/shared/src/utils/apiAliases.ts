@@ -1,4 +1,7 @@
-import { KoreanSearchViewData } from "../types/panelAndViewTypes";
+import {
+  HanjaSearchConfig,
+  KoreanSearchConfig,
+} from "your-package/types/panelAndViewTypes";
 
 /* Cert requires localhost, not 127.0.0.1 */
 const API_URL = "https://localhost:8000/";
@@ -25,14 +28,28 @@ export const getEndpoint = ({ endpoint, pk }: GetEndpointArgs) => {
   }
 };
 
-export const getEndpointWithKoreanViewData = ({
-  koreanViewData,
+const getArgsAsQueryParamString = (
+  obj: KoreanSearchConfig | HanjaSearchConfig
+) => {
+  return Object.entries(obj)
+    .reduce(
+      (accumulator, [key, value]) =>
+        accumulator +
+        encodeURIComponent(key) +
+        "=" +
+        encodeURIComponent(String(value)) +
+        "&",
+      ""
+    )
+    .slice(0, -1);
+};
+
+export const getEndpointWithKoreanSearchConfig = ({
+  koreanSearchConfig,
 }: {
-  koreanViewData: KoreanSearchViewData;
+  koreanSearchConfig: KoreanSearchConfig;
 }) => {
-  return (
-    getEndpoint({ endpoint: "search_korean" }) +
-    "?search_term=" +
-    koreanViewData.searchTerm
-  );
+  const endingArgs = getArgsAsQueryParamString(koreanSearchConfig);
+
+  return getEndpoint({ endpoint: "search_korean" }) + "?" + endingArgs;
 };

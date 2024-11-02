@@ -1,17 +1,18 @@
-export interface View {
-  /* What the search bar looks like */
+export type View = KoreanSearchView | HanjaSearchView;
+
+export interface KoreanSearchView {
   searchConfig: SearchConfig;
-  /* type */
-  type: ViewType;
-  /* Data required to reconstruct the state of the main content */
-  data: KoreanSearchViewData;
+  type: "korean_search";
+  data: KoreanSearchConfig;
+}
+
+export interface HanjaSearchView {
+  searchConfig: SearchConfig;
+  type: "hanja_search";
+  data: HanjaSearchConfig;
 }
 
 export type ViewType = "korean_search" | "hanja_search";
-
-export interface KoreanSearchViewData {
-  searchTerm: string;
-}
 
 export interface UsePanelArgs {
   initialView: View;
@@ -26,9 +27,58 @@ export interface UsePanelReturns {
 
 export type SearchConfigDictionary = "korean" | "hanja";
 
-export interface SearchConfig {
-  dictionary: SearchConfigDictionary;
-  searchTerm: string;
+export type SearchConfig =
+  | { dictionary: "korean"; config: KoreanSearchConfig }
+  | { dictionary: "hanja"; config: HanjaSearchConfig };
+
+export type AllowedKoreanSearchType = "word_exact" | "definition_contains";
+export interface KoreanSearchConfig extends BaseSearchConfig {
+  search_type: AllowedKoreanSearchType;
+}
+
+export type OperandPrefix = "eq" | "gt" | "gte" | "lt" | "lte" | "not";
+export type GradeLevel = "중학교" | "고등학교" | "미배정";
+export type ExamLevel =
+  | "8급"
+  | "준7급"
+  | "7급"
+  | "준6급"
+  | "6급"
+  | "준5급"
+  | "5급"
+  | "준4급"
+  | "4급"
+  | "준3급"
+  | "3급"
+  | "준2급"
+  | "2급"
+  | "준1급"
+  | "1급"
+  | "준특급"
+  | "특급"
+  | "미배정";
+export interface StrokeNumberConfig {
+  operand: OperandPrefix;
+  strokes: number;
+}
+export interface GradeLevelConfig {
+  operand: OperandPrefix;
+  level: GradeLevel;
+}
+export interface ExamLevelConfig {
+  operand: OperandPrefix;
+  level: ExamLevel;
+}
+
+export interface BaseSearchConfig {
+  search_term: string;
+}
+export interface HanjaSearchConfig extends BaseSearchConfig {
+  decomposition: string;
+  radical: string;
+  strokes: StrokeNumberConfig;
+  grade_level: GradeLevelConfig;
+  exam_level: ExamLevelConfig;
 }
 
 export interface UseSearchSubmitterArgs {
@@ -41,6 +91,8 @@ export interface SearchConfigSetters {
   // eslint-disable-next-line no-unused-vars
   setSearchTerm: (searchTerm: string) => void;
   switchDictionary: () => void;
+  // eslint-disable-next-line no-unused-vars
+  setKoreanSearchType: (searchType: AllowedKoreanSearchType) => void;
 }
 
 export interface UseSearchConfigSettersReturns {
