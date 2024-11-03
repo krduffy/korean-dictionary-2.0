@@ -1,0 +1,13 @@
+/* A lot of this is likely redundant but the spinners kept appearing in firefox. This 
+   is pretty much throwing everything at the wall and seeing what sticks */
+
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinners {
+  -moz-appearance: textfield !important;
+  appearance: none;
+}

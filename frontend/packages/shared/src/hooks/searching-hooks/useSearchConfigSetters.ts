@@ -1,9 +1,14 @@
 import {
+  getBasicHanjaSearchViewData,
+  getBasicKoreanSearchViewData,
+} from "your-package/utils/basicViews";
+import {
   UseSearchConfigSettersReturns,
   UseSearchConfigSettersArgs,
   SearchConfig,
   KoreanSearchConfig,
   AllowedKoreanSearchType,
+  HanjaSearchConfig,
 } from "../../types/panelAndViewTypes";
 
 export const useSearchConfigSetters = ({
@@ -31,9 +36,21 @@ export const useSearchConfigSetters = ({
   };
 
   const switchDictionary = () => {
-    const otherDictionary =
-      searchConfig.dictionary === "korean" ? "hanja" : "korean";
-    updateTopKey("dictionary", otherDictionary);
+    if (searchConfig.dictionary === "korean") {
+      setSearchConfig({
+        dictionary: "hanja",
+        config: getBasicHanjaSearchViewData({
+          searchTerm: searchConfig.config.search_term,
+        }),
+      });
+    } else {
+      setSearchConfig({
+        dictionary: "korean",
+        config: getBasicKoreanSearchViewData({
+          searchTerm: searchConfig.config.search_term,
+        }),
+      });
+    }
   };
 
   const setKoreanSearchParam = <K extends keyof KoreanSearchConfig>(

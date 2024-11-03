@@ -17,3 +17,7 @@ export interface KoreanSearchResultType {
   user_data: null;
   senses: [SimplifiedSenseType];
 }
+
+export interface HanjaSearchResultType {
+  character: string;
+}

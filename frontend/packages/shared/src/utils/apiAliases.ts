@@ -13,6 +13,7 @@ const endpoints = {
   change_password: "users/auth/change_password",
   homepage: "users/my_info",
   search_korean: "dictionary/korean/search",
+  search_hanja: "dictionary/hanja/search",
 } as const;
 
 interface GetEndpointArgs {
@@ -44,12 +45,18 @@ const getArgsAsQueryParamString = (
     .slice(0, -1);
 };
 
-export const getEndpointWithKoreanSearchConfig = ({
-  koreanSearchConfig,
-}: {
-  koreanSearchConfig: KoreanSearchConfig;
-}) => {
+export const getEndpointWithKoreanSearchConfig = (
+  koreanSearchConfig: KoreanSearchConfig
+) => {
   const endingArgs = getArgsAsQueryParamString(koreanSearchConfig);
 
   return getEndpoint({ endpoint: "search_korean" }) + "?" + endingArgs;
+};
+
+export const getEndpointWithHanjaSearchConfig = (
+  hanjaSearchConfig: HanjaSearchConfig
+) => {
+  const endingArgs = getArgsAsQueryParamString(hanjaSearchConfig);
+
+  return getEndpoint({ endpoint: "search_hanja" }) + "?" + endingArgs;
 };

@@ -1,4 +1,7 @@
-import { KoreanSearchConfig } from "../types/panelAndViewTypes";
+import {
+  HanjaSearchConfig,
+  KoreanSearchConfig,
+} from "../types/panelAndViewTypes";
 
 export const getBasicKoreanSearchViewData = ({
   searchTerm,
@@ -8,5 +11,15 @@ export const getBasicKoreanSearchViewData = ({
   return {
     search_term: searchTerm,
     search_type: "word_exact",
+  };
+};
+
+export const getBasicHanjaSearchViewData = ({
+  searchTerm,
+}: {
+  searchTerm: string;
+}): HanjaSearchConfig => {
+  return {
+    search_term: searchTerm,
   };
 };

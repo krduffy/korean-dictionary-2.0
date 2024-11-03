@@ -2,11 +2,12 @@ import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases
 
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
-import { KoreanSearchResult } from "./dictionary-items/KoreanSearchResult";
+import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
-import { LoadingIndicator } from "./string-formatters/LoadingIndicator";
-import { NoResultsMessage } from "./string-formatters/NoSearchResultsMessage";
+import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
+import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
+import { PageChanger } from "./PageChanger";
 
 export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
   const {
@@ -17,7 +18,7 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
     currentPage,
     setCurrentPage,
   } = usePaginatedResults({
-    baseUrl: getEndpointWithKoreanSearchConfig({ koreanSearchConfig: data }),
+    baseUrl: getEndpointWithKoreanSearchConfig(data),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
     initialPage: 1,
   });
@@ -44,6 +45,11 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
       {searchResults?.results?.map((result: KoreanSearchResultType) => (
         <KoreanSearchResult key={result.target_code} result={result} />
       ))}
+      <PageChanger
+        pageNum={currentPage}
+        setPageNum={setCurrentPage}
+        maxPageNum={Math.ceil(searchResults.count / 10)}
+      />
     </>
   );
 };

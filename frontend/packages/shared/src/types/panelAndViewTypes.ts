@@ -74,11 +74,11 @@ export interface BaseSearchConfig {
   search_term: string;
 }
 export interface HanjaSearchConfig extends BaseSearchConfig {
-  decomposition: string;
-  radical: string;
-  strokes: StrokeNumberConfig;
-  grade_level: GradeLevelConfig;
-  exam_level: ExamLevelConfig;
+  decomposition?: string;
+  radical?: string;
+  strokes?: StrokeNumberConfig;
+  grade_level?: GradeLevelConfig;
+  exam_level?: ExamLevelConfig;
 }
 
 export interface UseSearchSubmitterArgs {

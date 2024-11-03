@@ -2,11 +2,12 @@
 import { useState, useContext, useEffect } from "react";
 import { usePanel } from "@repo/shared/hooks/usePanel";
 import { useMainContent } from "@repo/shared/hooks/useMainContent";
-import { KoreanSearchView } from "./KoreanSearchView";
-import { SearchBarArea } from "./SearchBarArea";
+import { KoreanSearchView } from "./views/KoreanSearchView";
+import { SearchBarArea } from "./search-bar-area/SearchBarArea";
 import { PanelSelfContext } from "../../web-contexts/PanelContext";
 
 import { View } from "@repo/shared/types/panelAndViewTypes";
+import { HanjaSearchView } from "./views/HanjaSearchView";
 
 interface PanelArgs {
   initialView: View;
@@ -38,15 +39,21 @@ export const Panel = ({ initialView, onClose }: PanelArgs) => {
     saturate-[1.02]
 "
     >
-      <div>
-        <SearchBarArea
-          searchConfig={view.searchConfig}
-          searchConfigSetters={searchConfigSetters}
-          submitSearch={submitSearch}
-        />
-        <CloseButton onClose={onClose} />
+      <div className="flex flex-row">
+        <div className="w-[80%]">
+          <SearchBarArea
+            searchConfig={view.searchConfig}
+            searchConfigSetters={searchConfigSetters}
+            submitSearch={submitSearch}
+          />
+        </div>
+        <div className="w-[20%]">
+          <CloseButton onClose={onClose} />
+        </div>
       </div>
-      <MainContent view={view} />
+      <div className="">
+        <MainContent view={view} />
+      </div>
     </div>
   );
 };
@@ -60,6 +67,10 @@ const MainContent = ({ view }: { view: View }) => {
 
   if (view.type === "korean_search") {
     return <KoreanSearchView data={view.data} />;
+  }
+
+  if (view.type === "hanja_search") {
+    return <HanjaSearchView data={view.data} />;
   }
 
   return <div>Unknown view.</div>;

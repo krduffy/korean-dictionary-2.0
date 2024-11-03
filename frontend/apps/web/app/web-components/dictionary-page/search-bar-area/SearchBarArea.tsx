@@ -16,18 +16,21 @@ export const SearchBarArea = ({
   submitSearch,
 }: SearchBarAreaArgs) => {
   return (
-    <div>
-      <DictionarySelector
-        searchConfig={searchConfig}
-        searchConfigSetters={searchConfigSetters}
-      />
-      <form>
+    <div className="flex flex-row h-full w-full">
+      <div className="w-[10%]">
+        <DictionarySelector
+          searchConfig={searchConfig}
+          searchConfigSetters={searchConfigSetters}
+        />
+      </div>
+      <div className="w-[90%]">
         <SearchBar
           searchTerm={searchConfig.config.search_term}
           setSearchTerm={searchConfigSetters.setSearchTerm}
+          submitSearch={submitSearch}
         />
-        <SubmitSearchButton submitSearch={submitSearch} />
-      </form>
+      </div>
+      {/*<SubmitSearchButton submitSearch={submitSearch} />*/}
     </div>
   );
 };
@@ -35,19 +38,28 @@ export const SearchBarArea = ({
 const SearchBar = ({
   searchTerm,
   setSearchTerm,
+  submitSearch,
 }: {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
+  submitSearch: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
-    <input
-      type="search"
-      placeholder="검색어를 입력해주세요."
-      value={searchTerm}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        setSearchTerm(e.target.value)
-      }
-      className="w-full px-4 py-2 
+    <form className="relative h-full w-full">
+      <button
+        className="w-10 top-1/2 -translate-y-1/2 absolute rotate-45 text-2xl focus:color-[color:--"
+        onClick={submitSearch}
+      >
+        ⚲
+      </button>
+      <input
+        type="search"
+        placeholder="검색어를 입력해주세요."
+        value={searchTerm}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSearchTerm(e.target.value)
+        }
+        className="w-full pl-10 px-4 py-2 
       bg-white/10 
       border border-gray-200/20 
       rounded-full
@@ -57,7 +69,8 @@ const SearchBar = ({
       transition-all duration-200
       placeholder-gray-400
       text-[color:--text-secondary]"
-    />
+      />
+    </form>
   );
 };
 

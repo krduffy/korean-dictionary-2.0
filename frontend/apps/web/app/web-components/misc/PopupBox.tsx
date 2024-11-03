@@ -125,6 +125,10 @@ export const PopupBox = ({
 
   if (!isVisible) return null;
 
+  const eatMouseInput = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return createPortal(
     <div
       ref={popupRef}
@@ -134,6 +138,11 @@ export const PopupBox = ({
         top: coordinates.y,
         zIndex: 1000,
       }}
+      onClick={eatMouseInput}
+      onMouseDown={eatMouseInput}
+      onMouseEnter={eatMouseInput}
+      onMouseOut={eatMouseInput}
+      onMouseLeave={eatMouseInput}
     >
       {children}
     </div>,
