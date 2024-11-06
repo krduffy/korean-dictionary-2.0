@@ -6,6 +6,7 @@ export const usePageChanger = ({
   maxPageNum,
 }: {
   pageNum: number;
+  // eslint-disable-next-line no-unused-vars
   setPageNum: (newPageNum: number) => void;
   maxPageNum: number;
 }) => {

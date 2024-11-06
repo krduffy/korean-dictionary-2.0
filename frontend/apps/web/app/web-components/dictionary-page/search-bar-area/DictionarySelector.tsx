@@ -1,18 +1,36 @@
 import { PopupBox } from "../../misc/PopupBox";
 import { useRef } from "react";
-import {
-  SearchConfigSetters,
-  SearchConfig,
-} from "@repo/shared/types/panelAndViewTypes";
+import { SearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useDictionarySelector } from "app/web-hooks/useDictionarySelector";
 import { KoreanSearchConfigDropdownMenu } from "./KoreanConfigDropdownMenu";
+import {
+  UpdateHanjaSearchConfigArgs,
+  UpdateKoreanSearchConfigArgs,
+} from "@repo/shared/hooks/useSearchBarArea";
+
+export interface DictionarySelectorArgs {
+  searchConfig: SearchConfig;
+  updateKoreanSearchConfig: ({
+    // eslint-disable-next-line no-unused-vars
+    field,
+    // eslint-disable-next-line no-unused-vars
+    value,
+  }: UpdateKoreanSearchConfigArgs) => void;
+  updateHanjaSearchConfig: ({
+    // eslint-disable-next-line no-unused-vars
+    field,
+    // eslint-disable-next-line no-unused-vars
+    value,
+  }: UpdateHanjaSearchConfigArgs) => void;
+  switchDictionary: () => void;
+}
+
 export const DictionarySelector = ({
   searchConfig,
-  searchConfigSetters,
-}: {
-  searchConfig: SearchConfig;
-  searchConfigSetters: SearchConfigSetters;
-}) => {
+  updateKoreanSearchConfig,
+  updateHanjaSearchConfig,
+  switchDictionary,
+}: DictionarySelectorArgs) => {
   const {
     onMainButtonMouseEnter,
     onMainButtonMouseLeave,
@@ -24,7 +42,10 @@ export const DictionarySelector = ({
     showDropdown,
     onDropdownButtonClick,
   } = useDictionarySelector({
-    switchDictionary: searchConfigSetters.switchDictionary,
+    searchConfig,
+    updateKoreanSearchConfig,
+    updateHanjaSearchConfig,
+    switchDictionary,
   });
 
   return (
@@ -49,7 +70,8 @@ export const DictionarySelector = ({
       <span className="absolute text-xs right-1 bottom-0">
         <SearchConfigDropdownMenuToggler
           searchConfig={searchConfig}
-          searchConfigSetters={searchConfigSetters}
+          updateKoreanSearchConfig={updateKoreanSearchConfig}
+          updateHanjaSearchConfig={updateHanjaSearchConfig}
           onDropdownButtonMouseEnter={onDropdownButtonMouseEnter}
           onDropdownButtonMouseLeave={onDropdownButtonMouseLeave}
           getDropdownButtonColor={getDropdownButtonColor}
@@ -63,7 +85,8 @@ export const DictionarySelector = ({
 
 const SearchConfigDropdownMenuToggler = ({
   searchConfig,
-  searchConfigSetters,
+  updateKoreanSearchConfig,
+  updateHanjaSearchConfig,
   onDropdownButtonMouseEnter,
   onDropdownButtonMouseLeave,
   getDropdownButtonColor,
@@ -71,7 +94,14 @@ const SearchConfigDropdownMenuToggler = ({
   onDropdownButtonClick,
 }: {
   searchConfig: SearchConfig;
-  searchConfigSetters: SearchConfigSetters;
+  updateKoreanSearchConfig: ({
+    field,
+    value,
+  }: UpdateKoreanSearchConfigArgs) => void;
+  updateHanjaSearchConfig: ({
+    field,
+    value,
+  }: UpdateHanjaSearchConfigArgs) => void;
   onDropdownButtonMouseEnter: (e: React.MouseEvent<HTMLSpanElement>) => void;
   onDropdownButtonMouseLeave: (e: React.MouseEvent<HTMLSpanElement>) => void;
   getDropdownButtonColor: () => string;
@@ -97,8 +127,8 @@ const SearchConfigDropdownMenuToggler = ({
       <PopupBox targetElement={arrowRef.current} isVisible={showDropdown}>
         {searchConfig.dictionary === "korean" ? (
           <KoreanSearchConfigDropdownMenu
-            searchConfig={searchConfig.config}
-            searchConfigSetters={searchConfigSetters}
+            config={searchConfig.config}
+            updateKoreanSearchConfig={updateKoreanSearchConfig}
           />
         ) : (
           <div>hanjajaaaaa</div>

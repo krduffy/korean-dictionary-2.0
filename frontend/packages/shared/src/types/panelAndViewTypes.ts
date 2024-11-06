@@ -1,35 +1,13 @@
-export type View = KoreanSearchView | HanjaSearchView;
-
-export interface KoreanSearchView {
-  searchConfig: SearchConfig;
-  type: "korean_search";
-  data: KoreanSearchConfig;
-}
-
-export interface HanjaSearchView {
-  searchConfig: SearchConfig;
-  type: "hanja_search";
-  data: HanjaSearchConfig;
-}
-
-export type ViewType = "korean_search" | "hanja_search";
-
-export interface UsePanelArgs {
-  initialView: View;
-  initialSearchConfig: SearchConfig;
-}
-
-export interface UsePanelReturns {
-  searchConfigSetters: SearchConfigSetters;
-  // eslint-disable-next-line no-unused-vars
-  submitSearch: (e: React.FormEvent) => void;
-}
-
-export type SearchConfigDictionary = "korean" | "hanja";
-
+/* SEARCH CONFIG OF SEARCH BAR */
 export type SearchConfig =
   | { dictionary: "korean"; config: KoreanSearchConfig }
   | { dictionary: "hanja"; config: HanjaSearchConfig };
+
+export interface BaseSearchConfig {
+  search_term: string;
+}
+
+export type SearchConfigDictionary = "korean" | "hanja";
 
 export type AllowedKoreanSearchType = "word_exact" | "definition_contains";
 export interface KoreanSearchConfig extends BaseSearchConfig {
@@ -69,10 +47,6 @@ export interface ExamLevelConfig {
   operand: OperandPrefix;
   level: ExamLevel;
 }
-
-export interface BaseSearchConfig {
-  search_term: string;
-}
 export interface HanjaSearchConfig extends BaseSearchConfig {
   decomposition?: string;
   radical?: string;
@@ -81,26 +55,115 @@ export interface HanjaSearchConfig extends BaseSearchConfig {
   exam_level?: ExamLevelConfig;
 }
 
-export interface UseSearchSubmitterArgs {
-  // eslint-disable-next-line no-unused-vars
-  setView: (view: View) => void;
+/* VIEWS */
+
+export type View =
+  | KoreanSearchView
+  | HanjaSearchView
+  | KoreanDetailView
+  | HanjaDetailView;
+
+export interface KoreanSearchViewData extends KoreanSearchConfig {
+  page: number;
+}
+
+export interface HanjaSearchViewData extends HanjaSearchConfig {
+  page: number;
+}
+
+export interface KoreanSearchView {
+  type: "korean_search";
+  data: KoreanSearchViewData;
+}
+
+export interface HanjaSearchView {
+  type: "hanja_search";
+  data: HanjaSearchViewData;
+}
+
+export interface KoreanDetailViewData {
+  target_code: number;
+}
+
+export interface KoreanDetailView {
+  type: "korean_detail";
+  data: KoreanDetailViewData;
+}
+
+export interface HanjaDetailViewData {
+  character: string;
+}
+
+export interface HanjaDetailView {
+  type: "hanja_detail";
+  data: HanjaDetailViewData;
+}
+
+export type ViewType =
+  | "korean_search"
+  | "hanja_search"
+  | "korean_detail"
+  | "hanja_detail";
+
+/* PANEL */
+export interface PanelState {
+  visible: boolean;
   searchConfig: SearchConfig;
+  view: View;
 }
 
-export interface SearchConfigSetters {
-  // eslint-disable-next-line no-unused-vars
-  setSearchTerm: (searchTerm: string) => void;
-  switchDictionary: () => void;
-  // eslint-disable-next-line no-unused-vars
-  setKoreanSearchType: (searchType: AllowedKoreanSearchType) => void;
+/* Dispatch actions */
+export interface MakeVisibleAction {
+  type: "make_visible";
 }
 
-export interface UseSearchConfigSettersReturns {
-  searchConfigSetters: SearchConfigSetters;
+export interface MakeInvisibleAction {
+  type: "make_invisible";
 }
 
-export interface UseSearchConfigSettersArgs {
-  searchConfig: SearchConfig;
-  // eslint-disable-next-line no-unused-vars
-  setSearchConfig: (sc: SearchConfig) => void;
+export interface PushKoreanSearchAction {
+  type: "push_korean_search";
+  searchConfig: KoreanSearchConfig;
 }
+
+export interface PushHanjaSearchAction {
+  type: "push_hanja_search";
+  searchConfig: HanjaSearchConfig;
+}
+
+export interface PushKoreanDetailAction {
+  type: "push_korean_detail";
+  target_code: number;
+}
+
+export interface PushHanjaDetailAction {
+  type: "push_hanja_detail";
+  character: string;
+}
+
+export interface UpdateKoreanSearchConfigAction {
+  type: "update_korean_search_config";
+  field: keyof KoreanSearchConfig;
+  value: KoreanSearchConfig[keyof KoreanSearchConfig];
+}
+
+export interface UpdateHanjaSearchConfigAction {
+  type: "update_hanja_search_config";
+  field: keyof HanjaSearchConfig;
+  value: HanjaSearchConfig[keyof HanjaSearchConfig];
+}
+
+export interface SwitchDictionaryAction {
+  type: "switch_dictionary";
+}
+
+export type PanelStateAction =
+  | MakeVisibleAction
+  | MakeInvisibleAction
+  | PushKoreanSearchAction
+  | PushHanjaSearchAction
+  | PushKoreanDetailAction
+  | PushHanjaDetailAction
+  | UpdateKoreanSearchConfigAction
+  | UpdateHanjaSearchConfigAction
+  | SwitchDictionaryAction;

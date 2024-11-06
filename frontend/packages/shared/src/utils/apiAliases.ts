@@ -14,6 +14,8 @@ const endpoints = {
   homepage: "users/my_info",
   search_korean: "dictionary/korean/search",
   search_hanja: "dictionary/hanja/search",
+  detail_korean: "dictionary/korean/detail",
+  detail_hanja: "dictionary/hanja/detail",
 } as const;
 
 interface GetEndpointArgs {

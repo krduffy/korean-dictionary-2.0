@@ -9,9 +9,14 @@ export const NavBar = () => {
   return (
     <>
       <div>Thisisthenavbar.</div>
+      <DictionaryPageButton router={router} />
       <LoginButton router={router} />
     </>
   );
+};
+
+const DictionaryPageButton = ({ router }: { router: AppRouterInstance }) => {
+  return <button onClick={() => router.push("/")}>main page</button>;
 };
 
 const LoginButton = ({ router }: { router: AppRouterInstance }) => {

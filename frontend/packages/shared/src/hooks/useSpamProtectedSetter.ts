@@ -6,8 +6,6 @@ interface UseSpamProtectedSetterArgs<T> {
   setter: (data: T) => void;
 }
 
-interface UseSpamProtectedSetterReturns<T> {}
-
 export const useSpamProtectedSetter = <T>({
   dataGetter,
   setter,

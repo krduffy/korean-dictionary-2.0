@@ -1,31 +1,47 @@
 "use client";
-import { useState, useContext, useEffect } from "react";
-import { usePanel } from "@repo/shared/hooks/usePanel";
-import { useMainContent } from "@repo/shared/hooks/useMainContent";
 import { KoreanSearchView } from "./views/KoreanSearchView";
 import { SearchBarArea } from "./search-bar-area/SearchBarArea";
-import { PanelSelfContext } from "../../web-contexts/PanelContext";
 
-import { View } from "@repo/shared/types/panelAndViewTypes";
+import {
+  PanelState,
+  PanelStateAction,
+  SearchConfig,
+  View,
+} from "@repo/shared/types/panelAndViewTypes";
 import { HanjaSearchView } from "./views/HanjaSearchView";
+import { KoreanDetailView } from "./views/KoreanDetailView";
+import { HanjaDetailView } from "./views/HanjaDetailView";
 
-interface PanelArgs {
-  initialView: View;
-  onClose: () => void;
+import { useDispatchToTargetPanel } from "../../web-hooks/useDispatchToTargetPanel";
+
+interface PanelProps {
+  state: PanelState;
+  dispatch: React.Dispatch<PanelStateAction>;
+  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
 }
 
-export const Panel = ({ initialView, onClose }: PanelArgs) => {
-  const [view, setView] = useState(initialView);
-  const { updateSelfInMemory } = useContext(PanelSelfContext);
+export interface ViewDispatchersType {
+  dispatch: React.Dispatch<PanelStateAction>;
+  dispatchToTargetPanel: (
+    e: React.MouseEvent,
+    action: PanelStateAction
+  ) => void;
+}
 
-  const { searchConfigSetters, submitSearch } = usePanel({
-    view: view,
-    setView: setView,
+export const Panel = ({
+  state,
+  dispatch,
+  dispatchInOtherPanel,
+}: PanelProps) => {
+  const { dispatchToTargetPanel } = useDispatchToTargetPanel({
+    dispatch: dispatch,
+    dispatchInOtherPanel: dispatchInOtherPanel,
   });
 
-  useEffect(() => {
-    updateSelfInMemory(<Panel initialView={view} onClose={onClose} />);
-  }, [JSON.stringify(view)]);
+  const viewDispatchers: ViewDispatchersType = {
+    dispatch,
+    dispatchToTargetPanel,
+  };
 
   return (
     <div
@@ -42,17 +58,16 @@ export const Panel = ({ initialView, onClose }: PanelArgs) => {
       <div className="flex flex-row">
         <div className="w-[80%]">
           <SearchBarArea
-            searchConfig={view.searchConfig}
-            searchConfigSetters={searchConfigSetters}
-            submitSearch={submitSearch}
+            searchConfig={state.searchConfig}
+            dispatch={dispatch}
           />
         </div>
         <div className="w-[20%]">
-          <CloseButton onClose={onClose} />
+          <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
         </div>
       </div>
       <div className="">
-        <MainContent view={view} />
+        <MainContent view={state.view} viewDispatchers={viewDispatchers} />
       </div>
     </div>
   );
@@ -62,15 +77,39 @@ const CloseButton = ({ onClose }: { onClose: () => void }) => {
   return <button onClick={onClose}>to close</button>;
 };
 
-const MainContent = ({ view }: { view: View }) => {
-  useMainContent({ view: view });
-
+const MainContent = ({
+  view,
+  viewDispatchers,
+}: {
+  view: View;
+  viewDispatchers: ViewDispatchersType;
+}) => {
+  /* To improve change detection the data objects are split up here */
   if (view.type === "korean_search") {
-    return <KoreanSearchView data={view.data} />;
+    return (
+      <KoreanSearchView
+        viewDispatchers={viewDispatchers}
+        searchConfig={view.data}
+      />
+    );
   }
 
   if (view.type === "hanja_search") {
-    return <HanjaSearchView data={view.data} />;
+    return (
+      /* things here need to be converted to strings */
+      <HanjaSearchView
+        searchConfig={view.data}
+        viewDispatchers={viewDispatchers}
+      />
+    );
+  }
+
+  if (view.type === "korean_detail") {
+    return <KoreanDetailView target_code={view.data.target_code} />;
+  }
+
+  if (view.type === "hanja_detail") {
+    return <HanjaDetailView character={view.data.character} />;
   }
 
   return <div>Unknown view.</div>;

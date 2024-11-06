@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { PanelContextProvider } from "./web-contexts/PanelContext";
+import { PersistentDictionaryPageStateContextProvider } from "./web-contexts/PersistentDictionaryPageStateContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <PanelContextProvider>{children}</PanelContextProvider>
+        <PersistentDictionaryPageStateContextProvider>
+          {children}
+        </PersistentDictionaryPageStateContextProvider>
       </body>
     </html>
   );

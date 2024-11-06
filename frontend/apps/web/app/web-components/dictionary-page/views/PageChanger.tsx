@@ -2,7 +2,17 @@ import { usePageChanger } from "@repo/shared/hooks/usePageChanger";
 
 import "./styles.css";
 
-export const PageChanger = ({ pageNum, setPageNum, maxPageNum }) => {
+export type PageChangerArgs = {
+  pageNum: number;
+  setPageNum: (n: number) => void;
+  maxPageNum: number;
+};
+
+export const PageChanger = ({
+  pageNum,
+  setPageNum,
+  maxPageNum,
+}: PageChangerArgs) => {
   const {
     onClickPageDown,
     onClickPageUp,

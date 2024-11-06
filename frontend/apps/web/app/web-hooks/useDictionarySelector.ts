@@ -1,6 +1,16 @@
 import { useState } from "react";
+import { DictionarySelectorArgs } from "app/web-components/dictionary-page/search-bar-area/DictionarySelector";
 
-export const useDictionarySelector = ({ switchDictionary }) => {
+interface UseDictionarySelectorArgs extends DictionarySelectorArgs {
+  switchDictionary: () => void;
+}
+
+export const useDictionarySelector = ({
+  searchConfig,
+  updateKoreanSearchConfig,
+  updateHanjaSearchConfig,
+  switchDictionary,
+}: UseDictionarySelectorArgs) => {
   const [mainButtonHovering, setMainButtonHovering] = useState(false);
   const [dropdownButtonHovering, setDropdownButtonHovering] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);

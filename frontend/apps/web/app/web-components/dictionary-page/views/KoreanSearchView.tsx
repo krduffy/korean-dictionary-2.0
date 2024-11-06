@@ -3,13 +3,20 @@ import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
-import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
+import { ViewDispatchersType } from "../Panel";
+import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 
-export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
+export const KoreanSearchView = ({
+  viewDispatchers,
+  searchConfig,
+}: {
+  viewDispatchers: ViewDispatchersType;
+  searchConfig: KoreanSearchConfig;
+}) => {
   const {
     successful,
     error,
@@ -18,7 +25,7 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
     currentPage,
     setCurrentPage,
   } = usePaginatedResults({
-    baseUrl: getEndpointWithKoreanSearchConfig(data),
+    baseUrl: getEndpointWithKoreanSearchConfig(searchConfig),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
     initialPage: 1,
   });
@@ -37,13 +44,17 @@ export const KoreanSearchView = ({ data }: { data: KoreanSearchConfig }) => {
   }
 
   if (searchResults?.count === 0) {
-    return <NoResultsMessage searchTerm={data.search_term} />;
+    return <NoResultsMessage searchTerm={searchConfig.search_term} />;
   }
 
   return (
     <>
       {searchResults?.results?.map((result: KoreanSearchResultType) => (
-        <KoreanSearchResult key={result.target_code} result={result} />
+        <KoreanSearchResult
+          key={result.target_code}
+          result={result}
+          dispatchToTargetPanel={viewDispatchers.dispatchToTargetPanel}
+        />
       ))}
       <PageChanger
         pageNum={currentPage}

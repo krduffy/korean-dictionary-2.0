@@ -1,9 +1,15 @@
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
+import { PanelStateAction, View } from "@repo/shared/types/panelAndViewTypes";
 
 export const KoreanSearchResult = ({
   result,
+  dispatchToTargetPanel,
 }: {
   result: KoreanSearchResultType;
+  dispatchToTargetPanel: (
+    e: React.MouseEvent,
+    action: PanelStateAction
+  ) => void;
 }) => {
   return (
     <div>
@@ -11,6 +17,16 @@ export const KoreanSearchResult = ({
         <div>
           <span className="word_header clickable-result">
             {result.word}
+            <button
+              onClick={(e) =>
+                dispatchToTargetPanel(e, {
+                  type: "push_korean_detail",
+                  target_code: result.target_code,
+                })
+              }
+            >
+              see
+            </button>
             {/*<PanelSpecificClickableText
               text={result.word}
               viewOnPush={getBasicDetailKoreanView(

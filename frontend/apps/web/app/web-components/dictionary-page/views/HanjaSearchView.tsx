@@ -1,14 +1,23 @@
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { getEndpointWithHanjaSearchConfig } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { HanjaSearchResult } from "../dictionary-items/HanjaSearchResult";
 import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { PageChanger } from "./PageChanger";
+import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
+import { ViewDispatchersType } from "../Panel";
 
-export const HanjaSearchView = ({ data }: { data: HanjaSearchConfig }) => {
+type HanjaSearchData = {
+  searchConfig: HanjaSearchConfig;
+  viewDispatchers: ViewDispatchersType;
+};
+
+export const HanjaSearchView: React.FC<HanjaSearchData> = ({
+  searchConfig,
+  viewDispatchers,
+}) => {
   const {
     successful,
     error,
@@ -17,7 +26,7 @@ export const HanjaSearchView = ({ data }: { data: HanjaSearchConfig }) => {
     currentPage,
     setCurrentPage,
   } = usePaginatedResults({
-    baseUrl: getEndpointWithHanjaSearchConfig(data),
+    baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
     initialPage: 1,
   });
@@ -36,13 +45,17 @@ export const HanjaSearchView = ({ data }: { data: HanjaSearchConfig }) => {
   }
 
   if (searchResults?.count === 0) {
-    return <NoResultsMessage searchTerm={data.search_term} />;
+    return <NoResultsMessage searchTerm={searchConfig.search_term} />;
   }
 
   return (
     <>
       {searchResults?.results?.map((result: HanjaSearchResultType) => (
-        <HanjaSearchResult key={result.character} result={result} />
+        <HanjaSearchResult
+          key={result.character}
+          result={result}
+          dispatchToTargetPanel={viewDispatchers.dispatchToTargetPanel}
+        />
       ))}
       <PageChanger
         pageNum={currentPage}

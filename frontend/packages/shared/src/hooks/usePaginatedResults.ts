@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { UseCallAPIReturns } from "your-package/types/apiCallTypes";
 import { useSpamProtectedSetter } from "./useSpamProtectedSetter";
@@ -19,6 +13,7 @@ interface UsePaginatedResultsArgs {
 
 interface UsePaginatedResultsReturns {
   currentPage: number;
+  // eslint-disable-next-line no-unused-vars
   setCurrentPage: (newValue: number) => void;
   searchResults: any;
   loading: boolean;
@@ -31,12 +26,14 @@ export const usePaginatedResults = ({
   baseUrl,
   initialPage = 1,
   useCallAPIInstance,
+  // eslint-disable-next-line no-unused-vars
   scrollToOnPageChange,
 }: UsePaginatedResultsArgs): UsePaginatedResultsReturns => {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [searchResults, setSearchResults] = useState({});
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
+  // eslint-disable-next-line no-unused-vars
   const hasInteractedRef = useRef(false);
 
   const asyncGetResults = async () => {

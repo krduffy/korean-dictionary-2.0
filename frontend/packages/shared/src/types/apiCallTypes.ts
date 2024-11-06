@@ -11,6 +11,7 @@ export interface TokenHandlers {
   refreshTokens: () => Promise<AuthTokens>;
   // eslint-disable-next-line no-unused-vars
   deleteTokens: () => Promise<void>;
+  // eslint-disable-next-line no-unused-vars
   saveTokens: (tokens: AuthTokens) => Promise<void>;
 }
 

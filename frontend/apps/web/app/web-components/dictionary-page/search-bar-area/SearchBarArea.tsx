@@ -1,32 +1,42 @@
 import {
-  SearchConfigSetters,
   SearchConfig,
+  PanelStateAction,
 } from "@repo/shared/types/panelAndViewTypes";
 import { DictionarySelector } from "./DictionarySelector";
 
+import { useSearchBarArea } from "@repo/shared/hooks/useSearchBarArea";
+
 interface SearchBarAreaArgs {
   searchConfig: SearchConfig;
-  searchConfigSetters: SearchConfigSetters;
-  submitSearch: (e: React.FormEvent) => void;
+  dispatch: React.Dispatch<PanelStateAction>;
 }
 
 export const SearchBarArea = ({
   searchConfig,
-  searchConfigSetters,
-  submitSearch,
+  dispatch,
 }: SearchBarAreaArgs) => {
+  const {
+    submitSearch,
+    updateKoreanSearchConfig,
+    updateHanjaSearchConfig,
+    updateSearchTerm,
+    switchDictionary,
+  } = useSearchBarArea({ searchConfig: searchConfig, dispatch: dispatch });
+
   return (
     <div className="flex flex-row h-full w-full">
       <div className="w-[10%]">
         <DictionarySelector
           searchConfig={searchConfig}
-          searchConfigSetters={searchConfigSetters}
+          updateKoreanSearchConfig={updateKoreanSearchConfig}
+          updateHanjaSearchConfig={updateHanjaSearchConfig}
+          switchDictionary={switchDictionary}
         />
       </div>
       <div className="w-[90%]">
         <SearchBar
           searchTerm={searchConfig.config.search_term}
-          setSearchTerm={searchConfigSetters.setSearchTerm}
+          updateSearchTerm={updateSearchTerm}
           submitSearch={submitSearch}
         />
       </div>
@@ -37,12 +47,12 @@ export const SearchBarArea = ({
 
 const SearchBar = ({
   searchTerm,
-  setSearchTerm,
+  updateSearchTerm,
   submitSearch,
 }: {
   searchTerm: string;
-  setSearchTerm: (searchTerm: string) => void;
-  submitSearch: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  updateSearchTerm: (searchTerm: string) => void;
+  submitSearch: (e: React.FormEvent) => void;
 }) => {
   return (
     <form className="relative h-full w-full">
@@ -57,7 +67,7 @@ const SearchBar = ({
         placeholder="검색어를 입력해주세요."
         value={searchTerm}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSearchTerm(e.target.value)
+          updateSearchTerm(e.target.value)
         }
         className="w-full pl-10 px-4 py-2 
       bg-white/10 
