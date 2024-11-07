@@ -58,5 +58,11 @@ export interface UseFormArgs {
   url: string;
   initialFormData: FormDataState;
   useCallAPIInstance: UseCallAPIReturns;
-  includeCredentials: boolean;
+  includeCredentials?: boolean;
+  /** Whether the form is intended to be submitted instantly. Used when
+   * `initialFormData` is final and not intended to ever be updated. */
+  submitOnLoad?: boolean;
+  /** An array of variables that on change should automatically trigger
+   * form submission. If `submitOnLoad` is not true, this will have no effect.*/
+  autoResubmitDependencies?: any[];
 }

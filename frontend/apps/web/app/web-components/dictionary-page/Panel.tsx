@@ -12,6 +12,7 @@ import { KoreanDetailView } from "./views/KoreanDetailView";
 import { HanjaDetailView } from "./views/HanjaDetailView";
 import { HistoryNavigationArea } from "./HistoryNavigationArea";
 import { ViewDispatchersContextProvider } from "app/web-contexts/ViewDispatchersContext";
+import { FindLemmaView } from "./views/FindLemmaView";
 
 interface PanelProps {
   state: PanelState;
@@ -83,6 +84,12 @@ const MainContent = ({ view }: { view: View }) => {
 
   if (view.type === "hanja_detail") {
     return <HanjaDetailView character={view.data.character} />;
+  }
+
+  if (view.type === "find_lemma") {
+    return (
+      <FindLemmaView word={view.data.word} sentence={view.data.sentence} />
+    );
   }
 
   return <div>Unknown view.</div>;

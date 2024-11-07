@@ -90,6 +90,15 @@ export function panelStateReducer(
         type: "hanja_detail",
         data: { character: action.character },
       });
+    case "push_find_lemma":
+      return getPanelStateAfterPush(state, {
+        ...state.view,
+        type: "find_lemma",
+        data: {
+          word: action.word,
+          sentence: action.sentence,
+        },
+      });
 
     /* UPDATE CONFIG: change the state of the search bar area's settings */
     case "update_korean_search_config":

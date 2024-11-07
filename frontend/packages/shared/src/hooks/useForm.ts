@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { UseFormArgs, RequestConfig } from "../types/apiCallTypes";
 
@@ -9,14 +9,14 @@ export const useForm = ({
   initialFormData,
   useCallAPIInstance,
   includeCredentials = false,
+  submitOnLoad = false,
+  autoResubmitDependencies = [],
 }: UseFormArgs) => {
   const [formData, setFormData] = useState(initialFormData);
 
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
-  const postForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const doPost = async () => {
     const config: RequestConfig = {
       method: "POST",
       body: JSON.stringify(formData),
@@ -27,6 +27,17 @@ export const useForm = ({
     };
 
     return await callAPI(url, config);
+  };
+
+  useEffect(() => {
+    if (submitOnLoad) {
+      doPost();
+    }
+  }, autoResubmitDependencies);
+
+  const postForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    doPost();
   };
 
   const updateField = (e: React.ChangeEvent<HTMLInputElement>) => {

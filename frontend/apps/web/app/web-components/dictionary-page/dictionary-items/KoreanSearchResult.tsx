@@ -1,6 +1,10 @@
-import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
+import {
+  KoreanSearchResultType,
+  SimplifiedSenseType,
+} from "@repo/shared/types/dictionaryItemProps";
 import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
 import { StringWithHanja } from "../string-formatters/StringWithHanja";
+import { StringWithNLP } from "../string-formatters/StringWithNLP";
 
 export const KoreanSearchResult = ({
   result,
@@ -25,7 +29,12 @@ export const KoreanSearchResult = ({
           {"   "}
 
           <StringWithHanja string={result.origin} />
-          {/*result.origin && <StringWithHanja string={result.origin} />*/}
+        </div>
+
+        <div>
+          {result.senses.map((senseData) => (
+            <SimplifiedSense key={senseData.target_code} data={senseData} />
+          ))}
         </div>
 
         <div>
@@ -40,6 +49,14 @@ export const KoreanSearchResult = ({
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
+  return (
+    <div>
+      <StringWithNLP string={data.definition} />
     </div>
   );
 };

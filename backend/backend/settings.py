@@ -145,6 +145,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://localhost:9001",
 ]
 
+APPEND_SLASH = False
+
 # COOKIES
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True

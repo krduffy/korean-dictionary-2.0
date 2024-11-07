@@ -61,7 +61,8 @@ export type View =
   | KoreanSearchView
   | HanjaSearchView
   | KoreanDetailView
-  | HanjaDetailView;
+  | HanjaDetailView
+  | FindLemmaView;
 
 export interface KoreanSearchViewData extends KoreanSearchConfig {
   page: number;
@@ -99,11 +100,22 @@ export interface HanjaDetailView {
   data: HanjaDetailViewData;
 }
 
+export interface FindLemmaData {
+  word: string;
+  sentence: string;
+}
+
+export interface FindLemmaView {
+  type: "find_lemma";
+  data: FindLemmaData;
+}
+
 export type ViewType =
   | "korean_search"
   | "hanja_search"
   | "korean_detail"
-  | "hanja_detail";
+  | "hanja_detail"
+  | "find_lemma";
 
 /* PANEL */
 export interface PanelState {
@@ -172,6 +184,12 @@ export interface NavigateForwardAction {
   type: "navigate_forward";
 }
 
+export interface PushFindLemmaAction {
+  type: "push_find_lemma";
+  word: string;
+  sentence: string;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -183,4 +201,5 @@ export type PanelStateAction =
   | UpdateHanjaSearchConfigAction
   | SwitchDictionaryAction
   | NavigateBackAction
-  | NavigateForwardAction;
+  | NavigateForwardAction
+  | PushFindLemmaAction;

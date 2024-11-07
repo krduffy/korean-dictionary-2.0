@@ -61,7 +61,7 @@ export const HanjaWithPopupBox = ({ character }: { character: string }) => {
   );
 };
 
-export const HanjaPopupBoxDisplay = ({ character }) => {
+export const HanjaPopupBoxDisplay = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "popup_hanja", pk: character }),
     useAPICallInstance: useCallAPIWeb().useCallAPIReturns,
