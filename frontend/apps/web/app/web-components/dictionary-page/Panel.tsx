@@ -11,14 +11,10 @@ import { HanjaSearchView } from "./views/HanjaSearchView";
 import { KoreanDetailView } from "./views/KoreanDetailView";
 import { HanjaDetailView } from "./views/HanjaDetailView";
 import { HistoryNavigationArea } from "./HistoryNavigationArea";
+import { ViewDispatchersContextProvider } from "app/web-contexts/ViewDispatchersContext";
 
 interface PanelProps {
   state: PanelState;
-  dispatch: React.Dispatch<PanelStateAction>;
-  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
-}
-
-export interface ViewDispatchersType {
   dispatch: React.Dispatch<PanelStateAction>;
   dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
 }
@@ -28,14 +24,13 @@ export const Panel = ({
   dispatch,
   dispatchInOtherPanel,
 }: PanelProps) => {
-  const viewDispatchers = {
-    dispatch,
-    dispatchInOtherPanel,
-  };
-
   return (
-    <div
-      className="h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
+    <ViewDispatchersContextProvider
+      dispatch={dispatch}
+      dispatchInOtherPanel={dispatchInOtherPanel}
+    >
+      <div
+        className="h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
     rounded-2xl
     shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
     border border-gray-200/20
@@ -44,23 +39,24 @@ export const Panel = ({
     transition-shadow duration-300
     saturate-[1.02]
 "
-    >
-      <div className="flex flex-row">
-        <div className="w-[80%]">
-          <SearchBarArea
-            searchConfig={state.searchConfig}
-            dispatch={dispatch}
-          />
+      >
+        <div className="flex flex-row">
+          <div className="w-[80%]">
+            <SearchBarArea
+              searchConfig={state.searchConfig}
+              dispatch={dispatch}
+            />
+          </div>
+          <div className="w-[20%]">
+            <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
+            <HistoryNavigationArea dispatch={dispatch} />
+          </div>
         </div>
-        <div className="w-[20%]">
-          <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
-          <HistoryNavigationArea dispatch={dispatch} />
+        <div className="">
+          <MainContent view={state.view} />
         </div>
       </div>
-      <div className="">
-        <MainContent view={state.view} viewDispatchers={viewDispatchers} />
-      </div>
-    </div>
+    </ViewDispatchersContextProvider>
   );
 };
 
@@ -68,30 +64,16 @@ const CloseButton = ({ onClose }: { onClose: () => void }) => {
   return <button onClick={onClose}>to close</button>;
 };
 
-const MainContent = ({
-  view,
-  viewDispatchers,
-}: {
-  view: View;
-  viewDispatchers: ViewDispatchersType;
-}) => {
+const MainContent = ({ view }: { view: View }) => {
   /* To improve change detection the data objects are split up here */
   if (view.type === "korean_search") {
-    return (
-      <KoreanSearchView
-        viewDispatchers={viewDispatchers}
-        searchConfig={view.data}
-      />
-    );
+    return <KoreanSearchView searchConfig={view.data} />;
   }
 
   if (view.type === "hanja_search") {
     return (
       /* things here need to be converted to strings */
-      <HanjaSearchView
-        searchConfig={view.data}
-        viewDispatchers={viewDispatchers}
-      />
+      <HanjaSearchView searchConfig={view.data} />
     );
   }
 

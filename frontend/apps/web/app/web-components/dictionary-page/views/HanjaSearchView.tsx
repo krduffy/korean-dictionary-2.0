@@ -7,16 +7,13 @@ import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { PageChanger } from "./PageChanger";
 import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
-import { ViewDispatchersType } from "../Panel";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
-  viewDispatchers: ViewDispatchersType;
 };
 
 export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   searchConfig,
-  viewDispatchers,
 }) => {
   const {
     successful,
@@ -51,11 +48,7 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   return (
     <>
       {searchResults?.results?.map((result: HanjaSearchResultType) => (
-        <HanjaSearchResult
-          key={result.character}
-          result={result}
-          viewDispatchers={viewDispatchers}
-        />
+        <HanjaSearchResult key={result.character} result={result} />
       ))}
       <PageChanger
         pageNum={currentPage}

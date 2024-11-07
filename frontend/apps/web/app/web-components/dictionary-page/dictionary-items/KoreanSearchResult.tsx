@@ -1,13 +1,11 @@
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { ViewDispatchersType } from "../Panel";
 import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
+import { StringWithHanja } from "../string-formatters/StringWithHanja";
 
 export const KoreanSearchResult = ({
   result,
-  viewDispatchers,
 }: {
   result: KoreanSearchResultType;
-  viewDispatchers: ViewDispatchersType;
 }) => {
   return (
     <div>
@@ -15,8 +13,6 @@ export const KoreanSearchResult = ({
         <div>
           <span className="word_header clickable-result">
             <PanelSpecificDispatcher
-              dispatch={viewDispatchers.dispatch}
-              dispatchInOtherPanel={viewDispatchers.dispatchInOtherPanel}
               panelStateAction={{
                 type: "push_korean_detail",
                 target_code: result.target_code,
@@ -28,7 +24,7 @@ export const KoreanSearchResult = ({
 
           {"   "}
 
-          {result.origin}
+          <StringWithHanja string={result.origin} />
           {/*result.origin && <StringWithHanja string={result.origin} />*/}
         </div>
 

@@ -1,18 +1,17 @@
 import { PanelStateAction } from "@repo/shared/types/panelAndViewTypes";
+import { useViewDispatchersContext } from "app/web-contexts/ViewDispatchersContext";
 
 type PanelSpecificDispatcherArgs = {
   children: React.ReactNode;
-  dispatch: React.Dispatch<PanelStateAction>;
-  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
   panelStateAction: PanelStateAction;
 };
 
 export const PanelSpecificDispatcher = ({
   children,
-  dispatch,
-  dispatchInOtherPanel,
   panelStateAction,
 }: PanelSpecificDispatcherArgs) => {
+  const { dispatch, dispatchInOtherPanel } = useViewDispatchersContext();
+
   const dispatchToTargetPanel = (
     e: React.MouseEvent<HTMLSpanElement>,
     action: PanelStateAction

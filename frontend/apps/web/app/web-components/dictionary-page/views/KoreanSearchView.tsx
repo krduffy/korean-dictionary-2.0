@@ -7,14 +7,11 @@ import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
-import { ViewDispatchersType } from "../Panel";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 
 export const KoreanSearchView = ({
-  viewDispatchers,
   searchConfig,
 }: {
-  viewDispatchers: ViewDispatchersType;
   searchConfig: KoreanSearchConfig;
 }) => {
   const {
@@ -50,11 +47,7 @@ export const KoreanSearchView = ({
   return (
     <>
       {searchResults?.results?.map((result: KoreanSearchResultType) => (
-        <KoreanSearchResult
-          key={result.target_code}
-          result={result}
-          viewDispatchers={viewDispatchers}
-        />
+        <KoreanSearchResult key={result.target_code} result={result} />
       ))}
       <PageChanger
         pageNum={currentPage}

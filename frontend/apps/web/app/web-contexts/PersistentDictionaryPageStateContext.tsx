@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useContext, createContext, useReducer } from "react";
+import { ReactNode, useContext, createContext, useReducer } from "react";
 import {
   getBasicHanjaSearchViewData,
   getBasicKoreanSearchViewData,
@@ -35,7 +35,9 @@ const getPanelStateAfterPush = (state: PanelState, newView: View) => {
     historyData: {
       ...state.historyData,
       views: baseViewArray.concat([newView]),
-      pointer: state.historyData.pointer + 1,
+      pointer: cutFirst
+        ? state.historyData.pointer
+        : state.historyData.pointer + 1,
     },
   };
 };
@@ -252,7 +254,7 @@ export const usePersistentDictionaryPageStateContext = () => {
   const context = useContext(PersistentDictionaryPageStateContext);
   if (!context) {
     throw new Error(
-      "usePersistentDictionaryPageStateContext must be used within a PanelPersistentDictionaryPageStateContextProvider"
+      "usePersistentDictionaryPageStateContext must be used within a context provider"
     );
   }
   return context;
