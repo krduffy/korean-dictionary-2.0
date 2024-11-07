@@ -5,14 +5,12 @@ import { SearchBarArea } from "./search-bar-area/SearchBarArea";
 import {
   PanelState,
   PanelStateAction,
-  SearchConfig,
   View,
 } from "@repo/shared/types/panelAndViewTypes";
 import { HanjaSearchView } from "./views/HanjaSearchView";
 import { KoreanDetailView } from "./views/KoreanDetailView";
 import { HanjaDetailView } from "./views/HanjaDetailView";
-
-import { useDispatchToTargetPanel } from "../../web-hooks/useDispatchToTargetPanel";
+import { HistoryNavigationArea } from "./HistoryNavigationArea";
 
 interface PanelProps {
   state: PanelState;
@@ -22,10 +20,7 @@ interface PanelProps {
 
 export interface ViewDispatchersType {
   dispatch: React.Dispatch<PanelStateAction>;
-  dispatchToTargetPanel: (
-    e: React.MouseEvent,
-    action: PanelStateAction
-  ) => void;
+  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
 }
 
 export const Panel = ({
@@ -33,14 +28,9 @@ export const Panel = ({
   dispatch,
   dispatchInOtherPanel,
 }: PanelProps) => {
-  const { dispatchToTargetPanel } = useDispatchToTargetPanel({
-    dispatch: dispatch,
-    dispatchInOtherPanel: dispatchInOtherPanel,
-  });
-
-  const viewDispatchers: ViewDispatchersType = {
+  const viewDispatchers = {
     dispatch,
-    dispatchToTargetPanel,
+    dispatchInOtherPanel,
   };
 
   return (
@@ -64,6 +54,7 @@ export const Panel = ({
         </div>
         <div className="w-[20%]">
           <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
+          <HistoryNavigationArea dispatch={dispatch} />
         </div>
       </div>
       <div className="">

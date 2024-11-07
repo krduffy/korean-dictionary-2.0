@@ -110,7 +110,14 @@ export interface PanelState {
   visible: boolean;
   searchConfig: SearchConfig;
   view: View;
+  historyData: HistoryData;
 }
+
+export type HistoryData = {
+  views: View[];
+  pointer: number;
+  maxLength: number;
+};
 
 /* Dispatch actions */
 export interface MakeVisibleAction {
@@ -157,6 +164,14 @@ export interface SwitchDictionaryAction {
   type: "switch_dictionary";
 }
 
+export interface NavigateBackAction {
+  type: "navigate_back";
+}
+
+export interface NavigateForwardAction {
+  type: "navigate_forward";
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -166,4 +181,6 @@ export type PanelStateAction =
   | PushHanjaDetailAction
   | UpdateKoreanSearchConfigAction
   | UpdateHanjaSearchConfigAction
-  | SwitchDictionaryAction;
+  | SwitchDictionaryAction
+  | NavigateBackAction
+  | NavigateForwardAction;

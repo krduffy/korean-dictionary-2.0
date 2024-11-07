@@ -12,7 +12,10 @@ export const useDispatchToTargetPanel = ({
     action: PanelStateAction
   ) => {
     e.preventDefault();
+    e.stopPropagation();
 
+    console.log(e);
+    console.log(e.button);
     const notSelf = e.ctrlKey || e.button === 2;
     console.log(notSelf);
 

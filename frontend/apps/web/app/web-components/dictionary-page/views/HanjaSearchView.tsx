@@ -54,7 +54,7 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
         <HanjaSearchResult
           key={result.character}
           result={result}
-          dispatchToTargetPanel={viewDispatchers.dispatchToTargetPanel}
+          viewDispatchers={viewDispatchers}
         />
       ))}
       <PageChanger

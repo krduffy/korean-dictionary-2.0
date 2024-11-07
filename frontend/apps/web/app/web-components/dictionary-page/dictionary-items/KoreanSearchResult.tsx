@@ -1,39 +1,29 @@
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { PanelStateAction, View } from "@repo/shared/types/panelAndViewTypes";
+import { ViewDispatchersType } from "../Panel";
+import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
 
 export const KoreanSearchResult = ({
   result,
-  dispatchToTargetPanel,
+  viewDispatchers,
 }: {
   result: KoreanSearchResultType;
-  dispatchToTargetPanel: (
-    e: React.MouseEvent,
-    action: PanelStateAction
-  ) => void;
+  viewDispatchers: ViewDispatchersType;
 }) => {
   return (
     <div>
       <div className="header">
         <div>
           <span className="word_header clickable-result">
-            {result.word}
-            <button
-              onClick={(e) =>
-                dispatchToTargetPanel(e, {
-                  type: "push_korean_detail",
-                  target_code: result.target_code,
-                })
-              }
+            <PanelSpecificDispatcher
+              dispatch={viewDispatchers.dispatch}
+              dispatchInOtherPanel={viewDispatchers.dispatchInOtherPanel}
+              panelStateAction={{
+                type: "push_korean_detail",
+                target_code: result.target_code,
+              }}
             >
-              see
-            </button>
-            {/*<PanelSpecificClickableText
-              text={result.word}
-              viewOnPush={getBasicDetailKoreanView(
-                result.word,
-                result.target_code
-              )}
-            />*/}
+              <span>{result.word}</span>
+            </PanelSpecificDispatcher>
           </span>
 
           {"   "}

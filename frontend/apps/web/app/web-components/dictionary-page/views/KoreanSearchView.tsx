@@ -53,7 +53,7 @@ export const KoreanSearchView = ({
         <KoreanSearchResult
           key={result.target_code}
           result={result}
-          dispatchToTargetPanel={viewDispatchers.dispatchToTargetPanel}
+          viewDispatchers={viewDispatchers}
         />
       ))}
       <PageChanger

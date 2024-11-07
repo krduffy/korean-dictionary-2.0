@@ -1,29 +1,26 @@
 import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { PanelStateAction, View } from "@repo/shared/types/panelAndViewTypes";
+import { ViewDispatchersType } from "../Panel";
+import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
 
 export const HanjaSearchResult = ({
   result,
-  dispatchToTargetPanel,
+  viewDispatchers,
 }: {
   result: HanjaSearchResultType;
-  dispatchToTargetPanel: (
-    e: React.MouseEvent,
-    action: PanelStateAction
-  ) => void;
+  viewDispatchers: ViewDispatchersType;
 }) => {
   return (
     <div>
-      {result.character}
-      <button
-        onClick={(e) => {
-          dispatchToTargetPanel(e, {
-            type: "push_hanja_detail",
-            character: result.character,
-          });
+      <PanelSpecificDispatcher
+        dispatch={viewDispatchers.dispatch}
+        dispatchInOtherPanel={viewDispatchers.dispatchInOtherPanel}
+        panelStateAction={{
+          type: "push_hanja_detail",
+          character: result.character,
         }}
       >
-        see
-      </button>
+        {result.character}
+      </PanelSpecificDispatcher>
     </div>
   );
 };
