@@ -13,7 +13,7 @@ def get_bad_request(detail_msg):
 
 
 class RedirectingPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 5
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

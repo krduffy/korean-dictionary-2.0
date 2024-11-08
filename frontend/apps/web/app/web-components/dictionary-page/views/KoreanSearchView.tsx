@@ -8,6 +8,7 @@ import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
+import { CurvedBox } from "app/web-components/misc/CurvedBox";
 
 export const KoreanSearchView = ({
   searchConfig,
@@ -47,7 +48,13 @@ export const KoreanSearchView = ({
   return (
     <>
       {searchResults?.results?.map((result: KoreanSearchResultType) => (
-        <KoreanSearchResult key={result.target_code} result={result} />
+        <div
+          className="bg-[color:--background-tertiary] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+    border border-gray-200/20 p-2 mb-4"
+          key={result.target_code}
+        >
+          <KoreanSearchResult result={result} />
+        </div>
       ))}
       <PageChanger
         pageNum={currentPage}

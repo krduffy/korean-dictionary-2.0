@@ -2,7 +2,6 @@ import { usePropForm } from "@repo/shared/hooks/usePropForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
-import { useEffect } from "react";
 
 export const FindLemmaView = ({
   word,

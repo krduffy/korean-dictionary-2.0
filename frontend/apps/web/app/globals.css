@@ -6,7 +6,7 @@
   font-family: "Nanum Barun Gothic", "New Gulim", "새굴림", "dotum", "돋움";
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  font-size: large;
 
   /*font-synthesis: none;*/
   /*text-rendering: optimizeLegibility;*/
@@ -31,8 +31,11 @@
   --button-hover-color: gray;
   --border-color: #e5e7eb;
 
-  --accent-primary: #2563eb;
-  --accent-secondary: #3b82f6;
+  --accent-1: #2563eb;
+  --accent-2: #3b82f6;
+  --accent-3: red;
+  --accent-4: green;
+  --accent-5: yellow;
 
   /* Surface colors for cards, modals, etc */
   --surface-color: white;
@@ -59,9 +62,11 @@
     --button-hover-color: blue;
     --border-color: #374151;
 
-    --accent-primary: #3b82f6;
-    --accent-secondary: #60a5fa;
-
+    --accent-1: #3b82f6;
+    --accent-2: #60a5fa;
+    --accent-3: red;
+    --accent-4: green;
+    --accent-5: yellow;
     --surface-color: #1f2937;
     --surface-hover: #374151;
 
@@ -80,7 +85,7 @@ body {
   min-width: var(--min-screen-width);
   min-height: var(--min-screen-height);
 
-  overflow: scroll;
+  overflow: hidden;
 }
 
 * {

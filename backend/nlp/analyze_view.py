@@ -93,7 +93,7 @@ def get_hanja_if_in_original(found_word, original_string):
             .filter(origin__exact=hanja_word)
             .exists()
         ):
-            return get_found_response(hanja_word)
+            return hanja_word
 
     return None
 

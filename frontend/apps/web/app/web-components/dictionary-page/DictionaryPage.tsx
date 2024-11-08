@@ -20,7 +20,7 @@ export const DictionaryPage = () => {
 
   return (
     <PageWithNavBar>
-      <div>
+      <>
         {/* Neither panel is visible. */}
         {!leftPanelVisible && !rightPanelVisible ? (
           <div className="h-full grid grid-cols-2">
@@ -37,7 +37,7 @@ export const DictionaryPage = () => {
             <div className="col-start-1 col-end-2 flex items-center justify-center">
               <PanelToggler onAdd={makeLeftVisible} />
             </div>
-            <div className="col-start-2 col-end-4">
+            <div className="col-start-2 col-end-4 h-full overflow-hidden">
               {/* RIGHT PANEL */}
               <Panel
                 state={rightPanelData.state}
@@ -49,7 +49,7 @@ export const DictionaryPage = () => {
         ) : /* Only the left panel is visible */
         leftPanelVisible && !rightPanelVisible ? (
           <div className="h-full grid grid-cols-4">
-            <div className="col-start-2 col-end-4 bg-background">
+            <div className="col-start-2 col-end-4 bg-background h-full overflow-hidden">
               {/* LEFT PANEL */}
               <Panel
                 state={leftPanelData.state}
@@ -64,7 +64,7 @@ export const DictionaryPage = () => {
         ) : (
           /* Both panels are visible. */
           <div className="h-full grid grid-cols-2">
-            <div className="col-span-1 mr-2">
+            <div className="col-span-1 mr-2 h-full overflow-hidden">
               {/* LEFT PANEL */}
               <Panel
                 state={leftPanelData.state}
@@ -72,7 +72,7 @@ export const DictionaryPage = () => {
                 dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
               />
             </div>
-            <div className="col-span-1 ml-2">
+            <div className="col-span-1 ml-2 h-full overflow-hidden">
               {/* RIGHT PANEL */}
               <Panel
                 state={rightPanelData.state}
@@ -82,7 +82,7 @@ export const DictionaryPage = () => {
             </div>
           </div>
         )}
-      </div>
+      </>
     </PageWithNavBar>
   );
 };

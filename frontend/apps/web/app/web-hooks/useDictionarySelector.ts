@@ -32,9 +32,9 @@ export const useDictionarySelector = ({
   };
 
   const getMainButtonBackgroundColor = ():
-    | "var(--accent-secondary)"
-    | "var(--accent-primary)" =>
-    mainButtonHovering ? "var(--accent-secondary)" : "var(--accent-primary)";
+    | "var(--accent-2)"
+    | "var(--accent-1)" =>
+    mainButtonHovering ? "var(--accent-2)" : "var(--accent-1)";
 
   const onDropdownButtonMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
@@ -49,13 +49,13 @@ export const useDictionarySelector = ({
 
   const getDropdownButtonColor = ():
     | "var(--text-secondary)"
-    | "var(--accent-primary)" => {
+    | "var(--accent-1)" => {
     if (!dropdownButtonHovering && !showDropdown) {
       return "var(--text-secondary)";
     } else if (dropdownButtonHovering && !showDropdown) {
-      return "var(--accent-primary)";
+      return "var(--accent-1)";
     } else if (!dropdownButtonHovering && showDropdown) {
-      return "var(--accent-primary)";
+      return "var(--accent-1)";
     } else {
       /** smallArrowHovering && showDropdown */
       return "var(--text-secondary)";

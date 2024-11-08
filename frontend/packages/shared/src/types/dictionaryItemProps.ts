@@ -30,12 +30,12 @@ export interface RegionInfoType {
   region: string;
 }
 
-export interface ExampleInfoType {
-  translation: string;
+export interface ExampleType {
   example: string;
   source: string;
-  origin: string;
-  region: string;
+  translation?: string;
+  origin?: string;
+  region?: string;
 }
 
 export interface RelationInfoType {
@@ -99,15 +99,16 @@ export interface HanjaSearchResultType extends BaseHanjaType {
 }
 
 export interface SenseAdditionalInfoType {
-  history_info?: HistoryInfoType;
   proverb_info?: ProverbInfoType;
   pattern_info?: PatternInfoType;
   grammar_info?: GrammarInfoType;
   norm_info?: NormInfoType;
   relation_info?: RegionInfoType;
-  example_info?: ExampleInfoType;
+  example_info?: ExampleType[];
   region_info?: RegionInfoType;
 }
+
+export interface SenseProverbInfoType {}
 
 export interface DetailedSenseType extends BaseSenseType {
   additional_info: SenseAdditionalInfoType;

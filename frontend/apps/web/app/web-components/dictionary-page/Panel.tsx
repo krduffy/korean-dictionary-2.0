@@ -31,17 +31,15 @@ export const Panel = ({
       dispatchInOtherPanel={dispatchInOtherPanel}
     >
       <div
-        className="h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
+        className="flex flex-col h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
     rounded-2xl
     shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
     border border-gray-200/20
     backdrop-blur-[12px]
-    hover:shadow-[0_8px_35px_rgb(0,0,0,0.16)]
-    transition-shadow duration-300
-    saturate-[1.02]
+    overflow-hidden
 "
       >
-        <div className="flex flex-row">
+        <div className="flex flex-row h-[10%] mb-4">
           <div className="w-[80%]">
             <SearchBarArea
               searchConfig={state.searchConfig}
@@ -53,8 +51,9 @@ export const Panel = ({
             <HistoryNavigationArea dispatch={dispatch} />
           </div>
         </div>
-        <div className="">
+        <div className="h-[90%] max-h-[90%] flex flex-1 flex-col overflow-y-scroll">
           <MainContent view={state.view} />
+          <FooterArea />
         </div>
       </div>
     </ViewDispatchersContextProvider>
@@ -65,8 +64,24 @@ const CloseButton = ({ onClose }: { onClose: () => void }) => {
   return <button onClick={onClose}>to close</button>;
 };
 
+const FooterArea = () => {
+  return (
+    <div
+      style={{
+        width: "75%",
+        height: "2px",
+        flexShrink: 0,
+        backgroundColor: "#444444",
+        marginLeft: "12.5%",
+        marginRight: "12.5%",
+        marginTop: "40px",
+        marginBottom: "40px",
+      }}
+    />
+  );
+};
+
 const MainContent = ({ view }: { view: View }) => {
-  /* To improve change detection the data objects are split up here */
   if (view.type === "korean_search") {
     return <KoreanSearchView searchConfig={view.data} />;
   }
