@@ -19,7 +19,7 @@ export const KoreanSearchView = ({
 
   const { successful, error, loading, searchResults } = usePaginatedResults({
     baseUrl: getEndpointWithKoreanSearchConfig(searchConfig),
-    useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
   });
 
   if (loading) {

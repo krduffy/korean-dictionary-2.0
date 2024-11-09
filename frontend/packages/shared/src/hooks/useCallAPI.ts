@@ -7,18 +7,25 @@ import {
   UseCallAPIReturns,
   RequestConfig,
 } from "../types/apiCallTypes";
+import { useCachingContext } from "your-package/contexts/CachingContextProvider";
+import { APIResponseType } from "./useCache";
 
-export const useCallAPI = <T = any>({
+export const useCallAPI = ({
   tokenHandlers,
   onRefreshFail,
-}: UseCallAPIArgs): UseCallAPIReturns<T> => {
+  cacheResults,
+}: UseCallAPIArgs): UseCallAPIReturns => {
+  const { clear, put, retrieve } = useCachingContext();
+
   const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState<T | null>(null);
+  const [response, setResponse] = useState<APIResponseType | null>(null);
 
-  const responseToJson = async (response: Response): Promise<T> => {
-    return (await response.json()) as T;
+  const responseToJson = async (
+    response: Response
+  ): Promise<APIResponseType> => {
+    return await response.json();
   };
 
   const tryRefreshAndSave = async (): Promise<AuthTokens> => {
@@ -34,10 +41,20 @@ export const useCallAPI = <T = any>({
   const callAPI = async (
     url: string,
     config: RequestConfig = {}
-  ): Promise<T> => {
+  ): Promise<APIResponseType> => {
     setSuccessful(false);
     setError(false);
     setLoading(true);
+
+    /* Check for cache hit first */
+    const fromCache = retrieve(url, config.body);
+    if (fromCache) {
+      setSuccessful(fromCache.ok);
+      setError(!fromCache.ok);
+      setResponse(fromCache.response);
+      setLoading(false);
+      return new Promise((resolve) => resolve(fromCache.response));
+    }
 
     try {
       const accessToken = await tokenHandlers.getAccessToken();
@@ -72,6 +89,12 @@ export const useCallAPI = <T = any>({
       }
 
       const json = await responseToJson(response);
+
+      /* Setting cache here */
+      if (cacheResults) {
+        put(url, json, response.ok, config.body);
+      }
+
       setResponse(json);
       return json;
     } catch (err) {

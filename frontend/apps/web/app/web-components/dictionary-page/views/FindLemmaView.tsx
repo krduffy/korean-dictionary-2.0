@@ -20,7 +20,7 @@ export const FindLemmaView = ({
   const { successful, error, loading, response } = usePropForm({
     url: getEndpoint({ endpoint: "find_lemma" }),
     formDataGetter: getFormData,
-    useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
     repostDependencies: [word, sentence],
   });
 

@@ -7,7 +7,7 @@ import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
 export const HanjaDetailView = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "detail_hanja", pk: character }),
-    useAPICallInstance: useCallAPIWeb().useCallAPIReturns,
+    useAPICallInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
     refetchDependencyArray: [character],
   });
 

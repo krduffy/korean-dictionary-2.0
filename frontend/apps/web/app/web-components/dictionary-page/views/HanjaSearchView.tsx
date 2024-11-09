@@ -20,7 +20,7 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
 
   const { successful, error, loading, searchResults } = usePaginatedResults({
     baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
-    useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
   });
 
   if (loading) {

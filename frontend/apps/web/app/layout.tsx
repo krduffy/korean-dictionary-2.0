@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { PersistentDictionaryPageStateContextProvider } from "./web-contexts/PersistentDictionaryPageStateContext";
+import { CachingContextProvider } from "@repo/shared/contexts/CachingContextProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <PersistentDictionaryPageStateContextProvider>
-          {children}
-        </PersistentDictionaryPageStateContextProvider>
+        <CachingContextProvider cacheCapacity={5}>
+          <PersistentDictionaryPageStateContextProvider>
+            {children}
+          </PersistentDictionaryPageStateContextProvider>
+        </CachingContextProvider>
       </body>
     </html>
   );

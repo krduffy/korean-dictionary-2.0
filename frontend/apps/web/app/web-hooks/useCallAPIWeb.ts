@@ -1,7 +1,7 @@
 import { useCallAPI } from "@repo/shared/hooks/useCallAPI";
 import { allTokenHandlers } from "./tokenHandlers";
 
-export const useCallAPIWeb = () => {
+export const useCallAPIWeb = ({ cacheResults }: { cacheResults: boolean }) => {
   const onRefreshFail = () => {
     alert("Your login has expired.");
     // go to homepage
@@ -11,6 +11,7 @@ export const useCallAPIWeb = () => {
     tokenHandlers: allTokenHandlers,
     onRefreshFail: onRefreshFail,
     includeCredentials: false,
+    cacheResults: cacheResults,
   });
 
   return {

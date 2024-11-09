@@ -1,3 +1,5 @@
+import { APIResponseType } from "your-package/hooks/useCache";
+
 /* Tokens returned from server. */
 export interface AuthTokens {
   access: string;
@@ -20,6 +22,7 @@ export interface UseCallAPIArgs {
   tokenHandlers: TokenHandlers;
   onRefreshFail: () => void;
   includeCredentials: boolean;
+  cacheResults: boolean;
 }
 
 /* What can be passed into callAPI() as returned from useCallAPI */
@@ -31,13 +34,13 @@ export interface RequestConfig {
 }
 
 /* Returned from useCallAPI. */
-export interface UseCallAPIReturns<T = any> {
+export interface UseCallAPIReturns {
   successful: boolean;
   error: boolean;
   loading: boolean;
-  response: T | null;
+  response: APIResponseType | null;
   // eslint-disable-next-line no-unused-vars
-  callAPI: (url: string, config?: RequestConfig) => Promise<T>;
+  callAPI: (url: string, config?: RequestConfig) => Promise<APIResponseType>;
 }
 
 /* Used for abstracted versions of the useCallAPI that need separate access to token handlers like 

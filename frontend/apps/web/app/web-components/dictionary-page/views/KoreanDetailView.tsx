@@ -13,7 +13,7 @@ export const KoreanDetailView = ({
 }) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "detail_korean", pk: target_code }),
-    useAPICallInstance: useCallAPIWeb().useCallAPIReturns,
+    useAPICallInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
     refetchDependencyArray: [target_code],
   });
 
