@@ -7,6 +7,7 @@ import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { PageChanger } from "./PageChanger";
 import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
+import { useViewDispatchersContext } from "app/web-contexts/ViewDispatchersContext";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
@@ -15,17 +16,11 @@ type HanjaSearchData = {
 export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   searchConfig,
 }) => {
-  const {
-    successful,
-    error,
-    loading,
-    searchResults,
-    currentPage,
-    setCurrentPage,
-  } = usePaginatedResults({
+  const { dispatch } = useViewDispatchersContext();
+
+  const { successful, error, loading, searchResults } = usePaginatedResults({
     baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
-    initialPage: 1,
   });
 
   if (loading) {
@@ -51,9 +46,11 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
         <HanjaSearchResult key={result.character} result={result} />
       ))}
       <PageChanger
-        pageNum={currentPage}
-        setPageNum={setCurrentPage}
-        maxPageNum={Math.ceil(searchResults.count / 10)}
+        pageNum={searchConfig.page}
+        setPageNum={(newPage: number) =>
+          dispatch({ type: "update_page", newPage: newPage })
+        }
+        maxPageNum={Math.ceil(searchResults.count / 5)}
       />
     </>
   );

@@ -81,6 +81,42 @@ const getWithUpdatedScrollDistance = (
   };
 };
 
+const getWithUpdatedPage = (state: PanelState, newPage: number): PanelState => {
+  if (
+    state.view.type !== "hanja_search" &&
+    state.view.type !== "korean_search"
+  ) {
+    return state;
+  }
+
+  return {
+    ...state,
+    view: {
+      ...state.view,
+      data: {
+        ...state.view.data,
+        page: newPage,
+      },
+    } as View,
+    historyData: {
+      ...state.historyData,
+      views: state.historyData.views.map((view, id) => {
+        if (id !== state.historyData.pointer) {
+          return view;
+        }
+
+        return {
+          ...view,
+          data: {
+            ...view.data,
+            page: newPage,
+          },
+        };
+      }) as View[],
+    },
+  };
+};
+
 const getWithUpdatedKoreanDetailDropdowns = (
   state: PanelState,
   id: number,
@@ -258,6 +294,10 @@ export function panelStateReducer(
           },
         };
       }
+
+    /* Irrespective of the search bar but related to searching. Is set on a view-by-view basis */
+    case "update_page":
+      return getWithUpdatedPage(state, action.newPage);
 
     /* HISTORY NAVIGATION */
     case "navigate_back":

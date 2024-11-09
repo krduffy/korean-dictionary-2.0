@@ -5,6 +5,7 @@ export type SearchConfig =
 
 export interface BaseSearchConfig {
   search_term: string;
+  page: number;
 }
 
 export type SearchConfigDictionary = "korean" | "hanja";
@@ -214,6 +215,11 @@ export interface UpdateKoreanDetailDropdownToggleAction {
   newIsDroppedDown: boolean;
 }
 
+export interface UpdatePageAction {
+  type: "update_page";
+  newPage: number;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -228,4 +234,5 @@ export type PanelStateAction =
   | NavigateForwardAction
   | PushFindLemmaAction
   | UpdateScrollDistanceAction
-  | UpdateKoreanDetailDropdownToggleAction;
+  | UpdateKoreanDetailDropdownToggleAction
+  | UpdatePageAction;

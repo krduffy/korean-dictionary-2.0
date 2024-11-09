@@ -8,24 +8,18 @@ import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
-import { CurvedBox } from "app/web-components/misc/CurvedBox";
+import { useViewDispatchersContext } from "app/web-contexts/ViewDispatchersContext";
 
 export const KoreanSearchView = ({
   searchConfig,
 }: {
   searchConfig: KoreanSearchConfig;
 }) => {
-  const {
-    successful,
-    error,
-    loading,
-    searchResults,
-    currentPage,
-    setCurrentPage,
-  } = usePaginatedResults({
+  const { dispatch } = useViewDispatchersContext();
+
+  const { successful, error, loading, searchResults } = usePaginatedResults({
     baseUrl: getEndpointWithKoreanSearchConfig(searchConfig),
     useCallAPIInstance: useCallAPIWeb().useCallAPIReturns,
-    initialPage: 1,
   });
 
   if (loading) {
@@ -57,9 +51,11 @@ export const KoreanSearchView = ({
         </div>
       ))}
       <PageChanger
-        pageNum={currentPage}
-        setPageNum={setCurrentPage}
-        maxPageNum={Math.ceil(searchResults.count / 10)}
+        pageNum={searchConfig.page}
+        setPageNum={(newPage: number) =>
+          dispatch({ type: "update_page", newPage: newPage })
+        }
+        maxPageNum={Math.ceil(searchResults.count / 5)}
       />
     </>
   );
