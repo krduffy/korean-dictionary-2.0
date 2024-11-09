@@ -29,6 +29,8 @@ const getPanelStateAfterPush = (state: PanelState, newView: View) => {
     ? state.historyData.views.slice(1)
     : trimmedViews;
 
+  console.log(state.view);
+
   return {
     ...state,
     view: newView,
@@ -38,6 +40,89 @@ const getPanelStateAfterPush = (state: PanelState, newView: View) => {
       pointer: cutFirst
         ? state.historyData.pointer
         : state.historyData.pointer + 1,
+    },
+  };
+};
+
+const getWithUpdatedScrollDistance = (
+  state: PanelState,
+  newScrollDistance: number
+): PanelState => {
+  if (newScrollDistance < 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    view: {
+      ...state.view,
+      interactionData: {
+        ...state.view.interactionData,
+        scrollDistance: newScrollDistance,
+      },
+    } as View,
+    /* also needs to be updated in history so scroll distance can be restored. */
+    historyData: {
+      ...state.historyData,
+      views: state.historyData.views.map((view, index) => {
+        if (index != state.historyData.pointer) {
+          return view;
+        }
+
+        return {
+          ...view,
+          interactionData: {
+            ...view.interactionData,
+            scrollDistance: newScrollDistance,
+          },
+        } as View;
+      }),
+    },
+  };
+};
+
+const getWithUpdatedKoreanDetailDropdowns = (
+  state: PanelState,
+  id: number,
+  newIsDroppedDown: boolean
+): PanelState => {
+  if (state.view.type != "korean_detail") {
+    return state;
+  }
+
+  return {
+    ...state,
+    view: {
+      ...state.view,
+      interactionData: {
+        ...state.view.interactionData,
+        dropdowns: state.view.interactionData.dropdowns.map(
+          (current, index) => {
+            return index === id ? newIsDroppedDown : current;
+          }
+        ),
+      },
+    },
+    historyData: {
+      ...state.historyData,
+      views: state.historyData.views.map((view, index) => {
+        if (
+          index != state.historyData.pointer ||
+          view.type != "korean_detail"
+        ) {
+          return view;
+        }
+
+        return {
+          ...view,
+          interactionData: {
+            ...view.interactionData,
+            dropdowns: view.interactionData.dropdowns.map((current, index) => {
+              return index === id ? newIsDroppedDown : current;
+            }),
+          },
+        } as View;
+      }),
     },
   };
 };
@@ -68,6 +153,9 @@ export function panelStateReducer(
           ...action.searchConfig,
           page: 1,
         },
+        interactionData: {
+          scrollDistance: 0,
+        },
       });
     case "push_hanja_search":
       return getPanelStateAfterPush(state, {
@@ -77,18 +165,28 @@ export function panelStateReducer(
           ...action.searchConfig,
           page: 1,
         },
+        interactionData: {
+          scrollDistance: 0,
+        },
       });
     case "push_korean_detail":
       return getPanelStateAfterPush(state, {
         ...state.view,
         type: "korean_detail",
         data: { target_code: action.target_code },
+        interactionData: {
+          scrollDistance: 0,
+          dropdowns: Array(30).fill(false),
+        },
       });
     case "push_hanja_detail":
       return getPanelStateAfterPush(state, {
         ...state.view,
         type: "hanja_detail",
         data: { character: action.character },
+        interactionData: {
+          scrollDistance: 0,
+        },
       });
     case "push_find_lemma":
       return getPanelStateAfterPush(state, {
@@ -97,6 +195,9 @@ export function panelStateReducer(
         data: {
           word: action.word,
           sentence: action.sentence,
+        },
+        interactionData: {
+          scrollDistance: 0,
         },
       });
 
@@ -185,6 +286,17 @@ export function panelStateReducer(
           pointer: state.historyData.pointer + 1,
         },
       };
+
+    /* INTERACTION DATA SETTINGS */
+    case "update_scroll_distance":
+      return getWithUpdatedScrollDistance(state, action.scrollDistance);
+    case "update_korean_detail_dropdown_toggle":
+      return getWithUpdatedKoreanDetailDropdowns(
+        state,
+        action.id,
+        action.newIsDroppedDown
+      );
+
     default:
       throw Error("Unknown type");
   }
@@ -211,6 +323,9 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
     data: {
       ...getBasicKoreanSearchViewData({ searchTerm: "" }),
       page: 1,
+    },
+    interactionData: {
+      scrollDistance: 0,
     },
   } as const;
 

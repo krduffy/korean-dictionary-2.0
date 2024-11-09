@@ -4,12 +4,16 @@ export const useTruncatorDropdown = ({
   children,
   maxHeight,
   overrideScrollbackRef,
+  initialDropdownState,
+  onDropdownStateToggle,
 }: {
   children: ReactNode;
   maxHeight: number;
   overrideScrollbackRef?: React.RefObject<HTMLDivElement>;
+  initialDropdownState: boolean;
+  onDropdownStateToggle?: (isExpanded: boolean) => void;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(initialDropdownState);
   const [showButton, setShowButton] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const topLevelRef = useRef<HTMLDivElement>(null);
@@ -34,6 +38,10 @@ export const useTruncatorDropdown = ({
       }
     }
   };
+
+  useEffect(() => {
+    onDropdownStateToggle?.(isExpanded);
+  }, [isExpanded]);
 
   const handleClickButton = () => {
     if (isExpanded) {

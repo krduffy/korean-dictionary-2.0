@@ -8,11 +8,15 @@ import "./truncator-dropdown-styles.css";
 export const TruncatorDropdown = ({
   children,
   maxHeight,
+  initialDropdownState = false,
   overrideScrollbackRef,
+  onDropdownStateToggle,
 }: {
   children: ReactNode;
   maxHeight: number;
+  initialDropdownState?: boolean;
   overrideScrollbackRef?: React.RefObject<HTMLDivElement>;
+  onDropdownStateToggle?: (isExpanded: boolean) => void;
 }) => {
   const {
     isExpanded,
@@ -25,6 +29,8 @@ export const TruncatorDropdown = ({
     children: children,
     maxHeight: maxHeight,
     overrideScrollbackRef: overrideScrollbackRef,
+    initialDropdownState: initialDropdownState,
+    onDropdownStateToggle: onDropdownStateToggle,
   });
 
   return (

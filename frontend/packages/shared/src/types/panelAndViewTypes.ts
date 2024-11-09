@@ -64,6 +64,14 @@ export type View =
   | HanjaDetailView
   | FindLemmaView;
 
+export interface BaseInteractionData {
+  scrollDistance: number;
+}
+
+export interface KoreanDetailInteractionData extends BaseInteractionData {
+  dropdowns: boolean[];
+}
+
 export interface KoreanSearchViewData extends KoreanSearchConfig {
   page: number;
 }
@@ -75,11 +83,13 @@ export interface HanjaSearchViewData extends HanjaSearchConfig {
 export interface KoreanSearchView {
   type: "korean_search";
   data: KoreanSearchViewData;
+  interactionData: BaseInteractionData;
 }
 
 export interface HanjaSearchView {
   type: "hanja_search";
   data: HanjaSearchViewData;
+  interactionData: BaseInteractionData;
 }
 
 export interface KoreanDetailViewData {
@@ -89,6 +99,7 @@ export interface KoreanDetailViewData {
 export interface KoreanDetailView {
   type: "korean_detail";
   data: KoreanDetailViewData;
+  interactionData: KoreanDetailInteractionData;
 }
 
 export interface HanjaDetailViewData {
@@ -98,6 +109,7 @@ export interface HanjaDetailViewData {
 export interface HanjaDetailView {
   type: "hanja_detail";
   data: HanjaDetailViewData;
+  interactionData: BaseInteractionData;
 }
 
 export interface FindLemmaData {
@@ -108,6 +120,7 @@ export interface FindLemmaData {
 export interface FindLemmaView {
   type: "find_lemma";
   data: FindLemmaData;
+  interactionData: BaseInteractionData;
 }
 
 export type ViewType =
@@ -190,6 +203,17 @@ export interface PushFindLemmaAction {
   sentence: string;
 }
 
+export interface UpdateScrollDistanceAction {
+  type: "update_scroll_distance";
+  scrollDistance: number;
+}
+
+export interface UpdateKoreanDetailDropdownToggleAction {
+  type: "update_korean_detail_dropdown_toggle";
+  id: number;
+  newIsDroppedDown: boolean;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -202,4 +226,6 @@ export type PanelStateAction =
   | SwitchDictionaryAction
   | NavigateBackAction
   | NavigateForwardAction
-  | PushFindLemmaAction;
+  | PushFindLemmaAction
+  | UpdateScrollDistanceAction
+  | UpdateKoreanDetailDropdownToggleAction;

@@ -4,7 +4,13 @@ import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { KoreanDetailDisplay } from "../dictionary-items/KoreanDetailDisplay";
 
-export const KoreanDetailView = ({ target_code }: { target_code: number }) => {
+export const KoreanDetailView = ({
+  target_code,
+  dropdownStates,
+}: {
+  target_code: number;
+  dropdownStates: boolean[];
+}) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "detail_korean", pk: target_code }),
     useAPICallInstance: useCallAPIWeb().useCallAPIReturns,
@@ -20,6 +26,8 @@ export const KoreanDetailView = ({ target_code }: { target_code: number }) => {
   }
 
   if (successful && response) {
-    return <KoreanDetailDisplay data={response} />;
+    return (
+      <KoreanDetailDisplay data={response} dropdownStates={dropdownStates} />
+    );
   }
 };
