@@ -19,6 +19,7 @@ const endpoints = {
   popup_hanja: "dictionary/hanja/popup",
   examples_hanja: "dictionary/hanja/examples",
   find_lemma: "nlp/find_lemma/",
+  update_known_studied: "update/known_studied",
 } as const;
 
 interface GetEndpointArgs {
