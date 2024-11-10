@@ -4,7 +4,10 @@ import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
-import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
+import {
+  NoResultsMessage,
+  ResultCountMessage,
+} from "../string-formatters/ResultsMessages";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
@@ -41,10 +44,14 @@ export const KoreanSearchView = ({
 
   return (
     <>
+      <ResultCountMessage
+        pageNum={searchConfig.page}
+        totalResults={searchResults.count}
+      />
       {searchResults?.results?.map((result: KoreanSearchResultType) => (
         <div
           className="bg-[color:--background-tertiary] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
-    border border-gray-200/20 p-2 mb-4"
+    border border-gray-200/20 p-4 my-4"
           key={result.target_code}
         >
           <KoreanSearchResult result={result} />

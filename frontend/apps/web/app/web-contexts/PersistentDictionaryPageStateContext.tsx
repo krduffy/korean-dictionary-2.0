@@ -29,8 +29,6 @@ const getPanelStateAfterPush = (state: PanelState, newView: View) => {
     ? state.historyData.views.slice(1)
     : trimmedViews;
 
-  console.log(state.view);
-
   return {
     ...state,
     view: newView,
@@ -343,11 +341,13 @@ export function panelStateReducer(
 }
 
 export interface PersistentDictionaryPageStateContextType {
+  /** Data for the left panel. */
   leftPanelData: {
     state: PanelState;
     dispatch: React.Dispatch<PanelStateAction>;
     dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
   };
+  /** Data for the right panel. */
   rightPanelData: {
     state: PanelState;
     dispatch: React.Dispatch<PanelStateAction>;

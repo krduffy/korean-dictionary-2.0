@@ -2,7 +2,7 @@ import { useStringWithNLP } from "app/web-hooks/useStringWithNLP";
 import { PanelSpecificDispatcher } from "./PanelSpecificDispatcher";
 import { Fragment } from "react";
 import { StringWithHanja } from "./StringWithHanja";
-import { ClickableLinkStyler } from "./ClickableLink";
+import { ClickableLinkStyler } from "./SpanStylers";
 
 /* Embedding hanja adds StringWithHanja where applicable */
 /* Embedding examples turns strings surrounded by curly braces into underlined text and removes the curly braces. */

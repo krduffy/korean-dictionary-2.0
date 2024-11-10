@@ -5,6 +5,10 @@ import {
 import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
 import { StringWithHanja } from "../string-formatters/StringWithHanja";
 import { StringWithNLPAndHanja } from "../string-formatters/StringWithNLP";
+import {
+  SearchResultSideInfoStyler,
+  SearchResultStyler,
+} from "../string-formatters/SpanStylers";
 
 export const KoreanSearchResult = ({
   result,
@@ -14,21 +18,26 @@ export const KoreanSearchResult = ({
   return (
     <>
       {/* Header with word and origin */}
-      <div className="text-xl">
-        <span className="text-[color:--accent-1]">
-          <PanelSpecificDispatcher
-            panelStateAction={{
-              type: "push_korean_detail",
-              target_code: result.target_code,
-            }}
-          >
-            <span>{result.word}</span>
-          </PanelSpecificDispatcher>
+      <div className="pb-2">
+        <span className="pr-4">
+          <SearchResultStyler>
+            <PanelSpecificDispatcher
+              panelStateAction={{
+                type: "push_korean_detail",
+                target_code: result.target_code,
+              }}
+            >
+              {result.word}
+            </PanelSpecificDispatcher>
+          </SearchResultStyler>
         </span>
 
-        {"   "}
+        <SearchResultSideInfoStyler>
+          <StringWithHanja string={result.origin} />
+        </SearchResultSideInfoStyler>
 
-        <StringWithHanja string={result.origin} />
+        {/* for known studied togglers*/}
+        <div></div>
       </div>
 
       {/* Senses */}

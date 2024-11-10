@@ -3,7 +3,7 @@ import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { getEndpointWithHanjaSearchConfig } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "app/web-hooks/useCallAPIWeb";
 import { HanjaSearchResult } from "../dictionary-items/HanjaSearchResult";
-import { NoResultsMessage } from "../string-formatters/NoSearchResultsMessage";
+import { NoResultsMessage } from "../string-formatters/ResultsMessages";
 import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
 import { PageChanger } from "./PageChanger";
 import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";

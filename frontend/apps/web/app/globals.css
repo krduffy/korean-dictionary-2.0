@@ -6,15 +6,28 @@
   font-family: "Nanum Barun Gothic", "New Gulim", "새굴림", "dotum", "돋움";
   line-height: 1.5;
   font-weight: 400;
-  font-size: large;
 
   /*font-synthesis: none;*/
   /*text-rendering: optimizeLegibility;*/
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-osx-font-smoothing: grayscale;*/
 
-  --min-screen-width: 600px;
   --min-screen-height: 400px;
+  --min-screen-width: 300px;
+
+  --font-size: 1.25em;
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --font-size: 1.25em;
+  }
+}
+
+@media (max-width: 500px) {
+  :root {
+    --font-size: 1em;
+  }
 }
 
 /* LIGHT COLORS */
@@ -31,6 +44,9 @@
   --button-hover-color: gray;
   --border-color: #e5e7eb;
 
+  --accent-button-color: red;
+  --accent-button-hover-color: green;
+
   --accent-1: #2563eb;
   --accent-2: #3b82f6;
   --accent-3: red;
@@ -45,28 +61,38 @@
   --error-color: #dc2626;
   --success-color: #16a34a;
   --warning-color: #d97706;
+
+  /* does not change when dark mode */
+  --focus-blue: rgb(24, 56, 98);
 }
 
 /* DARK MODE COLORS */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-primary: #111827;
-    --background-secondary: #1f2937;
-    --background-tertiary: #374151;
+    --background-primary: #050505;
+    --background-secondary: #0a0a0a;
+    --background-tertiary: #0f0f0f;
 
-    --text-primary: #f9fafb;
-    --text-secondary: #e5e7eb;
+    --text-primary: #aaaaaa;
+    --text-secondary: #;
     --text-tertiary: #9ca3af;
 
     --button-color: pink;
     --button-hover-color: blue;
     --border-color: #374151;
 
-    --accent-1: #3b82f6;
-    --accent-2: #60a5fa;
-    --accent-3: red;
-    --accent-4: green;
-    --accent-5: yellow;
+    --accent-button-color: red;
+    --accent-button-hover-color: green;
+
+    /* Accents */
+    --accent-5: #6d959c;
+    --accent-3: #9a90b0;
+    --accent-4: #6a8ecc;
+    --accent-1: #b8a9d4;
+    --accent-2: #db97ae;
+    --accent-6: #dbc197;
+
+    /* */
     --surface-color: #1f2937;
     --surface-hover: #374151;
 
@@ -84,6 +110,8 @@ body {
   width: 100vw;
   min-width: var(--min-screen-width);
   min-height: var(--min-screen-height);
+
+  font-size: var(--font-size);
 
   overflow: hidden;
 }

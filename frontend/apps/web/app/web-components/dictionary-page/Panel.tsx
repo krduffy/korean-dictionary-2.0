@@ -9,6 +9,7 @@ import {
 import { HistoryNavigationArea } from "./HistoryNavigationArea";
 import { ViewDispatchersContextProvider } from "app/web-contexts/ViewDispatchersContext";
 import { MainContent, MainContentArea } from "./MainContentArea";
+import { SpanPicture } from "../misc/SpanPicture";
 
 interface PanelProps {
   state: PanelState;
@@ -35,6 +36,7 @@ export const Panel = ({
     overflow-hidden
 "
       >
+        {/* area for search bar and history navigation + closing panel */}
         <div className="flex flex-row h-[10%] mb-4">
           <div className="w-[80%]">
             <SearchBarArea
@@ -42,9 +44,15 @@ export const Panel = ({
               dispatch={dispatch}
             />
           </div>
-          <div className="w-[20%]">
-            <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
-            <HistoryNavigationArea dispatch={dispatch} />
+          <div className="w-[20%] flex flex-row">
+            <div className="w-[80%] h-full">
+              <HistoryNavigationArea dispatch={dispatch} />
+            </div>
+            <div className="w-[20%]">
+              <CloseButton
+                onClose={() => dispatch({ type: "make_invisible" })}
+              />
+            </div>
           </div>
         </div>
         <div className="p-2 h-[90%] max-h-[90%] flex flex-1 flex-col overflow-y-scroll overflow-x-hidden">
@@ -62,7 +70,15 @@ export const Panel = ({
 };
 
 const CloseButton = ({ onClose }: { onClose: () => void }) => {
-  return <button onClick={onClose}>to close</button>;
+  return (
+    <button
+      className="h-[33%] w-full flex items-center justify-center"
+      title="간판을 닫기"
+      onClick={onClose}
+    >
+      <SpanPicture string="✖" />
+    </button>
+  );
 };
 
 const FooterArea = () => {

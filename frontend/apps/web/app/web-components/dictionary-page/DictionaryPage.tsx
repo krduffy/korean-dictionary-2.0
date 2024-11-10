@@ -5,10 +5,12 @@ import { usePersistentDictionaryPageStateContext } from "../../web-contexts/Pers
 import { PageWithNavBar } from "./navbar/PageWithNavBar";
 
 import { Panel } from "./Panel";
+import { useResponsiveness } from "app/web-hooks/useResponsiveness";
 
 export const DictionaryPage = () => {
   const { leftPanelData, rightPanelData } =
     usePersistentDictionaryPageStateContext();
+  const { twoPanelsAllowed } = useResponsiveness();
 
   const leftPanelVisible = leftPanelData.state.visible;
   const rightPanelVisible = rightPanelData.state.visible;
@@ -18,71 +20,117 @@ export const DictionaryPage = () => {
   const makeRightVisible = () =>
     rightPanelData.dispatch({ type: "make_visible" });
 
-  return (
-    <PageWithNavBar>
-      <>
-        {/* Neither panel is visible. */}
-        {!leftPanelVisible && !rightPanelVisible ? (
-          <div className="h-full grid grid-cols-2">
-            <div className="col-span-1 flex items-center justify-center">
-              <PanelToggler onAdd={makeLeftVisible} />
-            </div>
-            <div className="col-span-1 flex items-center justify-center">
-              <PanelToggler onAdd={makeRightVisible} />
-            </div>
-          </div>
-        ) : /* Only the right panel is visible */
-        !leftPanelVisible && rightPanelVisible ? (
-          <div className="h-full grid grid-cols-4">
-            <div className="col-start-1 col-end-2 flex items-center justify-center">
-              <PanelToggler onAdd={makeLeftVisible} />
-            </div>
-            <div className="col-start-2 col-end-4 h-full overflow-hidden">
-              {/* RIGHT PANEL */}
-              <Panel
-                state={rightPanelData.state}
-                dispatch={rightPanelData.dispatch}
-                dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
-              />
-            </div>
-          </div>
-        ) : /* Only the left panel is visible */
-        leftPanelVisible && !rightPanelVisible ? (
-          <div className="h-full grid grid-cols-4">
-            <div className="col-start-2 col-end-4 bg-background h-full overflow-hidden">
-              {/* LEFT PANEL */}
-              <Panel
-                state={leftPanelData.state}
-                dispatch={leftPanelData.dispatch}
-                dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
-              />
-            </div>
-            <div className="col-start-4 col-end-5 flex items-center justify-center">
-              <PanelToggler onAdd={makeRightVisible} />
-            </div>
+  /**
+   * If two panels not allowed then only show the left panel / its panel toggler.
+   * Else show left and right depending on visibility.
+   */
+
+  /* Case where two not allowed; only show left */
+  if (!twoPanelsAllowed) {
+    /* If attempt to dispatch a view in the other panel then refuse and alert */
+    const overrideDispatchInOtherPanel = () => {
+      alert("Cannot dispatch in other panel");
+    };
+
+    return (
+      <PageWithNavBar>
+        {leftPanelVisible ? (
+          <div className="h-full w-full p-2">
+            <Panel
+              state={leftPanelData.state}
+              dispatch={leftPanelData.dispatch}
+              dispatchInOtherPanel={overrideDispatchInOtherPanel}
+            />
           </div>
         ) : (
-          /* Both panels are visible. */
-          <div className="h-full grid grid-cols-2">
-            <div className="col-span-1 mr-2 h-full overflow-hidden">
-              {/* LEFT PANEL */}
-              <Panel
-                state={leftPanelData.state}
-                dispatch={leftPanelData.dispatch}
-                dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
-              />
-            </div>
-            <div className="col-span-1 ml-2 h-full overflow-hidden">
-              {/* RIGHT PANEL */}
-              <Panel
-                state={rightPanelData.state}
-                dispatch={rightPanelData.dispatch}
-                dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
-              />
-            </div>
+          <div className="h-full w-full flex items-center justify-center">
+            <PanelToggler onAdd={makeLeftVisible} />
           </div>
         )}
-      </>
+      </PageWithNavBar>
+    );
+  }
+
+  /* Neither panel visible. */
+  if (!leftPanelVisible && !rightPanelVisible) {
+    return (
+      <PageWithNavBar>
+        <div className="h-full grid grid-cols-2">
+          <div className="col-span-1 flex items-center justify-center">
+            <PanelToggler onAdd={makeLeftVisible} />
+          </div>
+          <div className="col-span-1 flex items-center justify-center">
+            <PanelToggler onAdd={makeRightVisible} />
+          </div>
+        </div>
+      </PageWithNavBar>
+    );
+  }
+
+  /* Left only. */
+  if (leftPanelVisible && !rightPanelVisible) {
+    return (
+      <PageWithNavBar>
+        <div className="h-full grid grid-cols-10">
+          <div className="col-start-2 col-end-10 bg-background h-full overflow-hidden">
+            {/* LEFT PANEL */}
+            <Panel
+              state={leftPanelData.state}
+              dispatch={leftPanelData.dispatch}
+              dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
+            />
+          </div>
+          <div className="col-start-10 col-end-11 flex items-center justify-center">
+            <PanelToggler onAdd={makeRightVisible} />
+          </div>
+        </div>
+      </PageWithNavBar>
+    );
+  }
+
+  /* Right only. */
+  if (!leftPanelVisible && rightPanelVisible) {
+    return (
+      <PageWithNavBar>
+        <div className="h-full grid grid-cols-10">
+          <div className="col-start-1 col-end-2 flex items-center justify-center">
+            <PanelToggler onAdd={makeLeftVisible} />
+          </div>
+          <div className="col-start-2 col-end-10 h-full overflow-hidden">
+            {/* RIGHT PANEL */}
+            <Panel
+              state={rightPanelData.state}
+              dispatch={rightPanelData.dispatch}
+              dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
+            />
+          </div>
+        </div>
+      </PageWithNavBar>
+    );
+  }
+
+  /* Both panels are visible. */
+  return (
+    <PageWithNavBar>
+      {/* Text is made a bit smaller since two panels are being shown */}
+      <div className="h-full grid grid-cols-2 text-sm">
+        <div className="col-span-1 mr-2 h-full overflow-hidden">
+          {/* LEFT PANEL */}
+          <Panel
+            state={leftPanelData.state}
+            dispatch={leftPanelData.dispatch}
+            dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
+          />
+        </div>
+        <div className="col-span-1 ml-2 h-full overflow-hidden">
+          {/* RIGHT PANEL */}
+          <Panel
+            state={rightPanelData.state}
+            dispatch={rightPanelData.dispatch}
+            dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
+          />
+        </div>
+      </div>
     </PageWithNavBar>
   );
 };

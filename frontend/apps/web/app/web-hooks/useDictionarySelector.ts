@@ -32,9 +32,11 @@ export const useDictionarySelector = ({
   };
 
   const getMainButtonBackgroundColor = ():
-    | "var(--accent-2)"
-    | "var(--accent-1)" =>
-    mainButtonHovering ? "var(--accent-2)" : "var(--accent-1)";
+    | "var(--accent-button-color)"
+    | "var(--accent-button-hover-color)" =>
+    mainButtonHovering
+      ? "var(--accent-button-hover-color)"
+      : "var(--accent-button-color)";
 
   const onDropdownButtonMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
@@ -44,6 +46,7 @@ export const useDictionarySelector = ({
 
   const onDropdownButtonMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
+    setMainButtonHovering(true);
     setDropdownButtonHovering(false);
   };
 

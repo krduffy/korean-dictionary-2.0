@@ -7,6 +7,9 @@ import {
   UpdateHanjaSearchConfigArgs,
   UpdateKoreanSearchConfigArgs,
 } from "@repo/shared/hooks/useSearchBarArea";
+import { SpanPicture } from "app/web-components/misc/SpanPicture";
+
+import { MoreHorizontal, MoreVertical } from "lucide-react";
 
 export interface DictionarySelectorArgs {
   searchConfig: SearchConfig;
@@ -57,17 +60,22 @@ export const DictionarySelector = ({
         backgroundColor: getMainButtonBackgroundColor(),
         cursor: showDropdown ? "not-allowed" : "pointer",
       }}
-      className="relative h-full w-full px-4 py-2 
-    text-white 
+      className="relative h-full w-full
     rounded-lg
     font-medium
     shadow-sm
     transition-all 
     duration-200
-    flex items-center gap-2"
+    grid grid-rows-3 grid-cols-3 p-1"
     >
-      <span>{searchConfig.dictionary === "korean" ? "한" : "漢"}</span>
-      <span className="absolute text-xs right-1 bottom-0">
+      {/* 8 by 8 grid */}
+      <div className="row-start-1 row-end-4 col-start-1 col-end-4 h-full w-full">
+        <SpanPicture
+          string={searchConfig.dictionary === "korean" ? "한" : "漢"}
+        />
+      </div>
+
+      <div className="row-start-3 col-start-3 h-full w-full">
         <SearchConfigDropdownMenuToggler
           searchConfig={searchConfig}
           updateKoreanSearchConfig={updateKoreanSearchConfig}
@@ -78,7 +86,7 @@ export const DictionarySelector = ({
           showDropdown={showDropdown}
           onDropdownButtonClick={onDropdownButtonClick}
         />
-      </span>
+      </div>
     </button>
   );
 };
@@ -112,9 +120,9 @@ const SearchConfigDropdownMenuToggler = ({
 
   return (
     <>
-      <span
+      <div
         ref={arrowRef}
-        className="cursor-pointer m-px"
+        className="cursor-pointer w-full h-full"
         style={{
           color: getDropdownButtonColor(),
         }}
@@ -122,8 +130,14 @@ const SearchConfigDropdownMenuToggler = ({
         onMouseLeave={onDropdownButtonMouseLeave}
         onClick={onDropdownButtonClick}
       >
-        {showDropdown ? "▲" : "▼"}
-      </span>
+        {showDropdown ? (
+          <MoreVertical className="w-full h-full" />
+        ) : (
+          <MoreHorizontal className="w-full h-full" />
+        )}
+      </div>
+
+      {/* popup box with the settings options */}
       <PopupBox targetElement={arrowRef.current} isVisible={showDropdown}>
         {searchConfig.dictionary === "korean" ? (
           <KoreanSearchConfigDropdownMenu

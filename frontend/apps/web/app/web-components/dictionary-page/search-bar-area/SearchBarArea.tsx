@@ -5,6 +5,7 @@ import {
 import { DictionarySelector } from "./DictionarySelector";
 
 import { useSearchBarArea } from "@repo/shared/hooks/useSearchBarArea";
+import { SearchIcon } from "lucide-react";
 
 interface SearchBarAreaArgs {
   searchConfig: SearchConfig;
@@ -56,11 +57,13 @@ const SearchBar = ({
 }) => {
   return (
     <form className="relative h-full w-full">
+      {/* padding to left of search text is 10 (2.5rem); the width of the icon is 24px (6; 1.5rem)
+          so this has a padding to the left of 2 (0.5rem) */}
       <button
-        className="w-10 top-1/2 -translate-y-1/2 absolute rotate-45 text-2xl focus:color-[color:--"
+        className="h-full absolute top-0 left-0 pl-2 hover:text-[color:--"
         onClick={submitSearch}
       >
-        ⚲
+        <SearchIcon />
       </button>
       <input
         type="search"
@@ -69,16 +72,15 @@ const SearchBar = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           updateSearchTerm(e.target.value)
         }
-        className="w-full pl-10 px-4 py-2 
+        className="h-full w-full pl-10 px-4 py-2 
       bg-white/10 
       border border-gray-200/20 
       rounded-full
       outline-none 
-      focus:ring-2 focus:ring-blue-500/40 
+      focus:ring-2 focus:[color:--focus-blue]
       hover:bg-white/20
       transition-all duration-200
-      placeholder-gray-400
-      text-[color:--text-secondary]"
+      "
       />
     </form>
   );

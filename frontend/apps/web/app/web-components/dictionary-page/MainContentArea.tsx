@@ -51,8 +51,9 @@ export const MainContentArea = ({
     <div
       ref={divRef}
       style={{
-        maxHeight: "500px",
+        maxHeight: "100%",
         overflowY: "auto",
+        scrollbarWidth: "thin",
       }}
       onScroll={onScroll}
     >
