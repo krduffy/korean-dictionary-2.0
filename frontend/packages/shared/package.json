@@ -9,8 +9,13 @@
     "hooks/useLoginForm": "./src/hooks/useLoginForm.ts",
     "hooks/usePaginatedResults": "./src/hooks/usePaginatedResults.ts",
     "hooks/usePanel": "./src/hooks/usePanel.ts",
+    "hooks/useCache": "./src/hooks/useCache.ts",
+    "hooks/useCallAPIWeb": "./src/hooks/useCallAPIWeb.ts",
+    "hooks/useStringWithNLP": "./src/hooks/useStringWithNLP.ts",
+    "hooks/useHanjaPopupBox": "./src/hooks/useHanjaPopupBox.ts",
     "utils/apiAliases": "./src/utils/apiAliases.ts",
-    "utils/basicViews": "./src/utils/basicViews.ts"
+    "utils/basicViews": "./src/utils/basicViews.ts",
+    "contexts/CachingContextProvider": "./src/contexts/CachingContextProvider.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

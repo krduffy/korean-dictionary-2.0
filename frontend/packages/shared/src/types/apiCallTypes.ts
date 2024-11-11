@@ -1,4 +1,4 @@
-import { APIResponseType } from "your-package/hooks/useCache";
+import { APIResponseType } from "../hooks/useCache";
 
 /* Tokens returned from server. */
 export interface AuthTokens {

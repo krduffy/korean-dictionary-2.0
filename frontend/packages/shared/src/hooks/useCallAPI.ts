@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import {
   AuthTokens,
@@ -7,7 +5,7 @@ import {
   UseCallAPIReturns,
   RequestConfig,
 } from "../types/apiCallTypes";
-import { useCachingContext } from "your-package/contexts/CachingContextProvider";
+import { useCachingContext } from "../contexts/CachingContextProvider";
 import { APIResponseType } from "./useCache";
 
 export const useCallAPI = ({

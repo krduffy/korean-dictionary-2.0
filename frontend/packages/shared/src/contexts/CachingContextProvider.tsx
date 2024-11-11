@@ -1,7 +1,5 @@
-"use client";
-
 import { useContext, createContext, ReactNode } from "react";
-import { useCache, UseCacheReturns } from "your-package/hooks/useCache";
+import { useCache, UseCacheReturns } from "../hooks/useCache";
 
 export const CachingContext = createContext<UseCacheReturns | null>(null);
 
