@@ -1,9 +1,16 @@
+import { SearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
 } from "../string-formatters/SpanStylers";
 
-export const DictionarySelector = ({ searchConfig, switchDictionary }) => {
+export const DictionarySelector = ({
+  searchConfig,
+  switchDictionary,
+}: {
+  searchConfig: SearchConfig;
+  switchDictionary: () => void;
+}) => {
   const dictionaryButtonContent = (
     <span className="text-xl">
       {searchConfig.dictionary === "korean" ? (

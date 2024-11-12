@@ -4,19 +4,22 @@ import { LoginPage } from "./web-routes/LoginPage";
 import { PersistentDictionaryPageStateContextProvider } from "./web-contexts/PersistentDictionaryPageStateContext";
 import { CachingContextProvider } from "@repo/shared/contexts/CachingContextProvider";
 import { SettingsPage } from "./web-routes/SettingsPage";
+import { SettingsContextProvider } from "./web-contexts/SettingsContext";
 
 export const App = () => {
   return (
-    <CachingContextProvider cacheCapacity={5}>
-      <PersistentDictionaryPageStateContextProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<DictionaryPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Routes>
-        </Router>
-      </PersistentDictionaryPageStateContextProvider>
-    </CachingContextProvider>
+    <SettingsContextProvider>
+      <CachingContextProvider cacheCapacity={5}>
+        <PersistentDictionaryPageStateContextProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<DictionaryPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Routes>
+          </Router>
+        </PersistentDictionaryPageStateContextProvider>
+      </CachingContextProvider>
+    </SettingsContextProvider>
   );
 };
