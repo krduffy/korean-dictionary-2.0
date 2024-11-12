@@ -1,5 +1,6 @@
 import { PanelStateAction } from "@repo/shared/types/panelAndViewTypes";
 import { SpanPicture } from "../misc/SpanPicture";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 export const HistoryNavigationArea = ({
   dispatch,
@@ -19,20 +20,24 @@ export const HistoryNavigationArea = ({
 
 const NavigateBackButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <button className="w-[50%] h-full" title="돌아가기" onClick={onClick}>
-      <SpanPicture string="←" />
+    <button
+      className="flex items-center justify-center w-10 h-10 
+                 rounded-full bg-gray-100 text-gray-700 
+                 hover:bg-gray-200 active:bg-gray-300 
+                 border border-gray-300 shadow-sm 
+                 transition-all duration-200"
+      title="돌아가기"
+      onClick={onClick}
+    >
+      <MoveLeft />
     </button>
   );
 };
 
 const NavigateForwardButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <button
-      className="w-[50%] h-full hover:text-blue-500 transition-colors duration-200"
-      title="앞으로 가기"
-      onClick={onClick}
-    >
-      <SpanPicture string="→" />
+    <button className="w-full h-full" title="앞으로 가기" onClick={onClick}>
+      <MoveRight />
     </button>
   );
 };

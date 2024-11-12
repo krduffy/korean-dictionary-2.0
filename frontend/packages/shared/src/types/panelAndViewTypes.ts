@@ -220,6 +220,11 @@ export interface UpdatePageAction {
   newPage: number;
 }
 
+export interface DeleteSearchConfigKeyAction {
+  type: "delete_search_config_key";
+  keyToDelete: string;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -235,4 +240,5 @@ export type PanelStateAction =
   | PushFindLemmaAction
   | UpdateScrollDistanceAction
   | UpdateKoreanDetailDropdownToggleAction
-  | UpdatePageAction;
+  | UpdatePageAction
+  | DeleteSearchConfigKeyAction;

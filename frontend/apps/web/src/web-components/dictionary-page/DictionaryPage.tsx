@@ -32,7 +32,7 @@ export const DictionaryPage = () => {
     return (
       <PageWithNavBar>
         {leftPanelVisible ? (
-          <div className="h-full w-full p-2">
+          <div className="h-full w-full">
             <Panel
               state={leftPanelData.state}
               dispatch={leftPanelData.dispatch}
@@ -40,7 +40,7 @@ export const DictionaryPage = () => {
             />
           </div>
         ) : (
-          <div className="h-full w-full flex items-center justify-center">
+          <div className="h-full w-full flex items-center justify-center p-4">
             <PanelToggler onAdd={makeLeftVisible} />
           </div>
         )}
@@ -52,7 +52,7 @@ export const DictionaryPage = () => {
   if (!leftPanelVisible && !rightPanelVisible) {
     return (
       <PageWithNavBar>
-        <div className="h-full grid grid-cols-2">
+        <div className="h-full grid grid-cols-2 p-4">
           <div className="col-span-1 flex items-center justify-center">
             <PanelToggler onAdd={makeLeftVisible} />
           </div>
@@ -68,7 +68,7 @@ export const DictionaryPage = () => {
   if (leftPanelVisible && !rightPanelVisible) {
     return (
       <PageWithNavBar>
-        <div className="h-full grid grid-cols-10">
+        <div className="h-full grid grid-cols-10 p-4">
           <div className="col-start-2 col-end-10 bg-background h-full overflow-hidden">
             {/* LEFT PANEL */}
             <Panel
@@ -89,7 +89,7 @@ export const DictionaryPage = () => {
   if (!leftPanelVisible && rightPanelVisible) {
     return (
       <PageWithNavBar>
-        <div className="h-full grid grid-cols-10">
+        <div className="h-full grid grid-cols-10 p-4">
           <div className="col-start-1 col-end-2 flex items-center justify-center">
             <PanelToggler onAdd={makeLeftVisible} />
           </div>
@@ -110,7 +110,7 @@ export const DictionaryPage = () => {
   return (
     <PageWithNavBar>
       {/* Text is made a bit smaller since two panels are being shown */}
-      <div className="h-full grid grid-cols-2">
+      <div className="h-full grid grid-cols-2 p-4">
         <div className="col-span-1 mr-2 h-full overflow-hidden">
           {/* LEFT PANEL */}
           <Panel
@@ -136,6 +136,7 @@ const PanelToggler = ({ onAdd }: { onAdd: () => void }) => {
   return (
     <button
       onClick={onAdd}
+      title="새로운 사전창을 열기"
       className="w-12 h-12 rounded-full bg-[color:--button-color] flex 
       items-center justify-center hover:bg-[color:--button-hover-color] 
       transition-colors"

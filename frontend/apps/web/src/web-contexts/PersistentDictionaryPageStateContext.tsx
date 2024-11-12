@@ -159,6 +159,25 @@ const getWithUpdatedKoreanDetailDropdowns = (
   };
 };
 
+const getPanelStateWithDeletedSearchConfigKey = (
+  state: PanelState,
+  keyToDelete: string
+) => {
+  const newConfig = Object.entries(state.searchConfig.config).filter(
+    ([key]) => {
+      return key !== keyToDelete;
+    }
+  );
+
+  return {
+    ...state,
+    searchConfig: {
+      ...state.searchConfig,
+      config: Object.fromEntries(newConfig),
+    } as SearchConfig,
+  };
+};
+
 export function panelStateReducer(
   state: PanelState,
   action: PanelStateAction
@@ -263,6 +282,9 @@ export function panelStateReducer(
           },
         },
       };
+
+    case "delete_search_config_key":
+      return getPanelStateWithDeletedSearchConfigKey(state, action.keyToDelete);
 
     case "switch_dictionary":
       if (state.searchConfig.dictionary === "hanja") {

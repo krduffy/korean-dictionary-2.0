@@ -33,6 +33,8 @@ interface UseSearchBarAreaReturns {
   // eslint-disable-next-line no-unused-vars
   updateSearchTerm: (searchTerm: string) => void;
   switchDictionary: () => void;
+  // eslint-disable-next-line no-unused-vars
+  deleteSearchConfigItemByKey: (keyToDelete: string) => void;
 }
 
 export const useSearchBarArea = ({
@@ -80,6 +82,13 @@ export const useSearchBarArea = ({
     });
   };
 
+  const deleteSearchConfigItemByKey = (keyToDelete: string) => {
+    dispatch({
+      type: "delete_search_config_key",
+      keyToDelete: keyToDelete,
+    });
+  };
+
   const updateSearchTerm = (searchTerm: string) => {
     if (searchConfig.dictionary === "korean") {
       dispatch({
@@ -106,5 +115,6 @@ export const useSearchBarArea = ({
     updateHanjaSearchConfig,
     updateSearchTerm,
     switchDictionary,
+    deleteSearchConfigItemByKey,
   };
 };

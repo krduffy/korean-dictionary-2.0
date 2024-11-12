@@ -35,7 +35,7 @@ export const Panel = ({
 "
       >
         {/* area for search bar and history navigation + closing panel */}
-        <div className="flex flex-row h-[10%] mb-4">
+        <div className="flex flex-row h-12 mb-4">
           <div className="w-[80%]">
             <SearchBarArea
               searchConfig={state.searchConfig}

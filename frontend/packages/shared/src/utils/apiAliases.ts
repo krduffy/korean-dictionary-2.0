@@ -11,7 +11,7 @@ const endpoints = {
   refresh: "users/auth/refresh",
   register: "users/auth/register",
   change_password: "users/auth/change_password",
-  homepage: "users/my_info",
+  user_info: "users/my_info",
   search_korean: "dictionary/korean/search",
   search_hanja: "dictionary/hanja/search",
   detail_korean: "dictionary/korean/detail",

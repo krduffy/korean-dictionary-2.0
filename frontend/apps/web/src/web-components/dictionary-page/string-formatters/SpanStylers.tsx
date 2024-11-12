@@ -23,3 +23,33 @@ export const ClickableLinkStyler = ({
 }) => {
   return <span className="hover:underline">{children}</span>;
 };
+
+export const TraditionalKoreanText = ({ children, className = "" }) => {
+  return (
+    <span
+      className={`font-serif ${className}`}
+      style={{
+        fontFamily:
+          '"Nanum Myeongjo", "Gungseo", "Batang", "BatangChe", "UnBatang", serif',
+        letterSpacing: "0.02em",
+      }}
+    >
+      {children}
+    </span>
+  );
+};
+
+export const TraditionalHanjaText = ({ children, className = "" }) => {
+  return (
+    <span
+      className={`font-serif ${className}`}
+      style={{
+        fontFamily:
+          '"Source Han Serif", "Nanum Myeongjo", "SimSun", "Ming", "MS Mincho", serif',
+        letterSpacing: "0.05em",
+      }}
+    >
+      {children}
+    </span>
+  );
+};

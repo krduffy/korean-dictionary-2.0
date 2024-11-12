@@ -3,8 +3,9 @@ import {
   AllowedKoreanSearchType,
   KoreanSearchConfig,
 } from "@repo/shared/types/panelAndViewTypes";
+import { SearchConfigLabelAndSettingArea } from "./SearchConfigLabelAndSettingArea";
 
-export const KoreanSearchConfigDropdownMenu = ({
+export const KoreanSearchConfigSettingsMenu = ({
   config,
   updateKoreanSearchConfig,
 }: {
@@ -12,18 +13,15 @@ export const KoreanSearchConfigDropdownMenu = ({
   updateKoreanSearchConfig: (args: UpdateKoreanSearchConfigArgs) => void;
 }) => {
   return (
-    <div className="bg-black pb-10 px-10">
-      <div>한국어 검색 변수 설정</div>
-      <KoreanSwitchSearchTypeConfigurer
-        searchType={config.search_type}
-        setSearchType={(st: AllowedKoreanSearchType) =>
-          updateKoreanSearchConfig({
-            field: "search_type",
-            value: st,
-          })
-        }
-      />
-    </div>
+    <KoreanSwitchSearchTypeConfigurer
+      searchType={config.search_type}
+      setSearchType={(st: AllowedKoreanSearchType) =>
+        updateKoreanSearchConfig({
+          field: "search_type",
+          value: st,
+        })
+      }
+    />
   );
 };
 
@@ -34,13 +32,13 @@ const KoreanSwitchSearchTypeConfigurer = ({
   searchType: AllowedKoreanSearchType;
   setSearchType: (newType: AllowedKoreanSearchType) => void;
 }) => {
-  return (
-    <>
-      <span>검색형</span>
-      <form className="flex items-center">
+  const settingArea = (
+    <form className="text-right">
+      <div className="mb-2">
         <label>
           <input
             type="radio"
+            className="mr-1"
             name="search_type"
             checked={searchType === "word_exact"}
             onChange={() => {
@@ -49,9 +47,12 @@ const KoreanSwitchSearchTypeConfigurer = ({
           />
           단어 맞춤
         </label>
+      </div>
+      <div>
         <label>
           <input
             type="radio"
+            className="mr-1"
             name="search_type"
             checked={searchType === "definition_contains"}
             onChange={() => {
@@ -60,7 +61,14 @@ const KoreanSwitchSearchTypeConfigurer = ({
           />
           뜻풀이 포함
         </label>
-      </form>
-    </>
+      </div>
+    </form>
+  );
+
+  return (
+    <SearchConfigLabelAndSettingArea
+      label={"검색형"}
+      settingArea={settingArea}
+    />
   );
 };

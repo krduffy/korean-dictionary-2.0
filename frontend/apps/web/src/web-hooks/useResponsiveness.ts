@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useResponsiveness = () => {
-  const twoPanelCutoffWidth = 1200;
+  const twoPanelCutoffWidth = 900;
 
   const [twoPanelsAllowed, setTwoPanelsAllowed] = useState<boolean>(
     window.innerWidth >= twoPanelCutoffWidth

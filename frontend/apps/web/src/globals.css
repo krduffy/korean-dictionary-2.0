@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --min-screen-height: 400px;
-  --min-screen-width: 300px;
+  --min-screen-width: 350px;
 
   --font-size: 1em;
 }
@@ -35,6 +35,9 @@
   --background-primary: white;
   --background-secondary: #f3f4f6;
   --background-tertiary: #e5e7eb;
+  --background-quaternary: red;
+
+  --navbar-background: red;
 
   --text-primary: #111827;
   --text-secondary: #374151;
@@ -72,17 +75,21 @@
     --background-primary: #050505;
     --background-secondary: #0a0a0a;
     --background-tertiary: #0f0f0f;
+    --background-quaternary: #141414;
+
+    --navbar-background: gray;
 
     --text-primary: #aaaaaa;
-    --text-secondary: #;
+    --text-secondary: #bbbbbb;
     --text-tertiary: #9ca3af;
 
     --button-color: pink;
     --button-hover-color: blue;
     --border-color: #374151;
 
-    --accent-button-color: #329cbf;
-    --accent-button-hover-color: #81b7c9;
+    --accent-button-color: silver;
+    --accent-button-hover-color: gold;
+    --accent-button-text-color: black;
 
     /* Accents */
     --accent-5: #6d959c;

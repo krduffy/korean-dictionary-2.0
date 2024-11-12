@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 type Position = "top" | "bottom" | "left" | "right" | "center";
 type Alignment = "start" | "center" | "end";
 
-interface PopupBoxArgs {
+export interface PopupBoxArgs {
   /** The content to show in the popup. */
   children: React.ReactNode;
   /** The target element to position relative to. */
