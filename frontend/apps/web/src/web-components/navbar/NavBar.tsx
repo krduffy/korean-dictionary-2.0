@@ -3,13 +3,12 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { useCallAPIWeb } from "../../web-hooks/useCallAPIWeb";
 
-import { BookOpen, LogIn, Menu, UserRound } from "lucide-react";
+import { BookOpen, LogIn, UserRound } from "lucide-react";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
 } from "../dictionary-page/string-formatters/SpanStylers";
-import { useState } from "react";
-import { ButtonWithClickDropdown } from "../misc/ButtonWithClickDropdown";
+import { MoreButton } from "./MoreMenu";
 
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ export const NavBar = () => {
           )}
         </div>
         <div className="h-[70%]">
-          <MoreButton />
+          <MoreButton navigate={navigate} />
         </div>
       </div>
     </div>
@@ -83,22 +82,4 @@ const LoggedInUserButton = () => {
       <UserRound className="h-full w-auto" strokeWidth={1.5} />
     </button>
   );
-};
-
-const MoreButton = () => {
-  const buttonContent = <Menu className="h-full w-auto" strokeWidth={1.5} />;
-
-  const dropdownContent = <MoreButtonDropdown />;
-
-  return (
-    <ButtonWithClickDropdown
-      buttonContent={buttonContent}
-      dropdownContent={dropdownContent}
-      popupBoxArgs={{ align: "end" }}
-    />
-  );
-};
-
-const MoreButtonDropdown = () => {
-  return <div>dropdown</div>;
 };

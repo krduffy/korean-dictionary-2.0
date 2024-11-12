@@ -1,8 +1,7 @@
-import { usePersistentDictionaryPageStateContext } from "../../web-contexts/PersistentDictionaryPageStateContext";
-import { PageWithNavBar } from "../navbar/PageWithNavBar";
-
-import { Panel } from "./Panel";
-import { useResponsiveness } from "../../web-hooks/useResponsiveness";
+import { usePersistentDictionaryPageStateContext } from "../web-contexts/PersistentDictionaryPageStateContext";
+import { PageWithNavBar } from "../web-components/navbar/PageWithNavBar";
+import { Panel } from "../web-components/dictionary-page/Panel";
+import { useResponsiveness } from "../web-hooks/useResponsiveness";
 
 export const DictionaryPage = () => {
   const { leftPanelData, rightPanelData } =

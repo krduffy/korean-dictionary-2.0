@@ -35,24 +35,7 @@ export const Panel = ({
 "
       >
         {/* area for search bar and history navigation + closing panel */}
-        <div className="flex flex-row h-12 mb-4">
-          <div className="w-[80%]">
-            <SearchBarArea
-              searchConfig={state.searchConfig}
-              dispatch={dispatch}
-            />
-          </div>
-          <div className="w-[20%] flex flex-row">
-            <div className="w-[80%] h-full">
-              <HistoryNavigationArea dispatch={dispatch} />
-            </div>
-            <div className="w-[20%]">
-              <CloseButton
-                onClose={() => dispatch({ type: "make_invisible" })}
-              />
-            </div>
-          </div>
-        </div>
+        <PanelTopBar state={state} dispatch={dispatch} />
         <div className="p-2 h-[90%] max-h-[90%] flex flex-1 flex-col overflow-y-scroll overflow-x-hidden">
           <MainContentArea
             scrollDistance={state.view.interactionData.scrollDistance}
@@ -64,6 +47,30 @@ export const Panel = ({
         </div>
       </div>
     </ViewDispatchersContextProvider>
+  );
+};
+
+const PanelTopBar = ({
+  state,
+  dispatch,
+}: {
+  state: PanelState;
+  dispatch: React.Dispatch<PanelStateAction>;
+}) => {
+  return (
+    <div className="flex flex-row h-12 mb-4">
+      <div className="w-[80%]">
+        <SearchBarArea searchConfig={state.searchConfig} dispatch={dispatch} />
+      </div>
+      <div className="w-[20%] flex flex-row">
+        <div className="w-[80%] h-full">
+          <HistoryNavigationArea dispatch={dispatch} />
+        </div>
+        <div className="w-[20%]">
+          <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
+        </div>
+      </div>
+    </div>
   );
 };
 
