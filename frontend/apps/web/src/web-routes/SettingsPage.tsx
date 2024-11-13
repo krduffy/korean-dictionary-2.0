@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { PageWithNavBar } from "../web-components/navbar/PageWithNavBar";
 
 import { useSettingsPageContent } from "../web-hooks/useSettingsPageContent";
@@ -30,13 +30,49 @@ const SettingsPageContent = () => {
       </div>
       <div className="w-full flex flex-1 flex-col items-center py-6 space-y-6">
         <FontSizeSettingArea fontSizeSettings={currentSettings.fontSize} />
-        <button onClick={() => save()}>저장</button>
+        <SaveButtonAndMessage save={save} />
       </div>
     </div>
   );
 };
 
-const SaveButton = ({ save }: { save: () => void }) => {};
+const SaveButtonAndMessage = ({ save }: { save: () => boolean }) => {
+  const [saveSuccessful, setSaveSuccessful] = useState<undefined | boolean>(
+    undefined
+  );
+
+  /* done to force visual update */
+  const updateSaveSuccessful = (newValue: boolean) => {
+    setSaveSuccessful(undefined);
+    setTimeout(() => {
+      setSaveSuccessful(newValue);
+    }, 300);
+  };
+
+  return (
+    <>
+      <button onClick={() => updateSaveSuccessful(save())}>저장</button>
+      {saveSuccessful !== undefined && (
+        <SaveMessage saveSuccessful={saveSuccessful} />
+      )}
+    </>
+  );
+};
+
+const SaveMessage = ({ saveSuccessful }: { saveSuccessful: boolean }) => {
+  return (
+    <div>
+      {saveSuccessful ? (
+        <span className="text-[color:--success-color]">저장 성공</span>
+      ) : (
+        <span className="text-[color:--error-color]">
+          저장하려다가 오류가 발생했습니다. 브라우저 설정 또는 프라이빗 모드가
+          원인일 수 있습니다.
+        </span>
+      )}
+    </div>
+  );
+};
 
 const SettingNameAndControls = ({
   settingName,
@@ -61,6 +97,7 @@ const FontSizeSettingArea = ({
   fontSizeSettings,
 }: {
   fontSizeSettings: {
+    relativeFontSize: number;
     demoFontSize: number;
     setDemoFontSize: (newSize: number) => void;
   };
@@ -70,10 +107,18 @@ const FontSizeSettingArea = ({
   };
 
   const getSampleSize = () => {
-    const before = getComputedStyle(document.documentElement).getPropertyValue(
-      "--font-size"
-    );
-    return parseFloat(before) * 2 ** fontSizeSettings.demoFontSize;
+    /* has the relative size scalar applied */
+    const before = getComputedStyle(document.documentElement)
+      .getPropertyValue("--font-size")
+      .replace("em", "");
+
+    /* getting default */
+    const defaultSize = Number(before) / fontSizeSettings.relativeFontSize;
+
+    /* reapplying new scalar for demo */
+    const ret = defaultSize * 2 ** fontSizeSettings.demoFontSize;
+
+    return isNaN(ret) ? 1 : ret;
   };
 
   const controlArea = (

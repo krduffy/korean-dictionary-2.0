@@ -11,6 +11,7 @@ export const useSettingsPageContent = () => {
 
   const currentSettings = {
     fontSize: {
+      relativeFontSize: fontSizeSettings.relativeFontSize,
       demoFontSize: demoFontSize,
       setDemoFontSize: setDemoFontSize,
     },
