@@ -6,7 +6,7 @@ import { useResponsiveness } from "../web-hooks/useResponsiveness";
 export const DictionaryPage = () => {
   const { leftPanelData, rightPanelData } =
     usePersistentDictionaryPageStateContext();
-  const { twoPanelsAllowed } = useResponsiveness();
+  const { twoPanelsAllowed } = useResponsiveness({ window: window });
 
   const leftPanelVisible = leftPanelData.state.visible;
   const rightPanelVisible = rightPanelData.state.visible;
