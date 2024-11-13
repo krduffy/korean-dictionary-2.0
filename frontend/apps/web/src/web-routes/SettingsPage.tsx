@@ -6,8 +6,10 @@ import { useSettingsPageContent } from "../web-hooks/useSettingsPageContent";
 export const SettingsPage = () => {
   return (
     <PageWithNavBar>
-      <div className="h-[90%] w-[80%] p-6 flex flex-row items-center">
-        <SettingsPageContent />
+      <div className="h-full w-full flex items-center justify-center">
+        <div className="h-[90%] w-[80%] p-6">
+          <SettingsPageContent />
+        </div>
       </div>
     </PageWithNavBar>
   );
@@ -34,6 +36,8 @@ const SettingsPageContent = () => {
   );
 };
 
+const SaveButton = ({ save }: { save: () => void }) => {};
+
 const SettingNameAndControls = ({
   settingName,
   settingHelp,
@@ -44,11 +48,11 @@ const SettingNameAndControls = ({
   controls: ReactNode;
 }) => {
   return (
-    <div className="flex flex-row">
-      <div className="w-[20%] text-center cursor-help" title={settingHelp}>
+    <div className="flex flex-row w-[70%] gap-24">
+      <div className="w-[20%] text-right cursor-help" title={settingHelp}>
         {settingName}
       </div>
-      <div className="w-[80%]">{controls}</div>
+      <div className="w-[80%] text-left">{controls}</div>
     </div>
   );
 };
@@ -65,8 +69,15 @@ const FontSizeSettingArea = ({
     fontSizeSettings.setDemoFontSize(Number(e.target.value));
   };
 
+  const getSampleSize = () => {
+    const before = getComputedStyle(document.documentElement).getPropertyValue(
+      "--font-size"
+    );
+    return parseFloat(before) * 2 ** fontSizeSettings.demoFontSize;
+  };
+
   const controlArea = (
-    <div className="w-64">
+    <div>
       <input
         type="range"
         className="w-full"
@@ -86,6 +97,16 @@ const FontSizeSettingArea = ({
         <div className="w-4 text-center">0.5x</div>
         <div className="w-4 text-center">1x</div>
         <div className="w-4 text-center">2x</div>
+      </div>
+
+      {/* shows size */}
+      <div className="min-h-6">
+        <div
+          className="h-full w-full text-center"
+          style={{ fontSize: `${getSampleSize()}em` }}
+        >
+          글꼴 크기를 변경해보세요!
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import {
 
 export type FontSizeSettingsType = {
   relativeFontSize: number;
-  updateRelativeFontSize: (newSIze: number) => void;
+  updateRelativeFontSize: (newSize: number) => boolean;
 };
 
 export interface SettingsType {

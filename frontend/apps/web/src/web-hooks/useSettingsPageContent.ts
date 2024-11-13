@@ -16,8 +16,13 @@ export const useSettingsPageContent = () => {
     },
   };
 
-  const save = () => {
-    fontSizeSettings.updateRelativeFontSize(2 ** demoFontSize);
+  /** Saves the current settings and returns whether or not the operation was successful. */
+  const save = (): boolean => {
+    const successful = fontSizeSettings.updateRelativeFontSize(
+      2 ** demoFontSize
+    );
+
+    return successful;
   };
 
   return {
