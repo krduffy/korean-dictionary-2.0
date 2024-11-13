@@ -28,7 +28,7 @@ export const TruncatorDropdown = ({
   } = useTruncatorDropdown({
     children: children,
     maxHeight: maxHeight,
-    overrideScrollbackRef: overrideScrollbackRef,
+    overrideScrollbackElement: overrideScrollbackRef?.current,
     initialDropdownState: initialDropdownState,
     onDropdownStateToggle: onDropdownStateToggle,
   });

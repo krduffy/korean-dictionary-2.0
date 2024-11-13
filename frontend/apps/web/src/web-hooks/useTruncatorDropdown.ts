@@ -3,14 +3,18 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 export const useTruncatorDropdown = ({
   children,
   maxHeight,
-  overrideScrollbackRef,
+  overrideScrollbackElement,
   initialDropdownState,
   onDropdownStateToggle,
 }: {
   children: ReactNode;
+  /** The maximum height of `children` before truncation. */
   maxHeight: number;
-  overrideScrollbackRef?: React.RefObject<HTMLDivElement>;
+  /** An override for the dev on which `scrollTo` is called when the truncator is collapsed. By default, a wrapper div around `children` is scrolled back to. */
+  overrideScrollbackElement?: HTMLElement | null;
+  /** Whether the dropdown is initially expanded or not. */
   initialDropdownState: boolean;
+  /** A function that is called with `isExpanded`. */
   onDropdownStateToggle?: (isExpanded: boolean) => void;
 }) => {
   const [isExpanded, setIsExpanded] = useState(initialDropdownState);
@@ -25,14 +29,21 @@ export const useTruncatorDropdown = ({
     }
   }, [children]);
 
+  /**
+   * Scrolls back to top of `children` or `overrideScrollbackRef`.
+   */
   const onCollapse = () => {
-    let scrollbackRef = overrideScrollbackRef?.current || topLevelRef.current;
+    let scrollbackElement = overrideScrollbackElement || topLevelRef.current;
 
-    if (scrollbackRef) {
-      const bcr = scrollbackRef.getBoundingClientRect();
+    if (scrollbackElement) {
+      const bcr = scrollbackElement.getBoundingClientRect();
 
-      if (bcr.top < 0 || bcr.top > window.innerHeight) {
-        scrollbackRef.scrollIntoView({
+      /* if off screen */
+      if (
+        bcr.top < 0 ||
+        (window?.innerHeight && bcr.top > window.innerHeight)
+      ) {
+        scrollbackElement.scrollIntoView({
           behavior: "instant",
         });
       }
