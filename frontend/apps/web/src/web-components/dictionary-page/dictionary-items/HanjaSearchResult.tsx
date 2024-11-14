@@ -1,5 +1,5 @@
 import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
+import { PanelSpecificDispatcher } from "../panel/PanelSpecificDispatcher";
 
 export const HanjaSearchResult = ({
   result,

@@ -12,7 +12,7 @@ import {
   StrokesArea,
   GradeLevelArea,
   ExamLevelArea,
-} from "../web-components/dictionary-page/search-bar-area/HanjaConfigSettingAreas";
+} from "../web-components/dictionary-page/panel-top-bar/search-bar-area/HanjaConfigSettingAreas";
 
 export const useHanjaConfigSettingsMenu = ({
   config,

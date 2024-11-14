@@ -3,11 +3,8 @@ import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
-import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
-import {
-  NoResultsMessage,
-  ResultCountMessage,
-} from "../string-formatters/ResultsMessages";
+import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
+import { NoResultsMessage, ResultCountMessage } from "./ResultsMessages";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";

@@ -4,7 +4,7 @@ import {
   SearchConfigLabelAndSettingArea,
   SearchConfigLabelAndSettingAreaDivider,
 } from "./SearchConfigLabelAndSettingArea";
-import { useHanjaConfigSettingsMenu } from "../../../web-hooks/useHanjaConfigSettingsMenu";
+import { useHanjaConfigSettingsMenu } from "../../../../web-hooks/useHanjaConfigSettingsMenu";
 
 type HanjaSearchConfigSettingsMenuArgs = {
   config: HanjaSearchConfig;

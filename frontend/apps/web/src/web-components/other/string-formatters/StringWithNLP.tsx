@@ -1,8 +1,10 @@
-import { useStringWithNLP } from "../../../web-hooks/useStringWithNLP";
-import { PanelSpecificDispatcher } from "./PanelSpecificDispatcher";
+import { useStringWithNLP } from "@repo/shared/hooks/useStringWithNLP";
+import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecificDispatcher";
 import { Fragment } from "react";
 import { StringWithHanja } from "./StringWithHanja";
 import { ClickableLinkStyler } from "./SpanStylers";
+
+import { NLPToken } from "@repo/shared/types/koreanLangTypes";
 
 /* Embedding hanja adds StringWithHanja where applicable */
 /* Embedding examples turns strings surrounded by curly braces into underlined text and removes the curly braces. */
@@ -46,39 +48,27 @@ const BaseStringWithNLP = ({
   embedHanja: boolean;
   embedExamples: boolean;
 }) => {
-  const { sentencesWithWords } = useStringWithNLP({
+  const { sentencesWithTokens } = useStringWithNLP({
     string: string,
     embedExamples: embedExamples,
   });
 
   return (
     <span>
-      {sentencesWithWords.map((pair, sentenceId, sentenceArray) => {
+      {sentencesWithTokens.map((pair, sentenceId, sentenceArray) => {
         const sentence: string = pair[0];
-        const words: string[] = pair[1];
+        const tokens: NLPToken[] = pair[1];
 
         return (
           <Fragment key={sentenceId}>
-            {words?.map((word, wordId, wordArray) => {
-              return (
-                <Fragment key={wordId}>
-                  {/* if word surrounded by curly braces and embedExamples true then regular span */}
-                  {embedExamples && word.match(/{.*?}/) ? (
-                    <span className="underline">
-                      {word.substring(1, word.length - 1)}
-                    </span>
-                  ) : (
-                    <WordWithNLP
-                      word={word}
-                      sentence={sentence}
-                      embedHanja={embedHanja}
-                    />
-                  )}
-                  {/* adding space only if not last word; if last word then add period */}
-                  {wordId === wordArray.length - 1 ? "." : " "}
-                </Fragment>
-              );
-            })}
+            {tokens?.map((nlpToken, nlpTokenId) => (
+              <PrintedNLPToken
+                key={nlpTokenId}
+                nlpToken={nlpToken}
+                sentence={sentence}
+                embedHanja={embedHanja}
+              />
+            ))}
             {/* if not last sentence then add space */}
             {sentenceId != sentenceArray.length - 1 && " "}
           </Fragment>
@@ -88,14 +78,32 @@ const BaseStringWithNLP = ({
   );
 };
 
-const WordWithNLP = ({
-  word,
+const PrintedNLPToken = ({
+  nlpToken,
   sentence,
   embedHanja,
 }: {
-  word: string;
+  nlpToken: NLPToken;
   sentence: string;
   embedHanja: boolean;
+}) => {
+  if (nlpToken.type === "hangul") {
+    return <WordWithNLP word={nlpToken.token} sentence={sentence} />;
+  } else if (nlpToken.type === "other" && embedHanja) {
+    return <StringWithHanja string={nlpToken.token} />;
+  } else if (nlpToken.type === "other") {
+    return <span>{nlpToken.token}</span>;
+  } else if (nlpToken.type === "example") {
+    return <span className="underline">{nlpToken.token}</span>;
+  }
+};
+
+const WordWithNLP = ({
+  word,
+  sentence,
+}: {
+  word: string;
+  sentence: string;
 }) => {
   return (
     <span>
@@ -106,9 +114,7 @@ const WordWithNLP = ({
           sentence: sentence,
         }}
       >
-        <ClickableLinkStyler>
-          {embedHanja ? <StringWithHanja string={word} /> : <span>{word}</span>}
-        </ClickableLinkStyler>
+        <ClickableLinkStyler>{word}</ClickableLinkStyler>
       </PanelSpecificDispatcher>
     </span>
   );

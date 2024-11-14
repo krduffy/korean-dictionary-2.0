@@ -2,7 +2,7 @@ import { SearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
-} from "../string-formatters/SpanStylers";
+} from "../../../other/string-formatters/SpanStylers";
 
 export const DictionarySelector = ({
   searchConfig,

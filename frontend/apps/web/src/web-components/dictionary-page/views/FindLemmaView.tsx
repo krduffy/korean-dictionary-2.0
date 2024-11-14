@@ -1,7 +1,7 @@
 import { usePropForm } from "@repo/shared/hooks/usePropForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
-import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
+import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 
 export const FindLemmaView = ({
   word,

@@ -7,7 +7,7 @@ import { BookOpen, LogIn, UserRound } from "lucide-react";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
-} from "../dictionary-page/string-formatters/SpanStylers";
+} from "../other/string-formatters/SpanStylers";
 import { MoreButton } from "./MoreMenu";
 
 export const NavBar = () => {
@@ -47,12 +47,12 @@ const Logo = () => {
       title="사전으로 가기"
     >
       <BookOpen className="h-full w-auto mr-2" strokeWidth={1.5} />
-      <div className="text-lg align-bottom mr-1">
+      <div className="text-2xl align-bottom mr-1">
         <TraditionalKoreanText>한</TraditionalKoreanText>
         <span>-</span>
         <TraditionalHanjaText>漢</TraditionalHanjaText>
       </div>
-      <div className="text-sm align-bottom">
+      <div className="text-base align-bottom">
         <span>대사전</span>
       </div>
     </div>

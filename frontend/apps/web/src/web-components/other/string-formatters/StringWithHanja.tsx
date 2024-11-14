@@ -1,11 +1,11 @@
 import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
-import { PopupBox } from "../../../web-components/misc/PopupBox";
+import { PopupBox } from "../misc/PopupBox";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { useHanjaPopupBox } from "../../../web-hooks/useHanjaPopupBox";
 import { useRef } from "react";
-import { LoadingIndicator } from "./LoadingIndicator";
-import { PanelSpecificDispatcher } from "./PanelSpecificDispatcher";
+import { LoadingIndicator } from "../misc/LoadingIndicator";
+import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecificDispatcher";
 
 export const StringWithHanja = ({ string }: { string: string }) => {
   const isolateHanja = (string: string) => {

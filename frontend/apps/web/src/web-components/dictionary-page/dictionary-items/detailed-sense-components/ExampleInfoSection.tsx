@@ -1,6 +1,5 @@
 import { ExampleType } from "@repo/shared/types/dictionaryItemProps";
-import { Source } from "../../string-formatters/Source";
-import { ExampleStringWithNLPAndHanja } from "../../string-formatters/StringWithNLP";
+import { ExampleStringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
 
 export const ExampleInfoSection = ({
   exampleInfo,
@@ -23,11 +22,7 @@ const SenseExample = ({ example }: { example: Example }) => {
     <div style={{ marginBottom: "10px" }}>
       <ExampleStringWithNLPAndHanja string={example["example"]} />
 
-      {example["source"] && (
-        <Source>
-          <span>출처: {example["source"]}</span>
-        </Source>
-      )}
+      {example["source"] && <span>출처: {example["source"]}</span>}
     </div>
   );
 };

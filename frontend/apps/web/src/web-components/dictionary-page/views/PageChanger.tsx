@@ -1,6 +1,6 @@
 import { usePageChanger } from "@repo/shared/hooks/usePageChanger";
 
-import "./styles.css";
+import "./no-spinner-styles.css";
 
 export type PageChangerArgs = {
   pageNum: number;

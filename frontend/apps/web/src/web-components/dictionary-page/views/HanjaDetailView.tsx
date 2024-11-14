@@ -1,7 +1,7 @@
 import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
-import { LoadingIndicator } from "../string-formatters/LoadingIndicator";
+import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
 
 export const HanjaDetailView = ({ character }: { character: string }) => {

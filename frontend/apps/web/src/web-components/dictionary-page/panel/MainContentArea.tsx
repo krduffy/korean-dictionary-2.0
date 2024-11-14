@@ -1,11 +1,11 @@
 import { ReactNode, useLayoutEffect, useRef } from "react";
-import { KoreanSearchView } from "./views/KoreanSearchView";
-import { HanjaSearchView } from "./views/HanjaSearchView";
-import { KoreanDetailView } from "./views/KoreanDetailView";
-import { HanjaDetailView } from "./views/HanjaDetailView";
-import { FindLemmaView } from "./views/FindLemmaView";
+import { KoreanSearchView } from "../views/KoreanSearchView";
+import { HanjaSearchView } from "../views/HanjaSearchView";
+import { KoreanDetailView } from "../views/KoreanDetailView";
+import { HanjaDetailView } from "../views/HanjaDetailView";
+import { FindLemmaView } from "../views/FindLemmaView";
 import { View } from "@repo/shared/types/panelAndViewTypes";
-import { useViewDispatchersContext } from "../../web-contexts/ViewDispatchersContext";
+import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 
 /* a wrapper around MainContent to add the updating of scroll distance functionality */
 export const MainContentArea = ({

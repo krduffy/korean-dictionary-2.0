@@ -1,4 +1,4 @@
-import { useTruncatorDropdown } from "../../web-hooks/useTruncatorDropdown";
+import { useTruncatorDropdown } from "../../../web-hooks/useTruncatorDropdown";
 import { ReactNode } from "react";
 
 import "./truncator-dropdown-styles.css";

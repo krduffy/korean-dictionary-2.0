@@ -77,7 +77,7 @@ const SearchBar = ({
       bg-white/10 
       border border-gray-200/20 
       rounded-full
-      outline-none text-base text-[color:--text-primary]
+      outline-none text-[color:--text-primary]
       focus:ring-2 focus:border-[color:--focus-blue]
       hover:bg-white/20
       transition-all duration-200

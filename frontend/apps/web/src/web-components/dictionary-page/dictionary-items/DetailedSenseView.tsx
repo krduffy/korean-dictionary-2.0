@@ -2,9 +2,9 @@ import {
   DetailedSenseType,
   SenseAdditionalInfoType,
 } from "@repo/shared/types/dictionaryItemProps";
-import { StringWithNLPAndHanja } from "../string-formatters/StringWithNLP";
+import { StringWithNLPAndHanja } from "../../other/string-formatters/StringWithNLP";
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
-import { TruncatorDropdown } from "../../misc/TruncatorDropdown";
+import { TruncatorDropdown } from "../../other/misc/TruncatorDropdown";
 import { useRef } from "react";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 

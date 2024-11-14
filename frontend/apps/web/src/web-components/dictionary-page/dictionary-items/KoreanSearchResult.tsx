@@ -2,13 +2,13 @@ import {
   KoreanSearchResultType,
   SimplifiedSenseType,
 } from "@repo/shared/types/dictionaryItemProps";
-import { PanelSpecificDispatcher } from "../string-formatters/PanelSpecificDispatcher";
-import { StringWithHanja } from "../string-formatters/StringWithHanja";
-import { StringWithNLPAndHanja } from "../string-formatters/StringWithNLP";
+import { PanelSpecificDispatcher } from "../panel/PanelSpecificDispatcher";
+import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
+import { StringWithNLPAndHanja } from "../../other/string-formatters/StringWithNLP";
 import {
   SearchResultSideInfoStyler,
   SearchResultStyler,
-} from "../string-formatters/SpanStylers";
+} from "../../other/string-formatters/SpanStylers";
 import { KoreanWordKnownToggler } from "./KnownStudiedTogglers";
 
 export const KoreanSearchResult = ({

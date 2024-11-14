@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ButtonWithClickDropdown } from "../misc/ButtonWithClickDropdown";
+import { ButtonWithClickDropdown } from "../other/misc/ButtonWithClickDropdown";
 import { Menu, Settings } from "lucide-react";
 import { NavigateFunction } from "react-router-dom";
 

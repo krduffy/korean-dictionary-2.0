@@ -24,7 +24,13 @@ export const ClickableLinkStyler = ({
   return <span className="hover:underline">{children}</span>;
 };
 
-export const TraditionalKoreanText = ({ children, className = "" }) => {
+export const TraditionalKoreanText = ({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
     <span
       className={`font-serif ${className}`}
@@ -39,7 +45,13 @@ export const TraditionalKoreanText = ({ children, className = "" }) => {
   );
 };
 
-export const TraditionalHanjaText = ({ children, className = "" }) => {
+export const TraditionalHanjaText = ({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
     <span
       className={`font-serif ${className}`}
@@ -50,6 +62,14 @@ export const TraditionalHanjaText = ({ children, className = "" }) => {
       }}
     >
       {children}
+    </span>
+  );
+};
+
+export const SpanPicture = ({ string }: { string: string }) => {
+  return (
+    <span className="inline-flex items-center justify-center w-full h-full overflow-hidden">
+      {string}
     </span>
   );
 };

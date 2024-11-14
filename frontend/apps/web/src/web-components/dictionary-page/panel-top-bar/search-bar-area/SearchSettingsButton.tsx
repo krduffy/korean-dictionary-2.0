@@ -6,11 +6,7 @@ import {
 } from "@repo/shared/hooks/useSearchBarArea";
 
 import { Settings2 } from "lucide-react";
-import { ButtonWithClickDropdown } from "../../misc/ButtonWithClickDropdown";
-import {
-  TraditionalHanjaText,
-  TraditionalKoreanText,
-} from "../string-formatters/SpanStylers";
+import { ButtonWithClickDropdown } from "../../../other/misc/ButtonWithClickDropdown";
 import { HanjaSearchConfigSettingsMenu } from "./HanjaConfigSettingsMenu";
 import { DictionarySelector } from "./DictionarySelector";
 
@@ -75,7 +71,12 @@ const SearchSettingsMenu = ({
 }: SearchSettingsButtonArgs) => {
   return (
     <div className="min-h-12 max-h-96 overflow-y-scroll bg-[color:--background-tertiary] px-6 py-3 rounded-md border-4 border-[color:--border-color]">
-      <div className="mb-3 text-center text-lg bg-[color:--accent-4] rounded-md py-1">
+      <div
+        style={{
+          fontSize: "125%",
+        }}
+        className="mb-3 text-center bg-[color:--accent-4] rounded-md py-1"
+      >
         검색할 사전
       </div>
       <DictionarySelector
@@ -83,7 +84,10 @@ const SearchSettingsMenu = ({
         switchDictionary={switchDictionary}
       />
       <br />
-      <div className="mb-3 text-center text-lg bg-[color:--accent-4] rounded-md py-1">
+      <div
+        style={{ fontSize: "125%" }}
+        className="mb-3 text-center bg-[color:--accent-4] rounded-md py-1"
+      >
         검색 변수 설정
       </div>
       {searchConfig.dictionary === "korean" ? (
