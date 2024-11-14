@@ -1,3 +1,45 @@
+/**
+ * Splits a string along lines of consecutive hangul blocks (not jamo or compatability jamo).
+ *
+ * For example,
+ * testString("이런 사람은 '열사(烈士)'라고 하죠.") will return
+ * [{ '이런', true}, {' ', false}, {'사람은', true}, {' \'', false}, {'열사', true},
+ * {'(烈士)\'', false}, {'라고', true}, {' ', false}, {'하죠', true}, {'.', false}].
+ *
+ * @param str The string to split.
+ * @returns An array of tokens paired with whether they are hangul or not.
+ */
+export const splitAlongHangul = (
+  str: string
+): { token: string; isHangul: boolean }[] | [] => {
+  if (str.length < 1) {
+    return [];
+  }
+
+  const FIRST_HANGUL = "\uac00".charCodeAt(0);
+  const LAST_HANGUL = "\ud7a3".charCodeAt(0);
+
+  return str
+    .split(/([\uac00-\ud7a3]+)/g)
+    .filter((substr) => substr.length > 0)
+    .map((substr) => {
+      const firstCharCode = substr.charCodeAt(0);
+
+      return {
+        token: substr,
+        isHangul: firstCharCode >= FIRST_HANGUL && firstCharCode <= LAST_HANGUL,
+      };
+    });
+};
+
+/**
+ * Returns "는", "은", or "" based on the final character in `string`. If it is hangul, 는 or 은
+ * is returned accordingly. Compatability jamo return 는 if they are vowels (ㅏ, ㅓ, ...) or 은 if
+ * they are consonants (ㅈ, ㄱ, ...). All other strings return "".
+ *
+ * @param string The string for which to get a topic marker.
+ * @returns The topic marker for the string.
+ */
 export const getTopicMarker = (string: string): "은" | "는" | "" => {
   /*  
       This can seem magic-numbery, but for those interested in how to convert a unicode in the 
@@ -44,10 +86,10 @@ export const getTopicMarker = (string: string): "은" | "는" | "" => {
   return "는";
 };
 
-const isConsonant = (jamo: string) => {
+const isConsonant = (jamo: string): boolean => {
   return "ㅂㅈㄷㄱㅅㅁㄴㅇㄹㅎㅋㅌㅊㅍㅃㅉㄸㄲㅆ".includes(jamo);
 };
 
-const isVowel = (jamo: string) => {
+const isVowel = (jamo: string): boolean => {
   return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡㅖㅒ".includes(jamo);
 };
