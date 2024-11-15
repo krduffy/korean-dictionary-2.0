@@ -1,13 +1,13 @@
-import { APIResponseType } from "../hooks/useCache";
+export type APIResponseType = Record<string, any>;
 
-/* Tokens returned from server. */
+/** Tokens returned from server. */
 export interface AuthTokens {
   access: string;
   /* refresh optional since stored in cookie on web. */
   refresh?: string;
 }
 
-/* Token related functions that need to be provided to useCallAPI so it can handle auth */
+/** Token related functions that need to be provided to useCallAPI so it can handle auth */
 export interface TokenHandlers {
   getAccessToken: () => Promise<string | null>;
   refreshTokens: () => Promise<AuthTokens>;
