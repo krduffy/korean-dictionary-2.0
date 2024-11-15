@@ -6,6 +6,17 @@ interface UseSpamProtectedSetterArgs<T> {
   setter: (data: T) => void;
 }
 
+/** Protects a setter from spammed requests (ie in the search bar). The point is that the
+ * most recently made call to set should be the one going through even if earlier made
+ * calls' data getter calls resolve first.
+ *
+ * For example,
+ *
+ * If setter is the setter that sets the search results on the main page, with search words
+ * "apple", "banana", "citrus", in that order and the api calls take 400, 200, and 1000 ms
+ * respectively, "citrus"'s results should be set and the first two should block even though
+ * they resolved first.
+ */
 export const useSpamProtectedSetter = <T>({
   dataGetter,
   setter,
