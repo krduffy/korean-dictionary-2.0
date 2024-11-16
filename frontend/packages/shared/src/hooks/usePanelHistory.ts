@@ -44,22 +44,33 @@ export const usePanelHistory = ({
   };
 
   /**
-   * Retrieves the preceding view in the history and updates the history pointer.
+   * Retrieves the preceding view in the history and updates the history pointer. If the history
+   * pointer is at the first item in history, `null` is returned and the history pointer is
+   * not changed.
    */
-  const getPrecedingView = (): View => {
+  const navigateBack = (): View | null => {
+    if (!canNavigateBack()) {
+      return null;
+    }
+
     const prevPointer = historyPointer;
     setHistoryPointer(prevPointer - 1);
-    /* initialView is default (homepage) */
-    return history[prevPointer - 1] || initialView;
+    return history[prevPointer - 1] ?? null;
   };
 
   /**
-   * Retrieves the next view in the history and updates the history pointer.
+   * Retrieves the next view in history and updates the history pointer. If the history
+   * pointer is at the last item in history, `null` is returned and the history pointer is
+   * not changed.
    */
-  const getFollowingView = (): View => {
+  const navigateForward = (): View | null => {
+    if (!canNavigateForward()) {
+      return null;
+    }
+
     const prevPointer = historyPointer;
     setHistoryPointer(prevPointer + 1);
-    return history[prevPointer + 1] || initialView;
+    return history[prevPointer + 1] ?? null;
   };
 
   /**
@@ -84,6 +95,8 @@ export const usePanelHistory = ({
     newHistory[historyPointer] = newView;
     setHistory(newHistory);
   };
+
+  /* these were in the original but will (likely) not be in this ver */
 
   /*
   const navigateToLastViewOfType = (viewType: ViewType): View => {
@@ -113,9 +126,9 @@ export const usePanelHistory = ({
   return {
     pushViewToHistory,
     canNavigateBack,
-    getPrecedingView,
+    navigateBack,
     canNavigateForward,
-    getFollowingView,
+    navigateForward,
     updateCurrentViewInHistory,
   };
 };

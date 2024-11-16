@@ -59,11 +59,17 @@ export interface HanjaSearchConfig extends BaseSearchConfig {
 /* VIEWS */
 
 export type View =
+  | TestingView
   | KoreanSearchView
   | HanjaSearchView
   | KoreanDetailView
   | HanjaDetailView
   | FindLemmaView;
+
+export type TestingView = {
+  type: "testing";
+  id: number;
+};
 
 export interface BaseInteractionData {
   scrollDistance: number;
