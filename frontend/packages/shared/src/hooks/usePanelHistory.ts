@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { View, ViewType } from "../types/panelAndViewTypes";
 
 export type UsePanelHistoryArgs = {
@@ -14,7 +14,7 @@ export const usePanelHistory = ({
    * History is stored as an array of views.
    * [{"view: "homepage}, {"view": "search_korean", "value": "가다"}, ...] for example
    */
-  const [history, setHistory] = useState<View[]>([initialView]);
+  const history = useRef<View[]>([initialView]);
 
   /*
    * historyPointer is the index of the current view in history.
@@ -31,16 +31,23 @@ export const usePanelHistory = ({
    *             ^
    *            ptr
    */
-  const [historyPointer, setHistoryPointer] = useState<number>(0);
+  const historyPointer = useRef<number>(0);
 
   /**
-   * Adds a new view to the history.
+   * Adds a new view to the history and advances the history pointer.
    */
   const pushViewToHistory = (newView: View) => {
-    const newHistory = history.slice(0, historyPointer + 1);
+    const newHistory = history.current.slice(0, historyPointer.current + 1);
     newHistory.push(newView);
-    setHistory(newHistory);
-    setHistoryPointer(historyPointer + 1);
+
+    if (newHistory.length > viewStorageLimit) {
+      /* get rid of first element */
+      newHistory.shift();
+    } else {
+      historyPointer.current++;
+    }
+
+    history.current = newHistory;
   };
 
   /**
@@ -53,9 +60,8 @@ export const usePanelHistory = ({
       return null;
     }
 
-    const prevPointer = historyPointer;
-    setHistoryPointer(prevPointer - 1);
-    return history[prevPointer - 1] ?? null;
+    historyPointer.current--;
+    return history.current[historyPointer.current] ?? null;
   };
 
   /**
@@ -68,32 +74,36 @@ export const usePanelHistory = ({
       return null;
     }
 
-    const prevPointer = historyPointer;
-    setHistoryPointer(prevPointer + 1);
-    return history[prevPointer + 1] ?? null;
+    historyPointer.current++;
+    return history.current[historyPointer.current] ?? null;
   };
 
   /**
    * Checks if navigation back is possible based on the current history pointer.
    */
   const canNavigateBack = (): boolean => {
-    return historyPointer - 1 >= 0;
+    return historyPointer.current - 1 >= 0;
   };
 
   /**
    * Checks if navigation forward is possible based on the current history pointer.
    */
   const canNavigateForward = (): boolean => {
-    return historyPointer + 1 <= history.length - 1;
+    return historyPointer.current + 1 <= history.current.length - 1;
   };
 
   /**
    * Updates the current view in the history with a new view.
    */
   const updateCurrentViewInHistory = (newView: View) => {
-    let newHistory = history.slice(0, history.length);
-    newHistory[historyPointer] = newView;
-    setHistory(newHistory);
+    history.current[historyPointer.current] = newView;
+  };
+
+  /**
+   * Returns the view at the current history pointer.
+   */
+  const getCurrentView = (): View | null => {
+    return history.current[historyPointer.current] ?? null;
   };
 
   /* these were in the original but will (likely) not be in this ver */
@@ -130,5 +140,6 @@ export const usePanelHistory = ({
     canNavigateForward,
     navigateForward,
     updateCurrentViewInHistory,
+    getCurrentView,
   };
 };

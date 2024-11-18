@@ -15,10 +15,6 @@ describe("usePanelHistory", () => {
     };
   };
 
-  const getViewId = (testingView: TestingView): number => {
-    return testingView.id;
-  };
-
   it("inits properly", () => {
     const view1 = makeView(1);
 
@@ -45,5 +41,136 @@ describe("usePanelHistory", () => {
     expect(canNavigateForward).toBe(false);
     expect(followingView).toEqual(null);
     expect(precedingView).toEqual(null);
+  });
+
+  it("pushes a view to history and advances to it", () => {
+    const view1 = makeView(1);
+    const view2 = makeView(2);
+
+    const { result } = renderHook(() =>
+      usePanelHistory({
+        viewStorageLimit: smallStorageLimit,
+        initialView: view1,
+      })
+    );
+
+    let currentView;
+
+    act(() => {
+      result.current.pushViewToHistory(view2);
+      currentView = result.current.getCurrentView();
+    });
+
+    expect(currentView).toEqual(view2);
+  });
+
+  it("can navigate back and forth", () => {
+    const view1 = makeView(1);
+    const view2 = makeView(2);
+
+    const { result } = renderHook(() =>
+      usePanelHistory({
+        viewStorageLimit: smallStorageLimit,
+        initialView: view1,
+      })
+    );
+
+    let currentView;
+
+    act(() => {
+      result.current.pushViewToHistory(view2);
+      currentView = result.current.getCurrentView();
+    });
+
+    expect(currentView).toEqual(view2);
+    expect(result.current.canNavigateBack()).toBe(true);
+    expect(result.current.canNavigateForward()).toBe(false);
+
+    act(() => {
+      currentView = result.current.navigateBack();
+    });
+
+    expect(currentView).toEqual(view1);
+
+    act(() => {
+      currentView = result.current.navigateBack();
+    });
+
+    expect(currentView).toBeNull();
+
+    act(() => {
+      currentView = result.current.navigateForward();
+    });
+
+    /* having navigate backwards when not possible should not have changed pointer */
+    expect(currentView).toEqual(view2);
+
+    act(() => {
+      currentView = result.current.navigateForward();
+    });
+
+    expect(currentView).toBeNull();
+  });
+
+  it("removes the first element when view storage limit is reached", () => {
+    const view1 = makeView(1);
+    const view2 = makeView(2);
+    const view3 = makeView(3);
+
+    const { result } = renderHook(() =>
+      usePanelHistory({
+        viewStorageLimit: smallStorageLimit,
+        initialView: view1,
+      })
+    );
+
+    result.current.pushViewToHistory(view2);
+    result.current.pushViewToHistory(view3);
+
+    /* storage limit is 2 so the first view should have been removed when view3 was added */
+    expect(result.current.getCurrentView()).toEqual(view3);
+    expect(result.current.navigateBack()).toEqual(view2);
+    expect(result.current.navigateBack()).toBeNull();
+  });
+
+  it("updates a view in history correctly", () => {
+    const view1 = makeView(1);
+    const view2 = makeView(2);
+    const view3 = makeView(3);
+
+    const { result } = renderHook(() =>
+      usePanelHistory({
+        viewStorageLimit: smallStorageLimit,
+        initialView: view1,
+      })
+    );
+
+    result.current.updateCurrentViewInHistory(view3);
+    result.current.pushViewToHistory(view2);
+    /* (not view1) */
+    expect(result.current.navigateBack()).toEqual(view3);
+  });
+
+  it("correctly returns canNavigateBack and canNavigateForward values", () => {
+    const view1 = makeView(1);
+    const view2 = makeView(2);
+
+    const { result } = renderHook(() =>
+      usePanelHistory({
+        viewStorageLimit: smallStorageLimit,
+        initialView: view1,
+      })
+    );
+
+    expect(result.current.canNavigateBack()).toBe(false);
+    expect(result.current.canNavigateForward()).toBe(false);
+
+    result.current.pushViewToHistory(view2);
+    expect(result.current.canNavigateBack()).toBe(true);
+    expect(result.current.canNavigateForward()).toBe(false);
+
+    result.current.navigateBack();
+    expect(result.current.canNavigateBack()).toBe(false);
+    expect(result.current.canNavigateForward()).toBe(true);
   });
 });
