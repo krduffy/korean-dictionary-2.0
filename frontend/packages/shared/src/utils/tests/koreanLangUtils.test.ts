@@ -1,4 +1,8 @@
-import { splitAlongHangul, longNumberToFormatted } from "../koreanLangUtils";
+import {
+  splitAlongHangul,
+  longNumberToFormatted,
+  getTopicMarker,
+} from "../koreanLangUtils";
 
 describe("koreanLangUtils", () => {
   describe("splitAlongHangul", () => {
@@ -46,4 +50,25 @@ describe("koreanLangUtils", () => {
       }
     );
   });
+});
+
+describe("getTopicMarker", () => {
+  const testData = [
+    { input: "키런", expectedOutput: "은" },
+    { input: "다", expectedOutput: "는" },
+    { input: "거", expectedOutput: "는" },
+    { input: "꿰", expectedOutput: "는" },
+    { input: "킭", expectedOutput: "은" },
+    { input: "죽", expectedOutput: "은" },
+    { input: "ㅈ", expectedOutput: "은" },
+    { input: "ㅏ", expectedOutput: "는" },
+    { input: "notkorean", expectedOutput: "" },
+  ];
+
+  test.each(testData)(
+    "input $input has the output $expectedOutput",
+    ({ input, expectedOutput }) => {
+      expect(getTopicMarker(input)).toBe(expectedOutput);
+    }
+  );
 });

@@ -32,6 +32,20 @@ export const splitAlongHangul = (
     });
 };
 
+export const isConsonant = (str: string) => {
+  if (str.length !== 1) {
+    return false;
+  }
+  return "ㅂㅈㄷㄱㅅㅁㄴㅇㄹㅎㅋㅌㅊㅍㅃㅉㄸㄲㅆ".includes(str);
+};
+
+export const isVowel = (str: string) => {
+  if (str.length !== 1) {
+    return false;
+  }
+  return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡㅖㅒ".includes(str);
+};
+
 /**
  * Returns "는", "은", or "" based on the final character in `string`. If it is hangul, 는 or 은
  * is returned accordingly. Compatability jamo return 는 if they are vowels (ㅏ, ㅓ, ...) or 은 if
@@ -84,14 +98,6 @@ export const getTopicMarker = (string: string): "은" | "는" | "" => {
   }
 
   return "는";
-};
-
-const isConsonant = (jamo: string): boolean => {
-  return "ㅂㅈㄷㄱㅅㅁㄴㅇㄹㅎㅋㅌㅊㅍㅃㅉㄸㄲㅆ".includes(jamo);
-};
-
-const isVowel = (jamo: string): boolean => {
-  return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡㅖㅒ".includes(jamo);
 };
 
 /**
