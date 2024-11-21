@@ -11,6 +11,7 @@ export const getBasicKoreanSearchViewData = ({
   return {
     search_term: searchTerm,
     search_type: "word_exact",
+    page: 1,
   };
 };
 
@@ -20,6 +21,8 @@ export const getBasicHanjaSearchViewData = ({
   searchTerm: string;
 }): HanjaSearchConfig => {
   return {
+    /* none of the optional things like grade level here */
     search_term: searchTerm,
+    page: 1,
   };
 };

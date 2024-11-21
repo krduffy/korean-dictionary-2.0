@@ -1,41 +1,81 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
-  AuthTokens,
   UseCallAPIArgs,
   UseCallAPIReturns,
   RequestConfig,
 } from "../types/apiCallTypes";
-import { useCachingContext } from "../contexts/CachingContextProvider";
-import { APIResponseType } from "./useCache";
+import { APIResponseType } from "../types/apiCallTypes";
 
 export const useCallAPI = ({
   tokenHandlers,
-  onRefreshFail,
   cacheResults,
+  cacheFunctions,
+  onCaughtError,
 }: UseCallAPIArgs): UseCallAPIReturns => {
-  const { clear, put, retrieve } = useCachingContext();
+  const { put, retrieve } = cacheFunctions;
 
+  /* Whether the most recent api call was successful (response.ok) or not. */
   const [successful, setSuccessful] = useState(false);
+  /* Whether the most recent api call was unsuccessful (!response.ok) or not. */
   const [error, setError] = useState(false);
+  /* Whether an api call is in progress. */
   const [loading, setLoading] = useState(false);
+  /* The most recent response, stored as a json object. */
   const [response, setResponse] = useState<APIResponseType | null>(null);
 
-  const responseToJson = async (
-    response: Response
-  ): Promise<APIResponseType> => {
-    return await response.json();
-  };
-
-  const tryRefreshAndSave = async (): Promise<AuthTokens> => {
+  /**
+   * Attempts to refresh the access token in storage.
+   * If refreshing is successful, the tokens are saved.
+   * If refreshing is unsuccessful, `tokenHandlers.onRefreshFail()` is called.
+   *
+   * @returns The refreshed access token if refreshing was successful; null otherwise.
+   */
+  const tryRefreshAndSave = async (): Promise<string | null> => {
     const refreshed = await tokenHandlers.refreshTokens();
-    if (refreshed.access) {
+    if (refreshed?.access) {
       await tokenHandlers.saveTokens(refreshed);
-      return refreshed;
+      return refreshed.access;
+    } else {
+      tokenHandlers.onRefreshFail();
+      return null;
     }
-    onRefreshFail();
-    throw new Error("Failed to refresh tokens");
   };
 
+  /**
+   * Called when `callAPI` exits early with one of its response attempts.
+   *
+   * @param response - The response to consider final.
+   * @param url - The url callAPI was called with. Needed for potential caching.
+   * @param configBody - The config.body callAPI was called with. Needed for potential caching.
+   * @returns The jsonified response (`response.json()`)
+   */
+  const exitWithResponse = async (
+    response: Response,
+    url: string,
+    configBody: BodyInit | undefined
+  ): Promise<APIResponseType> => {
+    const wasSuccessful = response.ok;
+    setSuccessful(wasSuccessful);
+    setError(!wasSuccessful);
+
+    const jsonified = await response.json();
+    setResponse(jsonified);
+
+    /* Setting cache here */
+    if (cacheResults) {
+      put(url, jsonified, wasSuccessful, configBody);
+    }
+
+    return new Promise((resolve) => resolve(jsonified));
+  };
+
+  /**
+   * Calls the api at a specific endpoint.
+   *
+   * @param url - The url endpoint.
+   * @param config - The base configuration to pass to `fetch`.
+   * @returns A promise that resolves to the response returned.
+   */
   const callAPI = async (
     url: string,
     config: RequestConfig = {}
@@ -54,50 +94,72 @@ export const useCallAPI = ({
       return new Promise((resolve) => resolve(fromCache.response));
     }
 
-    try {
-      const accessToken = await tokenHandlers.getAccessToken();
-      const headers = new Headers(config.headers);
+    /**
+     * Not in cache; need to actually fetch
+     *
+     * Flow for a real fetch from the api
+     * 1. Check for token
+     *     => if not null: go to step 2
+     *     => else: go to step 3
+     * 2. do fetch
+     *     (** 401 error is checked for since an expired jwt leads to status 401 **)
+     *     => if 401 error: go to step 3
+     *     => else: done (set states and exit)
+     * 3. attempt refresh
+     *     => if not null: go to step 4
+     *     => else: call on refresh fail (require login), then done (set states and exit)
+     * 4. do fetch
+     *     (** Do not check for 401 **)
+     *     => done (set states and exit)
+     */
 
-      if (accessToken) {
+    try {
+      /* Step 1: Check for token */
+      const accessToken = await tokenHandlers.getAccessToken();
+
+      /* Step 2: if access token not null, try fetch */
+      if (accessToken !== null) {
+        const headers = new Headers(config.headers);
         headers.set("Authorization", `Bearer ${accessToken}`);
+
+        const response = await fetch(url, {
+          ...config,
+          headers,
+        });
+
+        if (response.status !== 401) {
+          return exitWithResponse(response, url, config.body);
+        }
       }
+
+      /* Step 3: If access token is null, attempt refresh. This also runs if 
+                 access token was not null but response.status above was 401 */
+      const refreshedAccess = await tryRefreshAndSave();
+
+      /* It may be true that the api endpoint does not require authentication,
+         so there is an attempt without sending the Bearer header */
+      if (refreshedAccess === null) {
+        const headers = new Headers(config.headers);
+        const response = await fetch(url, { ...config, headers });
+
+        return exitWithResponse(response, url, config.body);
+      }
+
+      /* Refresh was successful */
+      const headers = new Headers(config.headers);
+      headers.set("Authorization", `Bearer ${refreshedAccess}`);
 
       const response = await fetch(url, {
         ...config,
         headers,
       });
 
-      if (response.status === 401) {
-        const refreshed = await tryRefreshAndSave();
-        headers.set("Authorization", `Bearer ${refreshed.access}`);
-
-        const retryResponse = await fetch(url, {
-          ...config,
-          headers,
-        });
-
-        if (retryResponse.ok) {
-          setSuccessful(true);
-        } else {
-          setError(true);
-        }
-      } else {
-        setSuccessful(response.ok);
-        setError(!response.ok);
-      }
-
-      const json = await responseToJson(response);
-
-      /* Setting cache here */
-      if (cacheResults) {
-        put(url, json, response.ok, config.body);
-      }
-
-      setResponse(json);
-      return json;
+      return exitWithResponse(response, url, config.body);
     } catch (err) {
+      console.log(err);
       setError(true);
-      throw err instanceof Error ? err : new Error("Unknown error occurred");
+      onCaughtError(err);
+      return Promise.reject(err);
     } finally {
       setLoading(false);
     }

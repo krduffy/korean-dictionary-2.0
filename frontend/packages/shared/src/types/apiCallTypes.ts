@@ -1,4 +1,11 @@
-export type APIResponseType = Record<string, any>;
+import { UseCacheReturns } from "./cacheTypes";
+
+export type JsonPrimitiveType = number | string | boolean | null;
+export type JsonDataType = JsonPrimitiveType | JsonArrayType | JsonObjectType;
+export type JsonArrayType = [JsonDataType];
+export type JsonObjectType = { [key: string]: JsonDataType };
+
+export type APIResponseType = JsonObjectType;
 
 /** Tokens returned from server. */
 export interface AuthTokens {
@@ -10,7 +17,8 @@ export interface AuthTokens {
 /** Token related functions that need to be provided to useCallAPI so it can handle auth */
 export interface TokenHandlers {
   getAccessToken: () => Promise<string | null>;
-  refreshTokens: () => Promise<AuthTokens>;
+  refreshTokens: () => Promise<AuthTokens | null>;
+  onRefreshFail: () => void;
   // eslint-disable-next-line no-unused-vars
   deleteTokens: () => Promise<void>;
   // eslint-disable-next-line no-unused-vars
@@ -20,9 +28,9 @@ export interface TokenHandlers {
 /* Needs to be passed into useCallAPI. */
 export interface UseCallAPIArgs {
   tokenHandlers: TokenHandlers;
-  onRefreshFail: () => void;
-  includeCredentials: boolean;
   cacheResults: boolean;
+  cacheFunctions: UseCacheReturns;
+  onCaughtError: (err: any) => void;
 }
 
 /* What can be passed into callAPI() as returned from useCallAPI */
