@@ -1,4 +1,4 @@
-import { splitAlongHangul, longNumberToShorter } from "../koreanLangUtils";
+import { splitAlongHangul, longNumberToFormatted } from "../koreanLangUtils";
 
 describe("koreanLangUtils", () => {
   describe("splitAlongHangul", () => {
@@ -29,21 +29,20 @@ describe("koreanLangUtils", () => {
   });
 
   describe("longNumberToShorter", () => {
-    const testData = {
-      /* inputs and expected outputs */
-      "111": "111",
-      "10000": "1만",
-      "100000": "10만",
-      "1234567": "123만4567",
-      "0": "0",
-      "9999": "9999",
-      "10001": "1만1",
-    };
+    const testData = [
+      { input: 111, expectedOutput: "111" },
+      { input: 10000, expectedOutput: "1만" },
+      { input: 100000, expectedOutput: "10만" },
+      { input: 1234567, expectedOutput: "123만4567" },
+      { input: 0, expectedOutput: "0" },
+      { input: 9999, expectedOutput: "9999" },
+      { input: 10001, expectedOutput: "1만1" },
+    ];
 
-    test.each(Object.entries(testData))(
-      "input %s returns %s",
-      (input, expectedOutput) => {
-        expect(longNumberToShorter(input)).toBe(expectedOutput);
+    test.each(testData)(
+      "input $input returns $expectedOutput",
+      ({ input, expectedOutput }) => {
+        expect(longNumberToFormatted(input)).toBe(expectedOutput);
       }
     );
   });

@@ -93,3 +93,28 @@ const isConsonant = (jamo: string): boolean => {
 const isVowel = (jamo: string): boolean => {
   return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡㅖㅒ".includes(jamo);
 };
+
+/**
+ * Returns a string with 만 inserted to make the number shorter.
+ *
+ * @param number A number. Should satisfy 0 <= `number` < 10**8.
+ * @returns A stringified form of the number.
+ */
+export const longNumberToFormatted = (number: number): string => {
+  /* String.prototype.toLocaleString("ko-KR") does not do what I want.
+     I specifically want no commas and only for 만 to be inserted where appropriate */
+
+  const tenthousands = Math.floor(number / 10000);
+
+  if (tenthousands === 0) {
+    return number.toString();
+  }
+
+  const remainder = number - tenthousands * 10000;
+
+  if (remainder === 0) {
+    return `${tenthousands}만`;
+  }
+
+  return `${tenthousands}만${remainder}`;
+};
