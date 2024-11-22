@@ -193,7 +193,9 @@ export function isDetailedSenseType(
 
 export function isMeaningReadings(value: unknown): value is MeaningReadings {
   return (
-    isObject(value) && isString(value.meanings) && isString(value.readings)
+    isObject(value) &&
+    isString(value.meaning) &&
+    isArrayOf(value.readings, isString)
   );
 }
 

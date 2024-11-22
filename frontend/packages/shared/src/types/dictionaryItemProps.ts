@@ -82,7 +82,7 @@ export interface DetailedKoreanType extends BaseKoreanWordType {
 
 export interface MeaningReadings {
   meaning: string;
-  readings: string;
+  readings: string[];
 }
 
 export interface BaseHanjaType {
