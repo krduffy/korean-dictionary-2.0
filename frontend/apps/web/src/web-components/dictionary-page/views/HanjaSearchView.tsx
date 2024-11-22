@@ -8,6 +8,7 @@ import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { PageChanger } from "./PageChanger";
 import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { ErrorMessage } from "../../other/misc/ErrorMessage";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
@@ -18,22 +19,19 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
 }) => {
   const { dispatch } = useViewDispatchersContext();
 
-  const { successful, error, loading, searchResults } = usePaginatedResults({
-    baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
-  });
+  const { successful, error, loading, searchResults, response } =
+    usePaginatedResults({
+      baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true })
+        .useCallAPIReturns,
+    });
 
   if (loading) {
     return <LoadingIndicator />;
   }
 
   if (error) {
-    return <div>오류가발생했습니다</div>;
-  }
-
-  /* should not ever be false but in case */
-  if (!successful) {
-    return <div>오류가 발생했습니다</div>;
+    return <ErrorMessage errorResponse={response} />;
   }
 
   if (searchResults?.count === 0) {

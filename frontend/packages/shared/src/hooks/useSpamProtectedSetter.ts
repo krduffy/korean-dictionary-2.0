@@ -3,7 +3,7 @@ import { useCallback, useRef } from "react";
 interface UseSpamProtectedSetterArgs<T> {
   dataGetter: () => Promise<T>;
   // eslint-disable-next-line no-unused-vars
-  setter: (data: T) => void;
+  setter: React.Dispatch<React.SetStateAction<T>>;
 }
 
 /** Protects a setter from spammed requests (ie in the search bar). The point is that the

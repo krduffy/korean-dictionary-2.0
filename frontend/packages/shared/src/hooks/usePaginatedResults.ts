@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import { UseCallAPIReturns } from "your-package/types/apiCallTypes";
+import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
 import { useSpamProtectedSetter } from "./useSpamProtectedSetter";
-import { useDebounce } from "./useDebounce";
 
 interface UsePaginatedResultsArgs {
   baseUrl: string;
@@ -11,11 +10,11 @@ interface UsePaginatedResultsArgs {
 }
 
 interface UsePaginatedResultsReturns {
-  searchResults: any;
+  searchResults: APIResponseType;
   loading: boolean;
   successful: boolean;
   error: boolean;
-  response: any;
+  response: APIResponseType;
 }
 
 export const usePaginatedResults = ({
@@ -24,7 +23,7 @@ export const usePaginatedResults = ({
   // eslint-disable-next-line no-unused-vars
   scrollToOnPageChange,
 }: UsePaginatedResultsArgs): UsePaginatedResultsReturns => {
-  const [searchResults, setSearchResults] = useState({});
+  const [searchResults, setSearchResults] = useState<APIResponseType>({});
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
   // eslint-disable-next-line no-unused-vars
@@ -34,12 +33,10 @@ export const usePaginatedResults = ({
     return await callAPI(baseUrl);
   };
 
-  const updateSearchResults = useDebounce(
-    useSpamProtectedSetter({
-      dataGetter: asyncGetResults,
-      setter: setSearchResults,
-    })
-  );
+  const updateSearchResults = useSpamProtectedSetter<APIResponseType>({
+    dataGetter: asyncGetResults,
+    setter: setSearchResults,
+  });
 
   useEffect(() => {
     updateSearchResults();

@@ -2,6 +2,7 @@ import { usePropForm } from "@repo/shared/hooks/usePropForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
+import { ErrorMessage } from "../../other/misc/ErrorMessage";
 
 export const FindLemmaView = ({
   word,
@@ -29,11 +30,11 @@ export const FindLemmaView = ({
   }
 
   if (error) {
-    return <div>error</div>;
+    return <ErrorMessage errorResponse={response} />;
   }
 
   if (response?.found) {
-    return <FindLemmaDisplay wordFound={response.found} />;
+    return <FindLemmaDisplay wordFound={String(response.found)} />;
   }
 
   return <div>not found</div>;

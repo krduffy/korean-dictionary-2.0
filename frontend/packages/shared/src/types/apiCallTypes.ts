@@ -1,4 +1,3 @@
-import { AssertionError } from "assert";
 import { UseCacheReturns } from "./cacheTypes";
 
 export type JsonPrimitiveType = number | string | boolean | null;
@@ -6,30 +5,13 @@ export type JsonDataType = JsonPrimitiveType | JsonArrayType | JsonObjectType;
 export type JsonArrayType = JsonDataType[];
 export type JsonObjectType = { [key: string]: JsonDataType };
 
-export type APIResponseType = JsonObjectType;
+export type APIResponseType = JsonObjectType | null;
 
 /** Tokens returned from server. */
 export interface AuthTokens {
   access: string;
   /* refresh optional since stored in cookie on web. */
   refresh?: string;
-}
-
-export function assertResponseIsAuthTokens(
-  response: unknown
-): asserts response is AuthTokens {
-  if (!response) {
-    throw new AssertionError({
-      message: "response is not assignable to AuthTokens; it is falsy",
-    });
-  }
-
-  if (!Object.keys(response).includes("access")) {
-    throw new AssertionError({
-      message:
-        "response is not assignable to AuthTokens; it must have key 'access'",
-    });
-  }
 }
 
 /** Token related functions that need to be provided to useCallAPI so it can handle auth */

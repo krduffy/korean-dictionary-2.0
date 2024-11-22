@@ -23,7 +23,7 @@ export interface BaseKoreanWordType {
 
 export interface KoreanSearchResultType extends BaseKoreanWordType {
   word_type: string;
-  senses: [SimplifiedSenseType];
+  senses: SimplifiedSenseType[];
 }
 
 export interface RegionInfoType {
@@ -80,15 +80,15 @@ export interface DetailedKoreanType extends BaseKoreanWordType {
   senses: [DetailedSenseType];
 }
 
-interface MeaningReadings {
+export interface MeaningReadings {
   meaning: string;
   readings: string;
 }
 
-interface BaseHanjaType {
+export interface BaseHanjaType {
   character: string;
   user_data: UserData | null;
-  meaning_readings: [MeaningReadings];
+  meaning_readings: MeaningReadings[];
 }
 
 export interface HanjaSearchResultType extends BaseHanjaType {

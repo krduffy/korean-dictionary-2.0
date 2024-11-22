@@ -1,7 +1,6 @@
 import { useForm } from "./useForm";
 import { getEndpoint } from "../utils/apiAliases";
 import {
-  assertResponseIsAuthTokens,
   AuthTokens,
   TokenHandlers,
   UseCallAPIReturns,

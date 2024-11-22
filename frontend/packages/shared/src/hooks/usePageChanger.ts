@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const usePageChanger = ({
   pageNum,
@@ -12,6 +12,8 @@ export const usePageChanger = ({
 }) => {
   const [currentlyTypedCustomPage, setCurrentlyTypedCustomPage] =
     useState<string>(String(pageNum));
+
+  useEffect(() => {}, [currentlyTypedCustomPage]);
 
   const onClickPageDown = () => {
     setPageNum(Math.max(1, pageNum - 1));

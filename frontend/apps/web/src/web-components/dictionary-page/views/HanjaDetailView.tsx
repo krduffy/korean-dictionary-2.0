@@ -3,6 +3,8 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
+import { ErrorMessage } from "../../other/misc/ErrorMessage";
+import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
 
 export const HanjaDetailView = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
@@ -16,10 +18,12 @@ export const HanjaDetailView = ({ character }: { character: string }) => {
   }
 
   if (error) {
-    return <div>error</div>;
+    return <ErrorMessage errorResponse={response} />;
   }
 
   if (successful && response) {
-    return <HanjaDetailDisplay data={response} />;
+    return (
+      <HanjaDetailDisplay data={response as unknown as DetailedHanjaType} />
+    );
   }
 };

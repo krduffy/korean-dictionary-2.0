@@ -78,7 +78,8 @@ export const PageChanger = ({
           cursor: grayOutPageUp ? "not-allowed" : "pointer",
         }}
       >
-        {maxPageNum}
+        {/* casted to string to get rid of error when maxPageNum is initially NaN */}
+        {String(maxPageNum)}
       </span>
     </div>
   );
