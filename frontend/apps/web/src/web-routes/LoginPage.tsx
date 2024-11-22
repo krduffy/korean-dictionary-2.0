@@ -1,7 +1,7 @@
 import { PageWithNavBar } from "../web-components/navbar/PageWithNavBar";
 import { useLoginForm } from "@repo/shared/hooks/useLoginForm";
 import { useCallAPIWeb } from "../web-hooks/useCallAPIWeb";
-import { allTokenHandlers } from "../web-hooks/tokenHandlers";
+import { tokenHandlers } from "../web-hooks/tokenHandlers";
 
 export const LoginPage = () => {
   return (
@@ -23,7 +23,7 @@ const LoginForm = () => {
   } = useLoginForm({
     useCallAPIInstance: useCallAPIWeb({ cacheResults: false })
       .useCallAPIReturns,
-    tokenHandlers: allTokenHandlers,
+    tokenHandlers: tokenHandlers,
   });
 
   return (

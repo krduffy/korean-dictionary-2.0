@@ -3,7 +3,7 @@ import {
   FormDataState,
   RequestConfig,
   UseCallAPIReturns,
-} from "your-package/types/apiCallTypes";
+} from "../types/apiCallTypes";
 
 export type UsePropFormArgs = {
   url: string;

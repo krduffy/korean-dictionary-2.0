@@ -57,7 +57,7 @@ class RefreshAccessView(TokenRefreshView):
 
         try:
             refreshed = RefreshToken(refresh_token)
-            return Response({"access": str(refreshed)}, status=HTTP_200_OK)
+            return Response({"access": str(refreshed.access_token)}, status=HTTP_200_OK)
         except InvalidToken:
             return Response(
                 {"detail": "The refresh token provided is invalid."},

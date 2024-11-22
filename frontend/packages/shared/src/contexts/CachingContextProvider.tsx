@@ -1,5 +1,6 @@
 import { useContext, createContext, ReactNode } from "react";
-import { useCache, UseCacheReturns } from "../hooks/useCache";
+import { useCache } from "../hooks/useCache";
+import { UseCacheReturns } from "../types/cacheTypes";
 
 export const CachingContext = createContext<UseCacheReturns | null>(null);
 

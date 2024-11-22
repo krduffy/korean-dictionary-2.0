@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   UseCallAPIArgs,
   UseCallAPIReturns,
@@ -36,7 +36,7 @@ export const useCallAPI = ({
       await tokenHandlers.saveTokens(refreshed);
       return refreshed.access;
     } else {
-      tokenHandlers.onRefreshFail();
+      await tokenHandlers.onRefreshFail();
       return null;
     }
   };
@@ -129,6 +129,10 @@ export const useCallAPI = ({
 
         if (response.status !== 401) {
           return exitWithResponse(response, url, config.body);
+        } else {
+          /* If 401 then delete the expired token that led to that; will require
+             the user's reauthentication after */
+          await tokenHandlers.deleteTokens();
         }
       }
 
@@ -156,7 +160,6 @@ export const useCallAPI = ({
 
       return exitWithResponse(response, url, config.body);
     } catch (err) {
-      console.log(err);
       setError(true);
       onCaughtError(err);
       return Promise.reject(err);

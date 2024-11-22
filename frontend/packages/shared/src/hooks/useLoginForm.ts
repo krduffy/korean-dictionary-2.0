@@ -1,6 +1,11 @@
 import { useForm } from "./useForm";
 import { getEndpoint } from "../utils/apiAliases";
-import { TokenHandlers, UseCallAPIReturns } from "../types/apiCallTypes";
+import {
+  assertResponseIsAuthTokens,
+  AuthTokens,
+  TokenHandlers,
+  UseCallAPIReturns,
+} from "../types/apiCallTypes";
 
 /* Calls the callAPI's token setter on success. */
 export const useLoginForm = ({
@@ -29,8 +34,15 @@ export const useLoginForm = ({
   });
 
   const updatedPost = async (e: React.FormEvent) => {
-    const responseJson = await postForm(e);
-    tokenHandlers.saveTokens(responseJson);
+    await postForm(e);
+    if (response !== null) {
+      const authTokens: AuthTokens = {
+        access: response.access,
+        refresh: response.refresh,
+      } as AuthTokens;
+
+      tokenHandlers.saveTokens(authTokens);
+    }
   };
 
   return {
