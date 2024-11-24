@@ -17,7 +17,7 @@ export const ExampleInfoSection = ({
   );
 };
 
-const SenseExample = ({ example }: { example: Example }) => {
+const SenseExample = ({ example }: { example: ExampleType }) => {
   return (
     <div style={{ marginBottom: "10px" }}>
       <ExampleStringWithNLPAndHanja string={example["example"]} />
