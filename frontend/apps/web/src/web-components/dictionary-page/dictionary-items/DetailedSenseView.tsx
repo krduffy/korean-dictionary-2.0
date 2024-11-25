@@ -13,6 +13,7 @@ import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSecti
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
 import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSection";
 import { ProverbInfoSection } from "./detailed-sense-components/ProverbInfoSection";
+import { DetailedSectionBox } from "./detailed-sense-components/DetailedSectionBox";
 
 export const DetailedSenseView = ({
   senseData,
@@ -35,34 +36,38 @@ export const DetailedSenseView = ({
   };
 
   return (
-    <div ref={mainSenseRef}>
-      <SenseMainInfo
-        order={senseData.order}
-        definition={senseData.definition}
-        type={senseData.type}
-        pos={senseData.pos}
-        category={senseData.category}
-        patternInfo={senseData.additional_info.pattern_info}
-        regionInfo={senseData.additional_info.region_info}
-      />
+    <div className="flex flex-row gap-1" ref={mainSenseRef}>
+      <div>{senseData.order}.</div>
 
-      {/* ADDITIONAL INFO SECTION (in dropdown because it can be long) */}
-      <TruncatorDropdown
-        maxHeight={100}
-        initialDropdownState={dropdownState}
-        overrideScrollbackRef={mainSenseRef}
-        onDropdownStateToggle={getOnDropdownStateToggleFunction(
-          senseData.order - 1
-        )}
-      >
-        <SenseAdditionalInfo additionalInfoData={senseData.additional_info} />
-      </TruncatorDropdown>
+      <div className="flex-1">
+        <div className="pb-4">
+          <SenseMainInfo
+            definition={senseData.definition}
+            type={senseData.type}
+            pos={senseData.pos}
+            category={senseData.category}
+            patternInfo={senseData.additional_info.pattern_info}
+            regionInfo={senseData.additional_info.region_info}
+          />
+        </div>
+
+        {/* ADDITIONAL INFO SECTION (in dropdown because it can be long) */}
+        <TruncatorDropdown
+          maxHeight={100}
+          initialDropdownState={dropdownState}
+          overrideScrollbackRef={mainSenseRef}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            senseData.order - 1
+          )}
+        >
+          <SenseAdditionalInfo additionalInfoData={senseData.additional_info} />
+        </TruncatorDropdown>
+      </div>
     </div>
   );
 };
 
 const SenseMainInfo = ({
-  order,
   definition,
   type,
   pos,
@@ -70,7 +75,6 @@ const SenseMainInfo = ({
   patternInfo,
   regionInfo,
 }: {
-  order: number;
   definition: string;
   type: string;
   pos: string;
@@ -79,13 +83,14 @@ const SenseMainInfo = ({
   regionInfo: RegionInfoType[] | undefined;
 }) => {
   return (
-    <div style={{ marginBottom: "10px" }}>
-      <span>{order}. </span>
-      <span style={{ color: "#5c68bd" }}>「{type}」</span>
-      <span style={{ color: "#8e44ad" }}>「{pos}」</span>
-      <span style={{ color: "#3498db" }}>「{category}」</span>
+    <div>
+      {category && (
+        <span className="text-[color:--accent-3]">「{category}」 </span>
+      )}
+      {type && <span className="text-[color:--accent-4]">「{type}」 </span>}
+      {pos && <span className="text-[color:--accent-5]">「{pos}」 </span>}
       {patternInfo?.map((pattern, id) => (
-        <span key={id} style={{ color: "#42d1f5" }}>
+        <span key={id} className="text-[color:--accent-6]">
           ≪{pattern.pattern}≫{" "}
         </span>
       ))}
@@ -95,7 +100,7 @@ const SenseMainInfo = ({
           {"("}
           {regionInfo.map((region, id, regionArray) => (
             <span key={id}>
-              {region["region"]}
+              {region.region}
               {id + 1 < regionArray.length && ", "}
             </span>
           ))}
@@ -119,38 +124,24 @@ const SenseAdditionalInfo = ({
         </div>
       )}
       {additionalInfoData.grammar_info && (
-        <div className="curved-box-nest2 tbmargin-10">
-          <div className="curved-box-header-nest2">문법 정보</div>
-          <div className="pad-10">
-            <GrammarInfoSection
-              grammarItems={additionalInfoData.grammar_info}
-            />
-          </div>
-        </div>
+        <DetailedSectionBox title="문법 정보">
+          <GrammarInfoSection grammarItems={additionalInfoData.grammar_info} />
+        </DetailedSectionBox>
       )}
       {additionalInfoData.norm_info && (
-        <div className="curved-box-nest2 tbmargin-10">
-          <div className="curved-box-header-nest2">규범 정보</div>
-          <div className="pad-10">
-            <NormInfoSection norms={additionalInfoData.norm_info} />
-          </div>
-        </div>
+        <DetailedSectionBox title="규범 정보">
+          <NormInfoSection norms={additionalInfoData.norm_info} />
+        </DetailedSectionBox>
       )}
       {additionalInfoData.relation_info && (
-        <div className="curved-box-nest2 tbmargin-10">
-          <div className="curved-box-header-nest2">관련 어휘</div>
-          <div className="pad-10">
-            <RelationInfoSection relations={additionalInfoData.relation_info} />
-          </div>
-        </div>
+        <DetailedSectionBox title="관련 어휘">
+          <RelationInfoSection relations={additionalInfoData.relation_info} />
+        </DetailedSectionBox>
       )}
       {additionalInfoData.proverb_info && (
-        <div className="curved-box-nest2 tbmargin-10">
-          <div className="curved-box-header-nest2">관용구·속담</div>
-          <div className="pad-10">
-            <ProverbInfoSection proverbs={additionalInfoData.proverb_info} />
-          </div>
-        </div>
+        <DetailedSectionBox title="관용구 • 속담">
+          <ProverbInfoSection proverbs={additionalInfoData.proverb_info} />
+        </DetailedSectionBox>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { DetailedSenseView } from "./DetailedSenseView";
+import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
 
 export const KoreanDetailDisplay = ({
   data,
@@ -10,17 +11,23 @@ export const KoreanDetailDisplay = ({
 }) => {
   return (
     <div>
-      <div className="text-3xl">
-        <span>{data.word}</span>
-        <span>{data.origin}</span>
+      <div
+        style={{
+          fontSize: "250%",
+        }}
+        className="mb-6"
+      >
+        <span>{data.word} </span>
+        <StringWithHanja string={data.origin} />
       </div>
 
       {data.senses.map((senseData, id) => (
-        <DetailedSenseView
-          key={senseData.target_code}
-          senseData={senseData}
-          dropdownState={dropdownStates[id] ?? false}
-        />
+        <div key={senseData.target_code} className="mb-4">
+          <DetailedSenseView
+            senseData={senseData}
+            dropdownState={dropdownStates[id] ?? false}
+          />
+        </div>
       ))}
     </div>
   );

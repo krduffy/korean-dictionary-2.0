@@ -36,7 +36,7 @@ const SenseProverb = ({ proverb }: { proverb: ProverbType }) => {
           <span>{proverb.word}</span>
         )}
       </div>
-      <div style={{}}>
+      <div>
         <StringWithNLPAndHanja string={proverb.definition} />
       </div>
     </>

@@ -74,9 +74,13 @@ const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
   return (
     <div>
       <span>{data.order}. </span>
-      <span className="text-[color:--accent-3]">{data.category} </span>
-      <span className="text-[color:--accent-4]">{data.type} </span>
-      <span className="text-[color:--accent-5]">{data.pos} </span>
+      {data.category && (
+        <span className="text-[color:--accent-3]">{data.category} </span>
+      )}
+      {data.type && (
+        <span className="text-[color:--accent-4]">{data.type} </span>
+      )}
+      {data.pos && <span className="text-[color:--accent-5]">{data.pos} </span>}
       <StringWithNLPAndHanja string={data.definition} />
     </div>
   );
