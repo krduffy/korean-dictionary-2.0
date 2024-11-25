@@ -18,7 +18,7 @@ export const KoreanDetailDisplay = ({
       {data.senses.map((senseData, id) => (
         <DetailedSenseView
           key={senseData.target_code}
-          data={senseData}
+          senseData={senseData}
           dropdownState={dropdownStates[id] ?? false}
         />
       ))}

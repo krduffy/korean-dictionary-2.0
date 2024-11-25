@@ -1,7 +1,7 @@
 import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
 import { NormType } from "@repo/shared/types/dictionaryItemProps";
 
-export const SenseNormInfo = ({ norms }: { norms: NormType[] }) => {
+export const NormInfoSection = ({ norms }: { norms: NormType[] }) => {
   return (
     <ul>
       {norms.map((norm, id, array) => (

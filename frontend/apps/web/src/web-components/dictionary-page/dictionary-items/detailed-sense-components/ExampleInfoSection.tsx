@@ -2,13 +2,13 @@ import { ExampleType } from "@repo/shared/types/dictionaryItemProps";
 import { ExampleStringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
 
 export const ExampleInfoSection = ({
-  exampleInfo,
+  examples,
 }: {
-  exampleInfo: ExampleType[];
+  examples: ExampleType[];
 }) => {
   return (
     <ul>
-      {exampleInfo.map((ex, id) => (
+      {examples.map((ex, id) => (
         <li key={id}>
           <SenseExample example={ex} />
         </li>

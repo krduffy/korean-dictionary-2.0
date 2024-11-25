@@ -1,6 +1,6 @@
 import { GrammarItemType } from "@repo/shared/types/dictionaryItemProps";
 
-export const SenseGrammarInfo = ({
+export const GrammarInfoSection = ({
   grammarItems,
 }: {
   grammarItems: GrammarItemType[];
