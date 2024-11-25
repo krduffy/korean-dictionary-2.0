@@ -112,7 +112,7 @@ const SenseAdditionalInfo = ({
   additionalInfoData: SenseAdditionalInfoType;
 }) => {
   return (
-    <div className="additional-info-container">
+    <div className="w-full">
       {additionalInfoData.example_info && (
         <div className="pad-10">
           <ExampleInfoSection examples={additionalInfoData.example_info} />

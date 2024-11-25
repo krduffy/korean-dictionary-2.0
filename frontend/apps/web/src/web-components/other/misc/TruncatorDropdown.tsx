@@ -2,6 +2,7 @@ import { useTruncatorDropdown } from "../../../web-hooks/useTruncatorDropdown";
 import { ReactNode } from "react";
 
 import "./truncator-dropdown-styles.css";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 /* most of this is taken exactly from original project which is why it uses plain css */
 
@@ -34,27 +35,26 @@ export const TruncatorDropdown = ({
   });
 
   return (
-    <div className="truncator-dropdown" ref={topLevelRef}>
-      <div className="expansion-controller">
+    <div className="flex flex-row" ref={topLevelRef}>
+      <div className="w-6 flex flex-col">
         <div
-          className={
-            showButton
-              ? isExpanded
-                ? "retract-line-shortened-expanded"
-                : "retract-line-shortened-unexpanded"
-              : "retract-line-unshortened"
-          }
+          className="flex flex-1 items-center justify-center"
           onClick={handleClickBar}
-        ></div>
+        >
+          <div className="bg-gray-100 w-1 h-full"></div>
+        </div>
         {showButton && (
-          <div className="expand-button" onClick={handleClickButton}>
-            {isExpanded ? "▲" : "▼"}
+          <div onClick={handleClickButton}>
+            {isExpanded ? <ChevronUp /> : <ChevronDown />}
           </div>
         )}
       </div>
 
       <div
-        className={isExpanded ? "content-entire" : "content-truncated"}
+        style={{
+          maxHeight: isExpanded ? "" : `${maxHeight}px`,
+        }}
+        className="overflow-y-hidden pl-1"
         ref={contentRef}
       >
         {children}
