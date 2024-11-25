@@ -6,7 +6,7 @@ import { KoreanDetailDisplay } from "../dictionary-items/KoreanDetailDisplay";
 import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { isDetailedKoreanType } from "@repo/shared/types/typeGuards";
-import { WrongFormatError } from "src/web-components/other/misc/ErrorMessageTemplates";
+import { WrongFormatError } from "../../other/misc/ErrorMessageTemplates";
 
 export const KoreanDetailView = ({
   target_code,

@@ -3,9 +3,12 @@ import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
-import { NoResultsMessage, ResultCountMessage } from "./ResultsMessages";
+import {
+  NoResultsMessage,
+  ResultCountMessage,
+} from "./view-components/ResultsMessages";
 import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { PageChanger } from "./PageChanger";
+import { PageChanger } from "./view-components/PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";

@@ -5,7 +5,7 @@ import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { isDetailedHanjaType } from "@repo/shared/types/typeGuards";
-import { WrongFormatError } from "src/web-components/other/misc/ErrorMessageTemplates";
+import { WrongFormatError } from "../../other/misc/ErrorMessageTemplates";
 
 export const HanjaDetailView = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({

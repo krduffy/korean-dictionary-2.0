@@ -9,6 +9,7 @@ import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecif
 import { ErrorMessage } from "../misc/ErrorMessage";
 import { isHanjaPopupDataType } from "@repo/shared/types/typeGuards";
 import { HanjaPopupType } from "@repo/shared/types/dictionaryItemProps";
+import { HanjaPopupBox } from "./HanjaPopupBox";
 
 export const StringWithHanja = ({ string }: { string: string }) => {
   const isolateHanja = (string: string) => {
@@ -57,45 +58,9 @@ export const HanjaWithPopupBox = ({ character }: { character: string }) => {
       </span>
       {showHoverBox && (
         <PopupBox targetElement={spanRef.current}>
-          <HanjaPopupBoxDisplay character={character} />
+          <HanjaPopupBox character={character} />
         </PopupBox>
       )}
     </>
   );
-};
-
-export const HanjaPopupBoxDisplay = ({ character }: { character: string }) => {
-  const { successful, error, loading, response } = useFetchProps({
-    url: getEndpoint({ endpoint: "popup_hanja", pk: character }),
-    useAPICallInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
-    refetchDependencyArray: [character],
-  });
-
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
-  if (error) {
-    return <ErrorMessage errorResponse={response} />;
-  }
-
-  if (!response) {
-    return (
-      <ErrorMessage errorResponse={{ 오류: "api 요청은 응답이 없었습니다." }} />
-    );
-  }
-
-  if (!isHanjaPopupDataType(response)) {
-    return (
-      <ErrorMessage
-        errorResponse={{ 오류: "api 응답은 데이터 구조가 안 됩니다." }}
-      />
-    );
-  }
-
-  return successful && <HanjaPopupBoxContent data={response} />;
-};
-
-export const HanjaPopupBoxContent = ({ data }: { data: HanjaPopupType }) => {
-  return <div>{data.character}</div>;
 };

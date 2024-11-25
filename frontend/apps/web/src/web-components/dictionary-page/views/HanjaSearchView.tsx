@@ -3,9 +3,12 @@ import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { getEndpointWithHanjaSearchConfig } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { HanjaSearchResult } from "../dictionary-items/HanjaSearchResult";
-import { NoResultsMessage, ResultCountMessage } from "./ResultsMessages";
+import {
+  NoResultsMessage,
+  ResultCountMessage,
+} from "./view-components/ResultsMessages";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
-import { PageChanger } from "./PageChanger";
+import { PageChanger } from "./view-components/PageChanger";
 import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
@@ -19,6 +22,7 @@ import {
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
+
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
 };

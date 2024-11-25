@@ -1,7 +1,6 @@
 import { useTruncatorDropdown } from "../../../web-hooks/useTruncatorDropdown";
 import { ReactNode } from "react";
 
-import "./truncator-dropdown-styles.css";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 /* most of this is taken exactly from original project which is why it uses plain css */
