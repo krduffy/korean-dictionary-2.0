@@ -1,19 +1,17 @@
-import { GrammarInfoType } from "@repo/shared/types/dictionaryItemProps";
+import { GrammarItemType } from "@repo/shared/types/dictionaryItemProps";
 
-const SenseGrammarInfo = ({
-  grammarInfo,
+export const SenseGrammarInfo = ({
+  grammarItems,
 }: {
-  grammarInfo: GrammarInfoType;
+  grammarItems: GrammarItemType[];
 }) => {
   return (
     <ul>
-      {grammarInfo.map((grammar, id) => (
+      {grammarItems.map((grammarItem, id) => (
         <li key={id} style={{ paddingLeft: "5px" }}>
-          <span>{grammar.grammar}</span>
+          <span>{grammarItem.grammar}</span>
         </li>
       ))}
     </ul>
   );
 };
-
-export default SenseGrammarInfo;

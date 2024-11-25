@@ -1,10 +1,10 @@
 import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
-import { NormInfoType } from "@repo/shared/types/dictionaryItemProps.js";
+import { NormType } from "@repo/shared/types/dictionaryItemProps";
 
-export const SenseNormInfo = ({ normInfo }: { normInfo: NormInfoType }) => {
+export const SenseNormInfo = ({ norms }: { norms: NormType[] }) => {
   return (
     <ul>
-      {normInfo.map((norm, id, array) => (
+      {norms.map((norm, id, array) => (
         <li
           key={id}
           style={{

@@ -1,15 +1,15 @@
-import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher.js";
-import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP.js";
-import { ProverbInfoType } from "@repo/shared/types/dictionaryItemProps.js";
+import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher";
+import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
+import { ProverbType } from "@repo/shared/types/dictionaryItemProps";
 
 export const ProverbInfoSection = ({
-  proverbInfo,
+  proverbs,
 }: {
-  proverbInfo: ProverbInfoType;
+  proverbs: ProverbType[];
 }) => {
   return (
     <ul>
-      {proverbInfo.map((proverb, id) => (
+      {proverbs.map((proverb, id) => (
         <li style={{ marginTop: "5px", marginBottom: "15px" }} key={id}>
           <SenseProverb proverb={proverb} />
         </li>
@@ -18,19 +18,23 @@ export const ProverbInfoSection = ({
   );
 };
 
-const SenseProverb = ({ proverb }) => {
+const SenseProverb = ({ proverb }: { proverb: ProverbType }) => {
   return (
     <>
       <div style={{ paddingBottom: "5px" }}>
         <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
-        <PanelSpecificDispatcher
-          panelStateAction={{
-            type: "push_korean_detail",
-            target_code: proverb.link_target_code,
-          }}
-        >
-          {proverb.word}
-        </PanelSpecificDispatcher>
+        {proverb.link_target_code ? (
+          <PanelSpecificDispatcher
+            panelStateAction={{
+              type: "push_korean_detail",
+              target_code: proverb.link_target_code,
+            }}
+          >
+            {proverb.word}
+          </PanelSpecificDispatcher>
+        ) : (
+          <span>{proverb.word}</span>
+        )}
       </div>
       <div style={{ position: "relative", left: "10px" }}>
         <StringWithNLPAndHanja string={proverb.definition} />

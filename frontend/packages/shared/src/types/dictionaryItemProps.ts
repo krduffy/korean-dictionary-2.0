@@ -1,83 +1,94 @@
-export interface UserData {
+export type UserDataType = {
   is_known: boolean;
   is_studied: boolean;
-}
+};
 
-export interface BaseSenseType {
+export type BaseSenseType = {
   target_code: number;
   order: number;
   definition: string;
   pos: string;
   type: string;
   category: string;
-}
+};
 
 export type SimplifiedSenseType = BaseSenseType;
 
-export interface BaseKoreanWordType {
+export type BaseKoreanWordType = {
   target_code: number;
   word: string;
   origin: string;
-  user_data: UserData | null;
-}
+  user_data: UserDataType | null;
+};
 
 export interface KoreanSearchResultType extends BaseKoreanWordType {
   word_type: string;
   senses: SimplifiedSenseType[];
 }
 
-export interface RegionInfoType {
+export type RegionInfoType = {
   region: string;
-}
+};
 
-export interface ExampleType {
+export type ExampleType = {
   example: string;
   source: string;
   translation?: string;
   origin?: string;
   region?: string;
-}
+};
 
-export interface RelationInfoType {
-  link_target_code: string;
+export type RelationType = {
+  link_target_code?: number;
   word: string;
   type: string;
-}
+};
 
-export interface NormInfoType {
+export type NormType = {
   desc: string;
   role: string;
   type: string;
-}
+};
 
-export interface GrammarInfoType {
+export type GrammarItemType = {
   grammar: string;
-}
+};
 
-export interface PatternInfoType {
+export type PatternType = {
   pattern: string;
-}
+};
 
-export interface ProverbInfoType {
+export type ProverbType = {
   definition: string;
-  link: string;
-  link_target_code: string;
+  link_target_code?: number;
   word: string;
   type: string;
-}
+};
 
-export interface HistoryInfoType {
+export type HistoryCenturyExampleType = {
+  source: string;
+  example: string;
+  origin: string;
+};
+
+export type HistoryCenturyInfoType = {
+  examples?: HistoryCenturyExampleType[];
+  century: number;
+  mark: string;
+};
+
+export type HistoryInfoType = {
   desc: string;
-  word_info: string;
   allomorph: string;
-  history_sense_info: string;
+  history_sense_info: HistoryCenturyInfoType[];
   remark: string;
-}
+  word_form: string;
+};
 
 export interface DetailedKoreanType extends BaseKoreanWordType {
   word_type: string;
   history_info: HistoryInfoType | null;
-  senses: [DetailedSenseType];
+  senses: DetailedSenseType[];
 }
 
 export interface MeaningReadings {
@@ -87,7 +98,7 @@ export interface MeaningReadings {
 
 export interface BaseHanjaType {
   character: string;
-  user_data: UserData | null;
+  user_data: UserDataType | null;
   meaning_readings: MeaningReadings[];
 }
 
@@ -99,13 +110,13 @@ export interface HanjaSearchResultType extends BaseHanjaType {
 }
 
 export interface SenseAdditionalInfoType {
-  proverb_info?: ProverbInfoType;
-  pattern_info?: PatternInfoType;
-  grammar_info?: GrammarInfoType;
-  norm_info?: NormInfoType;
-  relation_info?: RegionInfoType;
+  proverb_info?: ProverbType[];
+  pattern_info?: PatternType[];
+  grammar_info?: GrammarItemType[];
+  norm_info?: NormType[];
+  relation_info?: RelationType[];
   example_info?: ExampleType[];
-  region_info?: RegionInfoType;
+  region_info?: RegionInfoType[];
 }
 
 export interface SenseProverbInfoType {}

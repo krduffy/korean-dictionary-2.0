@@ -1,63 +1,24 @@
 import { Fragment } from "react";
 
-import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher.js";
-import { RelationInfoType } from "@repo/shared/types/dictionaryItemProps.js";
+import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher";
+import { RelationType } from "@repo/shared/types/dictionaryItemProps";
 
 export const RelationInfoSection = ({
-  relationInfo,
+  relations,
 }: {
-  relationInfo: RelationInfoType;
+  relations: RelationType[];
 }) => {
   const possibleRelationTypes = [
-    "하위어",
-    "상위어",
+    "비슷한 말",
     "반대말",
-    "비슷한말",
-    "방언",
-    "높임말",
-    "옛말",
+    "상위어",
+    "하위어",
     "참고 어휘",
+    "높임말",
+    "방언",
     "본말",
+    "옛말",
   ];
-
-  const getRowForType = (type) => {
-    return (
-      <dl>
-        <dt
-          style={{
-            display: "table-cell",
-            whiteSpace: "nowrap",
-            width: "100px",
-          }}
-        >
-          {type}
-        </dt>
-        <dd style={{ display: "table-cell" }}>
-          {relationInfo
-            .filter((relation) => relation["type"] === type)
-            .map((filteredRelation, innerIndex, filteredArray) => (
-              <Fragment key={innerIndex}>
-                {/* only render wrapped in dispatcher if it has a link ! */}
-                {filteredRelation.link_target_code ? (
-                  <PanelSpecificDispatcher
-                    panelStateAction={{
-                      type: "push_korean_detail",
-                      target_code: filteredRelation.link_target_code,
-                    }}
-                  >
-                    {filteredRelation.word}
-                  </PanelSpecificDispatcher>
-                ) : (
-                  <span>{filteredRelation.word}</span>
-                )}
-
-                {innerIndex < filteredArray.length - 1 && ", "}
-              </Fragment>
-            ))}
-        </dd>
-      </dl>
-    );
-  };
 
   return (
     <div
@@ -67,13 +28,64 @@ export const RelationInfoSection = ({
         borderSpacing: "0px 5px",
       }}
     >
-      {possibleRelationTypes.map(
-        (relationType, index) =>
-          relationInfo.filter((relation) => relation["type"] === relationType)
-            .length > 0 && (
-            <Fragment key={index}>{getRowForType(relationType)}</Fragment>
+      {possibleRelationTypes.map((relationType) => {
+        const relationItems = relations.filter(
+          (relation) => relation.type === relationType
+        );
+
+        return (
+          relationItems.length > 0 && (
+            <RelationshipRow
+              key={relationType}
+              type={relationType}
+              relationItems={relationItems}
+            />
           )
-      )}
+        );
+      })}
     </div>
+  );
+};
+
+const RelationshipRow = ({
+  type,
+  relationItems,
+}: {
+  type: string;
+  relationItems: RelationType[];
+}) => {
+  return (
+    <dl>
+      <dt
+        style={{
+          display: "table-cell",
+          whiteSpace: "nowrap",
+          width: "100px",
+        }}
+      >
+        {type}
+      </dt>
+      <dd style={{ display: "table-cell" }}>
+        {relationItems.map((relation, innerIndex, filteredArray) => (
+          <Fragment key={innerIndex}>
+            {/* only render wrapped in dispatcher if it has a link ! */}
+            {relation.link_target_code ? (
+              <PanelSpecificDispatcher
+                panelStateAction={{
+                  type: "push_korean_detail",
+                  target_code: relation.link_target_code,
+                }}
+              >
+                {relation.word}
+              </PanelSpecificDispatcher>
+            ) : (
+              <span>{relation.word}</span>
+            )}
+
+            {innerIndex < filteredArray.length - 1 && ", "}
+          </Fragment>
+        ))}
+      </dd>
+    </dl>
   );
 };
