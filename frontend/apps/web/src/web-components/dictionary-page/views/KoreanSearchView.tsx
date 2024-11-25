@@ -9,7 +9,16 @@ import { PageChanger } from "./PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { isKoreanSearchResultType } from "@repo/shared/types/typeGuards";
+import {
+  isKoreanSearchResultType,
+  isNumber,
+} from "@repo/shared/types/typeGuards";
+import {
+  NoResponseError,
+  NotAnArrayError,
+  WrongFormatError,
+} from "../../other/misc/ErrorMessageTemplates";
+import { API_PAGE_SIZE } from "@repo/shared/constants";
 
 export const KoreanSearchView = ({
   searchConfig,
@@ -33,46 +42,35 @@ export const KoreanSearchView = ({
     return <ErrorMessage errorResponse={response} />;
   }
 
-  if (searchResults?.count === 0) {
+  if (!searchResults) {
+    return <NoResponseError />;
+  }
+
+  if (searchResults.count === 0) {
     return <NoResultsMessage searchTerm={searchConfig.search_term} />;
   }
 
-  /* additional error handling */
-  if (!searchResults?.results) {
-    return (
-      <ErrorMessage
-        errorResponse={{ 오류: "api 응답은 결과가 없는 것 같습니다." }}
-      />
-    );
-  }
-
   if (!Array.isArray(searchResults.results)) {
-    return (
-      <ErrorMessage errorResponse={{ 오류: "검색 결과는 배열이 아닙니다." }} />
-    );
+    return <NotAnArrayError />;
   }
 
   if (!searchResults.results.every((data) => isKoreanSearchResultType(data))) {
-    return (
-      <ErrorMessage
-        errorResponse={{ 오류: "검색 결과 하나 이상은 구조가 안 됩니다." }}
-      />
-    );
+    return <WrongFormatError />;
   }
 
-  const totalResults =
-    typeof searchResults?.count == "number" ? searchResults.count : 0;
-  const maxPageNum =
-    typeof searchResults?.count === "number"
-      ? Math.ceil(searchResults?.count / 5)
-      : 1;
+  if (!isNumber(searchResults.count)) {
+    return <WrongFormatError />;
+  }
+
+  const maxPageNum = Math.ceil(searchResults.count / API_PAGE_SIZE);
 
   return (
     <>
       <ResultCountMessage
         pageNum={searchConfig.page}
-        totalResults={totalResults}
+        totalResults={searchResults.count}
       />
+
       {searchResults.results.map((result: KoreanSearchResultType) => (
         <div
           className="bg-[color:--background-tertiary] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
@@ -82,6 +80,7 @@ export const KoreanSearchView = ({
           <KoreanSearchResult result={result} />
         </div>
       ))}
+
       <PageChanger
         pageNum={searchConfig.page}
         setPageNum={(newPage: number) =>

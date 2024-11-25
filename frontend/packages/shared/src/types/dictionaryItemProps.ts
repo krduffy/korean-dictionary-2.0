@@ -134,3 +134,9 @@ export interface DetailedHanjaType extends BaseHanjaType {
   radical: string;
   radical_source: string;
 }
+
+export type KoreanWordInHanjaPopupType = BaseKoreanWordType;
+
+export interface HanjaPopupType extends BaseHanjaType {
+  word_data: KoreanWordInHanjaPopupType[];
+}

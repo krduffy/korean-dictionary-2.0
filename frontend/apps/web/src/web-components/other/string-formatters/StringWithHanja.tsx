@@ -6,6 +6,9 @@ import { useHanjaPopupBox } from "../../../web-hooks/useHanjaPopupBox";
 import { useRef } from "react";
 import { LoadingIndicator } from "../misc/LoadingIndicator";
 import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecificDispatcher";
+import { ErrorMessage } from "../misc/ErrorMessage";
+import { isHanjaPopupDataType } from "@repo/shared/types/typeGuards";
+import { HanjaPopupType } from "@repo/shared/types/dictionaryItemProps";
 
 export const StringWithHanja = ({ string }: { string: string }) => {
   const isolateHanja = (string: string) => {
@@ -73,8 +76,26 @@ export const HanjaPopupBoxDisplay = ({ character }: { character: string }) => {
   }
 
   if (error) {
-    return <div> error. </div>;
+    return <ErrorMessage errorResponse={response} />;
   }
 
-  return successful && <div>!!!!!!!!!!!!!!!!{response?.character}</div>;
+  if (!response) {
+    return (
+      <ErrorMessage errorResponse={{ 오류: "api 요청은 응답이 없었습니다." }} />
+    );
+  }
+
+  if (!isHanjaPopupDataType(response)) {
+    return (
+      <ErrorMessage
+        errorResponse={{ 오류: "api 응답은 데이터 구조가 안 됩니다." }}
+      />
+    );
+  }
+
+  return successful && <HanjaPopupBoxContent data={response} />;
+};
+
+export const HanjaPopupBoxContent = ({ data }: { data: HanjaPopupType }) => {
+  return <div>{data.character}</div>;
 };

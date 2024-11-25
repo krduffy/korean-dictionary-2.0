@@ -1,49 +1,52 @@
 import {
+  BaseHanjaType,
   BaseKoreanWordType,
   BaseSenseType,
   DetailedKoreanType,
   DetailedSenseType,
   ExampleType,
-  GrammarInfoType,
+  GrammarItemType,
+  HanjaPopupType,
   HanjaSearchResultType,
   HistoryInfoType,
   KoreanSearchResultType,
+  KoreanWordInHanjaPopupType,
   MeaningReadings,
-  NormInfoType,
-  PatternInfoType,
-  ProverbInfoType,
+  NormType,
+  PatternType,
+  ProverbType,
   RegionInfoType,
-  RelationInfoType,
+  RelationType,
   SenseAdditionalInfoType,
-  UserData,
+  UserDataType,
 } from "./dictionaryItemProps";
 
-function isObject(value: unknown): value is Record<string, unknown> {
+export function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object";
 }
 
-function isArrayOf<T>(
+export function isArrayOf<T>(
   value: unknown,
   check: (item: unknown) => item is T
 ): value is T[] {
   return Array.isArray(value) && value.every(check);
 }
 
-function isString(value: unknown): value is string {
+export function isString(value: unknown): value is string {
   return typeof value === "string";
 }
 
-function isNumber(value: unknown): value is number {
+export function isNumber(value: unknown): value is number {
   return typeof value === "number";
 }
 
-function isBoolean(value: unknown): value is boolean {
+export function isBoolean(value: unknown): value is boolean {
   return typeof value === "boolean";
 }
 
 /**********************************************/
 
-export function isUserData(value: unknown): value is UserData {
+export function isUserData(value: unknown): value is UserDataType {
   return (
     isObject(value) && isBoolean(value.is_known) && isBoolean(value.is_studied)
   );
@@ -101,16 +104,16 @@ export function isExampleType(value: unknown): value is ExampleType {
   );
 }
 
-export function isRelationInfoType(value: unknown): value is RelationInfoType {
+export function isRelationInfoType(value: unknown): value is RelationType {
   return (
     isObject(value) &&
-    isString(value.link_target_code) &&
+    isNumber(value.link_target_code) &&
     isString(value.word) &&
     isString(value.type)
   );
 }
 
-export function isNormInfoType(value: unknown): value is NormInfoType {
+export function isNormInfoType(value: unknown): value is NormType {
   return (
     isObject(value) &&
     isString(value.desc) &&
@@ -119,20 +122,19 @@ export function isNormInfoType(value: unknown): value is NormInfoType {
   );
 }
 
-export function isGrammarInfoType(value: unknown): value is GrammarInfoType {
+export function isGrammarInfoType(value: unknown): value is GrammarItemType {
   return isObject(value) && isString(value.grammar);
 }
 
-export function isPatternInfoType(value: unknown): value is PatternInfoType {
+export function isPatternInfoType(value: unknown): value is PatternType {
   return isObject(value) && isString(value.pattern);
 }
 
-export function isProverbInfoType(value: unknown): value is ProverbInfoType {
+export function isProverbInfoType(value: unknown): value is ProverbType {
   return (
     isObject(value) &&
     isString(value.definition) &&
-    isString(value.link) &&
-    isString(value.link_target_code) &&
+    isNumber(value.link_target_code) &&
     isString(value.word) &&
     isString(value.type)
   );
@@ -191,11 +193,22 @@ export function isDetailedSenseType(
   );
 }
 
-export function isMeaningReadings(value: unknown): value is MeaningReadings {
+export function isMeaningReadingsItem(
+  value: unknown
+): value is MeaningReadings {
   return (
     isObject(value) &&
     isString(value.meaning) &&
     isArrayOf(value.readings, isString)
+  );
+}
+
+export function isBaseHanjaType(value: unknown): value is BaseHanjaType {
+  return (
+    isObject(value) &&
+    isString(value.character) &&
+    (value.user_data === null || isUserData(value.user_data)) &&
+    isArrayOf(value.meaning_readings, isMeaningReadingsItem)
   );
 }
 
@@ -204,12 +217,24 @@ export function isHanjaSearchResultType(
 ): value is HanjaSearchResultType {
   return (
     isObject(value) &&
-    isString(value.character) &&
-    (value.user_data === null || isUserData(value.user_data)) &&
-    isArrayOf(value.meaning_readings, isMeaningReadings) &&
+    isBaseHanjaType(value) &&
     isNumber(value.strokes) &&
     isString(value.grade_level) &&
     isString(value.exam_level) &&
     isString(value.explanation)
+  );
+}
+
+export function isKoreanWordInHanjaPopupType(
+  value: unknown
+): value is KoreanWordInHanjaPopupType {
+  return isBaseKoreanWordType(value);
+}
+
+export function isHanjaPopupDataType(value: unknown): value is HanjaPopupType {
+  return (
+    isObject(value) &&
+    isBaseHanjaType(value) &&
+    isArrayOf(value.word_results, isKoreanWordInHanjaPopupType)
   );
 }
