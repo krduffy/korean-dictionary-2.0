@@ -2,6 +2,7 @@ import {
   BaseHanjaType,
   BaseKoreanWordType,
   BaseSenseType,
+  DetailedHanjaType,
   DetailedKoreanType,
   DetailedSenseType,
   ExampleType,
@@ -236,5 +237,21 @@ export function isHanjaPopupDataType(value: unknown): value is HanjaPopupType {
     isObject(value) &&
     isBaseHanjaType(value) &&
     isArrayOf(value.word_results, isKoreanWordInHanjaPopupType)
+  );
+}
+
+export function isDetailedHanjaType(
+  value: unknown
+): value is DetailedHanjaType {
+  return (
+    isObject(value) &&
+    isBaseHanjaType(value) &&
+    isNumber(value.strokes) &&
+    isString(value.grade_level) &&
+    isString(value.exam_level) &&
+    isString(value.explanation) &&
+    isString(value.decomposition) &&
+    isString(value.radical) &&
+    isString(value.radical_source)
   );
 }

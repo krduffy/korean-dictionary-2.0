@@ -5,6 +5,8 @@ import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { KoreanDetailDisplay } from "../dictionary-items/KoreanDetailDisplay";
 import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
+import { isDetailedKoreanType } from "@repo/shared/types/typeGuards";
+import { WrongFormatError } from "src/web-components/other/misc/ErrorMessageTemplates";
 
 export const KoreanDetailView = ({
   target_code,
@@ -27,12 +29,13 @@ export const KoreanDetailView = ({
     return <ErrorMessage errorResponse={response} />;
   }
 
+  if (!isDetailedKoreanType(response)) {
+    return <WrongFormatError />;
+  }
+
   if (successful && response) {
     return (
-      <KoreanDetailDisplay
-        data={response as unknown as DetailedKoreanType}
-        dropdownStates={dropdownStates}
-      />
+      <KoreanDetailDisplay data={response} dropdownStates={dropdownStates} />
     );
   }
 };

@@ -4,7 +4,8 @@ import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
+import { isDetailedHanjaType } from "@repo/shared/types/typeGuards";
+import { WrongFormatError } from "src/web-components/other/misc/ErrorMessageTemplates";
 
 export const HanjaDetailView = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
@@ -21,9 +22,9 @@ export const HanjaDetailView = ({ character }: { character: string }) => {
     return <ErrorMessage errorResponse={response} />;
   }
 
-  if (successful && response) {
-    return (
-      <HanjaDetailDisplay data={response as unknown as DetailedHanjaType} />
-    );
+  if (!isDetailedHanjaType(response)) {
+    return <WrongFormatError />;
   }
+
+  return <HanjaDetailDisplay data={response} />;
 };
