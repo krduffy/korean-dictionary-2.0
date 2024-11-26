@@ -126,7 +126,9 @@ def get_from_index_heuristic(
     # be a disclaimer about potential inaccuracies) so this is what I will be using for the time
     # being.
     if len(filtered_analysis) == len(sentence.split()):
-        index_of_mouse_over = sentence.split().index(mouse_over)
+        strip_at_end = ".,"
+        replaced_tokens = [token.rstrip(strip_at_end) for token in sentence.split()]
+        index_of_mouse_over = replaced_tokens.index(mouse_over)
 
         # Getting the return word and its type (to know if 다) needs to be added
         return_word = filtered_analysis[index_of_mouse_over][0]
