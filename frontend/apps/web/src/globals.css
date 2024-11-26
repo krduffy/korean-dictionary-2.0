@@ -77,6 +77,9 @@
     --background-tertiary: #0f0f0f;
     --background-quaternary: #141414;
 
+    --neutral-color-not-hovering: rgb(255, 255, 255, 0.15);
+    --neutral-color-hovering: rgb(255, 255, 255, 0.3);
+
     --navbar-background: gray;
 
     --text-primary: #aaaaaa;

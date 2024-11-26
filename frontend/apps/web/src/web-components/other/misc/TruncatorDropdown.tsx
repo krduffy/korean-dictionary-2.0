@@ -71,20 +71,21 @@ const ExpansionController = ({
         style={{ cursor: isExpanded ? "pointer" : "auto" }}
         onClick={handleClickBar}
       >
-        <div className="bg-[color:--text-tertiary] w-1 h-full"></div>
+        <div
+          className={`bg-[color:--neutral-color-not-hovering] w-1 h-full ${
+            isExpanded ? "hover:bg-[color:--neutral-color-hovering]" : ""
+          }`}
+        ></div>
       </div>
       {showButton && (
-        <div
-          onClick={handleClickButton}
-          className="color-[color:--text-tertiary] hover:color-[color:--text-secondary] cursor-pointer"
-        >
+        <div onClick={handleClickButton}>
           {isExpanded ? (
             <div title="접기">
-              <ChevronUp />
+              <ChevronUp className="text-[color:--neutral-color-not-hovering] hover:text-[color:--neutral-color-hovering] cursor-pointer" />
             </div>
           ) : (
             <div title="펴기">
-              <ChevronDown />
+              <ChevronDown className="text-[color:--neutral-color-not-hovering] hover:text-[color:--neutral-color-hovering] cursor-pointer" />
             </div>
           )}
         </div>

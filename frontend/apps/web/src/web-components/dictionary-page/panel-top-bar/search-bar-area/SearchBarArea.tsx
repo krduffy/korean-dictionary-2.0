@@ -26,7 +26,7 @@ export const SearchBarArea = ({
   } = useSearchBarArea({ searchConfig: searchConfig, dispatch: dispatch });
 
   return (
-    <div className="flex flex-row items-center pr-3 h-full w-full rounded-full bg-white/5">
+    <div className="flex flex-row items-center pr-3 h-full w-full rounded-full bg-[color:--background-quaternary]">
       <div className="h-full flex flex-1">
         <SearchBar
           searchTerm={searchConfig.config.search_term}
@@ -74,12 +74,12 @@ const SearchBar = ({
           updateSearchTerm(e.target.value)
         }
         className="h-full w-full pl-10 px-4 py-2 
-      bg-white/10 
+      bg-[color:--neutral-color-not-hovering]
       border border-gray-200/20 
       rounded-full
       outline-none text-[color:--text-primary]
       focus:ring-2 focus:border-[color:--focus-blue]
-      hover:bg-white/20
+      hover:bg-[color:--neutral-color-hovering]
       transition-all duration-200
       "
       />
