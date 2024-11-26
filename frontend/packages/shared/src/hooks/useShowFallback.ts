@@ -18,27 +18,36 @@ export const useShowFallback = ({
   const [showFallback, setShowFallback] = useState<boolean>(true);
   const fallbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const startTimer = () => {
+    fallbackTimer.current = setTimeout(
+      () => setShowFallback(false),
+      fallbackMaxTimeMs
+    );
+  };
+
+  const clearTimer = () => {
+    if (fallbackTimer.current) {
+      clearTimeout(fallbackTimer.current);
+    }
+  };
+
+  useEffect(() => {
+    if (showFallback) {
+      clearTimer();
+      startTimer();
+    }
+  }, [showFallback]);
+
   useEffect(() => {
     if (loading) {
       setShowFallback(true);
-      fallbackTimer.current = setTimeout(
-        () => setShowFallback(false),
-        fallbackMaxTimeMs
-      );
     }
-
-    return () => {
-      if (fallbackTimer.current) clearTimeout(fallbackTimer.current);
-    };
   }, [loading]);
 
   useEffect(() => {
     if (successful) {
       setShowFallback(false);
-
-      if (fallbackTimer.current) {
-        clearTimeout(fallbackTimer.current);
-      }
+      clearTimer();
     }
   }, [successful]);
 
