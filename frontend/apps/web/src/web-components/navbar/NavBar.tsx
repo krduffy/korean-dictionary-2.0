@@ -2,15 +2,15 @@ import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { useCallAPIWeb } from "../../web-hooks/useCallAPIWeb";
-
 import { BookOpen, LogIn, UserRound } from "lucide-react";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
 } from "../other/string-formatters/SpanStylers";
 import { MoreButton } from "./MoreMenu";
+import { memo } from "react";
 
-export const NavBar = () => {
+export const NavBar = memo(() => {
   const navigate = useNavigate();
 
   /* needed to test if the user is logged in */
@@ -38,7 +38,7 @@ export const NavBar = () => {
       </div>
     </div>
   );
-};
+});
 
 const Logo = () => {
   return (

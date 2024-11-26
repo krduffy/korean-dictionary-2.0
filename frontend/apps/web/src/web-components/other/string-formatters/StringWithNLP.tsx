@@ -1,6 +1,6 @@
 import { useStringWithNLP } from "@repo/shared/hooks/useStringWithNLP";
 import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecificDispatcher";
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
 import { StringWithHanja } from "./StringWithHanja";
 import { ClickableLinkStyler } from "./SpanStylers";
 
@@ -9,7 +9,7 @@ import { NLPToken } from "@repo/shared/types/koreanLangTypes";
 /* Embedding hanja adds StringWithHanja where applicable */
 /* Embedding examples turns strings surrounded by curly braces into underlined text and removes the curly braces. */
 
-export const StringWithNLP = ({ string }: { string: string }) => {
+export const StringWithNLP = memo(({ string }: { string: string }) => {
   return (
     <BaseStringWithNLP
       string={string}
@@ -17,9 +17,9 @@ export const StringWithNLP = ({ string }: { string: string }) => {
       embedExamples={false}
     />
   );
-};
+});
 
-export const StringWithNLPAndHanja = ({ string }: { string: string }) => {
+export const StringWithNLPAndHanja = memo(({ string }: { string: string }) => {
   return (
     <BaseStringWithNLP
       string={string}
@@ -27,17 +27,19 @@ export const StringWithNLPAndHanja = ({ string }: { string: string }) => {
       embedExamples={false}
     />
   );
-};
+});
 
-export const ExampleStringWithNLPAndHanja = ({
-  string,
-}: {
-  string: string;
-}) => {
-  return (
-    <BaseStringWithNLP string={string} embedHanja={true} embedExamples={true} />
-  );
-};
+export const ExampleStringWithNLPAndHanja = memo(
+  ({ string }: { string: string }) => {
+    return (
+      <BaseStringWithNLP
+        string={string}
+        embedHanja={true}
+        embedExamples={true}
+      />
+    );
+  }
+);
 
 const BaseStringWithNLP = ({
   string,

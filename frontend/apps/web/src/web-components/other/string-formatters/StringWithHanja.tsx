@@ -1,21 +1,13 @@
-import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
-import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { PopupBox } from "../misc/PopupBox";
-import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { useHanjaPopupBox } from "../../../web-hooks/useHanjaPopupBox";
-import { useRef } from "react";
-import { LoadingIndicator } from "../misc/LoadingIndicator";
+import { memo, useRef } from "react";
 import { PanelSpecificDispatcher } from "../../dictionary-page/panel/PanelSpecificDispatcher";
-import { ErrorMessage } from "../misc/ErrorMessage";
-import { isHanjaPopupDataType } from "@repo/shared/types/typeGuards";
-import { HanjaPopupType } from "@repo/shared/types/dictionaryItemProps";
 import { HanjaPopupBox } from "./HanjaPopupBox";
 
-export const StringWithHanja = ({ string }: { string: string }) => {
-  const isolateHanja = (string: string) => {
+export const StringWithHanja = memo(({ string }: { string: string }) => {
+  const isolatedHanja =
     /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
-    return string.split(/([\u4e00-\u9fff])/g).filter((str) => str.length > 0);
-  };
+    string.split(/([\u4e00-\u9fff])/g).filter((str) => str.length > 0);
 
   const isSingleHanja = (string: string) => {
     if (string.length !== 1) return false;
@@ -26,7 +18,7 @@ export const StringWithHanja = ({ string }: { string: string }) => {
 
   return (
     <>
-      {isolateHanja(string).map((substring, id) => {
+      {isolatedHanja.map((substring, id) => {
         if (isSingleHanja(substring)) {
           return <HanjaWithPopupBox key={id} character={substring} />;
         } else {
@@ -35,7 +27,7 @@ export const StringWithHanja = ({ string }: { string: string }) => {
       })}
     </>
   );
-};
+});
 
 export const HanjaWithPopupBox = ({ character }: { character: string }) => {
   const { showHoverBox, handleMouseEnter, handleMouseLeave } =
