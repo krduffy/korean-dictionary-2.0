@@ -43,17 +43,17 @@ export const NavBar = memo(() => {
 const Logo = () => {
   return (
     <div
-      className="bg-[color:gold] h-full flex items-center p-1 px-3 rounded-2xl"
+      className="text-[color:--accent-button-text-color] bg-[color:--accent-button-color] h-full flex gap-1 items-center p-1 px-3 rounded-2xl"
       title="사전으로 가기"
     >
       <BookOpen className="h-full w-auto mr-2" strokeWidth={1.5} />
       <div className="text-2xl align-bottom mr-1">
         <TraditionalKoreanText>한</TraditionalKoreanText>
-        <span>-</span>
+        <span>—</span>
         <TraditionalHanjaText>漢</TraditionalHanjaText>
       </div>
       <div className="text-base align-bottom">
-        <span>대사전</span>
+        <span>사전</span>
       </div>
     </div>
   );
@@ -67,6 +67,7 @@ const LoginButton = ({
   return (
     <button
       className="h-full"
+      title="로그인"
       onClick={() => {
         navigate("/login");
       }}

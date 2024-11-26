@@ -10,6 +10,7 @@ export const MoreButton = ({ navigate }: { navigate: NavigateFunction }) => {
 
   return (
     <ButtonWithClickDropdown
+      title="더 보기"
       buttonContent={buttonContent}
       dropdownContent={dropdownContent}
       popupBoxArgs={{ align: "end" }}

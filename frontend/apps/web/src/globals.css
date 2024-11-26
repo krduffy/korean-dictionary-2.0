@@ -80,7 +80,7 @@
     --neutral-color-not-hovering: rgb(255, 255, 255, 0.15);
     --neutral-color-hovering: rgb(255, 255, 255, 0.3);
 
-    --navbar-background: gray;
+    --navbar-background: rgb(255, 255, 255, 0.25);
 
     --text-primary: #aaaaaa;
     --text-secondary: #bbbbbb;

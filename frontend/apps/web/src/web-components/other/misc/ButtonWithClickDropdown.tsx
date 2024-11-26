@@ -7,11 +7,13 @@ export type AllowedPopupBoxArgs = {
 };
 
 export const ButtonWithClickDropdown = ({
+  title = "",
   buttonContent,
   dropdownContent,
   popupBoxArgs,
   addXInTopRight = false,
 }: {
+  title?: string;
   buttonContent: ReactNode;
   dropdownContent: ReactNode;
   popupBoxArgs?: AllowedPopupBoxArgs;
@@ -32,7 +34,12 @@ export const ButtonWithClickDropdown = ({
 
   return (
     <>
-      <button className="h-full w-full" ref={buttonRef} onClick={handleClick}>
+      <button
+        className="h-full w-full"
+        title={title}
+        ref={buttonRef}
+        onClick={handleClick}
+      >
         {buttonContent}
       </button>
       {show && (
