@@ -16,7 +16,7 @@ export const NavBar = () => {
   /* needed to test if the user is logged in */
   const { response } = useFetchProps({
     url: getEndpoint({ endpoint: "user_info" }),
-    useAPICallInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
+    useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
   });
 
   return (

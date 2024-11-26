@@ -2,7 +2,13 @@ import { useForm } from "@repo/shared/hooks/useForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 
-export const KoreanWordKnownToggler = ({ pk, initiallyKnown }) => {
+export const KoreanWordKnownToggler = ({
+  pk,
+  initiallyKnown,
+}: {
+  pk: number;
+  initiallyKnown: boolean;
+}) => {
   const { successful, error, loading, response, postForm } = useForm({
     url: getEndpoint({ endpoint: "update_known_studied", pk: pk }),
     initialFormData: {
@@ -10,8 +16,7 @@ export const KoreanWordKnownToggler = ({ pk, initiallyKnown }) => {
       korean_or_hanja: "korean",
       set_true_or_false: initiallyKnown ? "true" : "false",
     },
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: false })
-      .useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: false }),
   });
 
   return (

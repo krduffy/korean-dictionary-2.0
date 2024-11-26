@@ -7,8 +7,12 @@ export const useShowFallback = ({
   successful,
   fallbackMaxTimeMs,
 }: {
+  /** `loading` from useCallAPI instance or a wrapper */
   loading: boolean;
+  /** `successful` from useCallAPI instance or a wrapper */
   successful: boolean;
+  /** Number of ms until an unsuccessful response is acknowledged and the fallback is
+   *  no longer shown */
   fallbackMaxTimeMs: number;
 }) => {
   const [showFallback, setShowFallback] = useState<boolean>(true);

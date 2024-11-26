@@ -21,7 +21,7 @@ import {
   NotAnArrayError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
-import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { API_PAGE_SIZE, FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
 import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 export const KoreanSearchView = ({
@@ -34,14 +34,13 @@ export const KoreanSearchView = ({
   const { successful, error, loading, searchResults, response } =
     usePaginatedResults({
       baseUrl: getEndpointWithKoreanSearchConfig(searchConfig),
-      useCallAPIInstance: useCallAPIWeb({ cacheResults: true })
-        .useCallAPIReturns,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
     });
 
   const { showFallback } = useShowFallback({
     loading: loading,
     successful: successful,
-    fallbackMaxTimeMs: 1000,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
   });
 
   if (showFallback || loading) {

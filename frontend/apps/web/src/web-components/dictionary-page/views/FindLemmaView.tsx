@@ -3,6 +3,8 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
+import { FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
+import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 export const FindLemmaView = ({
   word,
@@ -21,11 +23,17 @@ export const FindLemmaView = ({
   const { successful, error, loading, response } = usePropForm({
     url: getEndpoint({ endpoint: "find_lemma" }),
     formDataGetter: getFormData,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
     repostDependencies: [word, sentence],
   });
 
-  if (loading) {
+  const { showFallback } = useShowFallback({
+    loading: loading,
+    successful: successful,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  });
+
+  if (showFallback || loading) {
     return <LoadingIndicator />;
   }
 

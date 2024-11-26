@@ -10,6 +10,8 @@ import {
   NoResponseError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
+import { FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
+import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 export const KoreanDetailView = ({
   target_code,
@@ -20,11 +22,17 @@ export const KoreanDetailView = ({
 }) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "detail_korean", pk: target_code }),
-    useAPICallInstance: useCallAPIWeb({ cacheResults: true }).useCallAPIReturns,
+    useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
     refetchDependencyArray: [target_code],
   });
 
-  if (loading) {
+  const { showFallback } = useShowFallback({
+    loading: loading,
+    successful: successful,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  });
+
+  if (showFallback || loading) {
     return <LoadingIndicator />;
   }
 

@@ -21,7 +21,8 @@ import {
   NotAnArrayError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
-import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { API_PAGE_SIZE, FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
+import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
@@ -35,11 +36,16 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   const { successful, error, loading, searchResults, response } =
     usePaginatedResults({
       baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
-      useCallAPIInstance: useCallAPIWeb({ cacheResults: true })
-        .useCallAPIReturns,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
     });
 
-  if (loading) {
+  const { showFallback } = useShowFallback({
+    loading: loading,
+    successful: successful,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  });
+
+  if (showFallback || loading) {
     return <LoadingIndicator />;
   }
 

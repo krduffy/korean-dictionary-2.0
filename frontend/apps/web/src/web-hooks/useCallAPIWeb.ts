@@ -9,16 +9,10 @@ export const useCallAPIWeb = ({ cacheResults }: { cacheResults: boolean }) => {
     console.warn("error");
   };
 
-  const useCallAPIReturns = useCallAPI({
+  return useCallAPI({
     tokenHandlers,
     cacheResults,
     cacheFunctions,
     onCaughtError,
   });
-
-  return {
-    useCallAPIReturns,
-    /* savetokens is directly from the file in this app */
-    tokenHandlers,
-  };
 };

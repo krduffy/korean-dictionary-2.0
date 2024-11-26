@@ -4,7 +4,7 @@
 
 import { renderHook, act } from "@testing-library/react";
 import { useCallAPI } from "../useCallAPI";
-import { TokenHandlers, UseCallAPIArgs } from "src/types/apiCallTypes";
+import { TokenHandlers } from "src/types/apiCallTypes";
 import { CacheItem, UseCacheReturns } from "src/types/cacheTypes";
 
 /* Mocking all of the functions that are called internally to verify num of times they are called. */

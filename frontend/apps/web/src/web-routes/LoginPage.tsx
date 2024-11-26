@@ -21,8 +21,7 @@ const LoginForm = () => {
     postForm,
     updateField,
   } = useLoginForm({
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: false })
-      .useCallAPIReturns,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: false }),
     tokenHandlers: tokenHandlers,
   });
 
