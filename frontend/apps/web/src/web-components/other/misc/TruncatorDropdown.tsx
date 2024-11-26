@@ -32,19 +32,12 @@ export const TruncatorDropdown = ({
 
   return (
     <div className="flex flex-row" ref={topLevelRef}>
-      <div className="w-6 flex flex-col">
-        <div
-          className="flex flex-1 items-center justify-center"
-          onClick={handleClickBar}
-        >
-          <div className="bg-gray-100 w-1 h-full"></div>
-        </div>
-        {showButton && (
-          <div onClick={handleClickButton}>
-            {isExpanded ? <ChevronUp /> : <ChevronDown />}
-          </div>
-        )}
-      </div>
+      <ExpansionController
+        isExpanded={isExpanded}
+        showButton={showButton}
+        handleClickBar={handleClickBar}
+        handleClickButton={handleClickButton}
+      />
 
       <div
         style={{
@@ -55,6 +48,47 @@ export const TruncatorDropdown = ({
       >
         {children}
       </div>
+    </div>
+  );
+};
+
+const ExpansionController = ({
+  isExpanded,
+  showButton,
+  handleClickBar,
+  handleClickButton,
+}: {
+  isExpanded: boolean;
+  showButton: boolean;
+  handleClickBar: () => void;
+  handleClickButton: () => void;
+}) => {
+  return (
+    <div className="w-6 flex flex-col">
+      <div
+        className="flex flex-1 items-center justify-center"
+        title={isExpanded ? "접기" : undefined}
+        style={{ cursor: isExpanded ? "pointer" : "auto" }}
+        onClick={handleClickBar}
+      >
+        <div className="bg-[color:--text-tertiary] w-1 h-full"></div>
+      </div>
+      {showButton && (
+        <div
+          onClick={handleClickButton}
+          className="color-[color:--text-tertiary] hover:color-[color:--text-secondary] cursor-pointer"
+        >
+          {isExpanded ? (
+            <div title="접기">
+              <ChevronUp />
+            </div>
+          ) : (
+            <div title="펴기">
+              <ChevronDown />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
