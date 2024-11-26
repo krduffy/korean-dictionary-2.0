@@ -1,6 +1,7 @@
 import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { DetailedSenseView } from "./DetailedSenseView";
 import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
+import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 
 export const KoreanDetailDisplay = ({
   data,
@@ -29,6 +30,10 @@ export const KoreanDetailDisplay = ({
           />
         </div>
       ))}
+
+      {data.history_info && (
+        <KoreanHistoryInfoSection historyInfo={data.history_info} />
+      )}
     </div>
   );
 };

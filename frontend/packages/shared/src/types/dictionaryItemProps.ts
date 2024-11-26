@@ -32,7 +32,7 @@ export type RegionInfoType = {
 
 export type ExampleType = {
   example: string;
-  source: string;
+  source?: string;
   translation?: string;
   origin?: string;
   region?: string;
@@ -68,20 +68,24 @@ export type ProverbType = {
 export type HistoryCenturyExampleType = {
   source: string;
   example: string;
-  origin: string;
+  origin?: string;
 };
 
 export type HistoryCenturyInfoType = {
-  examples?: HistoryCenturyExampleType[];
+  history_example_info?: HistoryCenturyExampleType[];
   century: number;
   mark: string;
+};
+
+export type HistorySenseInfoItem = {
+  history_century_info: HistoryCenturyInfoType;
 };
 
 export type HistoryInfoType = {
   desc: string;
   allomorph: string;
-  history_sense_info: HistoryCenturyInfoType[];
-  remark: string;
+  history_sense_info: HistorySenseInfoItem[];
+  remark?: string;
   word_form: string;
 };
 

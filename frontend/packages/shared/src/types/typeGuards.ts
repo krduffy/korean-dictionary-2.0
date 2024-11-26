@@ -9,7 +9,10 @@ import {
   GrammarItemType,
   HanjaPopupType,
   HanjaSearchResultType,
+  HistoryCenturyExampleType,
+  HistoryCenturyInfoType,
   HistoryInfoType,
+  HistorySenseInfoItem,
   KoreanSearchResultType,
   KoreanWordInHanjaPopupType,
   MeaningReadings,
@@ -59,9 +62,9 @@ export function isBaseSenseType(value: unknown): value is BaseSenseType {
     isNumber(value.target_code) &&
     isNumber(value.order) &&
     isString(value.definition) &&
-    isString(value.pos) &&
-    isString(value.type) &&
-    isString(value.category)
+    (value.pos === undefined || isString(value.pos)) &&
+    (value.pos === undefined || isString(value.type)) &&
+    (value.category === undefined || isString(value.category))
   );
 }
 
@@ -91,107 +94,186 @@ export function isKoreanSearchResultType(
 }
 
 export function isRegionInfoType(value: unknown): value is RegionInfoType {
-  return isObject(value) && isString(value.region);
+  const x = isObject(value) && isString(value.region);
+  if (!x) console.log(value);
+  return x;
 }
 
 export function isExampleType(value: unknown): value is ExampleType {
-  return (
+  const x =
     isObject(value) &&
     isString(value.example) &&
-    isString(value.source) &&
+    (value.source === undefined || isString(value.source)) &&
     (value.translation === undefined || isString(value.translation)) &&
     (value.origin === undefined || isString(value.origin)) &&
-    (value.region === undefined || isString(value.region))
-  );
+    (value.region === undefined || isString(value.region));
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isRelationInfoType(value: unknown): value is RelationType {
-  return (
+  const x =
     isObject(value) &&
-    isNumber(value.link_target_code) &&
+    (value.link_target_code === undefined ||
+      isNumber(value.link_target_code)) &&
     isString(value.word) &&
-    isString(value.type)
-  );
+    isString(value.type);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isNormInfoType(value: unknown): value is NormType {
-  return (
+  const x =
     isObject(value) &&
     isString(value.desc) &&
     isString(value.role) &&
-    isString(value.type)
-  );
+    isString(value.type);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isGrammarInfoType(value: unknown): value is GrammarItemType {
-  return isObject(value) && isString(value.grammar);
+  const x = isObject(value) && isString(value.grammar);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isPatternInfoType(value: unknown): value is PatternType {
-  return isObject(value) && isString(value.pattern);
+  const x = isObject(value) && isString(value.pattern);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isProverbInfoType(value: unknown): value is ProverbType {
-  return (
+  const x =
     isObject(value) &&
     isString(value.definition) &&
-    isNumber(value.link_target_code) &&
+    (value.link_target_code === undefined ||
+      isNumber(value.link_target_code)) &&
     isString(value.word) &&
-    isString(value.type)
-  );
+    isString(value.type);
+  //if (!x) console.log(value);
+  return x;
+}
+
+function isHistoryCenturyExampleType(
+  value: unknown
+): value is HistoryCenturyExampleType {
+  const x =
+    isObject(value) &&
+    isString(value.source) &&
+    isString(value.example) &&
+    (value.origin === undefined || isString(value.origin));
+  if (!x) console.log(value);
+  return x;
+}
+
+function isHistoryCenturyInfo(value: unknown): value is HistoryCenturyInfoType {
+  const x =
+    isObject(value) &&
+    isArrayOf(value.history_example_info, isHistoryCenturyExampleType) &&
+    isString(value.century) &&
+    isString(value.mark);
+  if (!x) {
+    console.log(value);
+    console.table([
+      isObject(value),
+      isArrayOf(value.history_example_info, isHistoryCenturyExampleType),
+      isString(value.century),
+      isString(value.mark),
+    ]);
+  }
+  return x;
+}
+
+function isHistorySenseInfoItem(value: unknown): value is HistorySenseInfoItem {
+  const x =
+    isObject(value) &&
+    isArrayOf(value.history_century_info, isHistoryCenturyInfo);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
-  return (
+  const x =
     isObject(value) &&
     isString(value.desc) &&
-    isString(value.word_info) &&
+    isString(value.word_form) &&
     isString(value.allomorph) &&
-    isString(value.history_sense_info) &&
-    isString(value.remark)
-  );
+    isArrayOf(value.history_sense_info, isHistorySenseInfoItem) &&
+    (value.remark === undefined || isString(value.remark));
+  if (!x) console.log(value);
+  return x;
 }
 
 export function isDetailedKoreanType(
   value: unknown
 ): value is DetailedKoreanType {
-  return (
+  const x =
     isObject(value) &&
     isBaseKoreanWordType(value) &&
     isString(value.word_type) &&
     (value.history_info === null || isHistoryInfoType(value.history_info)) &&
-    isArrayOf(value.senses, isDetailedSenseType)
-  );
+    isArrayOf(value.senses, isDetailedSenseType);
+  //if (!x) console.log(value);
+  return x;
 }
 
 export function isSenseAdditionalInfoType(
   value: unknown
 ): value is SenseAdditionalInfoType {
-  return (
+  const x =
     isObject(value) &&
     (value.proverb_info === undefined ||
-      isProverbInfoType(value.proverb_info)) &&
+      isArrayOf(value.proverb_info, isProverbInfoType)) &&
     (value.pattern_info === undefined ||
-      isPatternInfoType(value.pattern_info)) &&
+      isArrayOf(value.pattern_info, isPatternInfoType)) &&
     (value.grammar_info === undefined ||
-      isGrammarInfoType(value.grammar_info)) &&
-    (value.norm_info === undefined || isNormInfoType(value.norm_info)) &&
+      isArrayOf(value.grammar_info, isGrammarInfoType)) &&
+    (value.norm_info === undefined ||
+      isArrayOf(value.norm_info, isNormInfoType)) &&
     (value.relation_info === undefined ||
-      isRegionInfoType(value.relation_info)) &&
+      isArrayOf(value.relation_info, isRelationInfoType)) &&
     (value.example_info === undefined ||
       isArrayOf(value.example_info, isExampleType)) &&
-    (value.region_info === undefined || isRegionInfoType(value.region_info))
-  );
+    (value.region_info === undefined ||
+      isArrayOf(value.region_info, isRegionInfoType));
+  if (!x)
+    console.table([
+      value.proverb_info === undefined ||
+        isArrayOf(value.proverb_info, isProverbInfoType),
+      value.pattern_info === undefined ||
+        isArrayOf(value.pattern_info, isPatternInfoType),
+      value.grammar_info === undefined ||
+        isArrayOf(value.grammar_info, isGrammarInfoType),
+      value.norm_info === undefined ||
+        isArrayOf(value.norm_info, isNormInfoType),
+      value.relation_info === undefined ||
+        isArrayOf(value.relation_info, isRelationInfoType),
+      value.example_info === undefined ||
+        isArrayOf(value.example_info, isExampleType),
+      value.region_info === undefined ||
+        isArrayOf(value.region_info, isRegionInfoType),
+    ]);
+  return x;
 }
 
 export function isDetailedSenseType(
   value: unknown
 ): value is DetailedSenseType {
-  return (
+  const x =
     isObject(value) &&
     isBaseSenseType(value) &&
-    isSenseAdditionalInfoType(value.additional_info)
-  );
+    isSenseAdditionalInfoType(value.additional_info);
+  if (!x) {
+    console.log(value);
+    console.table([
+      isObject(value),
+      isBaseSenseType(value),
+      isSenseAdditionalInfoType(value.additional_info),
+    ]);
+  }
+  return x;
 }
 
 export function isMeaningReadingsItem(

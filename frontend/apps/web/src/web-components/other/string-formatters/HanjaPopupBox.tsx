@@ -4,6 +4,11 @@ import { LoadingIndicator } from "../misc/LoadingIndicator";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
+import { HanjaPopupType } from "@repo/shared/types/dictionaryItemProps";
+import {
+  NoResponseError,
+  WrongFormatError,
+} from "../misc/ErrorMessageTemplates";
 
 export const HanjaPopupBox = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
@@ -16,22 +21,16 @@ export const HanjaPopupBox = ({ character }: { character: string }) => {
     return <LoadingIndicator />;
   }
 
+  if (!response) {
+    return <NoResponseError />;
+  }
+
   if (error) {
     return <ErrorMessage errorResponse={response} />;
   }
 
-  if (!response) {
-    return (
-      <ErrorMessage errorResponse={{ 오류: "api 요청은 응답이 없었습니다." }} />
-    );
-  }
-
   if (!isHanjaPopupDataType(response)) {
-    return (
-      <ErrorMessage
-        errorResponse={{ 오류: "api 응답은 데이터 구조가 안 됩니다." }}
-      />
-    );
+    return <WrongFormatError />;
   }
 
   return successful && <HanjaPopupBoxContent data={response} />;
