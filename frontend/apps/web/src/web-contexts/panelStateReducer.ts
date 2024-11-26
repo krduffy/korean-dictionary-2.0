@@ -7,9 +7,29 @@ import {
   PanelStateAction,
   SearchConfig,
   View,
+  ViewType,
 } from "@repo/shared/types/panelAndViewTypes";
 
-const getPanelStateAfterPush = (state: PanelState, newView: View) => {
+const overwriteCurrentView = (state: PanelState, newView: View): PanelState => {
+  const trimmedViews = state.historyData.views.slice(
+    0,
+    state.historyData.pointer
+  );
+
+  return {
+    ...state,
+    view: newView,
+    historyData: {
+      ...state.historyData,
+      views: trimmedViews.concat([newView]),
+    },
+  };
+};
+
+const getPanelStateAfterPush = (
+  state: PanelState,
+  newView: View
+): PanelState => {
   const trimmedViews = state.historyData.views.slice(
     0,
     state.historyData.pointer + 1
@@ -349,7 +369,26 @@ export function panelStateReducer(
         action.newIsDroppedDown
       );
 
+    case "push_find_lemma_success":
+      return getWithInitializedSearchKorean(state, action.word);
+
     default:
       throw Error("Unknown type");
   }
 }
+
+const getWithInitializedSearchKorean = (state: PanelState, word: string) => {
+  const newView: View = {
+    type: "korean_search",
+    data: {
+      search_term: word,
+      search_type: "word_exact",
+      page: 1,
+    },
+    interactionData: {
+      scrollDistance: 0,
+    },
+  };
+
+  return overwriteCurrentView(state, newView);
+};

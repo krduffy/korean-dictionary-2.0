@@ -210,6 +210,11 @@ export interface PushFindLemmaAction {
   sentence: string;
 }
 
+export interface PushFindLemmaSuccessAction {
+  type: "push_find_lemma_success";
+  word: string;
+}
+
 export interface UpdateScrollDistanceAction {
   type: "update_scroll_distance";
   scrollDistance: number;
@@ -247,4 +252,5 @@ export type PanelStateAction =
   | UpdateScrollDistanceAction
   | UpdateKoreanDetailDropdownToggleAction
   | UpdatePageAction
-  | DeleteSearchConfigKeyAction;
+  | DeleteSearchConfigKeyAction
+  | PushFindLemmaSuccessAction;

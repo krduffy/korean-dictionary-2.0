@@ -5,6 +5,12 @@ import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
 import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
+import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import {
+  NoResponseError,
+  WrongFormatError,
+} from "../../other/misc/ErrorMessageTemplates";
+import { useEffect } from "react";
 
 export const FindLemmaView = ({
   word,
@@ -33,6 +39,17 @@ export const FindLemmaView = ({
     fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
   });
 
+  const { dispatch } = useViewDispatchersContext();
+
+  useEffect(() => {
+    if (response?.found) {
+      dispatch({
+        type: "push_find_lemma_success",
+        word: String(response.found),
+      });
+    }
+  }, [response]);
+
   if (showFallback || loading) {
     return <LoadingIndicator />;
   }
@@ -41,17 +58,11 @@ export const FindLemmaView = ({
     return <ErrorMessage errorResponse={response} />;
   }
 
-  if (response?.found) {
-    return <FindLemmaDisplay wordFound={String(response.found)} />;
+  if (!response) {
+    return <NoResponseError />;
   }
 
-  return <div>not found</div>;
-};
-
-const FindLemmaDisplay = ({ wordFound }: { wordFound: string }) => {
-  return (
-    <div>
-      <div>found {wordFound}</div>
-    </div>
-  );
+  if (!response.found) {
+    return <WrongFormatError />;
+  }
 };

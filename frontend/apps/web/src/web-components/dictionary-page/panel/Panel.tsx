@@ -6,6 +6,7 @@ import {
 import { ViewDispatchersContextProvider } from "../../../web-contexts/ViewDispatchersContext";
 import { MainContent, MainContentArea } from "./MainContentArea";
 import { memo } from "react";
+import { LineBreakArea } from "../../other/misc/LineBreakArea";
 
 interface PanelProps {
   state: PanelState;
@@ -37,7 +38,7 @@ export const Panel = memo(
               historyPointer={state.historyData.pointer}
             >
               <MainContent view={state.view} />
-              <FooterArea />
+              <LineBreakArea />
             </MainContentArea>
           </div>
         </div>
@@ -45,20 +46,3 @@ export const Panel = memo(
     );
   }
 );
-
-const FooterArea = () => {
-  return (
-    <div
-      style={{
-        width: "75%",
-        height: "2px",
-        flexShrink: 0,
-        backgroundColor: "#444444",
-        marginLeft: "12.5%",
-        marginRight: "12.5%",
-        marginTop: "40px",
-        marginBottom: "40px",
-      }}
-    />
-  );
-};
