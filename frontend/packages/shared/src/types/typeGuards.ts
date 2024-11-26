@@ -95,7 +95,7 @@ export function isKoreanSearchResultType(
 
 export function isRegionInfoType(value: unknown): value is RegionInfoType {
   const x = isObject(value) && isString(value.region);
-  if (!x) console.log(value);
+  //if (!x) console.log(value);
   return x;
 }
 
@@ -164,7 +164,7 @@ function isHistoryCenturyExampleType(
     isString(value.source) &&
     isString(value.example) &&
     (value.origin === undefined || isString(value.origin));
-  if (!x) console.log(value);
+  //if (!x) console.log(value);
   return x;
 }
 
@@ -174,7 +174,7 @@ function isHistoryCenturyInfo(value: unknown): value is HistoryCenturyInfoType {
     isArrayOf(value.history_example_info, isHistoryCenturyExampleType) &&
     isString(value.century) &&
     isString(value.mark);
-  if (!x) {
+  /*if (!x) {
     console.log(value);
     console.table([
       isObject(value),
@@ -182,7 +182,7 @@ function isHistoryCenturyInfo(value: unknown): value is HistoryCenturyInfoType {
       isString(value.century),
       isString(value.mark),
     ]);
-  }
+  }*/
   return x;
 }
 
@@ -202,7 +202,7 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
     isString(value.allomorph) &&
     isArrayOf(value.history_sense_info, isHistorySenseInfoItem) &&
     (value.remark === undefined || isString(value.remark));
-  if (!x) console.log(value);
+  //if (!x) console.log(value);
   return x;
 }
 
@@ -265,14 +265,14 @@ export function isDetailedSenseType(
     isObject(value) &&
     isBaseSenseType(value) &&
     isSenseAdditionalInfoType(value.additional_info);
-  if (!x) {
+  /*if (!x) {
     console.log(value);
     console.table([
       isObject(value),
       isBaseSenseType(value),
       isSenseAdditionalInfoType(value.additional_info),
     ]);
-  }
+  }*/
   return x;
 }
 

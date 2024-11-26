@@ -9,7 +9,7 @@ export const RelationInfoSection = ({
   relations: RelationType[];
 }) => {
   const possibleRelationTypes = [
-    "비슷한 말",
+    "비슷한말",
     "반대말",
     "상위어",
     "하위어",

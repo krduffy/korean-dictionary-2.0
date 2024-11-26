@@ -22,6 +22,7 @@ import {
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 export const KoreanSearchView = ({
   searchConfig,
@@ -37,7 +38,13 @@ export const KoreanSearchView = ({
         .useCallAPIReturns,
     });
 
-  if (loading) {
+  const { showFallback } = useShowFallback({
+    loading: loading,
+    successful: successful,
+    fallbackMaxTimeMs: 1000,
+  });
+
+  if (showFallback || loading) {
     return <LoadingIndicator />;
   }
 
