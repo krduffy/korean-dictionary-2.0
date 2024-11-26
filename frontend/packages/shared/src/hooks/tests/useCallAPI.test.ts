@@ -212,7 +212,9 @@ describe("useCallAPI", () => {
     expect(mockedTokenHandlers.refreshTokens).toHaveBeenCalledTimes(1);
     expect(mockedTokenHandlers.onRefreshFail).not.toHaveBeenCalled();
     expect(mockedTokenHandlers.saveTokens).toHaveBeenCalledTimes(1);
-    expect(mockedTokenHandlers.deleteTokens).not.toHaveBeenCalled();
+    /* expect this to be called once because the initial token that was 
+       returned from the getAccessToken function resulted in 401 */
+    expect(mockedTokenHandlers.deleteTokens).toHaveBeenCalledTimes(1);
 
     /* still successful because */
     expect(result.current.successful).toBe(true);

@@ -1,7 +1,7 @@
 import {
   splitAlongHangul,
   longNumberToFormatted,
-  getTopicMarker,
+  hasBatchim,
 } from "../koreanLangUtils";
 
 describe("koreanLangUtils", () => {
@@ -54,21 +54,21 @@ describe("koreanLangUtils", () => {
 
 describe("getTopicMarker", () => {
   const testData = [
-    { input: "키런", expectedOutput: "은" },
-    { input: "다", expectedOutput: "는" },
-    { input: "거", expectedOutput: "는" },
-    { input: "꿰", expectedOutput: "는" },
-    { input: "킭", expectedOutput: "은" },
-    { input: "죽", expectedOutput: "은" },
-    { input: "ㅈ", expectedOutput: "은" },
-    { input: "ㅏ", expectedOutput: "는" },
-    { input: "notkorean", expectedOutput: "" },
+    { input: "키런", expectedOutput: true },
+    { input: "다", expectedOutput: false },
+    { input: "거", expectedOutput: false },
+    { input: "꿰", expectedOutput: false },
+    { input: "킭", expectedOutput: true },
+    { input: "죽", expectedOutput: true },
+    { input: "ㅈ", expectedOutput: true },
+    { input: "ㅏ", expectedOutput: false },
+    { input: "notkorean", expectedOutput: undefined },
   ];
 
   test.each(testData)(
     "input $input has the output $expectedOutput",
     ({ input, expectedOutput }) => {
-      expect(getTopicMarker(input)).toBe(expectedOutput);
+      expect(hasBatchim(input)).toBe(expectedOutput);
     }
   );
 });

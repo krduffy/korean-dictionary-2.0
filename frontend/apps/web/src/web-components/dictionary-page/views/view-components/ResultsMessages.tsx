@@ -1,16 +1,24 @@
 import {
-  getTopicMarker,
+  hasBatchim,
   longNumberToFormatted,
 } from "@repo/shared/utils/koreanLangUtils";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
 
 export const NoResultsMessage = ({ searchTerm }: { searchTerm: string }) => {
+  const searchTermHasBatchim = hasBatchim(searchTerm);
+  const topicMarker =
+    searchTermHasBatchim === true
+      ? "은"
+      : searchTermHasBatchim === false
+        ? "는"
+        : "";
+
   return (
     <div className="no-results-indicator">
       검색어 {'"'}
       {searchTerm}
       {'"'}
-      {getTopicMarker(searchTerm)} 결과가 없습니다.
+      {topicMarker} 결과가 없습니다.
     </div>
   );
 };

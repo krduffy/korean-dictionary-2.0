@@ -47,14 +47,15 @@ export const isVowel = (str: string) => {
 };
 
 /**
- * Returns "는", "은", or "" based on the final character in `string`. If it is hangul, 는 or 은
- * is returned accordingly. Compatability jamo return 는 if they are vowels (ㅏ, ㅓ, ...) or 은 if
- * they are consonants (ㅈ, ㄱ, ...). All other strings return "".
+ * Returns a boolean value or undefined based on the final character in `string`.
+ * If it is hangul, true or false is returned accordingly. Compatability jamo return false
+ * if they are vowels (ㅏ, ㅓ, ...) or true if they are consonants (ㅈ, ㄱ, ...).
+ * All other strings return undefined.
  *
- * @param string The string for which to get a topic marker.
- * @returns The topic marker for the string.
+ * @param string The string to check.
+ * @returns Whether the string has batchim.
  */
-export const getTopicMarker = (string: string): "은" | "는" | "" => {
+export const hasBatchim = (string: string): boolean | undefined => {
   /*  
       This can seem magic-numbery, but for those interested in how to convert a unicode in the 
       Korean Syllables unicode block to its constituent jamo, see the Wikipedia article below.
@@ -74,14 +75,14 @@ export const getTopicMarker = (string: string): "은" | "는" | "" => {
       If the input does not end in a Korean syllable, returns ''
     */
 
-  if (string.length < 1) return "";
+  if (string.length < 1) return undefined;
 
   const lastChar = string.charAt(string.length - 1);
 
   if (isConsonant(lastChar)) {
-    return "은";
+    return true;
   } else if (isVowel(lastChar)) {
-    return "는";
+    return false;
   }
 
   const charCode = lastChar.charCodeAt(0);
@@ -90,14 +91,14 @@ export const getTopicMarker = (string: string): "은" | "는" | "" => {
   const LAST_SYLLABLE = 0xd7a3;
 
   if (charCode < FIRST_SYLLABLE || charCode > LAST_SYLLABLE) {
-    return "";
+    return undefined;
   }
 
   if (((charCode - 44032) % 588) % 28 !== 0) {
-    return "은";
+    return true;
   }
 
-  return "는";
+  return false;
 };
 
 /**
