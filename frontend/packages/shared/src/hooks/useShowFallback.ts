@@ -1,18 +1,14 @@
-import { clear } from "console";
 import { useEffect, useRef, useState } from "react";
 
 /* needs testing to see if this adequately handles all cases */
 
 export const useShowFallback = ({
-  loading,
-  successful,
+  earlyCanceller,
   fallbackMinTimeMs,
   fallbackMaxTimeMs,
 }: {
-  /** `loading` from useCallAPI instance or a wrapper */
-  loading: boolean;
-  /** `successful` from useCallAPI instance or a wrapper */
-  successful: boolean;
+  /** Variable that when updated to true can lead to an early cancellation of showing fallback */
+  earlyCanceller: boolean;
   /** Number of ms until a successful response can be acknowledged and the fallback is allowed
    *  to be overwritten */
   fallbackMinTimeMs: number;
@@ -34,7 +30,9 @@ export const useShowFallback = ({
   );
 
   const resetFallbackTimers = () => {
+    setShowFallback(true);
     clearTimer();
+    startTimer();
     allowOverwriteOnFulfillment.current = getOverwritePromise();
   };
 
@@ -51,21 +49,6 @@ export const useShowFallback = ({
     }
   };
 
-  useEffect(() => {
-    if (showFallback) {
-      clearTimer();
-      startTimer();
-    }
-
-    return () => clearTimer();
-  }, [showFallback]);
-
-  useEffect(() => {
-    if (loading) {
-      setShowFallback(true);
-    }
-  }, [loading]);
-
   const waitThenClear = async () => {
     await allowOverwriteOnFulfillment.current;
     setShowFallback(false);
@@ -73,10 +56,10 @@ export const useShowFallback = ({
   };
 
   useEffect(() => {
-    if (successful) {
+    if (earlyCanceller) {
       waitThenClear();
     }
-  }, [successful]);
+  }, [earlyCanceller]);
 
   return {
     showFallback,

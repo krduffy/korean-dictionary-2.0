@@ -21,8 +21,7 @@ import {
   NotAnArrayError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
-import { API_PAGE_SIZE, FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
-import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
+import { API_PAGE_SIZE } from "@repo/shared/constants";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;

@@ -23,8 +23,7 @@ export const usePropForm = ({
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
   const { showFallback, resetFallbackTimers } = useShowFallback({
-    loading,
-    successful,
+    earlyCanceller: successful,
     fallbackMinTimeMs: FALLBACK_MIN_TIME_MS,
     fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
   });

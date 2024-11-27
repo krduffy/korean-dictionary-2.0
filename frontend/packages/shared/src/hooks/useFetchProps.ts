@@ -19,8 +19,7 @@ export const useFetchProps = ({
   const { successful, error, loading, response, callAPI } = useAPICallInstance;
 
   const { showFallback, resetFallbackTimers } = useShowFallback({
-    loading,
-    successful,
+    earlyCanceller: successful,
     fallbackMinTimeMs: FALLBACK_MIN_TIME_MS,
     fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
   });

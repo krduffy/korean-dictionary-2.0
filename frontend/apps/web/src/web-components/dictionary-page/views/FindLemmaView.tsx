@@ -3,8 +3,6 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
-import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import {
   NoResponseError,
