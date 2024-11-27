@@ -52,7 +52,7 @@ export const useStringWithNLP = ({
     return (
       sentence
         // split along { }, including the { } in relevant substrings so they can be marked as examples
-        .split(/({.*})/g)
+        .split(/({.*?})/g)
         .filter((substr) => substr.length > 0)
         .flatMap((substr) => {
           if (substr.startsWith("{") && substr.endsWith("}"))
