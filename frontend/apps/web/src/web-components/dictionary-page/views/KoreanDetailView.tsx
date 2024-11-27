@@ -3,15 +3,12 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { KoreanDetailDisplay } from "../dictionary-items/KoreanDetailDisplay";
-import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { isDetailedKoreanType } from "@repo/shared/types/typeGuards";
 import {
   NoResponseError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
-import { FALLBACK_MAX_TIME_MS } from "@repo/shared/constants";
-import { useShowFallback } from "@repo/shared/hooks/useShowFallback";
 
 export const KoreanDetailView = ({
   target_code,
@@ -26,13 +23,7 @@ export const KoreanDetailView = ({
     refetchDependencyArray: [target_code],
   });
 
-  const { showFallback } = useShowFallback({
-    loading: loading,
-    successful: successful,
-    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
-  });
-
-  if (showFallback || loading) {
+  if (loading) {
     return <LoadingIndicator />;
   }
 

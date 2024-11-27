@@ -1,3 +1,4 @@
+import { clear } from "console";
 import { useEffect, useRef, useState } from "react";
 
 /* needs testing to see if this adequately handles all cases */
@@ -5,18 +6,37 @@ import { useEffect, useRef, useState } from "react";
 export const useShowFallback = ({
   loading,
   successful,
+  fallbackMinTimeMs,
   fallbackMaxTimeMs,
 }: {
   /** `loading` from useCallAPI instance or a wrapper */
   loading: boolean;
   /** `successful` from useCallAPI instance or a wrapper */
   successful: boolean;
+  /** Number of ms until a successful response can be acknowledged and the fallback is allowed
+   *  to be overwritten */
+  fallbackMinTimeMs: number;
   /** Number of ms until an unsuccessful response is acknowledged and the fallback is
    *  no longer shown */
   fallbackMaxTimeMs: number;
 }) => {
   const [showFallback, setShowFallback] = useState<boolean>(true);
   const fallbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const getOverwritePromise = () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), fallbackMinTimeMs);
+    });
+  };
+
+  const allowOverwriteOnFulfillment = useRef<Promise<void> | null>(
+    getOverwritePromise()
+  );
+
+  const resetFallbackTimers = () => {
+    clearTimer();
+    allowOverwriteOnFulfillment.current = getOverwritePromise();
+  };
 
   const startTimer = () => {
     fallbackTimer.current = setTimeout(
@@ -36,6 +56,8 @@ export const useShowFallback = ({
       clearTimer();
       startTimer();
     }
+
+    return () => clearTimer();
   }, [showFallback]);
 
   useEffect(() => {
@@ -44,14 +66,20 @@ export const useShowFallback = ({
     }
   }, [loading]);
 
+  const waitThenClear = async () => {
+    await allowOverwriteOnFulfillment.current;
+    setShowFallback(false);
+    clearTimer();
+  };
+
   useEffect(() => {
     if (successful) {
-      setShowFallback(false);
-      clearTimer();
+      waitThenClear();
     }
   }, [successful]);
 
   return {
     showFallback,
+    resetFallbackTimers,
   };
 };

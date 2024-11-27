@@ -4,6 +4,8 @@ import {
   RequestConfig,
   UseCallAPIReturns,
 } from "../types/apiCallTypes";
+import { useShowFallback } from "./useShowFallback";
+import { FALLBACK_MIN_TIME_MS, FALLBACK_MAX_TIME_MS } from "../constants";
 
 export type UsePropFormArgs = {
   url: string;
@@ -20,6 +22,13 @@ export const usePropForm = ({
 }: UsePropFormArgs) => {
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
+  const { showFallback, resetFallbackTimers } = useShowFallback({
+    loading,
+    successful,
+    fallbackMinTimeMs: FALLBACK_MIN_TIME_MS,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  });
+
   const doPost = async () => {
     const config: RequestConfig = {
       method: "POST",
@@ -33,13 +42,14 @@ export const usePropForm = ({
   };
 
   useEffect(() => {
+    resetFallbackTimers();
     doPost();
   }, repostDependencies);
 
   return {
     successful,
     error,
-    loading,
+    loading: loading || showFallback,
     response,
   };
 };

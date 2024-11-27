@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
 import { useSpamProtectedSetter } from "./useSpamProtectedSetter";
+import { FALLBACK_MAX_TIME_MS, FALLBACK_MIN_TIME_MS } from "../constants";
+import { useShowFallback } from "./useShowFallback";
 
 interface UsePaginatedResultsArgs {
   baseUrl: string;
@@ -26,6 +28,13 @@ export const usePaginatedResults = ({
   const [searchResults, setSearchResults] = useState<APIResponseType>({});
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 
+  const { showFallback, resetFallbackTimers } = useShowFallback({
+    loading,
+    successful,
+    fallbackMinTimeMs: FALLBACK_MIN_TIME_MS,
+    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  });
+
   // eslint-disable-next-line no-unused-vars
   const hasInteractedRef = useRef(false);
 
@@ -39,12 +48,13 @@ export const usePaginatedResults = ({
   });
 
   useEffect(() => {
+    resetFallbackTimers();
     updateSearchResults();
   }, [baseUrl]);
 
   return {
     searchResults,
-    loading,
+    loading: loading || showFallback,
     successful,
     error,
     response,

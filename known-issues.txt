@@ -1,0 +1,4 @@
+Words in the nlp view do not work properly when surrounding in '' (dummy string) => due to indexing
+problem in the index heuristic
+
+useshowfallback does not work when the response from api is an error

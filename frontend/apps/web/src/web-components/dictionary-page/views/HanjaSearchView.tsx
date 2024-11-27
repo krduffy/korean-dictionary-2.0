@@ -33,19 +33,12 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
 }) => {
   const { dispatch } = useViewDispatchersContext();
 
-  const { successful, error, loading, searchResults, response } =
-    usePaginatedResults({
-      baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
-      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    });
-
-  const { showFallback } = useShowFallback({
-    loading: loading,
-    successful: successful,
-    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
+  const { error, loading, searchResults, response } = usePaginatedResults({
+    baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
 
-  if (showFallback || loading) {
+  if (loading) {
     return <LoadingIndicator />;
   }
 

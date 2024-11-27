@@ -26,17 +26,11 @@ export const FindLemmaView = ({
     };
   };
 
-  const { successful, error, loading, response } = usePropForm({
+  const { error, loading, response } = usePropForm({
     url: getEndpoint({ endpoint: "find_lemma" }),
     formDataGetter: getFormData,
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
     repostDependencies: [word, sentence],
-  });
-
-  const { showFallback } = useShowFallback({
-    loading: loading,
-    successful: successful,
-    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
   });
 
   const { dispatch } = useViewDispatchersContext();
@@ -50,7 +44,7 @@ export const FindLemmaView = ({
     }
   }, [response]);
 
-  if (showFallback || loading) {
+  if (loading) {
     return <LoadingIndicator />;
   }
 
