@@ -45,7 +45,6 @@ export const useFontSizeSettings = (): UseFontSizeSettingsReturns => {
 
   /** Returns the size of text on the page, measured in `em`s. */
   const getRealFontSize = (): number => {
-    /* the size as decided by the media queries */
     const before = getComputedStyle(document.documentElement).getPropertyValue(
       "--font-size"
     );

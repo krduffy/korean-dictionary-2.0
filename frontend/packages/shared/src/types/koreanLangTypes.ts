@@ -1,5 +1,3 @@
-import { AssertionError } from "assert";
-
 export type NLPTokenType = "hangul" | "example" | "other";
 
 export type NLPToken = {
@@ -87,37 +85,25 @@ export type FinalKoreanConsonant =
   | keyof typeof consonants
   | keyof typeof finalConsonants;
 
-export function assertIsInitialConsonant(
-  str: string
-): asserts str is InitialKoreanConsonant {
-  if (
-    !Object.values(consonants).includes(str) &&
-    !Object.values(initialConsonants).includes(str)
-  ) {
-    throw new AssertionError({
-      message: `${str} is not an initial consonant.`,
-    });
-  }
+export function isInitialConsonant(str: string): str is InitialKoreanConsonant {
+  return (
+    Object.values(consonants).includes(str) &&
+    Object.values(initialConsonants).includes(str)
+  );
 }
 
-export function assertIsFinalConsonant(
-  str: string
-): asserts str is FinalKoreanConsonant {
-  if (
-    !Object.keys(consonants).includes(str) &&
-    !Object.keys(finalConsonants).includes(str)
-  ) {
-    throw new AssertionError({ message: `${str} is not a final consonant.` });
-  }
+export function isFinalConsonant(str: string): str is FinalKoreanConsonant {
+  return (
+    Object.keys(consonants).includes(str) &&
+    Object.keys(finalConsonants).includes(str)
+  );
 }
 
-export function assertIsVowel(str: string): asserts str is KoreanVowel {
-  if (
-    !Object.keys(monophtongs).includes(str) &&
-    !Object.keys(diphtongs).includes(str)
-  ) {
-    throw new AssertionError({ message: `${str} is not a vowel.` });
-  }
+export function isVowel(str: string): str is KoreanVowel {
+  return (
+    Object.keys(monophtongs).includes(str) &&
+    Object.keys(diphtongs).includes(str)
+  );
 }
 
 export type KoreanMonophthong = keyof typeof monophtongs;

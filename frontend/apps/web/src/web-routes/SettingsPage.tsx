@@ -2,6 +2,9 @@ import { ReactNode, useState } from "react";
 import { PageWithNavBar } from "../web-components/navbar/PageWithNavBar";
 
 import { useSettingsPageContent } from "../web-hooks/useSettingsPageContent";
+import { SearchIcon } from "lucide-react";
+
+import "./keyboard-conversion.css";
 
 export const SettingsPage = () => {
   return (
@@ -28,8 +31,11 @@ const SettingsPageContent = () => {
       >
         설정
       </div>
-      <div className="w-full flex flex-1 flex-col items-center py-6 space-y-6">
+      <div className="w-full flex flex-1 flex-col items-center py-6 space-y-6 gap-10">
         <FontSizeSettingArea fontSizeSettings={currentSettings.fontSize} />
+        <KeyboardConversionSettingArea
+          keyboardConversionSettings={currentSettings.keyboardConversion}
+        />
         <SaveButtonAndMessage save={save} />
       </div>
     </div>
@@ -85,10 +91,10 @@ const SettingNameAndControls = ({
 }) => {
   return (
     <div className="flex flex-row w-[70%] gap-24">
-      <div className="w-[20%] text-right cursor-help" title={settingHelp}>
+      <div className="w-[30%] text-right cursor-help" title={settingHelp}>
         {settingName}
       </div>
-      <div className="w-[80%] text-left">{controls}</div>
+      <div className="w-[70%] text-left">{controls}</div>
     </div>
   );
 };
@@ -159,8 +165,80 @@ const FontSizeSettingArea = ({
   return (
     <SettingNameAndControls
       settingName="글꼴 크기"
-      settingHelp="글꼴의 크기를 변경합니다."
+      settingHelp="글꼴의 크기를 변경한다."
       controls={controlArea}
     />
+  );
+};
+
+const KeyboardConversionSettingArea = ({
+  keyboardConversionSettings,
+}: {
+  keyboardConversionSettings: {
+    demoDoConversion: boolean;
+    setDemoDoConversion: (newValue: boolean) => void;
+  };
+}) => {
+  return (
+    <SettingNameAndControls
+      settingName="검색 시 검색어 영문 → 한글 자동 전환"
+      settingHelp="검색 시 입력어가 영문이 있는 경우 한글 키보드 위주로 전환된다."
+      controls={
+        <KeyboardConversionSettingAreaControls
+          keyboardConversionSettings={keyboardConversionSettings}
+        />
+      }
+    />
+  );
+};
+
+const KeyboardConversionSettingAreaControls = ({
+  keyboardConversionSettings,
+}: {
+  keyboardConversionSettings: {
+    demoDoConversion: boolean;
+    setDemoDoConversion: (newValue: boolean) => void;
+  };
+}) => {
+  return (
+    <div className="flex flex-row h-10">
+      <div className="w-[40%] flex justify-center items-center">
+        <input
+          type="checkbox"
+          className=""
+          checked={keyboardConversionSettings.demoDoConversion}
+          onChange={() =>
+            keyboardConversionSettings.setDemoDoConversion(
+              !keyboardConversionSettings.demoDoConversion
+            )
+          }
+        ></input>
+      </div>
+      <div className="w-[60%] flex justify-center items-center">
+        <DemoSearchBar />
+      </div>
+    </div>
+  );
+};
+
+const DemoSearchBar = () => {
+  /** Fake search bar with animation on the search bar content to demonstrate how
+   *  keyboard conversion works
+   */
+  return (
+    <div className="relative h-full w-full">
+      <SearchIcon className="h-full absolute top-0 left-0 pl-2" />
+      <div
+        className="h-full w-full pl-10 px-4 py-2 
+      bg-[color:--neutral-color-not-hovering]
+      border
+      rounded-full
+      ring-2 border-[color:--focus-blue]
+      outline-none text-[color:--text-primary]
+      "
+      >
+        <span className="animate-typing-in-word"></span>
+      </div>
+    </div>
   );
 };

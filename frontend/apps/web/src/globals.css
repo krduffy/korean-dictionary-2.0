@@ -18,18 +18,6 @@
   --font-size: 1em;
 }
 
-@media (max-width: 1000px) {
-  :root {
-    --font-size: 0.75em;
-  }
-}
-
-@media (max-width: 500px) {
-  :root {
-    --font-size: 0.5em;
-  }
-}
-
 /* LIGHT COLORS */
 :root {
   --background-primary: white;

@@ -1,13 +1,6 @@
 import {
-  assertIsFinalConsonant,
-  assertIsInitialConsonant,
-  assertIsVowel,
   FinalKoreanConsonant,
-  InitialKoreanConsonant,
   KeyboardConversionToken,
-  KoreanChoseong,
-  KoreanJongseong,
-  KoreanJungseong,
   KoreanVowel,
 } from "../types/koreanLangTypes";
 import { isConsonant, isVowel } from "./koreanLangUtils";
@@ -23,9 +16,9 @@ const consonantOrVowel = (char: string) => {
 };
 
 const toSyllable = (
-  choseong: KoreanChoseong,
-  jungseong: KoreanJungseong,
-  jongseong?: KoreanJongseong
+  choseong: string,
+  jungseong: string,
+  jongseong?: string
 ) => {
   /* Magic numbery; see above for explanation */
   const choseongNum = choseong.charCodeAt(0) - 0x1100;
@@ -38,9 +31,7 @@ const toSyllable = (
   );
 };
 
-const toChoseong = (
-  compatabilityConsonant: InitialKoreanConsonant
-): KoreanChoseong => {
+const toChoseong = (compatabilityConsonant: string): string => {
   switch (compatabilityConsonant) {
     case "ㄱ":
       return "ᄀ";
@@ -80,10 +71,12 @@ const toChoseong = (
       return "ᄑ";
     case "ㅎ":
       return "ᄒ";
+    default:
+      return compatabilityConsonant;
   }
 };
 
-const toJungseong = (compatibilityVowel: KoreanVowel): KoreanJungseong => {
+const toJungseong = (compatibilityVowel: string): string => {
   switch (compatibilityVowel) {
     case "ㅏ":
       return "ᅡ";
@@ -127,12 +120,12 @@ const toJungseong = (compatibilityVowel: KoreanVowel): KoreanJungseong => {
       return "ᅴ";
     case "ㅣ":
       return "ᅵ";
+    default:
+      return compatibilityVowel;
   }
 };
 
-const toJongseong = (
-  compatibilityJongseong: FinalKoreanConsonant
-): KoreanJongseong => {
+const toJongseong = (compatibilityJongseong: string): string => {
   switch (compatibilityJongseong) {
     case "ㄱ":
       return "ᆨ";
@@ -188,13 +181,12 @@ const toJongseong = (
       return "ᇁ";
     case "ㅎ":
       return "ᇂ";
+    default:
+      return compatibilityJongseong;
   }
 };
 
-const mergeJungseong = (
-  v1: KoreanVowel,
-  v2: KoreanVowel
-): KoreanVowel | null => {
+const mergeJungseong = (v1: string, v2: string): KoreanVowel | null => {
   if (v1 === "ㅗ") {
     if (v2 === "ㅏ") return "ㅘ";
     if (v2 === "ㅐ") return "ㅙ";
@@ -238,16 +230,10 @@ const arrayToSyllable = (array: string[]) => {
   if (array.length <= 1) {
     return array[0];
   } else if (array.length == 2 && array[0] && array[1]) {
-    assertIsInitialConsonant(array[0]);
-    assertIsVowel(array[1]);
     const syllable = toSyllable(toChoseong(array[0]), toJungseong(array[1]));
 
     return syllable;
   } else if (array.length == 3 && array[0] && array[1] && array[2]) {
-    assertIsInitialConsonant(array[0]);
-    assertIsVowel(array[1]);
-    assertIsFinalConsonant(array[2]);
-
     const syllable = toSyllable(
       toChoseong(array[0]),
       toJungseong(array[1]),
@@ -402,8 +388,6 @@ export const engKeyboardToKorean = (string: string): string => {
       token1[1][0] &&
       token2[1][0]
     ) {
-      assertIsVowel(token1[1][0]);
-      assertIsVowel(token2[1][0]);
       const mergedJungseong = mergeJungseong(token1[1][0], token2[1][0]);
 
       if (mergedJungseong !== null) {

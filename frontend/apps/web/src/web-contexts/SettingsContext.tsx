@@ -3,14 +3,21 @@ import {
   UseFontSizeSettingsReturns,
   useFontSizeSettings,
 } from "../web-hooks/useFontSizeSettings";
+import { useKeyboardConversionSettings } from "../web-hooks/useKeyboardConversionSettings";
 
 export type FontSizeSettingsType = {
   relativeFontSize: number;
   updateRelativeFontSize: (newSize: number) => boolean;
 };
 
+export type KeyboardConversionSettingsType = {
+  doConversion: boolean;
+  updateDoConversion: (newValue: boolean) => boolean;
+};
+
 export interface SettingsType {
   fontSizeSettings: FontSizeSettingsType;
+  keyboardConversionSettings: KeyboardConversionSettingsType;
 }
 
 export const SettingsContext = createContext<SettingsType | undefined>(
@@ -26,6 +33,7 @@ export const SettingsContextProvider = ({
 }: SettingsContextProviderArgs) => {
   const { realFontSize, relativeFontSize, updateRelativeFontSize } =
     useFontSizeSettings();
+  const { doConversion, updateDoConversion } = useKeyboardConversionSettings();
 
   return (
     <SettingsContext.Provider
@@ -33,6 +41,10 @@ export const SettingsContextProvider = ({
         fontSizeSettings: {
           relativeFontSize,
           updateRelativeFontSize,
+        },
+        keyboardConversionSettings: {
+          doConversion,
+          updateDoConversion,
         },
       }}
     >

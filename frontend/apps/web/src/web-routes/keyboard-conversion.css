@@ -1,0 +1,36 @@
+@keyframes typingInWord {
+  /* 25% of typing in "입력어" (english keyboard) => 10% of waiting => change text to
+     korean keyboard input and wait 65% of the time */
+  0% {
+    content: "d";
+  }
+  4% {
+    content: "dl";
+  }
+  8% {
+    content: "dlq";
+  }
+  12% {
+    content: "dlqf";
+  }
+  16% {
+    content: "dlqfu";
+  }
+  20% {
+    content: "dlqfur";
+  }
+  24% {
+    content: "dlqfurd";
+  }
+  28% {
+    content: "dlqfurdk";
+  }
+  48% {
+    content: "입력어";
+  }
+}
+
+.animate-typing-in-word::after {
+  content: "";
+  animation: typingInWord 10s steps(8) forwards infinite;
+}

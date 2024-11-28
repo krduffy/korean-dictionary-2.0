@@ -6,6 +6,7 @@ import { SearchSettingsButton } from "./SearchSettingsButton";
 
 import { useSearchBarArea } from "@repo/shared/hooks/useSearchBarArea";
 import { SearchIcon } from "lucide-react";
+import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
 
 interface SearchBarAreaArgs {
   searchConfig: SearchConfig;
@@ -16,6 +17,7 @@ export const SearchBarArea = ({
   searchConfig,
   dispatch,
 }: SearchBarAreaArgs) => {
+  const { keyboardConversionSettings } = useSettingsContext();
   const {
     submitSearch,
     updateKoreanSearchConfig,
@@ -23,7 +25,11 @@ export const SearchBarArea = ({
     updateSearchTerm,
     switchDictionary,
     deleteSearchConfigItemByKey,
-  } = useSearchBarArea({ searchConfig: searchConfig, dispatch: dispatch });
+  } = useSearchBarArea({
+    searchConfig: searchConfig,
+    dispatch: dispatch,
+    doConversion: keyboardConversionSettings.doConversion,
+  });
 
   return (
     <div className="flex flex-row items-center pr-3 h-full w-full rounded-full bg-[color:--background-quaternary]">

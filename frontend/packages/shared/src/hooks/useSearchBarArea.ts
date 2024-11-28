@@ -1,3 +1,4 @@
+import { engKeyboardToKorean } from "../utils/keyboardConverter";
 import {
   HanjaSearchConfig,
   KoreanSearchConfig,
@@ -40,23 +41,60 @@ interface UseSearchBarAreaReturns {
 export const useSearchBarArea = ({
   searchConfig,
   dispatch,
+  doConversion,
 }: {
   searchConfig: SearchConfig;
   dispatch: React.Dispatch<PanelStateAction>;
+  doConversion: boolean;
 }): UseSearchBarAreaReturns => {
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (searchConfig.dictionary === "korean") {
-      dispatch({
-        type: "push_korean_search",
-        searchConfig: searchConfig.config,
-      });
+    console.log(doConversion);
+
+    if (doConversion) {
+      const converted = engKeyboardToKorean(searchConfig.config.search_term);
+      console.log(converted);
+
+      if (searchConfig.dictionary === "korean") {
+        dispatch({
+          type: "update_korean_search_config",
+          field: "search_term",
+          value: converted,
+        });
+        dispatch({
+          type: "push_korean_search",
+          searchConfig: {
+            ...searchConfig.config,
+            search_term: converted,
+          },
+        });
+      } else {
+        dispatch({
+          type: "update_hanja_search_config",
+          field: "search_term",
+          value: converted,
+        });
+        dispatch({
+          type: "push_hanja_search",
+          searchConfig: {
+            ...searchConfig.config,
+            search_term: converted,
+          },
+        });
+      }
     } else {
-      dispatch({
-        type: "push_hanja_search",
-        searchConfig: searchConfig.config,
-      });
+      if (searchConfig.dictionary === "korean") {
+        dispatch({
+          type: "push_korean_search",
+          searchConfig: searchConfig.config,
+        });
+      } else {
+        dispatch({
+          type: "push_hanja_search",
+          searchConfig: searchConfig.config,
+        });
+      }
     }
   };
 
