@@ -9,6 +9,9 @@ import {
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { useEffect } from "react";
+import { useNotificationContext } from "../../../web-contexts/NotificationContextProvider";
+import { hasBatchim } from "@repo/shared/utils/koreanLangUtils";
+import { Footnote } from "../../other/string-formatters/SpanStylers";
 
 export const FindLemmaView = ({
   word,
@@ -32,12 +35,16 @@ export const FindLemmaView = ({
   });
 
   const { dispatch } = useViewDispatchersContext();
+  const { sendNotification } = useNotificationContext();
 
   useEffect(() => {
     if (response?.found) {
+      const found = String(response.found);
+
+      sendNotification(<FoundWordNotification word={found} />, 4000);
       dispatch({
         type: "push_find_lemma_success",
-        word: String(response.found),
+        word: found,
       });
     }
   }, [response]);
@@ -57,4 +64,19 @@ export const FindLemmaView = ({
   if (!response.found) {
     return <WrongFormatError />;
   }
+};
+
+const FoundWordNotification = ({ word }: { word: string }) => {
+  const wordHasBatchim = hasBatchim(word);
+  const subjectMarker =
+    wordHasBatchim === true ? "이" : wordHasBatchim === false ? "가" : "";
+
+  return (
+    <div className="text-center">
+      단어 "{word}"{subjectMarker} 검색되었습니다.
+      <div>
+        <Footnote string="이 알림은 설정에 차단하실 수 있습니다." />
+      </div>
+    </div>
+  );
 };

@@ -73,3 +73,14 @@ export const SpanPicture = ({ string }: { string: string }) => {
     </span>
   );
 };
+
+export const Footnote = ({ string }: { string: string }) => {
+  return (
+    <span
+      style={{ fontSize: "80%" }}
+      className="color:[color:--text-secondary]"
+    >
+      {string}
+    </span>
+  );
+};

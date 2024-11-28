@@ -1,6 +1,6 @@
 import { ReactNode, useRef, useState } from "react";
 import { PopupBox, PopupBoxArgs } from "./PopupBox";
-import { X } from "lucide-react";
+import { CloseButton } from "./CloseButton";
 
 export type AllowedPopupBoxArgs = {
   align?: PopupBoxArgs["align"];
@@ -26,12 +26,6 @@ export const ButtonWithClickDropdown = ({
     setShow(!show);
   };
 
-  const closeButton = (
-    <button className="absolute top-1 right-1" onClick={(e) => setShow(false)}>
-      <X />
-    </button>
-  );
-
   return (
     <>
       <button
@@ -49,7 +43,7 @@ export const ButtonWithClickDropdown = ({
           {...popupBoxArgs}
         >
           {dropdownContent}
-          {addXInTopRight && closeButton}
+          {addXInTopRight && <CloseButton onClick={() => setShow(false)} />}
         </PopupBox>
       )}
     </>
