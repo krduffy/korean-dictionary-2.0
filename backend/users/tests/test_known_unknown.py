@@ -41,9 +41,7 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
         self.regular_user.refresh_from_db()
 
         if response.status_code == HTTP_200_OK:
-            assertion_func = (
-                self.assertIn if set_true_or_false == "true" else self.assertNotIn
-            )
+            assertion_func = self.assertIn if set_true_or_false else self.assertNotIn
             user_model_field = None
             if korean_or_hanja == "korean":
                 user_model_field = (
@@ -73,7 +71,7 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
     def test_setting_word_known(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
 
         self.verify_counts(user, [1, 0, 0, 0])
 
@@ -82,11 +80,11 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
 
         self.verify_counts(user, [0, 0, 0, 0])
 
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 0, 0])
 
         # Do the same thing again .
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 0, 0])
 
     def test_setting_word_known_then_unknown(self):
@@ -94,11 +92,11 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
 
         self.verify_counts(user, [0, 0, 0, 0])
 
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 0, 0])
 
         # Do the same thing again .
-        self.send_request_then_check(user, "korean", "known", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 0])
 
     def test_setting_word_unknown_when_already_unknown(self):
@@ -107,70 +105,70 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
         self.verify_counts(user, [0, 0, 0, 0])
 
         # Do the same thing again .
-        self.send_request_then_check(user, "korean", "known", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 0])
 
     def test_setting_word_studied(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "korean", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [0, 1, 0, 0])
 
     def test_setting_word_known_then_studied(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 0, 0])
-        self.send_request_then_check(user, "korean", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [1, 1, 0, 0])
 
     def test_setting_word_not_studied_when_already_not_studied(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "korean", "studied", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "studied", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 0])
 
     def test_setting_hanja_known(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "hanja", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "known", True, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 1, 0])
 
     def test_setting_hanja_studied(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "hanja", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 1])
 
     def test_setting_hanja_known_and_studied_then_not_known(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "hanja", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "known", True, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 1, 0])
 
-        self.send_request_then_check(user, "hanja", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 1, 1])
 
-        self.send_request_then_check(user, "hanja", "known", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "known", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 1])
 
     def test_setting_both_known_and_studied_then_undone(self):
         user = self.regular_user
 
-        self.send_request_then_check(user, "korean", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 0, 0])
-        self.send_request_then_check(user, "korean", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [1, 1, 0, 0])
-        self.send_request_then_check(user, "hanja", "known", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "known", True, HTTP_200_OK)
         self.verify_counts(user, [1, 1, 1, 0])
-        self.send_request_then_check(user, "hanja", "studied", "true", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "studied", True, HTTP_200_OK)
         self.verify_counts(user, [1, 1, 1, 1])
 
-        self.send_request_then_check(user, "hanja", "studied", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "studied", False, HTTP_200_OK)
         self.verify_counts(user, [1, 1, 1, 0])
-        self.send_request_then_check(user, "korean", "studied", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "studied", False, HTTP_200_OK)
         self.verify_counts(user, [1, 0, 1, 0])
-        self.send_request_then_check(user, "korean", "known", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "korean", "known", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 1, 0])
-        self.send_request_then_check(user, "hanja", "known", "false", HTTP_200_OK)
+        self.send_request_then_check(user, "hanja", "known", False, HTTP_200_OK)
         self.verify_counts(user, [0, 0, 0, 0])

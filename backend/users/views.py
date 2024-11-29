@@ -25,7 +25,7 @@ class UpdateKnownOrStudiedViewValidator(serializers.Serializer):
         choices=[("known", "known"), ("studied", "studied")]
     )
     set_true_or_false = serializers.ChoiceField(
-        choices=[("true", "true"), ("false", "false")]
+        choices=[(True, "true"), (False, "false")]
     )
 
 
@@ -42,9 +42,9 @@ class UpdateKnownOrStudiedView(GenericAPIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
-        korean_or_hanja = serializer.validated_data["korean_or_hanja"]
-        known_or_studied = serializer.validated_data["known_or_studied"]
-        set_true_or_false = serializer.validated_data["set_true_or_false"] == "true"
+        korean_or_hanja: str = serializer.validated_data["korean_or_hanja"]
+        known_or_studied: str = serializer.validated_data["known_or_studied"]
+        set_true_or_false: bool = serializer.validated_data["set_true_or_false"]
 
         pk = self.kwargs["pk"]
         user = request.user

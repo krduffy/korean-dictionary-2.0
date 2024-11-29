@@ -9,7 +9,7 @@ import {
   SearchResultSideInfoStyler,
   SearchResultStyler,
 } from "../../other/string-formatters/SpanStylers";
-import { KoreanWordKnownToggler } from "./KnownStudiedTogglers";
+import { KoreanWordKnownToggler } from "./known-studied/KnownStudiedTogglers";
 import { memo } from "react";
 
 export const KoreanSearchResult = memo(
@@ -36,14 +36,15 @@ export const KoreanSearchResult = memo(
               <StringWithHanja string={result.origin} />
             </SearchResultSideInfoStyler>
           </div>
-
           {/* for known studied togglers*/}
-          <div>
-            <KoreanWordKnownToggler
-              pk={result.target_code}
-              initiallyKnown={result.user_data?.is_known}
-            />
-          </div>
+          {result.user_data && (
+            <div className="h-full">
+              <KoreanWordKnownToggler
+                pk={result.target_code}
+                initiallyToggled={result.user_data.is_known}
+              />
+            </div>
+          )}
         </div>
 
         {/* Senses */}
