@@ -1,0 +1,35 @@
+.sparkling-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sparkle {
+  position: absolute;
+  background: radial-gradient(circle, #ffd700 30%, transparent 80%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 999;
+}
+
+@keyframes sparkle-shoot {
+  0% {
+    transform: scale(0.5) translate(0, 0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(var(--sparkle-x), var(--sparkle-y));
+    opacity: 0;
+  }
+}
+
+.sparkling .sparkle {
+  animation: sparkle-shoot 0.8s ease-out forwards;
+}

@@ -9,7 +9,10 @@ import {
   SearchResultSideInfoStyler,
   SearchResultStyler,
 } from "../../other/string-formatters/SpanStylers";
-import { KoreanWordKnownToggler } from "./known-studied/KnownStudiedTogglers";
+import {
+  KoreanWordKnownToggler,
+  KoreanWordStudiedToggler,
+} from "./known-studied/KnownStudiedTogglers";
 import { memo } from "react";
 
 export const KoreanSearchResult = memo(
@@ -42,6 +45,10 @@ export const KoreanSearchResult = memo(
               <KoreanWordKnownToggler
                 pk={result.target_code}
                 initiallyToggled={result.user_data.is_known}
+              />
+              <KoreanWordStudiedToggler
+                pk={result.target_code}
+                initiallyToggled={result.user_data.is_studied}
               />
             </div>
           )}
