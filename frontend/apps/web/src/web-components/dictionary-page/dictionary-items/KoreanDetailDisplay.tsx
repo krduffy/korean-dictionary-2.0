@@ -3,6 +3,7 @@ import { DetailedSenseView } from "./DetailedSenseView";
 import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { memo } from "react";
+import { KoreanWordTogglers } from "./known-studied/KnownStudiedTogglers";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -14,14 +15,33 @@ export const KoreanDetailDisplay = memo(
   }) => {
     return (
       <div>
-        <div
-          style={{
-            fontSize: "250%",
-          }}
-          className="mb-6"
-        >
-          <span>{data.word} </span>
-          <StringWithHanja string={data.origin} />
+        <div className="mb-6 flex flex-row justify-between items-center">
+          <div className="flex flex-row gap-6 items-center">
+            <div
+              style={{
+                fontSize: "250%",
+              }}
+            >
+              {data.word}
+            </div>
+            <div
+              style={{
+                fontSize: "190%",
+              }}
+            >
+              <StringWithHanja string={data.origin} />
+            </div>
+          </div>
+
+          {data.user_data && (
+            <div>
+              <KoreanWordTogglers
+                pk={data.target_code}
+                initiallyKnown={data.user_data.is_known}
+                initiallyStudied={data.user_data.is_studied}
+              />
+            </div>
+          )}
         </div>
 
         {data.senses.map((senseData, id) => (

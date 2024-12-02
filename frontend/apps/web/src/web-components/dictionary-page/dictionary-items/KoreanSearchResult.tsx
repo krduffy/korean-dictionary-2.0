@@ -17,9 +17,9 @@ export const KoreanSearchResult = memo(
     return (
       <>
         {/* Header with word and origin */}
-        <div className="pb-2 flex flex-row gap-4 items-stretch">
-          <div>
-            <SearchResultStyler>
+        <div className="pb-4 flex flex-row justify-between items-center">
+          <div className="flex flex-row gap-4">
+            <div className="text-[170%] text-[color:--accent-1] cursor-pointer">
               <PanelSpecificDispatcher
                 panelStateAction={{
                   type: "push_korean_detail",
@@ -28,15 +28,15 @@ export const KoreanSearchResult = memo(
               >
                 {result.word}
               </PanelSpecificDispatcher>
-            </SearchResultStyler>
-          </div>
-          {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
-            <div className="self-center">
-              <SearchResultSideInfoStyler>
-                <StringWithHanja string={result.origin} />
-              </SearchResultSideInfoStyler>
             </div>
-          )}
+            {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
+              <div className="self-center text-[130%]">
+                <SearchResultSideInfoStyler>
+                  <StringWithHanja string={result.origin} />
+                </SearchResultSideInfoStyler>
+              </div>
+            )}
+          </div>
           {/* for known studied togglers*/}
           {result.user_data && (
             <div className="self-center">

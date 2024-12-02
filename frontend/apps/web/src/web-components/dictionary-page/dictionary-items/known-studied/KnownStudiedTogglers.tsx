@@ -130,11 +130,13 @@ const KnownStudiedToggler = ({
 
   const { sparkleWrappedChild, triggerAnimation } = useStarAnimation({
     buttonContent: (
-      <TogglerIcon
-        loading={loading}
-        knownOrStudied={knownOrStudied}
-        isToggled={isToggled}
-      />
+      <div className="h-full border-2 rounded-md p-2 border-[color:--accent-1] shadow-lg transition-shadow hover:shadow-xl">
+        <TogglerIcon
+          loading={loading}
+          knownOrStudied={knownOrStudied}
+          isToggled={isToggled}
+        />
+      </div>
     ),
     numStars: 10,
   });
@@ -156,8 +158,14 @@ const TogglerIcon = ({
   isToggled: boolean;
 }) => {
   const { fontSizeSettings } = useSettingsContext();
+  const height = fontSizeSettings.relativeFontSize * 24;
 
-  if (loading) return <LoadingIndicator />;
+  if (loading)
+    return (
+      <div style={{ height: `${height}px`, width: `${height}px` }}>
+        <LoadingIndicator />
+      </div>
+    );
 
   const togglerContent = {
     known: {
@@ -185,13 +193,12 @@ const TogglerIcon = ({
   const state = isToggled ? "toggled" : "notToggled";
   const { icon, title } = togglerContent[knownOrStudied][state];
 
-  const height = (fontSizeSettings.relativeFontSize * 24) / 1.2;
-
   return (
     <div
       title={title}
       style={{
         height: `${height}px`,
+        width: `${height}px`,
       }}
     >
       {icon}

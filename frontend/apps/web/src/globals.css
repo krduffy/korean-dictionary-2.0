@@ -91,6 +91,8 @@
     --accent-6: #dbc197;
     --accent-7: #355382;
 
+    --loading-color: var(--accent-7);
+
     --surface-color: #1f2937;
     --surface-hover: #374151;
 
