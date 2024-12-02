@@ -75,7 +75,13 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
       />
 
       {searchResults.results.map((result: HanjaSearchResultType) => (
-        <HanjaSearchResult key={result.character} result={result} />
+        <div
+          className="bg-[color:--background-tertiary] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+    border border-gray-200/20 p-4 my-4"
+          key={result.character}
+        >
+          <HanjaSearchResult key={result.character} result={result} />
+        </div>
       ))}
 
       <PageChanger
