@@ -13,7 +13,7 @@ export const SearchResultSideInfoStyler = ({
 }: {
   children: ReactNode;
 }) => {
-  return <span className="text-[110%]">{children}</span>;
+  return <span className="text-[130%]">{children}</span>;
 };
 
 export const ClickableLinkStyler = ({

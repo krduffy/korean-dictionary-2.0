@@ -38,7 +38,7 @@ export const useKnownStudiedToggler = ({
   const onClick = async () => {
     newValue.current = !isToggled;
 
-    await callAPI(url, {
+    callAPI(url, {
       method: "PUT",
       body: JSON.stringify({
         korean_or_hanja: koreanOrHanja,

@@ -9,10 +9,7 @@ import {
   SearchResultSideInfoStyler,
   SearchResultStyler,
 } from "../../other/string-formatters/SpanStylers";
-import {
-  KoreanWordKnownToggler,
-  KoreanWordStudiedToggler,
-} from "./known-studied/KnownStudiedTogglers";
+import { KoreanWordTogglers } from "./known-studied/KnownStudiedTogglers";
 import { memo } from "react";
 
 export const KoreanSearchResult = memo(
@@ -20,35 +17,33 @@ export const KoreanSearchResult = memo(
     return (
       <>
         {/* Header with word and origin */}
-        <div className="pb-2 flex flex-row">
+        <div className="pb-2 flex flex-row gap-4 items-stretch">
           <div>
-            <span className="pr-4">
-              <SearchResultStyler>
-                <PanelSpecificDispatcher
-                  panelStateAction={{
-                    type: "push_korean_detail",
-                    target_code: result.target_code,
-                  }}
-                >
-                  {result.word}
-                </PanelSpecificDispatcher>
-              </SearchResultStyler>
-            </span>
-
-            <SearchResultSideInfoStyler>
-              <StringWithHanja string={result.origin} />
-            </SearchResultSideInfoStyler>
+            <SearchResultStyler>
+              <PanelSpecificDispatcher
+                panelStateAction={{
+                  type: "push_korean_detail",
+                  target_code: result.target_code,
+                }}
+              >
+                {result.word}
+              </PanelSpecificDispatcher>
+            </SearchResultStyler>
           </div>
+          {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
+            <div className="self-center">
+              <SearchResultSideInfoStyler>
+                <StringWithHanja string={result.origin} />
+              </SearchResultSideInfoStyler>
+            </div>
+          )}
           {/* for known studied togglers*/}
           {result.user_data && (
-            <div className="h-full">
-              <KoreanWordKnownToggler
+            <div className="self-center">
+              <KoreanWordTogglers
                 pk={result.target_code}
-                initiallyToggled={result.user_data.is_known}
-              />
-              <KoreanWordStudiedToggler
-                pk={result.target_code}
-                initiallyToggled={result.user_data.is_studied}
+                initiallyKnown={result.user_data.is_known}
+                initiallyStudied={result.user_data.is_studied}
               />
             </div>
           )}
@@ -59,18 +54,6 @@ export const KoreanSearchResult = memo(
           {result.senses.map((senseData) => (
             <SimplifiedSense key={senseData.target_code} data={senseData} />
           ))}
-        </div>
-
-        <div>
-          {result["user_data"] && (
-            <span className="korean-result-know-study-container">
-              {/*<KnowStudyToggles
-              targetCode={result["target_code"]}
-              initiallyKnown={result["user_data"]["is_known"]}
-              initiallyStudied={result["user_data"]["is_studied"]}
-            />*/}
-            </span>
-          )}
         </div>
       </>
     );

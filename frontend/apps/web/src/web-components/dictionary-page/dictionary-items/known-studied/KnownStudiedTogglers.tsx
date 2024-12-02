@@ -5,77 +5,64 @@ import { LoadingIndicator } from "../../../other/misc/LoadingIndicator";
 import { useNotificationContext } from "../../../../web-contexts/NotificationContextProvider";
 import { APIResponseType } from "@repo/shared/types/apiCallTypes";
 import { ErrorMessage } from "../../../../web-components/other/misc/ErrorMessage";
-import { useStarAnimation } from "./StarShootWrapper";
+import { useStarAnimation } from "./useStarAnimation";
+import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
 
-export const KoreanWordKnownToggler = ({
+export const KoreanWordTogglers = ({
   pk,
-  initiallyToggled,
+  initiallyKnown,
+  initiallyStudied,
 }: {
   pk: number;
-  initiallyToggled: boolean;
+  initiallyKnown: boolean;
+  initiallyStudied: boolean;
 }) => {
   return (
-    <KnownStudiedToggler
-      pk={pk}
-      knownOrStudied="known"
-      koreanOrHanja="korean"
-      initiallyToggled={initiallyToggled}
-    />
+    <div className="flex gap-2 h-full">
+      <KnownStudiedToggler
+        pk={pk}
+        knownOrStudied="known"
+        koreanOrHanja="korean"
+        initiallyToggled={initiallyKnown}
+      />
+      <KnownStudiedToggler
+        pk={pk}
+        knownOrStudied="studied"
+        koreanOrHanja="korean"
+        initiallyToggled={initiallyStudied}
+      />
+    </div>
   );
 };
 
-export const KoreanWordStudiedToggler = ({
+export const HanjaTogglers = ({
   pk,
-  initiallyToggled,
-}: {
-  pk: number;
-  initiallyToggled: boolean;
-}) => {
-  return (
-    <KnownStudiedToggler
-      pk={pk}
-      knownOrStudied="studied"
-      koreanOrHanja="korean"
-      initiallyToggled={initiallyToggled}
-    />
-  );
-};
-
-export const HanjaKnownToggler = ({
-  pk,
-  initiallyToggled,
+  initiallyKnown,
+  initiallyStudied,
 }: {
   pk: string;
-  initiallyToggled: boolean;
+  initiallyKnown: boolean;
+  initiallyStudied: boolean;
 }) => {
   return (
-    <KnownStudiedToggler
-      pk={pk}
-      knownOrStudied="known"
-      koreanOrHanja="hanja"
-      initiallyToggled={initiallyToggled}
-    />
+    <div className="flex gap-2">
+      <KnownStudiedToggler
+        pk={pk}
+        knownOrStudied="known"
+        koreanOrHanja="hanja"
+        initiallyToggled={initiallyKnown}
+      />
+      <KnownStudiedToggler
+        pk={pk}
+        knownOrStudied="studied"
+        koreanOrHanja="hanja"
+        initiallyToggled={initiallyStudied}
+      />
+    </div>
   );
 };
 
-export const HanjaStudiedToggler = ({
-  pk,
-  initiallyToggled,
-}: {
-  pk: string;
-  initiallyToggled: boolean;
-}) => {
-  return (
-    <KnownStudiedToggler
-      pk={pk}
-      knownOrStudied="studied"
-      koreanOrHanja="hanja"
-      initiallyToggled={initiallyToggled}
-    />
-  );
-};
-
-export const SuccessMessage = ({
+const SuccessMessage = ({
   koreanOrHanja,
   knownOrStudied,
   setTrueOrFalse,
@@ -97,11 +84,6 @@ export const SuccessMessage = ({
     </div>
   );
 };
-
-const sparkleEvent = new CustomEvent("dosparkle", {
-  cancelable: true,
-  bubbles: false,
-});
 
 const KnownStudiedToggler = ({
   pk,
@@ -158,7 +140,7 @@ const KnownStudiedToggler = ({
   });
 
   return (
-    <div className="h-full w-full rounded-xl bg-red" onClick={onClick}>
+    <div className="h-full w-full rounded-xl" onClick={onClick}>
       {sparkleWrappedChild}
     </div>
   );
@@ -173,17 +155,46 @@ const TogglerIcon = ({
   knownOrStudied: "known" | "studied";
   isToggled: boolean;
 }) => {
+  const { fontSizeSettings } = useSettingsContext();
+
   if (loading) return <LoadingIndicator />;
 
-  const knownIcon = <BookCheck className="h-full w-full" />;
-  const notKnownIcon = <Book className="h-full w-full" />;
-  const studiedIcon = <Star className="h-full w-full" />;
-  const notStudiedIcon = <StarOff className="h-full w-full" />;
+  const togglerContent = {
+    known: {
+      toggled: {
+        icon: <BookCheck className="h-full w-full" />,
+        title: "암기장에 추가되어 있습니다.",
+      },
+      notToggled: {
+        icon: <Book className="h-full w-full" />,
+        title: "암기장에 추가되어 있지 않습니다.",
+      },
+    },
+    studied: {
+      toggled: {
+        icon: <Star className="[color:--accent-6] h-full w-full" />,
+        title: "복습장에 저장되어 있습니다.",
+      },
+      notToggled: {
+        icon: <StarOff className="h-full w-full" />,
+        title: "복습장에 저장되어 있지 않습니다.",
+      },
+    },
+  };
 
-  if (knownOrStudied === "known") {
-    return isToggled ? knownIcon : notKnownIcon;
-  }
-  if (knownOrStudied === "studied") {
-    return isToggled ? studiedIcon : notStudiedIcon;
-  }
+  const state = isToggled ? "toggled" : "notToggled";
+  const { icon, title } = togglerContent[knownOrStudied][state];
+
+  const height = (fontSizeSettings.relativeFontSize * 24) / 1.2;
+
+  return (
+    <div
+      title={title}
+      style={{
+        height: `${height}px`,
+      }}
+    >
+      {icon}
+    </div>
+  );
 };
