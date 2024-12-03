@@ -17,5 +17,5 @@ export const HanjaDetailHanziWriter = ({
     setWriterLoadError,
   });
 
-  return <div ref={divRef} />;
+  return <div className="h-full w-full" ref={divRef} />;
 };

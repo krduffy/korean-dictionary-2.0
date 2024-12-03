@@ -42,6 +42,32 @@ export const useHanziWriter = ({
     doLoad();
   }, [ref, character]);
 
+  /* need to change the size of the writer to update when the size of the divref changes */
+  useEffect(() => {
+    const onResize = () => {
+      const dim = ref.current?.getBoundingClientRect();
+      if (dim) {
+        const newHW = Math.min(dim.height, dim.width);
+        hanziWriterRef.current?.updateDimensions({
+          height: newHW,
+          width: newHW,
+        });
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(onResize);
+
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        resizeObserver.unobserve(ref.current);
+      }
+    };
+  }, [ref]);
+
   return {
     hanziWriter: hanziWriterRef.current,
   };
