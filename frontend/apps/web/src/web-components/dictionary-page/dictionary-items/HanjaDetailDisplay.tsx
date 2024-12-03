@@ -1,8 +1,19 @@
 import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
-import { memo } from "react";
+import { memo, useState } from "react";
+import { HanjaDetailHanziWriter } from "./hanja-writing/HanjaDetailHanziWriter";
 
 export const HanjaDetailDisplay = memo(
   ({ data }: { data: DetailedHanjaType }) => {
-    return <div>{data.character}</div>;
+    const [writerLoadError, setWriterLoadError] = useState(false);
+
+    return (
+      <>
+        <div>{data.character}</div>
+        <HanjaDetailHanziWriter
+          character={data.character}
+          setWriterLoadError={setWriterLoadError}
+        />
+      </>
+    );
   }
 );
