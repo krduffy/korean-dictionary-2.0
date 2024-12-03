@@ -1,5 +1,5 @@
 import HanziWriter, { HanziWriterOptions } from "hanzi-writer";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useHanziWriter = ({
   ref,
@@ -13,6 +13,7 @@ export const useHanziWriter = ({
   setWriterLoadError: (newValue: boolean) => void;
 }) => {
   const hanziWriterRef = useRef<HanziWriter | null>(null);
+  const [numStrokes, setNumStrokes] = useState<number | null>(null);
 
   useEffect(() => {
     /* ref.current is intentionally checked before and after import */
@@ -21,6 +22,7 @@ export const useHanziWriter = ({
       try {
         import(`./hanzi-writer-data/${character}.json`).then((data) => {
           if (ref.current && !hanziWriterRef.current) {
+            console.log(data);
             hanziWriterRef.current = HanziWriter.create(
               ref.current,
               character,
@@ -32,6 +34,7 @@ export const useHanziWriter = ({
                 onLoadCharDataError: () => setWriterLoadError(true),
               }
             );
+            setNumStrokes(data.strokes.length);
           }
         });
       } catch {
@@ -70,5 +73,6 @@ export const useHanziWriter = ({
 
   return {
     hanziWriter: hanziWriterRef.current,
+    numStrokes: numStrokes,
   };
 };

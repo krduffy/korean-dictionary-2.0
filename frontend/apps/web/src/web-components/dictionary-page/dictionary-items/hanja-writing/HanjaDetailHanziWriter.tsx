@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useHanziWriter } from "@repo/shared/hooks/hanzi-writer/useHanziWriter";
+import { HanjaDetailWriterControls } from "./HanjaDetailWriterControls";
 
 export const HanjaDetailHanziWriter = ({
   character,
@@ -10,12 +11,22 @@ export const HanjaDetailHanziWriter = ({
 }) => {
   const divRef = useRef<HTMLDivElement | null>(null);
 
-  const { hanziWriter } = useHanziWriter({
+  const { hanziWriter, numStrokes } = useHanziWriter({
     ref: divRef,
     character: character,
     writerArgs: {},
     setWriterLoadError,
   });
 
-  return <div className="h-full w-full" ref={divRef} />;
+  return (
+    <div>
+      <div className="h-full w-full" ref={divRef} />
+      {hanziWriter && numStrokes && numStrokes > 0 && (
+        <HanjaDetailWriterControls
+          hanziWriter={hanziWriter}
+          numStrokes={numStrokes}
+        />
+      )}
+    </div>
+  );
 };
