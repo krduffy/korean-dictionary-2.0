@@ -332,7 +332,7 @@ export function isDetailedHanjaType(
     isString(value.grade_level) &&
     isString(value.exam_level) &&
     isString(value.explanation) &&
-    isString(value.decomposition) &&
+    (value.decomposition === null || isString(value.decomposition)) &&
     isString(value.radical) &&
     isString(value.radical_source)
   );

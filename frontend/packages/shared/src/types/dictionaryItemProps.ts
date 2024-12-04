@@ -134,7 +134,7 @@ export interface DetailedHanjaType extends BaseHanjaType {
   grade_level: string;
   exam_level: string;
   explanation: string;
-  decomposition: string;
+  decomposition: string | null;
   radical: string;
   radical_source: string;
 }

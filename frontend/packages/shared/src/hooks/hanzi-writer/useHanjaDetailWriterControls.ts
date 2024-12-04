@@ -1,6 +1,5 @@
 import HanziWriter from "hanzi-writer";
 import { useRef } from "react";
-import { clearTimeout } from "timers";
 
 export const useHanjaDetailWriterControls = ({
   hanziWriter,
@@ -12,8 +11,12 @@ export const useHanjaDetailWriterControls = ({
   /* expected controls are pause, play, step forward and back */
 
   const nextStroke = useRef<number>(0);
-  const loopingRef = useRef<boolean>(false);
+  const isDrawing = useRef<boolean>(false);
   const outlineShown = useRef<boolean>(true);
+
+  const loopingIntervalTimer = useRef<ReturnType<typeof setInterval> | null>(
+    null
+  );
 
   const switchOutlineShown = () => {
     if (outlineShown.current) {
@@ -26,29 +29,31 @@ export const useHanjaDetailWriterControls = ({
   };
 
   const pause = () => {
-    loopingRef.current = false;
+    if (loopingIntervalTimer.current) {
+      clearInterval(loopingIntervalTimer.current);
+      loopingIntervalTimer.current = null;
+    }
   };
 
   const play = () => {
-    loopingRef.current = true;
-    stepForward({
-      onCompletion: () => {
-        if (loopingRef.current) {
-          play();
-        }
-      },
-    });
+    if (!loopingIntervalTimer.current) {
+      loopingIntervalTimer.current = setInterval(() => stepForward(), 100);
+    }
   };
 
-  const stepForward = ({
-    onCompletion,
-  }: { onCompletion?: () => void } = {}) => {
+  const stepForward = () => {
+    if (isDrawing.current) {
+      return;
+    }
+
+    isDrawing.current = true;
+
     const calledOnCompletion = () => {
       nextStroke.current++;
       if (nextStroke.current >= numStrokes) {
         nextStroke.current = 0;
       }
-      onCompletion?.();
+      isDrawing.current = false;
     };
 
     const doAnimation = () =>

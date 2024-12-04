@@ -5,12 +5,12 @@ export const useHanziWriter = ({
   ref,
   character,
   writerArgs,
-  setWriterLoadError,
+  onWriterLoadError,
 }: {
   ref: React.MutableRefObject<HTMLDivElement | null>;
   character: string;
   writerArgs: Partial<HanziWriterOptions>;
-  setWriterLoadError: (newValue: boolean) => void;
+  onWriterLoadError: () => void;
 }) => {
   const hanziWriterRef = useRef<HanziWriter | null>(null);
   const [numStrokes, setNumStrokes] = useState<number | null>(null);
@@ -19,10 +19,9 @@ export const useHanziWriter = ({
     /* ref.current is intentionally checked before and after import */
 
     const doLoad = async () => {
-      try {
-        import(`./hanzi-writer-data/${character}.json`).then((data) => {
+      import(`./hanzi-writer-data/${character}.json`)
+        .then((data) => {
           if (ref.current && !hanziWriterRef.current) {
-            console.log(data);
             hanziWriterRef.current = HanziWriter.create(
               ref.current,
               character,
@@ -31,15 +30,15 @@ export const useHanziWriter = ({
                 charDataLoader: function (char) {
                   return data;
                 },
-                onLoadCharDataError: () => setWriterLoadError(true),
+                onLoadCharDataError: () => onWriterLoadError(),
               }
             );
             setNumStrokes(data.strokes.length);
           }
+        })
+        .catch(() => {
+          onWriterLoadError();
         });
-      } catch {
-        setWriterLoadError(true);
-      }
     };
 
     doLoad();

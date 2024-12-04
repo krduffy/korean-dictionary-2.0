@@ -50,11 +50,8 @@ export const useSearchBarArea = ({
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(doConversion);
-
     if (doConversion) {
       const converted = engKeyboardToKorean(searchConfig.config.search_term);
-      console.log(converted);
 
       if (searchConfig.dictionary === "korean") {
         dispatch({

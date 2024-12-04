@@ -26,7 +26,7 @@ export const HanjaDetailWriterControls = ({
     });
 
   return (
-    <div className="flex flex-row justify-between w-full">
+    <div className="flex flex-row justify-between w-full p-4">
       <HanjaControlButton icon={Pause} title="pause" onClick={pause} />
       <HanjaControlButton icon={Play} title="play" onClick={play} />
       <HanjaControlButton
