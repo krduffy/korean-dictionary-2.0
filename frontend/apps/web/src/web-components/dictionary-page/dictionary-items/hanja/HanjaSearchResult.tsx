@@ -1,8 +1,8 @@
 import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { PanelSpecificDispatcher } from "../panel/PanelSpecificDispatcher";
+import { PanelSpecificDispatcher } from "../../../dictionary-page/panel/PanelSpecificDispatcher";
 import { memo } from "react";
-import { HanjaTogglers } from "./known-studied/KnownStudiedTogglers";
-import { MeaningReadingsDiv } from "./ReusedFormatters";
+import { HanjaTogglers } from "../known-studied/KnownStudiedTogglers";
+import { MeaningReadingsDiv } from "../ReusedFormatters";
 
 export const HanjaSearchResult = memo(
   ({ result }: { result: HanjaSearchResultType }) => {

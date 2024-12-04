@@ -1,4 +1,4 @@
-import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
+import { StringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
 import { NormType } from "@repo/shared/types/dictionaryItemProps";
 
 export const NormInfoSection = ({ norms }: { norms: NormType[] }) => {

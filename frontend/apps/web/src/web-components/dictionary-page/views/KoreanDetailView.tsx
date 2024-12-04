@@ -2,7 +2,7 @@ import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
-import { KoreanDetailDisplay } from "../dictionary-items/KoreanDetailDisplay";
+import { KoreanDetailDisplay } from "../dictionary-items/korean/detail/KoreanDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { isDetailedKoreanType } from "@repo/shared/types/typeGuards";
 import {

@@ -4,11 +4,11 @@ import {
   RegionInfoType,
   SenseAdditionalInfoType,
 } from "@repo/shared/types/dictionaryItemProps";
-import { StringWithNLPAndHanja } from "../../other/string-formatters/StringWithNLP";
+import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
-import { TruncatorDropdown } from "../../other/misc/TruncatorDropdown";
+import { TruncatorDropdown } from "../../../../other/misc/TruncatorDropdown";
 import { useRef } from "react";
-import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { useViewDispatchersContext } from "../../../../../web-contexts/ViewDispatchersContext";
 import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSection";
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
 import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSection";

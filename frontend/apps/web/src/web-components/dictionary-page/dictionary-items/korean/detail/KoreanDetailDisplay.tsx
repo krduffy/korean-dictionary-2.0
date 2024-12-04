@@ -1,9 +1,9 @@
 import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { DetailedSenseView } from "./DetailedSenseView";
-import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
+import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { memo } from "react";
-import { KoreanWordTogglers } from "./known-studied/KnownStudiedTogglers";
+import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -17,18 +17,8 @@ export const KoreanDetailDisplay = memo(
       <div>
         <div className="mb-6 flex flex-row justify-between items-center">
           <div className="flex flex-row gap-6 items-center">
-            <div
-              style={{
-                fontSize: "250%",
-              }}
-            >
-              {data.word}
-            </div>
-            <div
-              style={{
-                fontSize: "190%",
-              }}
-            >
+            <div className="text-[250%]">{data.word}</div>
+            <div className="text-[190%]">
               <StringWithHanja string={data.origin} />
             </div>
           </div>

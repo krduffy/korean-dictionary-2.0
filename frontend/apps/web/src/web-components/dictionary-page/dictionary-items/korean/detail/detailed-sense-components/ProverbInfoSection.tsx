@@ -1,5 +1,5 @@
-import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher";
-import { StringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
+import { PanelSpecificDispatcher } from "../../../../panel/PanelSpecificDispatcher";
+import { StringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
 import { ProverbType } from "@repo/shared/types/dictionaryItemProps";
 
 export const ProverbInfoSection = ({

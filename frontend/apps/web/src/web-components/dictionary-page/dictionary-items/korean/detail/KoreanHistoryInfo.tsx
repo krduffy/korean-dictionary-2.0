@@ -2,7 +2,7 @@ import {
   HistoryCenturyInfoType,
   HistoryInfoType,
 } from "@repo/shared/types/dictionaryItemProps";
-import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
+import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,

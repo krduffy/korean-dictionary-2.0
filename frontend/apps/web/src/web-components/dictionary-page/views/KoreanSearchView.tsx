@@ -1,7 +1,7 @@
 import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases";
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
-import { KoreanSearchResult } from "../dictionary-items/KoreanSearchResult";
+import { KoreanSearchResult } from "../dictionary-items/korean/KoreanSearchResult";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import {
   NoResultsMessage,

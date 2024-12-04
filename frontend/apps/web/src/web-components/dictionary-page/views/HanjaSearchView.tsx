@@ -2,7 +2,7 @@ import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { getEndpointWithHanjaSearchConfig } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
-import { HanjaSearchResult } from "../dictionary-items/HanjaSearchResult";
+import { HanjaSearchResult } from "../../dictionary-page/dictionary-items/hanja/HanjaSearchResult";
 import {
   NoResultsMessage,
   ResultCountMessage,

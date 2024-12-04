@@ -2,7 +2,7 @@ import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
-import { HanjaDetailDisplay } from "../dictionary-items/HanjaDetailDisplay";
+import { HanjaDetailDisplay } from "../dictionary-items/hanja/detail/HanjaDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { isDetailedHanjaType } from "@repo/shared/types/typeGuards";
 import { WrongFormatError } from "../../other/misc/ErrorMessageTemplates";

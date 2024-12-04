@@ -1,50 +1,52 @@
 import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
-import { memo, useRef, useState } from "react";
-import { HanjaDetailHanziWriter } from "./hanja-writing/HanjaDetailHanziWriter";
-import { MeaningReadingsDiv } from "./ReusedFormatters";
-import { HanjaTogglers } from "./known-studied/KnownStudiedTogglers";
-import { useWidthObserver } from "../../../web-hooks/useDimObserver";
-import { Copier } from "../../other/misc/Copier";
+import { memo, ReactNode, useRef, useState } from "react";
+import { HanjaDetailHanziWriter } from "../hanja-writing/HanjaDetailHanziWriter";
+import { MeaningReadingsDiv } from "../../ReusedFormatters";
+import { HanjaTogglers } from "../../known-studied/KnownStudiedTogglers";
+import { useWidthObserver } from "../../../../../web-hooks/useDimObserver";
+import { Copier } from "../../../../other/misc/Copier";
 
-export const HanjaDetailDisplay = memo(
-  ({ data }: { data: DetailedHanjaType }) => {
-    const [writerLoadError, setWriterLoadError] = useState(false);
+export const HanjaDetailDisplayTopInfo = ({
+  data,
+}: {
+  data: DetailedHanjaType;
+}) => {
+  const [writerLoadError, setWriterLoadError] = useState(false);
 
-    /* the hanzi writer should be to the right of main info unless the screen is too narrow;
+  /* the hanzi writer should be to the right of main info unless the screen is too narrow;
        in this case it will be below */
-    const detailDisplayRef = useRef<HTMLDivElement | null>(null);
+  const detailDisplayTopRef = useRef<HTMLDivElement | null>(null);
 
-    const { belowCutoff } = useWidthObserver({
-      ref: detailDisplayRef,
-      cutoff: 500,
-    });
+  const { belowCutoff } = useWidthObserver({
+    ref: detailDisplayTopRef,
+    cutoff: 500,
+  });
 
-    return (
+  return (
+    <div
+      className={`flex min-h-48 ${belowCutoff ? "flex-col" : "flex-row"}`}
+      ref={detailDisplayTopRef}
+    >
       <div
-        className={`flex min-h-48 ${belowCutoff ? "flex-col" : "flex-row"}`}
-        ref={detailDisplayRef}
+        className={`flex-1 ${belowCutoff || writerLoadError ? "w-full" : "w-[70%]"}`}
       >
-        <div
-          className={`flex-1 ${belowCutoff || writerLoadError ? "w-full" : "w-[70%]"}`}
-        >
-          <HanjaMainInfo data={data} />
-        </div>
-        {!writerLoadError && (
-          <div
-            className={`flex justify-center items-center ${
-              belowCutoff ? "w-full" : "w-[30%]"
-            }`}
-          >
-            <HanjaDetailHanziWriter
-              character={data.character}
-              onWriterLoadError={() => setWriterLoadError(true)}
-            />
-          </div>
-        )}
+        <HanjaMainInfo data={data} />
       </div>
-    );
-  }
-);
+      {!writerLoadError && (
+        <div
+          className={`flex justify-center items-center ${
+            belowCutoff ? "w-full" : "w-[30%]"
+          }`}
+        >
+          <HanjaDetailHanziWriter
+            character={data.character}
+            onWriterLoadError={() => setWriterLoadError(true)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 /* always present even if the hanja/hanzi writer is not */
 const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
@@ -75,7 +77,7 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
 const HanjaMainInfoTable = memo(({ data }: { data: DetailedHanjaType }) => {
   /* neither num rows nor num cols can exceed 9 due to calc of key below (should only ever be
      3 rows and 2 cols */
-  const tableData = [
+  const tableData: { label: string; item: ReactNode }[][] = [
     /* array of rows (which are arrays of cols) */
     [
       { label: "부수", item: data.radical },
@@ -125,7 +127,7 @@ const HanjaMainInfoTableItem = ({
   row: number;
   col: number;
   label: string;
-  item: string;
+  item: ReactNode;
 }) => {
   return (
     <div

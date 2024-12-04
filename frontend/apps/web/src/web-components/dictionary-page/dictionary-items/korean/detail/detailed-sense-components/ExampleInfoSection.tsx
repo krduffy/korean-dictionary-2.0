@@ -1,5 +1,5 @@
 import { ExampleType } from "@repo/shared/types/dictionaryItemProps";
-import { ExampleStringWithNLPAndHanja } from "../../../other/string-formatters/StringWithNLP";
+import { ExampleStringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
 
 export const ExampleInfoSection = ({
   examples,

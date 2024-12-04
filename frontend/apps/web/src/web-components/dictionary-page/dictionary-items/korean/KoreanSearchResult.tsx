@@ -2,14 +2,11 @@ import {
   KoreanSearchResultType,
   SimplifiedSenseType,
 } from "@repo/shared/types/dictionaryItemProps";
-import { PanelSpecificDispatcher } from "../panel/PanelSpecificDispatcher";
-import { StringWithHanja } from "../../other/string-formatters/StringWithHanja";
-import { StringWithNLPAndHanja } from "../../other/string-formatters/StringWithNLP";
-import {
-  SearchResultSideInfoStyler,
-  SearchResultStyler,
-} from "../../other/string-formatters/SpanStylers";
-import { KoreanWordTogglers } from "./known-studied/KnownStudiedTogglers";
+import { PanelSpecificDispatcher } from "../../panel/PanelSpecificDispatcher";
+import { StringWithHanja } from "../../../other/string-formatters/StringWithHanja";
+import { StringWithNLPAndHanja } from "../.././../other/string-formatters/StringWithNLP";
+import { SearchResultSideInfoStyler } from "../.././../other/string-formatters/SpanStylers";
+import { KoreanWordTogglers } from "../known-studied/KnownStudiedTogglers";
 import { memo } from "react";
 
 export const KoreanSearchResult = memo(
