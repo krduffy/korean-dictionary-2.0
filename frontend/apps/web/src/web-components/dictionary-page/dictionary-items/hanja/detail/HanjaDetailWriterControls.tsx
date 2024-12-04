@@ -26,18 +26,18 @@ export const HanjaDetailWriterControls = ({
     });
 
   return (
-    <div className="flex flex-row justify-between w-full p-4">
-      <HanjaControlButton icon={Pause} title="pause" onClick={pause} />
-      <HanjaControlButton icon={Play} title="play" onClick={play} />
-      <HanjaControlButton
-        icon={SquareDashed}
-        title="outline"
-        onClick={switchOutlineShown}
-      />
+    <div className="flex flex-row justify-between w-full">
       <HanjaControlButton
         icon={StepForward}
-        title="step"
+        title="다음 획순 그리기"
         onClick={stepForward}
+      />
+      <HanjaControlButton icon={Play} title="반복 재생" onClick={play} />
+      <HanjaControlButton icon={Pause} title="중지" onClick={pause} />
+      <HanjaControlButton
+        icon={SquareDashed}
+        title="테두리 여부"
+        onClick={switchOutlineShown}
       />
     </div>
   );

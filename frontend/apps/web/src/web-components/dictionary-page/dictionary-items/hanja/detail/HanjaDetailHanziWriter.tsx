@@ -24,10 +24,12 @@ export const HanjaDetailHanziWriter = ({
         <div className="h-full w-full" ref={divRef} />
       </div>
       {hanziWriter && numStrokes && numStrokes > 0 && (
-        <HanjaDetailWriterControls
-          hanziWriter={hanziWriter}
-          numStrokes={numStrokes}
-        />
+        <div className="border-t-2 p-2 border-[color:--border-color]">
+          <HanjaDetailWriterControls
+            hanziWriter={hanziWriter}
+            numStrokes={numStrokes}
+          />
+        </div>
       )}
     </div>
   );

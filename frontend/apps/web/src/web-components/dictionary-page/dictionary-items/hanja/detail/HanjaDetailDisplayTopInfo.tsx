@@ -1,6 +1,6 @@
 import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
 import { memo, ReactNode, useRef, useState } from "react";
-import { HanjaDetailHanziWriter } from "../hanja-writing/HanjaDetailHanziWriter";
+import { HanjaDetailHanziWriter } from "./HanjaDetailHanziWriter";
 import { MeaningReadingsDiv } from "../../ReusedFormatters";
 import { HanjaTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { useWidthObserver } from "../../../../../web-hooks/useDimObserver";
