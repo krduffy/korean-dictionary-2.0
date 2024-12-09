@@ -1,14 +1,16 @@
-import { isHanjaPopupDataType } from "@repo/shared/types/typeGuards";
 import { ErrorMessage } from "../misc/ErrorMessage";
 import { LoadingIndicator } from "../misc/LoadingIndicator";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
-import { HanjaPopupType } from "@repo/shared/types/dictionaryItemProps";
 import {
   NoResponseError,
   WrongFormatError,
 } from "../misc/ErrorMessageTemplates";
+import {
+  HanjaPopupType,
+  isHanjaPopupDataType,
+} from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 
 export const HanjaPopupBox = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({

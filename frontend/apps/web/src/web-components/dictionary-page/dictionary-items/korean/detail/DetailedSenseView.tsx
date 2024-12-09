@@ -1,9 +1,3 @@
-import {
-  DetailedSenseType,
-  PatternType,
-  RegionInfoType,
-  SenseAdditionalInfoType,
-} from "@repo/shared/types/dictionaryItemProps";
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
 import { TruncatorDropdown } from "../../../../other/misc/TruncatorDropdown";
@@ -14,6 +8,12 @@ import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
 import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSection";
 import { ProverbInfoSection } from "./detailed-sense-components/ProverbInfoSection";
 import { DetailedSectionBox } from "./detailed-sense-components/DetailedSectionBox";
+import {
+  DetailedSenseType,
+  PatternType,
+  RegionInfoType,
+  SenseAdditionalInfoType,
+} from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 
 export const DetailedSenseView = ({
   senseData,

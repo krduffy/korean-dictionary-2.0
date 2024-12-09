@@ -1,10 +1,10 @@
 import { UpdateHanjaSearchConfigArgs } from "@repo/shared/hooks/useSearchBarArea";
-import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import {
   SearchConfigLabelAndSettingArea,
   SearchConfigLabelAndSettingAreaDivider,
 } from "./SearchConfigLabelAndSettingArea";
 import { useHanjaConfigSettingsMenu } from "../../../../web-hooks/useHanjaConfigSettingsMenu";
+import { HanjaSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
 
 type HanjaSearchConfigSettingsMenuArgs = {
   config: HanjaSearchConfig;

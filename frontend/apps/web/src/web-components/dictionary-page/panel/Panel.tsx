@@ -1,12 +1,10 @@
 import { PanelTopBar } from "../panel-top-bar/PanelTopBar";
-import {
-  PanelState,
-  PanelStateAction,
-} from "@repo/shared/types/panelAndViewTypes";
 import { ViewDispatchersContextProvider } from "../../../web-contexts/ViewDispatchersContext";
 import { MainContent, MainContentArea } from "./MainContentArea";
 import { memo } from "react";
 import { LineBreakArea } from "../../other/misc/LineBreakArea";
+import { PanelState } from "@repo/shared/types/panel/panelTypes";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
 
 interface PanelProps {
   state: PanelState;
@@ -38,7 +36,7 @@ export const Panel = memo(
               historyPointer={state.historyData.pointer}
             >
               <MainContent view={state.view} />
-              <LineBreakArea />
+              <LineBreakArea marginSize={20} />
             </MainContentArea>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
-import { HanjaSearchResultType } from "@repo/shared/types/dictionaryItemProps";
-import { getEndpointWithHanjaSearchConfig } from "@repo/shared/utils/apiAliases";
+import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { HanjaSearchResult } from "../../dictionary-page/dictionary-items/hanja/HanjaSearchResult";
 import {
@@ -9,19 +8,20 @@ import {
 } from "./view-components/ResultsMessages";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { PageChanger } from "./view-components/PageChanger";
-import { HanjaSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import {
-  isHanjaSearchResultType,
-  isNumber,
-} from "@repo/shared/types/typeGuards";
 import {
   NoResponseError,
   NotAnArrayError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { HanjaSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
+import {
+  HanjaSearchResultType,
+  isHanjaSearchResultType,
+} from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { isNumber } from "@repo/shared/types/guardUtils";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
@@ -33,7 +33,10 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   const { dispatch } = useViewDispatchersContext();
 
   const { error, loading, searchResults, response } = usePaginatedResults({
-    baseUrl: getEndpointWithHanjaSearchConfig(searchConfig),
+    baseUrl: getEndpoint({
+      endpoint: "search_hanja",
+      queryParams: searchConfig,
+    }),
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
 

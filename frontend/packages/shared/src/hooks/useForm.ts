@@ -1,6 +1,23 @@
 import { useState } from "react";
 
-import { UseFormArgs, RequestConfig } from "../types/apiCallTypes";
+import {
+  JsonObjectType,
+  RequestConfig,
+  UseCallAPIReturns,
+} from "../types/apiCallTypes";
+
+interface UseFormArgs {
+  url: string;
+  initialFormData: JsonObjectType;
+  useCallAPIInstance: UseCallAPIReturns;
+  includeCredentials?: boolean;
+  /** Whether the form is intended to be submitted instantly. Used when
+   * `initialFormData` is final and not intended to ever be updated. */
+  submitOnLoad?: boolean;
+  /** An array of variables that on change should automatically trigger
+   * form submission. If `submitOnLoad` is not true, this will have no effect.*/
+  autoResubmitDependencies?: any[];
+}
 
 export const useForm = ({
   url,
@@ -8,7 +25,7 @@ export const useForm = ({
   useCallAPIInstance,
   includeCredentials = false,
 }: UseFormArgs) => {
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<JsonObjectType>(initialFormData);
 
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
 

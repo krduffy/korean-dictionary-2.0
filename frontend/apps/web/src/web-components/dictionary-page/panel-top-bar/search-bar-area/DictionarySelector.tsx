@@ -1,4 +1,4 @@
-import { SearchConfig } from "@repo/shared/types/panelAndViewTypes";
+import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
@@ -8,7 +8,7 @@ export const DictionarySelector = ({
   searchConfig,
   switchDictionary,
 }: {
-  searchConfig: SearchConfig;
+  searchConfig: SearchBarConfig;
   switchDictionary: () => void;
 }) => {
   const dictionaryButtonContent = (

@@ -1,9 +1,9 @@
-import { DetailedKoreanType } from "@repo/shared/types/dictionaryItemProps";
 import { DetailedSenseView } from "./DetailedSenseView";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { memo } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
+import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 
 export const KoreanDetailDisplay = memo(
   ({

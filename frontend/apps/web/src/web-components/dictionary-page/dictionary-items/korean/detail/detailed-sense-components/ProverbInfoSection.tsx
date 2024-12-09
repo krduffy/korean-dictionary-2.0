@@ -1,6 +1,6 @@
 import { PanelSpecificDispatcher } from "../../../../panel/PanelSpecificDispatcher";
 import { StringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
-import { ProverbType } from "@repo/shared/types/dictionaryItemProps";
+import { ProverbType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 
 export const ProverbInfoSection = ({
   proverbs,

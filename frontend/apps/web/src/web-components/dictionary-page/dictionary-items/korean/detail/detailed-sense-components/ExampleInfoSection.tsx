@@ -1,4 +1,4 @@
-import { ExampleType } from "@repo/shared/types/dictionaryItemProps";
+import { ExampleType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { ExampleStringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
 
 export const ExampleInfoSection = ({

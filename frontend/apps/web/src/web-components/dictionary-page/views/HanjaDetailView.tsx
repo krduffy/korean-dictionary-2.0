@@ -4,10 +4,17 @@ import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { HanjaDetailDisplay } from "../dictionary-items/hanja/detail/HanjaDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { isDetailedHanjaType } from "@repo/shared/types/typeGuards";
 import { WrongFormatError } from "../../other/misc/ErrorMessageTemplates";
+import { HanjaDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
+import { isDetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 
-export const HanjaDetailView = ({ character }: { character: string }) => {
+export const HanjaDetailView = ({
+  character,
+  interactionData,
+}: {
+  character: string;
+  interactionData: HanjaDetailInteractionData;
+}) => {
   const { error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "detail_hanja", pk: character }),
     useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
@@ -26,5 +33,7 @@ export const HanjaDetailView = ({ character }: { character: string }) => {
     return <WrongFormatError />;
   }
 
-  return <HanjaDetailDisplay data={response} />;
+  return (
+    <HanjaDetailDisplay data={response} interactionData={interactionData} />
+  );
 };

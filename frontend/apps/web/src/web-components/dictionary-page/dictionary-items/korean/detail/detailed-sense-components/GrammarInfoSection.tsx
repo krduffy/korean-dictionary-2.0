@@ -1,4 +1,4 @@
-import { GrammarItemType } from "@repo/shared/types/dictionaryItemProps";
+import { GrammarItemType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 
 export const GrammarInfoSection = ({
   grammarItems,

@@ -113,7 +113,7 @@ class KoreanWordInHanjaCharacterPopupViewSerializer(BaseKoreanWordSerializer):
 class KoreanWordHanjaExampleSenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sense
-        fields = ["target_code", "order", "definition"]
+        fields = ["target_code", "definition"]
         read_only_fields = ["__all__"]
 
 

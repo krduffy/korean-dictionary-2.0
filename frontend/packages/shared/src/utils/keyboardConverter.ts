@@ -1,8 +1,4 @@
-import {
-  FinalKoreanConsonant,
-  KeyboardConversionToken,
-  KoreanVowel,
-} from "../types/koreanLangTypes";
+import { KeyboardConversionToken } from "../types/koreanLangTypes";
 import { isConsonant, isVowel } from "./koreanLangUtils";
 
 const consonantOrVowel = (char: string) => {
@@ -186,7 +182,7 @@ const toJongseong = (compatibilityJongseong: string): string => {
   }
 };
 
-const mergeJungseong = (v1: string, v2: string): KoreanVowel | null => {
+const mergeJungseong = (v1: string, v2: string): string | null => {
   if (v1 === "ㅗ") {
     if (v2 === "ㅏ") return "ㅘ";
     if (v2 === "ㅐ") return "ㅙ";
@@ -202,10 +198,7 @@ const mergeJungseong = (v1: string, v2: string): KoreanVowel | null => {
   return null;
 };
 
-const mergeJongseong = (
-  c1: string,
-  c2: string
-): FinalKoreanConsonant | null => {
+const mergeJongseong = (c1: string, c2: string): string | null => {
   if (c1 === "ㄱ") {
     if (c2 === "ㅅ") return "ㄳ";
   } else if (c1 === "ㄴ") {

@@ -1,13 +1,10 @@
 import { ReactNode, useContext, createContext, useReducer } from "react";
 import { getBasicKoreanSearchViewData } from "@repo/shared/utils/basicViews";
-import {
-  HistoryData,
-  PanelState,
-  PanelStateAction,
-  SearchConfig,
-  View,
-} from "@repo/shared/types/panelAndViewTypes";
-import { panelStateReducer } from "./panelStateReducer";
+import { panelStateReducer } from "./panel-state-reducer/panelStateReducer";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
+import { HistoryData, PanelState } from "@repo/shared/types/panel/panelTypes";
+import { View } from "@repo/shared/types/views/viewTypes";
+import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
 
 export const PersistentDictionaryPageStateContext = createContext<
   PersistentDictionaryPageStateContextType | undefined
@@ -42,7 +39,7 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
     },
   } as const;
 
-  const initialSearchConfig: SearchConfig = {
+  const initialSearchConfig: SearchBarConfig = {
     dictionary: "korean",
     config: getBasicKoreanSearchViewData({ searchTerm: "" }),
   } as const;

@@ -15,11 +15,16 @@ export type CacheType = {
 export type UseCacheReturns = {
   clear: () => void;
   put: (
+    // eslint-disable-next-line no-unused-vars
     url: string,
+    // eslint-disable-next-line no-unused-vars
     response: APIResponseType,
+    // eslint-disable-next-line no-unused-vars
     ok: boolean,
+    // eslint-disable-next-line no-unused-vars
     body?: BodyInit | undefined
   ) => void;
+  // eslint-disable-next-line no-unused-vars
   retrieve: (url: string, body?: BodyInit | undefined) => CacheItem | null;
 };
 

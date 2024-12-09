@@ -3,7 +3,7 @@ import {
   HanjaSearchConfig,
   KoreanSearchConfig,
   PanelStateAction,
-  SearchConfig,
+  SearchBarConfig,
 } from "../types/panelAndViewTypes";
 
 export interface UpdateKoreanSearchConfigArgs {
@@ -43,7 +43,7 @@ export const useSearchBarArea = ({
   dispatch,
   doConversion,
 }: {
-  searchConfig: SearchConfig;
+  searchConfig: SearchBarConfig;
   dispatch: React.Dispatch<PanelStateAction>;
   doConversion: boolean;
 }): UseSearchBarAreaReturns => {

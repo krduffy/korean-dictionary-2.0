@@ -1,9 +1,9 @@
 import { UpdateKoreanSearchConfigArgs } from "@repo/shared/hooks/useSearchBarArea";
+import { SearchConfigLabelAndSettingArea } from "./SearchConfigLabelAndSettingArea";
 import {
   AllowedKoreanSearchType,
   KoreanSearchConfig,
-} from "@repo/shared/types/panelAndViewTypes";
-import { SearchConfigLabelAndSettingArea } from "./SearchConfigLabelAndSettingArea";
+} from "@repo/shared/types/views/searchConfigTypes";
 
 export const KoreanSearchConfigSettingsMenu = ({
   config,

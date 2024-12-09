@@ -4,8 +4,8 @@ import { HanjaSearchView } from "../views/HanjaSearchView";
 import { KoreanDetailView } from "../views/KoreanDetailView";
 import { HanjaDetailView } from "../views/HanjaDetailView";
 import { FindLemmaView } from "../views/FindLemmaView";
-import { View } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { View } from "@repo/shared/types/views/viewTypes";
 
 /* a wrapper around MainContent to add the updating of scroll distance functionality */
 export const MainContentArea = ({
@@ -81,7 +81,12 @@ export const MainContent = ({ view }: { view: View }) => {
   }
 
   if (view.type === "hanja_detail") {
-    return <HanjaDetailView character={view.data.character} />;
+    return (
+      <HanjaDetailView
+        character={view.data.character}
+        interactionData={view.interactionData}
+      />
+    );
   }
 
   if (view.type === "find_lemma") {

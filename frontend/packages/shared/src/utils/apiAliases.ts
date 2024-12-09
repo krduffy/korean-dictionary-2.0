@@ -1,7 +1,4 @@
-import {
-  HanjaSearchConfig,
-  KoreanSearchConfig,
-} from "../types/panelAndViewTypes";
+import { SearchConfig } from "../types/views/searchConfigTypes";
 
 /* Cert requires localhost, not 127.0.0.1 */
 const API_URL = "https://localhost:8000/";
@@ -22,23 +19,31 @@ const endpoints = {
   find_lemma: "nlp/find_lemma/",
 } as const;
 
+type QueryParams = SearchConfig;
+
 interface GetEndpointArgs {
   endpoint: keyof typeof endpoints;
   pk?: number | string;
+  queryParams?: QueryParams;
 }
 
-export const getEndpoint = ({ endpoint, pk }: GetEndpointArgs) => {
-  if (!pk) {
-    return API_URL + endpoints[endpoint];
+export const getEndpoint = ({ endpoint, pk, queryParams }: GetEndpointArgs) => {
+  let baseUrl;
+
+  if (pk === undefined) {
+    baseUrl = API_URL + endpoints[endpoint];
   } else {
-    return API_URL + endpoints[endpoint] + `/${pk}`;
+    baseUrl = API_URL + endpoints[endpoint] + `/${pk}`;
   }
+
+  if (queryParams === undefined) return baseUrl;
+
+  const stringifiedParams = getArgsAsQueryParamString(queryParams);
+  return baseUrl + "?" + stringifiedParams;
 };
 
-const getArgsAsQueryParamString = (
-  obj: KoreanSearchConfig | HanjaSearchConfig
-) => {
-  return Object.entries(obj)
+const getArgsAsQueryParamString = (params: QueryParams) => {
+  return Object.entries(params)
     .reduce(
       (accumulator, [key, value]) =>
         accumulator +
@@ -49,20 +54,4 @@ const getArgsAsQueryParamString = (
       ""
     )
     .slice(0, -1);
-};
-
-export const getEndpointWithKoreanSearchConfig = (
-  koreanSearchConfig: KoreanSearchConfig
-) => {
-  const endingArgs = getArgsAsQueryParamString(koreanSearchConfig);
-
-  return getEndpoint({ endpoint: "search_korean" }) + "?" + endingArgs;
-};
-
-export const getEndpointWithHanjaSearchConfig = (
-  hanjaSearchConfig: HanjaSearchConfig
-) => {
-  const endingArgs = getArgsAsQueryParamString(hanjaSearchConfig);
-
-  return getEndpoint({ endpoint: "search_hanja" }) + "?" + endingArgs;
 };

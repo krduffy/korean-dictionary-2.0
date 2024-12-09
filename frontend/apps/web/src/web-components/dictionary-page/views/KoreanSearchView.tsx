@@ -1,4 +1,3 @@
-import { getEndpointWithKoreanSearchConfig } from "@repo/shared/utils/apiAliases";
 import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/korean/KoreanSearchResult";
@@ -7,21 +6,22 @@ import {
   NoResultsMessage,
   ResultCountMessage,
 } from "./view-components/ResultsMessages";
-import { KoreanSearchResultType } from "@repo/shared/types/dictionaryItemProps";
 import { PageChanger } from "./view-components/PageChanger";
-import { KoreanSearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import {
-  isKoreanSearchResultType,
-  isNumber,
-} from "@repo/shared/types/typeGuards";
 import {
   NoResponseError,
   NotAnArrayError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { KoreanSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
+import {
+  isKoreanSearchResultType,
+  KoreanSearchResultType,
+} from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { isNumber } from "@repo/shared/types/guardUtils";
+import { getEndpoint } from "@repo/shared/utils/apiAliases";
 
 export const KoreanSearchView = ({
   searchConfig,
@@ -31,7 +31,10 @@ export const KoreanSearchView = ({
   const { dispatch } = useViewDispatchersContext();
 
   const { error, loading, searchResults, response } = usePaginatedResults({
-    baseUrl: getEndpointWithKoreanSearchConfig(searchConfig),
+    baseUrl: getEndpoint({
+      endpoint: "search_korean",
+      queryParams: searchConfig,
+    }),
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
 

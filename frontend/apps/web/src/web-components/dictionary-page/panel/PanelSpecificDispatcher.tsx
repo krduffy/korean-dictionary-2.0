@@ -1,4 +1,4 @@
-import { PanelStateAction } from "@repo/shared/types/panelAndViewTypes";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
 import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 
 type PanelSpecificDispatcherArgs = {

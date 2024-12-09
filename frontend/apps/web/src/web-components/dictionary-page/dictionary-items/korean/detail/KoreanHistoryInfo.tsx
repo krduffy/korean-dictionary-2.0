@@ -1,7 +1,7 @@
 import {
   HistoryCenturyInfoType,
   HistoryInfoType,
-} from "@repo/shared/types/dictionaryItemProps";
+} from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 
 export const KoreanHistoryInfoSection = ({

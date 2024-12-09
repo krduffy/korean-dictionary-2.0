@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { PanelSpecificDispatcher } from "../../../../panel/PanelSpecificDispatcher";
-import { RelationType } from "@repo/shared/types/dictionaryItemProps";
+import { RelationType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 
 export const RelationInfoSection = ({
   relations,

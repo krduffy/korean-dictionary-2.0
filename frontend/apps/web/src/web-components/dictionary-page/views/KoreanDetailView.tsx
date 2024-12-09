@@ -4,11 +4,11 @@ import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { KoreanDetailDisplay } from "../dictionary-items/korean/detail/KoreanDetailDisplay";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { isDetailedKoreanType } from "@repo/shared/types/typeGuards";
 import {
   NoResponseError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
+import { isDetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 
 export const KoreanDetailView = ({
   target_code,

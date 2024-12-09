@@ -5,7 +5,7 @@ import {
   GradeLevelConfig,
   OperandPrefix,
   StrokeNumberConfig,
-} from "@repo/shared/types/panelAndViewTypes";
+} from "@repo/shared/types/views/searchConfigTypes";
 import { Minus, Plus } from "lucide-react";
 
 export const RadicalArea = ({

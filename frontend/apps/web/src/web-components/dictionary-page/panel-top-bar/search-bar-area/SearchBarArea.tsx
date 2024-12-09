@@ -1,15 +1,13 @@
-import {
-  SearchConfig,
-  PanelStateAction,
-} from "@repo/shared/types/panelAndViewTypes";
 import { SearchSettingsButton } from "./SearchSettingsButton";
 
 import { useSearchBarArea } from "@repo/shared/hooks/useSearchBarArea";
 import { SearchIcon } from "lucide-react";
 import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
+import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
 
 interface SearchBarAreaArgs {
-  searchConfig: SearchConfig;
+  searchConfig: SearchBarConfig;
   dispatch: React.Dispatch<PanelStateAction>;
 }
 

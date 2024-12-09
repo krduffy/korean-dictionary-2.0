@@ -1,10 +1,10 @@
-import { DetailedHanjaType } from "@repo/shared/types/dictionaryItemProps";
 import { memo, ReactNode, useRef, useState } from "react";
 import { HanjaDetailHanziWriter } from "./HanjaDetailHanziWriter";
 import { MeaningReadingsDiv } from "../../ReusedFormatters";
 import { HanjaTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { useWidthObserver } from "../../../../../web-hooks/useDimObserver";
 import { Copier } from "../../../../other/misc/Copier";
+import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 
 export const HanjaDetailDisplayTopInfo = ({
   data,

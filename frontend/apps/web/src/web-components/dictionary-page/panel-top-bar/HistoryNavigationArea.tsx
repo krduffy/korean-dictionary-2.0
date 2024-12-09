@@ -1,5 +1,4 @@
-import { PanelStateAction } from "@repo/shared/types/panelAndViewTypes";
-import { SpanPicture } from "../other/SpanPicture";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
 import { MoveLeft, MoveRight } from "lucide-react";
 
 export const HistoryNavigationArea = ({

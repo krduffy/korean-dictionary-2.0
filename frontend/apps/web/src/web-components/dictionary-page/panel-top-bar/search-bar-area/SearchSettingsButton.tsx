@@ -1,4 +1,3 @@
-import { SearchConfig } from "@repo/shared/types/panelAndViewTypes";
 import { KoreanSearchConfigSettingsMenu } from "./KoreanConfigSettingsMenu";
 import {
   UpdateHanjaSearchConfigArgs,
@@ -9,9 +8,10 @@ import { Settings2 } from "lucide-react";
 import { ButtonWithClickDropdown } from "../../../other/misc/ButtonWithClickDropdown";
 import { HanjaSearchConfigSettingsMenu } from "./HanjaConfigSettingsMenu";
 import { DictionarySelector } from "./DictionarySelector";
+import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
 
 export interface SearchSettingsButtonArgs {
-  searchConfig: SearchConfig;
+  searchConfig: SearchBarConfig;
   updateKoreanSearchConfig: ({
     // eslint-disable-next-line no-unused-vars
     field,

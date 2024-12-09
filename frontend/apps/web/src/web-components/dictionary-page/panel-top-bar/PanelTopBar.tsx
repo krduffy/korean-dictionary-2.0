@@ -1,10 +1,8 @@
-import {
-  PanelState,
-  PanelStateAction,
-} from "@repo/shared/types/panelAndViewTypes";
 import { SearchBarArea } from "./search-bar-area/SearchBarArea";
 import { HistoryNavigationArea } from "./HistoryNavigationArea";
 import { SpanPicture } from "../../other/string-formatters/SpanStylers";
+import { PanelState } from "@repo/shared/types/panel/panelTypes";
+import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
 
 export const PanelTopBar = ({
   state,
