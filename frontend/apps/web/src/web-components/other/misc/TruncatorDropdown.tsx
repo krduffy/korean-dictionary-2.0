@@ -5,18 +5,17 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 export const TruncatorDropdown = ({
   children,
   maxHeight,
-  initialDropdownState = false,
+  droppedDown,
   overrideScrollbackRef,
   onDropdownStateToggle,
 }: {
   children: ReactNode;
   maxHeight: number;
-  initialDropdownState?: boolean;
+  droppedDown: boolean;
   overrideScrollbackRef?: React.RefObject<HTMLDivElement>;
-  onDropdownStateToggle?: (isExpanded: boolean) => void;
+  onDropdownStateToggle: (isExpanded: boolean) => void;
 }) => {
   const {
-    isExpanded,
     showButton,
     handleClickBar,
     handleClickButton,
@@ -26,14 +25,14 @@ export const TruncatorDropdown = ({
     children: children,
     maxHeight: maxHeight,
     overrideScrollbackElement: overrideScrollbackRef?.current,
-    initialDropdownState: initialDropdownState,
+    droppedDown: droppedDown,
     onDropdownStateToggle: onDropdownStateToggle,
   });
 
   return (
     <div className="flex flex-row" ref={topLevelRef}>
       <ExpansionController
-        isExpanded={isExpanded}
+        isExpanded={droppedDown}
         showButton={showButton}
         handleClickBar={handleClickBar}
         handleClickButton={handleClickButton}
@@ -41,7 +40,7 @@ export const TruncatorDropdown = ({
 
       <div
         style={{
-          maxHeight: isExpanded ? "" : `${maxHeight}px`,
+          maxHeight: droppedDown ? "" : `${maxHeight}px`,
         }}
         className="overflow-y-hidden pl-1"
         ref={contentRef}

@@ -54,7 +54,7 @@ export const DetailedSenseView = ({
         {/* ADDITIONAL INFO SECTION (in dropdown because it can be long) */}
         <TruncatorDropdown
           maxHeight={100}
-          initialDropdownState={dropdownState}
+          droppedDown={dropdownState}
           overrideScrollbackRef={mainSenseRef}
           onDropdownStateToggle={getOnDropdownStateToggleFunction(
             senseData.order - 1

@@ -23,22 +23,21 @@ export const MeaningReadingsDiv = ({
 
 export const HideableDropdownNoTruncation = ({
   title,
-  initiallyDroppedDown,
+  droppedDown,
   onDropdownStateToggle,
   children,
 }: {
   title: string;
-  initiallyDroppedDown: boolean;
+  droppedDown: boolean;
   onDropdownStateToggle: (droppedDown: boolean) => void;
   children: ReactNode;
 }) => {
-  const { isExpanded, handleClickButton, contentRef, topLevelRef } =
-    useTruncatorDropdown({
-      children: children,
-      maxHeight: 0,
-      initialDropdownState: initiallyDroppedDown,
-      onDropdownStateToggle: onDropdownStateToggle,
-    });
+  const { handleClickButton, contentRef, topLevelRef } = useTruncatorDropdown({
+    children: children,
+    maxHeight: 0,
+    droppedDown: droppedDown,
+    onDropdownStateToggle: onDropdownStateToggle,
+  });
 
   return (
     <div className="w-full" ref={topLevelRef}>
@@ -46,15 +45,15 @@ export const HideableDropdownNoTruncation = ({
         <div className="text-[150%]">{title}</div>
         <div
           className="cursor-pointer"
-          title={isExpanded ? "접기" : "펴기"}
+          title={droppedDown ? "접기" : "펴기"}
           onClick={handleClickButton}
         >
-          {isExpanded ? <ChevronUp /> : <ChevronDown />}
+          {droppedDown ? <ChevronUp /> : <ChevronDown />}
         </div>
       </div>
       <div
         style={{
-          maxHeight: isExpanded ? "" : "0px",
+          maxHeight: droppedDown ? "" : "0px",
         }}
         className="overflow-y-hidden"
         ref={contentRef}

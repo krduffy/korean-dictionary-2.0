@@ -4,7 +4,7 @@ export const useTruncatorDropdown = ({
   children,
   maxHeight,
   overrideScrollbackElement,
-  initialDropdownState,
+  droppedDown,
   onDropdownStateToggle,
 }: {
   children: ReactNode;
@@ -12,12 +12,11 @@ export const useTruncatorDropdown = ({
   maxHeight: number;
   /** An override for the dev on which `scrollTo` is called when the truncator is collapsed. By default, a wrapper div around `children` is scrolled back to. */
   overrideScrollbackElement?: HTMLElement | null;
-  /** Whether the dropdown is initially expanded or not. */
-  initialDropdownState: boolean;
+  /** Whether the dropdown is expanded or not. */
+  droppedDown: boolean;
   /** A function that is called with `isExpanded`. */
-  onDropdownStateToggle?: (isExpanded: boolean) => void;
+  onDropdownStateToggle: (isExpanded: boolean) => void;
 }) => {
-  const [isExpanded, setIsExpanded] = useState(initialDropdownState);
   const [showButton, setShowButton] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const topLevelRef = useRef<HTMLDivElement>(null);
@@ -50,26 +49,23 @@ export const useTruncatorDropdown = ({
     }
   };
 
-  useEffect(() => {
-    onDropdownStateToggle?.(isExpanded);
-  }, [isExpanded]);
-
   const handleClickButton = () => {
-    if (isExpanded) {
+    if (droppedDown) {
       onCollapse();
     }
-    setIsExpanded(!isExpanded);
+
+    const newValue = !droppedDown;
+    onDropdownStateToggle(newValue);
   };
 
   const handleClickBar = () => {
-    if (isExpanded) {
+    if (droppedDown) {
       onCollapse();
     }
-    setIsExpanded(false);
+    onDropdownStateToggle(false);
   };
 
   return {
-    isExpanded,
     showButton,
     handleClickBar,
     handleClickButton,

@@ -20,13 +20,13 @@ export const HanjaDetailDisplay = memo(
         {data.explanation && (
           <HanjaExplanation
             explanation={data.explanation}
-            initiallyDroppedDown={interactionData.explanationDroppedDown}
+            droppedDown={interactionData.explanationDroppedDown}
           />
         )}
         <HanjaDetailWordExamples
           character={data.character}
           pageNum={interactionData.exampleWordsPageNum}
-          initiallyDroppedDown={interactionData.exampleWordsDroppedDown}
+          droppedDown={interactionData.exampleWordsDroppedDown}
         />
       </>
     );
@@ -35,23 +35,23 @@ export const HanjaDetailDisplay = memo(
 
 const HanjaExplanation = ({
   explanation,
-  initiallyDroppedDown,
+  droppedDown,
 }: {
   explanation: string;
-  initiallyDroppedDown: boolean;
+  droppedDown: boolean;
 }) => {
   const { dispatch } = useViewDispatchersContext();
 
   return (
     <HideableDropdownNoTruncation
       title="설명"
-      initiallyDroppedDown={initiallyDroppedDown}
+      droppedDown={droppedDown}
       onDropdownStateToggle={(isToggled: boolean) => {
-        /*dispatch({
+        dispatch({
           type: "update_hanja_detail_interaction_data",
           key: "explanationDroppedDown",
-          value: isToggled,
-        });*/
+          newValue: isToggled,
+        });
       }}
     >
       <div>{explanation}</div>

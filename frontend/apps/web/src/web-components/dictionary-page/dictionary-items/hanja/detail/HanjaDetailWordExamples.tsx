@@ -28,11 +28,11 @@ import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 export const HanjaDetailWordExamples = ({
   character,
   pageNum,
-  initiallyDroppedDown,
+  droppedDown,
 }: {
   character: string;
   pageNum: number;
-  initiallyDroppedDown: boolean;
+  droppedDown: boolean;
 }) => {
   const { searchResults, loading, error, response } = usePaginatedResults({
     baseUrl: getEndpoint({
@@ -51,7 +51,7 @@ export const HanjaDetailWordExamples = ({
     dispatch({
       type: "update_hanja_detail_interaction_data",
       key: "exampleWordsDroppedDown",
-      value: isToggled,
+      newValue: isToggled,
     });
   };
 
@@ -67,7 +67,7 @@ export const HanjaDetailWordExamples = ({
     return (
       <HideableDropdownNoTruncation
         title="용례 단어"
-        initiallyDroppedDown={initiallyDroppedDown}
+        droppedDown={droppedDown}
         onDropdownStateToggle={handleDropdownStateToggle}
       >
         {Array(API_PAGE_SIZE)
@@ -110,7 +110,7 @@ export const HanjaDetailWordExamples = ({
   return (
     <HideableDropdownNoTruncation
       title="용례 단어"
-      initiallyDroppedDown={initiallyDroppedDown}
+      droppedDown={droppedDown}
       onDropdownStateToggle={handleDropdownStateToggle}
     >
       <ResultCountMessage
