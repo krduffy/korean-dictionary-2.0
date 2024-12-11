@@ -6,8 +6,12 @@ import {
   UseCacheReturns,
 } from "../../types/cacheTypes";
 import { APIResponseType } from "../../types/apiCallTypes";
+import { APIDataChangeListenerData } from "../../types/apiDataChangeEventTypes";
+import { useAPIDataChangeManagerContext } from "../../contexts/APIDataChangeManagerContextProvider";
 
 export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
+  const { subscribe, unsubscribe } = useAPIDataChangeManagerContext();
+
   const initialCache = {
     capacity: capacity,
     stored: 0,
@@ -43,6 +47,8 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     /* only if being added for first time stored is incremented */
     if (!cache.current.items.has(key)) {
       cache.current.stored += 1;
+    } else {
+      clearListenerArgsByKey(key);
     }
 
     /* add or update */
@@ -50,6 +56,7 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
       lastAccessed: counter.current++,
       response: response,
       ok: ok,
+      apiDataChangeSubscriptionArgs: [],
     });
 
     /* evict if number of stored items exceeds capacity after that addition */
@@ -66,9 +73,70 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
       });
 
       if (keyToEvict !== undefined) {
+        clearListenerArgsByKey(keyToEvict);
         cache.current.items.delete(keyToEvict);
         cache.current.stored -= 1;
       }
+    }
+  };
+
+  const setItemListenerArgs = ({
+    url,
+    body,
+    cacheUpdaters,
+  }: {
+    url: string;
+    body?: BodyInit | undefined;
+    cacheUpdaters: {
+      pk: number | string;
+      eventType: APIDataChangeListenerData["eventType"];
+      responseUpdater: (
+        // eslint-disable-next-line no-unused-vars
+        prevResponse: APIResponseType,
+        // eslint-disable-next-line no-unused-vars
+        newValue: Parameters<APIDataChangeListenerData["onNotification"]>[0]
+      ) => APIResponseType;
+    }[];
+  }) => {
+    console.log("SETTING LISTENER ARGS");
+
+    const key = getKey(url, body);
+    const item = cache.current.items.get(key);
+
+    if (item) {
+      const apiDataChangeSubscriptionArgs = cacheUpdaters.map((updaterArgs) => {
+        const onNotification = (
+          newValue: Parameters<typeof updaterArgs.responseUpdater>[1]
+        ) => {
+          item.response = updaterArgs.responseUpdater(item.response, newValue);
+        };
+
+        return {
+          pk: updaterArgs.pk,
+          listenerData: {
+            eventType: updaterArgs.eventType,
+            onNotification: onNotification,
+          },
+        };
+      });
+
+      item.apiDataChangeSubscriptionArgs = apiDataChangeSubscriptionArgs;
+
+      console.log("thesea re args" + item.apiDataChangeSubscriptionArgs);
+
+      item.apiDataChangeSubscriptionArgs.forEach((subscriptionArgs) => {
+        subscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
+      });
+    }
+  };
+
+  const clearListenerArgsByKey = (key: string) => {
+    const item = cache.current.items.get(key);
+
+    if (item) {
+      item.apiDataChangeSubscriptionArgs.forEach((subscriptionArgs) => {
+        unsubscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
+      });
     }
   };
 
@@ -87,29 +155,10 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     }
   };
 
-  const updateItemResponse = ({
-    url,
-    body,
-    updater,
-  }: {
-    url: string;
-    body?: BodyInit | undefined;
-    // eslint-disable-next-line no-unused-vars
-    updater: (prevResponse: APIResponseType) => APIResponseType;
-  }) => {
-    const key = getKey(url, body);
-    const item = cache.current.items.get(key);
-
-    if (item) {
-      item.lastAccessed = counter.current++;
-      item.response = updater(item.response);
-    }
-  };
-
   return {
     clear,
     put,
     retrieve,
-    updateItemResponse,
+    setItemListenerArgs,
   };
 };

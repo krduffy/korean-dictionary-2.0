@@ -43,7 +43,7 @@ export const KoreanSearchView = ({
 
   useKoreanSearchResultListenerManager({
     url: url,
-    response: response,
+    searchResults: searchResults,
   });
 
   if (loading) {

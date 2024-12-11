@@ -6,8 +6,8 @@ import {
   isKoreanSearchResultType,
   KoreanSearchResultType,
 } from "../../types/views/dictionary-items/koreanDictionaryItems";
-import { withUpdatedKnownStudied } from "../cache/cacheUpdaters";
 import { APIDataChangeListenerData } from "src/types/apiDataChangeEventTypes";
+import { getKoreanSearchCacheUpdaters } from "../cache/cacheUpdaters";
 
 const useListenerManager = ({
   url,
@@ -42,65 +42,46 @@ const useListenerManager = ({
 
 export const useKoreanSearchResultListenerManager = ({
   url,
-  response,
+  searchResults,
 }: {
   url: string;
-  response: APIResponseType;
+  searchResults: APIResponseType;
 }) => {
-  const getKoreanKnownStudiedSubscriptionData = (
-    pks: number[],
-    pathGetter: (pk: number) => (string | number)[]
-  ) => {
-    return pks.map((pk) => {
-      return {
-        pk,
-        listenerDataObjects: (["known", "studied"] as const).map(
-          (knownOrStudied) => {
-            return {
-              eventType: knownOrStudied,
-              onNotification: (newValue: boolean) => {
-                console.log("!!!! " + knownOrStudied);
-              },
-            };
-          }
-        ),
-      };
-    });
-  };
+  const { setItemListenerArgs } = useCachingContext();
 
-  const getAllListenerData = () => {
+  useEffect(() => {
     if (
-      !Array.isArray(response?.results) ||
-      !response?.results?.every((data) => isKoreanSearchResultType(data))
+      !Array.isArray(searchResults?.results) ||
+      !searchResults?.results?.every((data) => isKoreanSearchResultType(data))
     ) {
-      return [];
+      return;
     }
+    console.log(typeof setItemListenerArgs);
+    setItemListenerArgs({
+      url,
+      cacheUpdaters: getKoreanSearchCacheUpdaters({
+        pks: pks,
+        pathGetter: getPathGetterFunc(searchResults.results),
+      }),
+    });
+  }, [searchResults]);
 
-    const pks = response.results.map(
-      (searchResult) => searchResult.target_code
-    );
+  const pks =
+    Array.isArray(searchResults?.results) &&
+    searchResults?.results?.every((data) => isKoreanSearchResultType(data))
+      ? searchResults.results.map((searchResult) => searchResult.target_code)
+      : [];
 
-    const getPathGetterFunc = (results: KoreanSearchResultType[]) => {
-      return (pk: number) => {
-        const index = results.findIndex((result) => result.target_code === pk);
+  const getPathGetterFunc = (results: KoreanSearchResultType[]) => {
+    return (pk: number) => {
+      const index = results.findIndex((result) => result.target_code === pk);
 
-        if (index === -1)
-          throw new Error(
-            `pk supplied to path getter not in response array. pk: ${pk} result pks: ${results.map((result) => result.target_code)}`
-          );
+      if (index === -1)
+        throw new Error(
+          `pk supplied to path getter not in searchResults array. pk: ${pk} result pks: ${results.map((result) => result.target_code)}`
+        );
 
-        return ["results", pk, "user_data"];
-      };
+      return ["results", index, "user_data"];
     };
-
-    return getKoreanKnownStudiedSubscriptionData(
-      pks,
-      getPathGetterFunc(response.results)
-    );
   };
-
-  return useListenerManager({
-    url: url,
-    listenerData: getAllListenerData(),
-  });
 };

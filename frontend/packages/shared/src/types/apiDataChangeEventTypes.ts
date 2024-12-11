@@ -47,3 +47,8 @@ export type APIDataChangeListenerData =
 export type APIDataChangeNotificationData =
   | APIDataChangeKnownChangedNotificationData
   | APIDataChangeStudiedChangedNotificationData;
+
+export type SavedSubscriptionArguments = {
+  pk: number | string;
+  listenerData: APIDataChangeListenerData;
+};

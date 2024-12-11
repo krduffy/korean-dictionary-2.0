@@ -1,4 +1,4 @@
-import { withUpdatedKnownStudied } from "../cacheUpdaters";
+import { withUpdatedKnownStudied } from "../responseUpdaters";
 
 const dataItem = {
   a: ["b", "c", "def", "g"],

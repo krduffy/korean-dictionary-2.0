@@ -11,7 +11,9 @@ export const CachingContextProvider = ({
   children: ReactNode;
   cacheCapacity: number;
 }) => {
-  const { clear, put, retrieve } = useCache({ capacity: cacheCapacity });
+  const { clear, put, retrieve, setItemListenerArgs } = useCache({
+    capacity: cacheCapacity,
+  });
 
   return (
     <CachingContext.Provider
@@ -19,6 +21,7 @@ export const CachingContextProvider = ({
         clear,
         put,
         retrieve,
+        setItemListenerArgs,
       }}
     >
       {children}
