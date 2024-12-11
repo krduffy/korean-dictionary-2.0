@@ -1,4 +1,4 @@
-import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
+import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
-import { useSpamProtectedSetter } from "./useSpamProtectedSetter";
-import { FALLBACK_MAX_TIME_MS, FALLBACK_MIN_TIME_MS } from "../constants";
-import { useShowFallback } from "./useShowFallback";
+import { APIResponseType, UseCallAPIReturns } from "../../types/apiCallTypes";
+import { useSpamProtectedSetter } from "../useSpamProtectedSetter";
+import { FALLBACK_MAX_TIME_MS, FALLBACK_MIN_TIME_MS } from "../../constants";
+import { useShowFallback } from "../useShowFallback";
 
 interface UsePaginatedResultsArgs {
   baseUrl: string;

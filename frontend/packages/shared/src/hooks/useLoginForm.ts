@@ -1,4 +1,4 @@
-import { useForm } from "./useForm";
+import { useForm } from "./api/useForm";
 import { getEndpoint } from "../utils/apiAliases";
 import {
   AuthTokens,

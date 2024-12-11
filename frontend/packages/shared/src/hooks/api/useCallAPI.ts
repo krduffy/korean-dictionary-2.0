@@ -3,8 +3,8 @@ import {
   UseCallAPIArgs,
   UseCallAPIReturns,
   RequestConfig,
-} from "../types/apiCallTypes";
-import { APIResponseType } from "../types/apiCallTypes";
+} from "../../types/apiCallTypes";
+import { APIResponseType } from "../../types/apiCallTypes";
 
 export const useCallAPI = ({
   tokenHandlers,

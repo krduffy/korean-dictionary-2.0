@@ -4,8 +4,8 @@ import {
   CacheType,
   UseCacheArgs,
   UseCacheReturns,
-} from "../types/cacheTypes";
-import { APIResponseType } from "../types/apiCallTypes";
+} from "../../types/cacheTypes";
+import { APIResponseType } from "../../types/apiCallTypes";
 
 export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
   const initialCache = {
@@ -87,9 +87,29 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     }
   };
 
+  const updateItemResponse = ({
+    url,
+    body,
+    updater,
+  }: {
+    url: string;
+    body?: BodyInit | undefined;
+    // eslint-disable-next-line no-unused-vars
+    updater: (prevResponse: APIResponseType) => APIResponseType;
+  }) => {
+    const key = getKey(url, body);
+    const item = cache.current.items.get(key);
+
+    if (item) {
+      item.lastAccessed = counter.current++;
+      item.response = updater(item.response);
+    }
+  };
+
   return {
     clear,
     put,
     retrieve,
+    updateItemResponse,
   };
 };

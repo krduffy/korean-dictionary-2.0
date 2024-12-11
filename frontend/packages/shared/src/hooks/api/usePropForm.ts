@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import {
-  FormDataState,
+  JsonObjectType,
   RequestConfig,
   UseCallAPIReturns,
-} from "../types/apiCallTypes";
-import { useShowFallback } from "./useShowFallback";
-import { FALLBACK_MIN_TIME_MS, FALLBACK_MAX_TIME_MS } from "../constants";
+} from "../../types/apiCallTypes";
+import { useShowFallback } from "../useShowFallback";
+import { FALLBACK_MIN_TIME_MS, FALLBACK_MAX_TIME_MS } from "../../constants";
 
 export type UsePropFormArgs = {
   url: string;
-  formDataGetter: () => FormDataState;
+  formDataGetter: () => JsonObjectType;
   useCallAPIInstance: UseCallAPIReturns;
   repostDependencies: any[];
 };

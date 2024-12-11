@@ -1,5 +1,5 @@
 import { API_PAGE_SIZE } from "@repo/shared/constants";
-import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
+import { usePaginatedResults } from "@repo/shared/hooks/api/usePaginatedResults";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { PageChanger } from "../../../../dictionary-page/views/view-components/PageChanger";
 import {

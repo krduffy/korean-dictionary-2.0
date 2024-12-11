@@ -1,4 +1,4 @@
-import { useCallAPI } from "@repo/shared/hooks/useCallAPI";
+import { useCallAPI } from "@repo/shared/hooks/api/useCallAPI";
 import { tokenHandlers } from "./tokenHandlers";
 import { useCachingContext } from "@repo/shared/contexts/CachingContextProvider";
 

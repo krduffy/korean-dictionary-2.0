@@ -1,4 +1,4 @@
-import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
+import { usePaginatedResults } from "@repo/shared/hooks/api/usePaginatedResults";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { KoreanSearchResult } from "../dictionary-items/korean/KoreanSearchResult";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
@@ -22,6 +22,7 @@ import {
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { isNumber } from "@repo/shared/types/guardUtils";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
+import { useKoreanSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 export const KoreanSearchView = ({
   searchConfig,
@@ -30,12 +31,19 @@ export const KoreanSearchView = ({
 }) => {
   const { dispatch } = useViewDispatchersContext();
 
+  const url = getEndpoint({
+    endpoint: "search_korean",
+    queryParams: searchConfig,
+  });
+
   const { error, loading, searchResults, response } = usePaginatedResults({
-    baseUrl: getEndpoint({
-      endpoint: "search_korean",
-      queryParams: searchConfig,
-    }),
+    baseUrl: url,
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+  });
+
+  useKoreanSearchResultListenerManager({
+    url: url,
+    response: response,
   });
 
   if (loading) {

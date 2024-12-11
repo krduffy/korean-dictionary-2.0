@@ -4,7 +4,7 @@ import {
   JsonObjectType,
   RequestConfig,
   UseCallAPIReturns,
-} from "../types/apiCallTypes";
+} from "../../types/apiCallTypes";
 
 interface UseFormArgs {
   url: string;

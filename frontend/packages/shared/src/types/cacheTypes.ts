@@ -26,6 +26,19 @@ export type UseCacheReturns = {
   ) => void;
   // eslint-disable-next-line no-unused-vars
   retrieve: (url: string, body?: BodyInit | undefined) => CacheItem | null;
+  updateItemResponse: ({
+    // eslint-disable-next-line no-unused-vars
+    url,
+    // eslint-disable-next-line no-unused-vars
+    body,
+    // eslint-disable-next-line no-unused-vars
+    updater,
+  }: {
+    url: string;
+    body?: BodyInit | undefined;
+    // eslint-disable-next-line no-unused-vars
+    updater: (prevResponse: APIResponseType) => APIResponseType;
+  }) => void;
 };
 
 export type UseCacheArgs = {

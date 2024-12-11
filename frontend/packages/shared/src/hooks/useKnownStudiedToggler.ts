@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
 import { getEndpoint } from "../utils/apiAliases";
+import { useAPIDataChangeManagerContext } from "../contexts/APIDataChangeManagerContextProvider";
 
 export const useKnownStudiedToggler = ({
   pk,
@@ -23,6 +24,7 @@ export const useKnownStudiedToggler = ({
   const newValue = useRef<boolean>(!initiallyToggled);
 
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
+  const { emit } = useAPIDataChangeManagerContext();
 
   const url = getEndpoint({ endpoint: "update_known_studied", pk: pk });
 
@@ -30,6 +32,7 @@ export const useKnownStudiedToggler = ({
     if (successful) {
       setIsToggled(newValue.current);
       onSuccess(newValue.current);
+      emit(pk, { eventType: knownOrStudied, passToCallback: newValue.current });
     } else if (error) {
       onError(response);
     }

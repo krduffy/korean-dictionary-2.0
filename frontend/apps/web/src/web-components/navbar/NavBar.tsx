@@ -1,4 +1,4 @@
-import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
+import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { useCallAPIWeb } from "../../web-hooks/useCallAPIWeb";

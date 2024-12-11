@@ -2,7 +2,7 @@ import { ErrorMessage } from "../misc/ErrorMessage";
 import { LoadingIndicator } from "../misc/LoadingIndicator";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
-import { useFetchProps } from "@repo/shared/hooks/useFetchProps";
+import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import {
   NoResponseError,
   WrongFormatError,

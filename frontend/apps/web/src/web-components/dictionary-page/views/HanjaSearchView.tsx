@@ -1,4 +1,4 @@
-import { usePaginatedResults } from "@repo/shared/hooks/usePaginatedResults";
+import { usePaginatedResults } from "@repo/shared/hooks/api/usePaginatedResults";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { HanjaSearchResult } from "../../dictionary-page/dictionary-items/hanja/HanjaSearchResult";

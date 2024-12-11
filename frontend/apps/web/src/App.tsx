@@ -7,24 +7,27 @@ import { SettingsPage } from "./web-routes/SettingsPage";
 import { SettingsContextProvider } from "./web-contexts/SettingsContext";
 import { NotificationContextProvider } from "./web-contexts/NotificationContextProvider";
 import { Notifications } from "./web-components/page/Notifications";
+import { APIDataChangeManagerContextProvider } from "@repo/shared/contexts/APIDataChangeManagerContextProvider";
 
 export const App = () => {
   return (
     <SettingsContextProvider>
-      <CachingContextProvider cacheCapacity={5}>
-        <PersistentDictionaryPageStateContextProvider>
-          <NotificationContextProvider>
-            <Router>
-              <Routes>
-                <Route path="/" element={<DictionaryPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-              </Routes>
-            </Router>
-            <Notifications />
-          </NotificationContextProvider>
-        </PersistentDictionaryPageStateContextProvider>
-      </CachingContextProvider>
+      <APIDataChangeManagerContextProvider>
+        <CachingContextProvider cacheCapacity={16}>
+          <PersistentDictionaryPageStateContextProvider>
+            <NotificationContextProvider>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<DictionaryPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                </Routes>
+              </Router>
+              <Notifications />
+            </NotificationContextProvider>
+          </PersistentDictionaryPageStateContextProvider>
+        </CachingContextProvider>
+      </APIDataChangeManagerContextProvider>
     </SettingsContextProvider>
   );
 };

@@ -1,4 +1,4 @@
-import { usePropForm } from "@repo/shared/hooks/usePropForm";
+import { usePropForm } from "@repo/shared/hooks/api/usePropForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
