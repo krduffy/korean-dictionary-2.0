@@ -31,7 +31,7 @@ type HanjaSearchData = {
 export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   searchConfig,
 }) => {
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   const url = getEndpoint({
     endpoint: "search_hanja",
@@ -100,7 +100,10 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
       <PageChanger
         pageNum={searchConfig.page}
         setPageNum={(newPage: number) =>
-          dispatch({ type: "update_page", newPage: newPage })
+          panelDispatchStateChangeSelf({
+            type: "update_page",
+            newPage: newPage,
+          })
         }
         maxPageNum={maxPageNum}
       />

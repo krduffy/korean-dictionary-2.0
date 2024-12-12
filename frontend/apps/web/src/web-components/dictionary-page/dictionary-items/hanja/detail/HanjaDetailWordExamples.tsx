@@ -55,10 +55,10 @@ export const HanjaDetailWordExamples = ({
     refetch,
   });
 
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   const handleDropdownStateToggle = (isToggled: boolean) => {
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "update_hanja_detail_interaction_data",
       key: "exampleWordsDroppedDown",
       newValue: isToggled,
@@ -66,7 +66,7 @@ export const HanjaDetailWordExamples = ({
   };
 
   const handlePageChange = (newPage: number) => {
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "update_hanja_detail_interaction_data",
       key: "exampleWordsPageNum",
       newValue: newPage,

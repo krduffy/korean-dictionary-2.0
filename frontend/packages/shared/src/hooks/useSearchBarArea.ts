@@ -1,10 +1,10 @@
-import { engKeyboardToKorean } from "../utils/keyboardConverter";
 import {
   HanjaSearchConfig,
   KoreanSearchConfig,
-  PanelStateAction,
   SearchBarConfig,
-} from "../types/panelAndViewTypes";
+} from "../types/views/searchConfigTypes";
+import { engKeyboardToKorean } from "../utils/keyboardConverter";
+import { PanelStateAction } from "../types/panel/panelStateActionTypes";
 
 export interface UpdateKoreanSearchConfigArgs {
   field: keyof KoreanSearchConfig;
@@ -40,11 +40,11 @@ interface UseSearchBarAreaReturns {
 
 export const useSearchBarArea = ({
   searchConfig,
-  dispatch,
+  panelDispatchStateChangeSelf,
   doConversion,
 }: {
   searchConfig: SearchBarConfig;
-  dispatch: React.Dispatch<PanelStateAction>;
+  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
   doConversion: boolean;
 }): UseSearchBarAreaReturns => {
   const submitSearch = (e: React.FormEvent) => {
@@ -54,12 +54,12 @@ export const useSearchBarArea = ({
       const converted = engKeyboardToKorean(searchConfig.config.search_term);
 
       if (searchConfig.dictionary === "korean") {
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "update_korean_search_config",
           field: "search_term",
           value: converted,
         });
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "push_korean_search",
           searchConfig: {
             ...searchConfig.config,
@@ -67,12 +67,12 @@ export const useSearchBarArea = ({
           },
         });
       } else {
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "update_hanja_search_config",
           field: "search_term",
           value: converted,
         });
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "push_hanja_search",
           searchConfig: {
             ...searchConfig.config,
@@ -82,12 +82,12 @@ export const useSearchBarArea = ({
       }
     } else {
       if (searchConfig.dictionary === "korean") {
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "push_korean_search",
           searchConfig: searchConfig.config,
         });
       } else {
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "push_hanja_search",
           searchConfig: searchConfig.config,
         });
@@ -99,7 +99,7 @@ export const useSearchBarArea = ({
     field,
     value,
   }: UpdateKoreanSearchConfigArgs) => {
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "update_korean_search_config",
       field: field,
       value: value,
@@ -110,7 +110,7 @@ export const useSearchBarArea = ({
     field,
     value,
   }: UpdateHanjaSearchConfigArgs) => {
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "update_hanja_search_config",
       field: field,
       value: value,
@@ -118,7 +118,7 @@ export const useSearchBarArea = ({
   };
 
   const deleteSearchConfigItemByKey = (keyToDelete: string) => {
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "delete_search_config_key",
       keyToDelete: keyToDelete,
     });
@@ -126,13 +126,13 @@ export const useSearchBarArea = ({
 
   const updateSearchTerm = (searchTerm: string) => {
     if (searchConfig.dictionary === "korean") {
-      dispatch({
+      panelDispatchStateChangeSelf({
         type: "update_korean_search_config",
         field: "search_term",
         value: searchTerm,
       });
     } else if (searchConfig.dictionary === "hanja") {
-      dispatch({
+      panelDispatchStateChangeSelf({
         type: "update_hanja_search_config",
         field: "search_term",
         value: searchTerm,
@@ -141,7 +141,7 @@ export const useSearchBarArea = ({
   };
 
   const switchDictionary = () => {
-    dispatch({ type: "switch_dictionary" });
+    panelDispatchStateChangeSelf({ type: "switch_dictionary" });
   };
 
   return {

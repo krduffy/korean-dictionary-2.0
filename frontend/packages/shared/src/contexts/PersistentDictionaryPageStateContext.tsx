@@ -16,15 +16,29 @@ export const PersistentDictionaryPageStateContext = createContext<
   PersistentDictionaryPageStateContextType | undefined
 >(undefined);
 
-export type PersistentPanelData = {
+/**
+ * Functions that operate on the panels of the dictionary page. They are either called on
+ * the panel that is a parent of the calling component/hook (functions end with `Self`) or
+ * on the other panel (functions end in `Other`).
+ */
+export interface PanelFunctionsType {
+  /** Dispatches a state change in the calling panel. */
+  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
+  /** Dispatches a state change in other panel. */
+  panelDispatchStateChangeOther: React.Dispatch<PanelStateAction>;
+  /** Subscribes the calling panel to an api data change event. */
+  panelSubscribeSelf: SubscribeFnType;
+  /** Unsubscribes the calling panel from an api data change event. */
+  panelUnsubscribeSelf: UnsubscribeFnType;
+  /** Emits an api data change event in the calling panel. */
+  panelEmitSelf: EmitFnType;
+  /** Emits an api data change event in the other panel. */
+  panelEmitOther: EmitFnType;
+}
+
+export interface PersistentPanelData extends PanelFunctionsType {
   state: PanelState;
-  dispatch: React.Dispatch<PanelStateAction>;
-  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
-  subscribe: SubscribeFnType;
-  unsubscribe: UnsubscribeFnType;
-  emitAll: EmitFnType;
-  emitInOtherPanel: EmitFnType;
-};
+}
 
 export interface PersistentDictionaryPageStateContextType {
   /** Data for the left panel. */
@@ -83,31 +97,26 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
     emit: rightEmit,
   } = useAPIDataChangeManager();
 
-  const emitAll = (...args: Parameters<typeof leftEmit>) => {
-    leftEmit(...args);
-    rightEmit(...args);
-  };
-
   return (
     <PersistentDictionaryPageStateContext.Provider
       value={{
         leftPanelData: {
           state: leftState,
-          dispatch: leftDispatch,
-          dispatchInOtherPanel: rightDispatch,
-          subscribe: leftSubscribe,
-          unsubscribe: leftUnsubscribe,
-          emitAll: emitAll,
-          emitInOtherPanel: rightEmit,
+          panelDispatchStateChangeSelf: leftDispatch,
+          panelDispatchStateChangeOther: rightDispatch,
+          panelSubscribeSelf: leftSubscribe,
+          panelUnsubscribeSelf: leftUnsubscribe,
+          panelEmitSelf: leftEmit,
+          panelEmitOther: rightEmit,
         },
         rightPanelData: {
           state: rightState,
-          dispatch: rightDispatch,
-          dispatchInOtherPanel: leftDispatch,
-          subscribe: rightSubscribe,
-          unsubscribe: rightUnsubscribe,
-          emitAll: emitAll,
-          emitInOtherPanel: leftEmit,
+          panelDispatchStateChangeSelf: rightDispatch,
+          panelDispatchStateChangeOther: leftDispatch,
+          panelSubscribeSelf: rightSubscribe,
+          panelUnsubscribeSelf: rightUnsubscribe,
+          panelEmitSelf: rightEmit,
+          panelEmitOther: leftEmit,
         },
       }}
     >

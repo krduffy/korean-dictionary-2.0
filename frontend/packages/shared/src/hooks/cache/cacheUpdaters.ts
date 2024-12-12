@@ -1,18 +1,19 @@
-import { APIResponseType } from "src/types/apiCallTypes";
+import { APIResponseType } from "../../types/apiCallTypes";
 import { withUpdatedKnownStudied } from "./responseUpdaters";
+import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
 
-export const getCacheUpdaters = ({
+export const getCacheUpdaters = <PkFieldType extends ValidPkFieldType>({
   pks,
   pathGetter,
 }: {
-  pks: (number | string)[];
-  pathGetter: (pk: number | string) => (number | string)[];
+  pks: PkFieldType[];
+  pathGetter: (pk: PkFieldType) => (number | string)[];
 }) => {
   return pks.flatMap((pk) => getKnownStudiedCacheUpdaters(pk, pathGetter(pk)));
 };
 
-const getKnownStudiedCacheUpdaters = (
-  pk: number | string,
+const getKnownStudiedCacheUpdaters = <PkFieldType extends ValidPkFieldType>(
+  pk: PkFieldType,
   path: (number | string)[]
 ) => {
   const knownStudiedUpdaters = (["known", "studied"] as const).map(

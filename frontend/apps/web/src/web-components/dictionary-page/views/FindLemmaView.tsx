@@ -34,7 +34,7 @@ export const FindLemmaView = ({
     repostDependencies: [word, sentence],
   });
 
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
   const { sendNotification } = useNotificationContext();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const FindLemmaView = ({
       const found = String(response.found);
 
       sendNotification(<FoundWordNotification word={found} />, 4000);
-      dispatch({
+      panelDispatchStateChangeSelf({
         type: "push_find_lemma_success",
         word: found,
       });

@@ -8,12 +8,12 @@ import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes
 
 interface SearchBarAreaArgs {
   searchConfig: SearchBarConfig;
-  dispatch: React.Dispatch<PanelStateAction>;
+  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
 }
 
 export const SearchBarArea = ({
   searchConfig,
-  dispatch,
+  panelDispatchStateChangeSelf,
 }: SearchBarAreaArgs) => {
   const { keyboardConversionSettings } = useSettingsContext();
   const {
@@ -25,7 +25,7 @@ export const SearchBarArea = ({
     deleteSearchConfigItemByKey,
   } = useSearchBarArea({
     searchConfig: searchConfig,
-    dispatch: dispatch,
+    panelDispatchStateChangeSelf: panelDispatchStateChangeSelf,
     doConversion: keyboardConversionSettings.doConversion,
   });
 

@@ -12,9 +12,9 @@ export const DictionaryPage = () => {
   const rightPanelVisible = rightPanelData.state.visible;
 
   const makeLeftVisible = () =>
-    leftPanelData.dispatch({ type: "make_visible" });
+    leftPanelData.panelDispatchStateChangeSelf({ type: "make_visible" });
   const makeRightVisible = () =>
-    rightPanelData.dispatch({ type: "make_visible" });
+    rightPanelData.panelDispatchStateChangeSelf({ type: "make_visible" });
 
   /**
    * If two panels not allowed then only show the left panel / its panel toggler.

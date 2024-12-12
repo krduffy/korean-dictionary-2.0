@@ -6,13 +6,13 @@ import {
   UseCacheReturns,
 } from "../../types/cacheTypes";
 import { APIResponseType } from "../../types/apiCallTypes";
-import {
-  APIDataChangeListenerData,
-  SubscribeFnType,
-  UnsubscribeFnType,
-} from "../../types/apiDataChangeEventTypes";
+import { CacheFacingAPIDataChangeListenerData } from "../../types/apiDataChangeEventTypes";
+import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
+import { useGlobalFunctionsContext } from "../../contexts/GlobalFunctionsContextProvider";
 
 export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
+  const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
+
   const initialCache = {
     capacity: capacity,
     stored: 0,
@@ -42,13 +42,11 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     response,
     ok,
     body,
-    unsubscribe,
   }: {
     url: string;
     response: APIResponseType;
     ok: boolean;
     body?: BodyInit | undefined;
-    unsubscribe: UnsubscribeFnType;
   }) => {
     const key: string = getKey(url, body);
 
@@ -56,7 +54,7 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     if (!cache.current.items.has(key)) {
       cache.current.stored += 1;
     } else {
-      clearListenerArgsByKey(key, unsubscribe);
+      clearListenerArgsByKey(key);
     }
 
     /* add or update */
@@ -81,32 +79,32 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
       });
 
       if (keyToEvict !== undefined) {
-        clearListenerArgsByKey(keyToEvict, unsubscribe);
+        clearListenerArgsByKey(keyToEvict);
         cache.current.items.delete(keyToEvict);
         cache.current.stored -= 1;
       }
     }
   };
 
-  const setItemListenerArgs = ({
+  const setItemListenerArgs = <PkFieldType extends ValidPkFieldType>({
     url,
     body,
     cacheUpdaters,
-    subscribe,
   }: {
     url: string;
     body?: BodyInit | undefined;
     cacheUpdaters: {
-      pk: number | string;
-      eventType: APIDataChangeListenerData["eventType"];
+      pk: PkFieldType;
+      eventType: CacheFacingAPIDataChangeListenerData["eventType"];
       responseUpdater: (
         // eslint-disable-next-line no-unused-vars
         prevResponse: APIResponseType,
         // eslint-disable-next-line no-unused-vars
-        newValue: Parameters<APIDataChangeListenerData["onNotification"]>[0]
+        newValue: Parameters<
+          CacheFacingAPIDataChangeListenerData["onNotification"]
+        >[0]
       ) => APIResponseType;
     }[];
-    subscribe: SubscribeFnType;
   }) => {
     const key = getKey(url, body);
     const item = cache.current.items.get(key);
@@ -131,20 +129,17 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
       item.apiDataChangeSubscriptionArgs = apiDataChangeSubscriptionArgs;
 
       item.apiDataChangeSubscriptionArgs.forEach((subscriptionArgs) => {
-        subscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
+        globalSubscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
       });
     }
   };
 
-  const clearListenerArgsByKey = (
-    key: string,
-    unsubscribe: UnsubscribeFnType
-  ) => {
+  const clearListenerArgsByKey = (key: string) => {
     const item = cache.current.items.get(key);
 
     if (item) {
       item.apiDataChangeSubscriptionArgs.forEach((subscriptionArgs) => {
-        unsubscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
+        globalUnsubscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
       });
     }
   };

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
 import { getEndpoint } from "../utils/apiAliases";
 import { usePanelFunctionsContext } from "../contexts/PanelFunctionsContextProvider";
+import { useGlobalFunctionsContext } from "../contexts/GlobalFunctionsContextProvider";
 
 export const useKnownStudiedToggler = ({
   pk,
@@ -26,7 +27,8 @@ export const useKnownStudiedToggler = ({
   const newValue = useRef<boolean>(!initiallyToggled);
 
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
-  const { emitAll, emitInOtherPanel } = usePanelFunctionsContext();
+  const { globalEmit } = useGlobalFunctionsContext();
+  const { panelEmitOther } = usePanelFunctionsContext();
 
   const url = getEndpoint({ endpoint: "update_known_studied", pk: pk });
 
@@ -34,11 +36,13 @@ export const useKnownStudiedToggler = ({
     if (successful) {
       setIsToggled(newValue.current);
       onSuccess(newValue.current);
-      emitAll(pk, {
+      /* Cache listeners use the global context */
+      globalEmit(pk, {
         eventType: knownOrStudied,
         passToCallback: newValue.current,
       });
-      emitInOtherPanel(pk, {
+      /* Loaded data changed events are scoped at the panel level */
+      panelEmitOther(pk, {
         eventType: "loadedDataChanged",
         passToCallback: undefined,
       });

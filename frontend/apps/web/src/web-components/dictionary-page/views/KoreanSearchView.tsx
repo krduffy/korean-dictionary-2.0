@@ -29,7 +29,7 @@ export const KoreanSearchView = ({
 }: {
   searchConfig: KoreanSearchConfig;
 }) => {
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   const url = getEndpoint({
     endpoint: "search_korean",
@@ -98,7 +98,10 @@ export const KoreanSearchView = ({
       <PageChanger
         pageNum={searchConfig.page}
         setPageNum={(newPage: number) =>
-          dispatch({ type: "update_page", newPage: newPage })
+          panelDispatchStateChangeSelf({
+            type: "update_page",
+            newPage: newPage,
+          })
         }
         maxPageNum={maxPageNum}
       />

@@ -40,14 +40,14 @@ const HanjaExplanation = ({
   explanation: string;
   droppedDown: boolean;
 }) => {
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   return (
     <HideableDropdownNoTruncation
       title="설명"
       droppedDown={droppedDown}
       onDropdownStateToggle={(isToggled: boolean) => {
-        dispatch({
+        panelDispatchStateChangeSelf({
           type: "update_hanja_detail_interaction_data",
           key: "explanationDroppedDown",
           newValue: isToggled,

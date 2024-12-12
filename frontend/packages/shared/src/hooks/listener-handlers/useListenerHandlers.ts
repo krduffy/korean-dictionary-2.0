@@ -25,6 +25,7 @@ import {
 import {
   getPkField,
   SearchResultType,
+  ValidPkFieldType,
 } from "../../types/views/dictionary-items/sharedTypes";
 
 const getPkLoadedDataChangedSubscriptionArgs = (
@@ -61,30 +62,32 @@ const unsubscribeAll = (
   });
 };
 
-const useDictionaryItemListenerManager = ({
+const useDictionaryItemListenerManager = <
+  PkFieldType extends ValidPkFieldType,
+>({
   url,
   pks,
   pathGetter,
   refetch,
 }: {
   url: string;
-  pks: (number | string)[];
-  pathGetter: (pk: number | string) => (number | string)[];
+  pks: PkFieldType[];
+  pathGetter: (pk: PkFieldType) => (number | string)[];
   refetch: () => void;
 }) => {
   const { setItemListenerArgs } = useCachingContext();
-  const { subscribe, unsubscribe } = usePanelFunctionsContext();
+  const { panelSubscribeSelf, panelUnsubscribeSelf } =
+    usePanelFunctionsContext();
 
   /* Setting the listeners in the cache to update the cached value on data change */
   useEffect(() => {
     /* (body is not used for any of the requests that use this hook) */
     setItemListenerArgs({
       url,
-      cacheUpdaters: getCacheUpdaters({
+      cacheUpdaters: getCacheUpdaters<PkFieldType>({
         pks: pks,
         pathGetter: pathGetter,
       }),
-      subscribe,
     });
   }, [pks]);
 
@@ -96,9 +99,9 @@ const useDictionaryItemListenerManager = ({
       pks,
       refetch
     );
-    subscribeAll(subscribe, subscribeArguments);
+    subscribeAll(panelSubscribeSelf, subscribeArguments);
 
-    return () => unsubscribeAll(unsubscribe, subscribeArguments);
+    return () => unsubscribeAll(panelUnsubscribeSelf, subscribeArguments);
   }, [pks]);
 };
 

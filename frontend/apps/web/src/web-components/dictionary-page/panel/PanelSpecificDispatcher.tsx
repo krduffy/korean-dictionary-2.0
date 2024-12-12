@@ -10,7 +10,8 @@ export const PanelSpecificDispatcher = ({
   children,
   panelStateAction,
 }: PanelSpecificDispatcherArgs) => {
-  const { dispatch, dispatchInOtherPanel } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf, panelDispatchStateChangeOther } =
+    usePanelFunctionsContext();
 
   const dispatchToTargetPanel = (
     e: React.MouseEvent<HTMLSpanElement>,
@@ -22,10 +23,10 @@ export const PanelSpecificDispatcher = ({
     const notSelf = e.ctrlKey || e.button === 2;
 
     if (notSelf) {
-      dispatchInOtherPanel(action);
-      dispatchInOtherPanel({ type: "make_visible" });
+      panelDispatchStateChangeOther(action);
+      panelDispatchStateChangeOther({ type: "make_visible" });
     } else {
-      dispatch(action);
+      panelDispatchStateChangeSelf(action);
     }
   };
 

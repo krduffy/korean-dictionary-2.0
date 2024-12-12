@@ -7,24 +7,27 @@ import { SettingsContextProvider } from "./web-contexts/SettingsContext";
 import { Notifications } from "./web-components/page/Notifications";
 import { NotificationContextProvider } from "@repo/shared/contexts/NotificationContextProvider";
 import { PersistentDictionaryPageStateContextProvider } from "@repo/shared/contexts/PersistentDictionaryPageStateContext";
+import { GlobalFunctionsContextProvider } from "@repo/shared/contexts/GlobalFunctionsContextProvider";
 
 export const App = () => {
   return (
     <SettingsContextProvider>
-      <CachingContextProvider cacheCapacity={16}>
-        <PersistentDictionaryPageStateContextProvider>
-          <NotificationContextProvider>
-            <Router>
-              <Routes>
-                <Route path="/" element={<DictionaryPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-              </Routes>
-            </Router>
-            <Notifications />
-          </NotificationContextProvider>
-        </PersistentDictionaryPageStateContextProvider>
-      </CachingContextProvider>
+      <GlobalFunctionsContextProvider>
+        <CachingContextProvider cacheCapacity={16}>
+          <PersistentDictionaryPageStateContextProvider>
+            <NotificationContextProvider>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<DictionaryPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                </Routes>
+              </Router>
+              <Notifications />
+            </NotificationContextProvider>
+          </PersistentDictionaryPageStateContextProvider>
+        </CachingContextProvider>
+      </GlobalFunctionsContextProvider>
     </SettingsContextProvider>
   );
 };

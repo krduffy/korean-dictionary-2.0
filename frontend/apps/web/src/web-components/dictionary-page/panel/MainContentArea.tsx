@@ -17,12 +17,12 @@ export const MainContentArea = ({
   scrollDistance: number;
   historyPointer: number;
 }) => {
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
   const divRef = useRef<HTMLDivElement>(null);
 
   const onScroll: React.UIEventHandler<HTMLDivElement> = (uiHandler) => {
     const newScrollDistance = uiHandler.currentTarget.scrollTop;
-    dispatch({
+    panelDispatchStateChangeSelf({
       type: "update_scroll_distance",
       scrollDistance: newScrollDistance,
     });

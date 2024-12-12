@@ -24,6 +24,10 @@ export const getPkField = <T extends DictionaryItemType>(
   return dictionaryItem.character;
 };
 
+export type ValidPkFieldType =
+  | BaseKoreanWordType["target_code"]
+  | BaseHanjaType["character"];
+
 export type DictionaryItemType = DetailItemType | SearchResultType;
 export type DetailItemType = DetailedKoreanType | DetailedHanjaType;
 export type SearchResultType =

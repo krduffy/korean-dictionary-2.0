@@ -6,22 +6,31 @@ import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes
 
 export const PanelTopBar = ({
   state,
-  dispatch,
+  panelDispatchStateChangeSelf,
 }: {
   state: PanelState;
-  dispatch: React.Dispatch<PanelStateAction>;
+  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
 }) => {
   return (
     <div className="flex flex-row h-12 mb-4">
       <div className="w-[80%]">
-        <SearchBarArea searchConfig={state.searchConfig} dispatch={dispatch} />
+        <SearchBarArea
+          searchConfig={state.searchConfig}
+          panelDispatchStateChangeSelf={panelDispatchStateChangeSelf}
+        />
       </div>
       <div className="w-[20%] flex flex-row">
         <div className="w-[80%] h-full">
-          <HistoryNavigationArea dispatch={dispatch} />
+          <HistoryNavigationArea
+            panelDispatchStateChangeSelf={panelDispatchStateChangeSelf}
+          />
         </div>
         <div className="w-[20%]">
-          <CloseButton onClose={() => dispatch({ type: "make_invisible" })} />
+          <CloseButton
+            onClose={() =>
+              panelDispatchStateChangeSelf({ type: "make_invisible" })
+            }
+          />
         </div>
       </div>
     </div>

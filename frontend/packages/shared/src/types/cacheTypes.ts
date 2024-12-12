@@ -1,9 +1,7 @@
 import { APIResponseType } from "./apiCallTypes";
 import {
-  APIDataChangeListenerData,
+  CacheFacingAPIDataChangeListenerData,
   SavedSubscriptionArguments,
-  SubscribeFnType,
-  UnsubscribeFnType,
 } from "./apiDataChangeEventTypes";
 
 export type CacheItem = {
@@ -30,14 +28,11 @@ export type UseCacheReturns = {
     ok,
     // eslint-disable-next-line no-unused-vars
     body,
-    // eslint-disable-next-line no-unused-vars
-    unsubscribe,
   }: {
     url: string;
     response: APIResponseType;
     ok: boolean;
     body?: BodyInit | undefined;
-    unsubscribe: UnsubscribeFnType;
   }) => void;
   // eslint-disable-next-line no-unused-vars
   retrieve: (url: string, body?: BodyInit | undefined) => CacheItem | null;
@@ -48,22 +43,21 @@ export type UseCacheReturns = {
     body,
     // eslint-disable-next-line no-unused-vars
     cacheUpdaters,
-    // eslint-disable-next-line no-unused-vars
-    subscribe,
   }: {
     url: string;
     body?: BodyInit | undefined;
     cacheUpdaters: {
       pk: number | string;
-      eventType: APIDataChangeListenerData["eventType"];
+      eventType: CacheFacingAPIDataChangeListenerData["eventType"];
       responseUpdater: (
         // eslint-disable-next-line no-unused-vars
         prevResponse: APIResponseType,
         // eslint-disable-next-line no-unused-vars
-        newValue: Parameters<APIDataChangeListenerData["onNotification"]>[0]
+        newValue: Parameters<
+          CacheFacingAPIDataChangeListenerData["onNotification"]
+        >[0]
       ) => APIResponseType;
     }[];
-    subscribe: SubscribeFnType;
   }) => void;
 };
 

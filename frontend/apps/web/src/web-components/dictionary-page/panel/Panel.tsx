@@ -7,14 +7,7 @@ import { PanelFunctionsContextProvider } from "@repo/shared/contexts/PanelFuncti
 
 export const Panel = memo((panelData: PersistentPanelData) => {
   return (
-    <PanelFunctionsContextProvider
-      dispatch={panelData.dispatch}
-      dispatchInOtherPanel={panelData.dispatchInOtherPanel}
-      subscribe={panelData.subscribe}
-      unsubscribe={panelData.unsubscribe}
-      emitAll={panelData.emitAll}
-      emitInOtherPanel={panelData.emitInOtherPanel}
-    >
+    <PanelFunctionsContextProvider panelData={panelData}>
       <div
         className="flex flex-col h-full bg-[color:--background-secondary] text-[color:--text-secondary] p-4 
     rounded-2xl
@@ -25,7 +18,10 @@ export const Panel = memo((panelData: PersistentPanelData) => {
 "
       >
         {/* area for search bar and history navigation + closing panel */}
-        <PanelTopBar state={panelData.state} dispatch={panelData.dispatch} />
+        <PanelTopBar
+          state={panelData.state}
+          panelDispatchStateChangeSelf={panelData.panelDispatchStateChangeSelf}
+        />
         <div className="p-2 h-[90%] max-h-[90%] flex flex-1 flex-col overflow-y-scroll overflow-x-hidden">
           <MainContentArea
             scrollDistance={panelData.state.view.interactionData.scrollDistance}

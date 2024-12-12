@@ -2,16 +2,20 @@ import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes
 import { MoveLeft, MoveRight } from "lucide-react";
 
 export const HistoryNavigationArea = ({
-  dispatch,
+  panelDispatchStateChangeSelf,
 }: {
-  dispatch: React.Dispatch<PanelStateAction>;
+  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
 }) => {
   return (
     <div className="h-full w-full flex flex-row">
-      <NavigateBackButton onClick={() => dispatch({ type: "navigate_back" })} />
+      <NavigateBackButton
+        onClick={() => panelDispatchStateChangeSelf({ type: "navigate_back" })}
+      />
 
       <NavigateForwardButton
-        onClick={() => dispatch({ type: "navigate_forward" })}
+        onClick={() =>
+          panelDispatchStateChangeSelf({ type: "navigate_forward" })
+        }
       />
     </div>
   );

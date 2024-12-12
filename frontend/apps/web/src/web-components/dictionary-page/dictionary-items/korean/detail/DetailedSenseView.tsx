@@ -24,11 +24,11 @@ export const DetailedSenseView = ({
 }) => {
   const mainSenseRef = useRef<HTMLDivElement>(null);
 
-  const { dispatch } = usePanelFunctionsContext();
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   const getOnDropdownStateToggleFunction = (id: number) => {
     return (isExpanded: boolean) =>
-      dispatch({
+      panelDispatchStateChangeSelf({
         type: "update_korean_detail_dropdown_toggle",
         id: id,
         newIsDroppedDown: isExpanded,
