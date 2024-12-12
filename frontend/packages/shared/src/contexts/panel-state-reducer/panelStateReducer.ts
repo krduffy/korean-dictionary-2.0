@@ -1,6 +1,3 @@
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { PanelState } from "@repo/shared/types/panel/panelTypes";
-import { View } from "@repo/shared/types/views/viewTypes";
 import { updateVisibilityIfApplicable } from "./visibilityActions";
 import { pushIfApplicable } from "./pushActions";
 import { updateConfigIfApplicable } from "./updateConfigActions";
@@ -8,6 +5,9 @@ import { updateHistoryPointerIfApplicable } from "./historyNavigationActions";
 import { updatePageIfApplicable } from "./updatePageAction";
 import { updateInteractionDataIfApplicable } from "./updateInteractionDataActions";
 import { overwriteIfApplicable } from "./overwriteActions";
+import { PanelState } from "../../types/panel/panelTypes";
+import { View } from "../../types/views/viewTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 
 /* does not add or remove any views; only updates the current state of the current view */
 export const updateViewAndHistory = (

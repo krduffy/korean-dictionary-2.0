@@ -1,53 +1,63 @@
-import { useEffect, useRef } from "react";
-import { useAPIDataChangeManagerContext } from "../../contexts/APIDataChangeManagerContextProvider";
+import { useEffect } from "react";
 import { useCachingContext } from "../../contexts/CachingContextProvider";
 import { APIResponseType } from "../../types/apiCallTypes";
 import {
+  isDetailedKoreanType,
   isKoreanSearchResultType,
   KoreanSearchResultType,
 } from "../../types/views/dictionary-items/koreanDictionaryItems";
-import { APIDataChangeListenerData } from "src/types/apiDataChangeEventTypes";
+import {
+  SubscribeFnType,
+  UnsubscribeFnType,
+} from "../../types/apiDataChangeEventTypes";
 import { getKoreanSearchCacheUpdaters } from "../cache/cacheUpdaters";
+import { usePanelFunctionsContext } from "../../contexts/PanelFunctionsContextProvider";
 
-const useListenerManager = ({
-  url,
-  body,
-  listenerData,
-}: {
-  url: string;
-  body?: BodyInit | undefined;
-  listenerData: {
-    pk: number;
-    listenerDataObjects: APIDataChangeListenerData[];
-  }[];
-}) => {
-  const { subscribe, unsubscribe } = useAPIDataChangeManagerContext();
+const getPkLoadedDataChangedSubscriptionArgs = (
+  pks: (number | string)[],
+  refetch: () => void
+): Parameters<SubscribeFnType>[] => {
+  return pks.map((pk) => {
+    return [
+      pk,
+      {
+        eventType: "loadedDataChanged",
+        onNotification: () => refetch(),
+      },
+    ];
+  });
+};
 
-  useEffect(() => {
-    listenerData.forEach((pkData) => {
-      pkData.listenerDataObjects.forEach((listenerData) => {
-        subscribe(pkData.pk, listenerData);
-      });
-    });
+const subscribeAll = (
+  subscribe: SubscribeFnType,
+  subscriptionArgs: Parameters<SubscribeFnType>[]
+) => {
+  subscriptionArgs.forEach((subscriptionArgsItem) => {
+    console.log("subbing");
+    subscribe(subscriptionArgsItem[0], subscriptionArgsItem[1]);
+  });
+};
 
-    return () => {
-      listenerData.forEach((pkData) => {
-        pkData.listenerDataObjects.forEach((listenerData) => {
-          unsubscribe(pkData.pk, listenerData);
-        });
-      });
-    };
-  }, [listenerData]);
+const unsubscribeAll = (
+  unsubscribe: UnsubscribeFnType,
+  subscriptionArgs: Parameters<SubscribeFnType>[]
+) => {
+  subscriptionArgs.forEach((subscriptionArgsItem) => {
+    unsubscribe(subscriptionArgsItem[0], subscriptionArgsItem[1]);
+  });
 };
 
 export const useKoreanSearchResultListenerManager = ({
   url,
   searchResults,
+  refetchSearchResults,
 }: {
   url: string;
   searchResults: APIResponseType;
+  refetchSearchResults: () => void;
 }) => {
   const { setItemListenerArgs } = useCachingContext();
+  const { dispatch, subscribe, unsubscribe } = usePanelFunctionsContext();
 
   useEffect(() => {
     if (
@@ -56,13 +66,13 @@ export const useKoreanSearchResultListenerManager = ({
     ) {
       return;
     }
-    console.log(typeof setItemListenerArgs);
     setItemListenerArgs({
       url,
       cacheUpdaters: getKoreanSearchCacheUpdaters({
         pks: pks,
         pathGetter: getPathGetterFunc(searchResults.results),
       }),
+      subscribe,
     });
   }, [searchResults]);
 
@@ -71,6 +81,16 @@ export const useKoreanSearchResultListenerManager = ({
     searchResults?.results?.every((data) => isKoreanSearchResultType(data))
       ? searchResults.results.map((searchResult) => searchResult.target_code)
       : [];
+
+  useEffect(() => {
+    const subscribeArguments = getPkLoadedDataChangedSubscriptionArgs(
+      pks,
+      refetchSearchResults
+    );
+    subscribeAll(subscribe, subscribeArguments);
+
+    return () => unsubscribeAll(unsubscribe, subscribeArguments);
+  }, [pks]);
 
   const getPathGetterFunc = (results: KoreanSearchResultType[]) => {
     return (pk: number) => {
@@ -84,4 +104,30 @@ export const useKoreanSearchResultListenerManager = ({
       return ["results", index, "user_data"];
     };
   };
+};
+
+export const useKoreanDetailListenerManager = ({
+  url,
+  response,
+}: {
+  url: string;
+  response: APIResponseType;
+}) => {
+  const { setItemListenerArgs } = useCachingContext();
+  const { subscribe } = usePanelFunctionsContext();
+
+  useEffect(() => {
+    if (!isDetailedKoreanType(response)) {
+      return;
+    }
+
+    setItemListenerArgs({
+      url,
+      cacheUpdaters: getKoreanSearchCacheUpdaters({
+        pks: [response.target_code],
+        pathGetter: () => ["user_data"],
+      }),
+      subscribe,
+    });
+  }, [response]);
 };

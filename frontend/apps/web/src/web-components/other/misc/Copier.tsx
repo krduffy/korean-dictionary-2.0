@@ -1,6 +1,6 @@
 import { ClipboardCheck, ClipboardCopy, ClipboardX } from "lucide-react";
 import { useState } from "react";
-import { useNotificationContext } from "../../../web-contexts/NotificationContextProvider";
+import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 
 export const Copier = ({ textToCopy }: { textToCopy: string }) => {
   const [successful, setSuccessful] = useState<boolean | null>(null);

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { APIResponseType, UseCallAPIReturns } from "../types/apiCallTypes";
 import { getEndpoint } from "../utils/apiAliases";
-import { useAPIDataChangeManagerContext } from "../contexts/APIDataChangeManagerContextProvider";
+import { usePanelFunctionsContext } from "../contexts/PanelFunctionsContextProvider";
 
 export const useKnownStudiedToggler = ({
   pk,
@@ -16,7 +16,9 @@ export const useKnownStudiedToggler = ({
   koreanOrHanja: "korean" | "hanja";
   knownOrStudied: "known" | "studied";
   initiallyToggled: boolean;
+  // eslint-disable-next-line no-unused-vars
   onSuccess: (setTrueOrFalse: boolean) => void;
+  // eslint-disable-next-line no-unused-vars
   onError: (response: APIResponseType) => void;
   useCallAPIInstance: UseCallAPIReturns;
 }) => {
@@ -24,7 +26,7 @@ export const useKnownStudiedToggler = ({
   const newValue = useRef<boolean>(!initiallyToggled);
 
   const { successful, error, loading, response, callAPI } = useCallAPIInstance;
-  const { emit } = useAPIDataChangeManagerContext();
+  const { emitAll, emitInOtherPanel } = usePanelFunctionsContext();
 
   const url = getEndpoint({ endpoint: "update_known_studied", pk: pk });
 
@@ -32,7 +34,14 @@ export const useKnownStudiedToggler = ({
     if (successful) {
       setIsToggled(newValue.current);
       onSuccess(newValue.current);
-      emit(pk, { eventType: knownOrStudied, passToCallback: newValue.current });
+      emitAll(pk, {
+        eventType: knownOrStudied,
+        passToCallback: newValue.current,
+      });
+      emitInOtherPanel(pk, {
+        eventType: "loadedDataChanged",
+        passToCallback: undefined,
+      });
     } else if (error) {
       onError(response);
     }

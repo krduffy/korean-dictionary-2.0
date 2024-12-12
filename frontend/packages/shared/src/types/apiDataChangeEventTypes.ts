@@ -1,22 +1,28 @@
+export type SubscribeFnType = (
+  // eslint-disable-next-line no-unused-vars
+  pk: number | string,
+  // eslint-disable-next-line no-unused-vars
+  listenerData: APIDataChangeListenerData
+) => void;
+
+export type UnsubscribeFnType = (
+  // eslint-disable-next-line no-unused-vars
+  pk: number | string,
+  // eslint-disable-next-line no-unused-vars
+  listenerData: APIDataChangeListenerData
+) => void;
+
+export type EmitFnType = (
+  // eslint-disable-next-line no-unused-vars
+  pk: number | string,
+  // eslint-disable-next-line no-unused-vars
+  notificationData: APIDataChangeNotificationData
+) => void;
+
 export type UseAPIDataChangeManagerReturns = {
-  subscribe: (
-    // eslint-disable-next-line no-unused-vars
-    pk: number | string,
-    // eslint-disable-next-line no-unused-vars
-    listenerData: APIDataChangeListenerData
-  ) => void;
-  unsubscribe: (
-    // eslint-disable-next-line no-unused-vars
-    pk: number | string,
-    // eslint-disable-next-line no-unused-vars
-    listenerData: APIDataChangeListenerData
-  ) => void;
-  emit: (
-    // eslint-disable-next-line no-unused-vars
-    pk: number | string,
-    // eslint-disable-next-line no-unused-vars
-    notificationData: APIDataChangeNotificationData
-  ) => void;
+  subscribe: SubscribeFnType;
+  unsubscribe: UnsubscribeFnType;
+  emit: EmitFnType;
 };
 
 export interface APIDataChangeKnownChangedListenerData {
@@ -41,12 +47,24 @@ export interface APIDataChangeStudiedChangedNotificationData {
   passToCallback: boolean;
 }
 
+export interface APIDataChangeLoadedDataChangedListenerData {
+  eventType: "loadedDataChanged";
+  onNotification: () => void;
+}
+
+export interface APIDataChangeLoadedDataChangedNotificationData {
+  eventType: "loadedDataChanged";
+  passToCallback: void;
+}
+
 export type APIDataChangeListenerData =
   | APIDataChangeKnownChangedListenerData
-  | APIDataChangeStudiedChangedListenerData;
+  | APIDataChangeStudiedChangedListenerData
+  | APIDataChangeLoadedDataChangedListenerData;
 export type APIDataChangeNotificationData =
   | APIDataChangeKnownChangedNotificationData
-  | APIDataChangeStudiedChangedNotificationData;
+  | APIDataChangeStudiedChangedNotificationData
+  | APIDataChangeLoadedDataChangedNotificationData;
 
 export type SavedSubscriptionArguments = {
   pk: number | string;

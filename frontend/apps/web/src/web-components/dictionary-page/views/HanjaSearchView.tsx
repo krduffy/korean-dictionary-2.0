@@ -8,7 +8,7 @@ import {
 } from "./view-components/ResultsMessages";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { PageChanger } from "./view-components/PageChanger";
-import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import {
   NoResponseError,
@@ -30,7 +30,7 @@ type HanjaSearchData = {
 export const HanjaSearchView: React.FC<HanjaSearchData> = ({
   searchConfig,
 }) => {
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
 
   const { error, loading, searchResults, response } = usePaginatedResults({
     baseUrl: getEndpoint({

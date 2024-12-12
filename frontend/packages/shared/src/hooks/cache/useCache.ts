@@ -6,12 +6,13 @@ import {
   UseCacheReturns,
 } from "../../types/cacheTypes";
 import { APIResponseType } from "../../types/apiCallTypes";
-import { APIDataChangeListenerData } from "../../types/apiDataChangeEventTypes";
-import { useAPIDataChangeManagerContext } from "../../contexts/APIDataChangeManagerContextProvider";
+import {
+  APIDataChangeListenerData,
+  SubscribeFnType,
+  UnsubscribeFnType,
+} from "../../types/apiDataChangeEventTypes";
 
 export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
-  const { subscribe, unsubscribe } = useAPIDataChangeManagerContext();
-
   const initialCache = {
     capacity: capacity,
     stored: 0,
@@ -36,19 +37,26 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     return url;
   };
 
-  const put = (
-    url: string,
-    response: APIResponseType,
-    ok: boolean,
-    body?: BodyInit | undefined
-  ) => {
+  const put = ({
+    url,
+    response,
+    ok,
+    body,
+    unsubscribe,
+  }: {
+    url: string;
+    response: APIResponseType;
+    ok: boolean;
+    body?: BodyInit | undefined;
+    unsubscribe: UnsubscribeFnType;
+  }) => {
     const key: string = getKey(url, body);
 
     /* only if being added for first time stored is incremented */
     if (!cache.current.items.has(key)) {
       cache.current.stored += 1;
     } else {
-      clearListenerArgsByKey(key);
+      clearListenerArgsByKey(key, unsubscribe);
     }
 
     /* add or update */
@@ -73,7 +81,7 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
       });
 
       if (keyToEvict !== undefined) {
-        clearListenerArgsByKey(keyToEvict);
+        clearListenerArgsByKey(keyToEvict, unsubscribe);
         cache.current.items.delete(keyToEvict);
         cache.current.stored -= 1;
       }
@@ -84,6 +92,7 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     url,
     body,
     cacheUpdaters,
+    subscribe,
   }: {
     url: string;
     body?: BodyInit | undefined;
@@ -97,9 +106,8 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
         newValue: Parameters<APIDataChangeListenerData["onNotification"]>[0]
       ) => APIResponseType;
     }[];
+    subscribe: SubscribeFnType;
   }) => {
-    console.log("SETTING LISTENER ARGS");
-
     const key = getKey(url, body);
     const item = cache.current.items.get(key);
 
@@ -122,15 +130,16 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
 
       item.apiDataChangeSubscriptionArgs = apiDataChangeSubscriptionArgs;
 
-      console.log("thesea re args" + item.apiDataChangeSubscriptionArgs);
-
       item.apiDataChangeSubscriptionArgs.forEach((subscriptionArgs) => {
         subscribe(subscriptionArgs.pk, subscriptionArgs.listenerData);
       });
     }
   };
 
-  const clearListenerArgsByKey = (key: string) => {
+  const clearListenerArgsByKey = (
+    key: string,
+    unsubscribe: UnsubscribeFnType
+  ) => {
     const item = cache.current.items.get(key);
 
     if (item) {

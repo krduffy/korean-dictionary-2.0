@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import {
   NotificationType,
   useNotificationContext,
-} from "../../web-contexts/NotificationContextProvider";
+} from "@repo/shared/contexts/NotificationContextProvider";
 
 import "./notification.css";
 import { CloseButton } from "../other/misc/CloseButton";

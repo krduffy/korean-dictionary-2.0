@@ -3,13 +3,13 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
 import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
-import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import {
   NoResponseError,
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { useEffect } from "react";
-import { useNotificationContext } from "../../../web-contexts/NotificationContextProvider";
+import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { hasBatchim } from "@repo/shared/utils/koreanLangUtils";
 import { Footnote } from "../../other/string-formatters/SpanStylers";
 
@@ -34,7 +34,7 @@ export const FindLemmaView = ({
     repostDependencies: [word, sentence],
   });
 
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
   const { sendNotification } = useNotificationContext();
 
   useEffect(() => {

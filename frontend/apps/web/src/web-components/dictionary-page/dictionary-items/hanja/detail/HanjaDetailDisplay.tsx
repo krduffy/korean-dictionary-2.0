@@ -4,7 +4,7 @@ import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 import { HanjaDetailWordExamples } from "./HanjaDetailWordExamples";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { HanjaDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
-import { useViewDispatchersContext } from "../../../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const HanjaDetailDisplay = memo(
   ({
@@ -40,7 +40,7 @@ const HanjaExplanation = ({
   explanation: string;
   droppedDown: boolean;
 }) => {
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
 
   return (
     <HideableDropdownNoTruncation

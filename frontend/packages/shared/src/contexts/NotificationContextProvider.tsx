@@ -1,10 +1,4 @@
-import {
-  useContext,
-  createContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import { useContext, createContext, ReactNode, useState } from "react";
 
 export type NotificationType = {
   id: number;

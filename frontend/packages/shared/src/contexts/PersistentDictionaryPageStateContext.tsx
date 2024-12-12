@@ -1,28 +1,36 @@
 import { ReactNode, useContext, createContext, useReducer } from "react";
-import { getBasicKoreanSearchViewData } from "@repo/shared/utils/basicViews";
+import {
+  EmitFnType,
+  SubscribeFnType,
+  UnsubscribeFnType,
+} from "../types/apiDataChangeEventTypes";
+import { PanelStateAction } from "../types/panel/panelStateActionTypes";
+import { HistoryData, PanelState } from "../types/panel/panelTypes";
+import { SearchBarConfig } from "../types/views/searchConfigTypes";
+import { View } from "../types/views/viewTypes";
+import { getBasicKoreanSearchViewData } from "../utils/basicViews";
 import { panelStateReducer } from "./panel-state-reducer/panelStateReducer";
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { HistoryData, PanelState } from "@repo/shared/types/panel/panelTypes";
-import { View } from "@repo/shared/types/views/viewTypes";
-import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
+import { useAPIDataChangeManager } from "../hooks/api/useAPIDataChangeManager";
 
 export const PersistentDictionaryPageStateContext = createContext<
   PersistentDictionaryPageStateContextType | undefined
 >(undefined);
 
+export type PersistentPanelData = {
+  state: PanelState;
+  dispatch: React.Dispatch<PanelStateAction>;
+  dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
+  subscribe: SubscribeFnType;
+  unsubscribe: UnsubscribeFnType;
+  emitAll: EmitFnType;
+  emitInOtherPanel: EmitFnType;
+};
+
 export interface PersistentDictionaryPageStateContextType {
   /** Data for the left panel. */
-  leftPanelData: {
-    state: PanelState;
-    dispatch: React.Dispatch<PanelStateAction>;
-    dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
-  };
+  leftPanelData: PersistentPanelData;
   /** Data for the right panel. */
-  rightPanelData: {
-    state: PanelState;
-    dispatch: React.Dispatch<PanelStateAction>;
-    dispatchInOtherPanel: React.Dispatch<PanelStateAction>;
-  };
+  rightPanelData: PersistentPanelData;
 }
 
 export const PersistentDictionaryPageStateContextProvider: React.FC<{
@@ -64,6 +72,22 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
     historyData: initialHistoryData,
   });
 
+  const {
+    subscribe: leftSubscribe,
+    unsubscribe: leftUnsubscribe,
+    emit: leftEmit,
+  } = useAPIDataChangeManager();
+  const {
+    subscribe: rightSubscribe,
+    unsubscribe: rightUnsubscribe,
+    emit: rightEmit,
+  } = useAPIDataChangeManager();
+
+  const emitAll = (...args: Parameters<typeof leftEmit>) => {
+    leftEmit(...args);
+    rightEmit(...args);
+  };
+
   return (
     <PersistentDictionaryPageStateContext.Provider
       value={{
@@ -71,11 +95,19 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
           state: leftState,
           dispatch: leftDispatch,
           dispatchInOtherPanel: rightDispatch,
+          subscribe: leftSubscribe,
+          unsubscribe: leftUnsubscribe,
+          emitAll: emitAll,
+          emitInOtherPanel: rightEmit,
         },
         rightPanelData: {
           state: rightState,
           dispatch: rightDispatch,
           dispatchInOtherPanel: leftDispatch,
+          subscribe: rightSubscribe,
+          unsubscribe: rightUnsubscribe,
+          emitAll: emitAll,
+          emitInOtherPanel: leftEmit,
         },
       }}
     >

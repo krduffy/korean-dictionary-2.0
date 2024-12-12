@@ -1,4 +1,4 @@
-import { usePersistentDictionaryPageStateContext } from "../web-contexts/PersistentDictionaryPageStateContext";
+import { usePersistentDictionaryPageStateContext } from "@repo/shared/contexts/PersistentDictionaryPageStateContext";
 import { PageWithNavBar } from "../web-components/navbar/PageWithNavBar";
 import { Panel } from "../web-components/dictionary-page/panel/Panel";
 import { useResponsiveness } from "../web-hooks/useResponsiveness";
@@ -21,23 +21,25 @@ export const DictionaryPage = () => {
    * Else show left and right depending on visibility.
    */
 
+  const leftPanel = <Panel {...leftPanelData} />;
+
+  const rightPanel = <Panel {...rightPanelData} />;
+
   /* Case where two not allowed; only show left */
   if (!twoPanelsAllowed) {
     /* If attempt to dispatch a view in the other panel then refuse and alert */
-    const overrideDispatchInOtherPanel = () => {
-      alert("Cannot dispatch in other panel");
-    };
+
+    /* If this is needed at some point in the future it can be readded but is
+       not useful atm */
+
+    //const overrideDispatchInOtherPanel = () => {
+    //  alert("Cannot dispatch in other panel");
+    //};
 
     return (
       <PageWithNavBar>
         {leftPanelVisible ? (
-          <div className="h-full w-full">
-            <Panel
-              state={leftPanelData.state}
-              dispatch={leftPanelData.dispatch}
-              dispatchInOtherPanel={overrideDispatchInOtherPanel}
-            />
-          </div>
+          <div className="h-full w-full">{leftPanel}</div>
         ) : (
           <div className="h-full w-full flex items-center justify-center p-4">
             <PanelToggler onAdd={makeLeftVisible} />
@@ -70,11 +72,7 @@ export const DictionaryPage = () => {
         <div className="h-full grid grid-cols-10 p-4">
           <div className="col-start-2 col-end-10 bg-background h-full overflow-hidden">
             {/* LEFT PANEL */}
-            <Panel
-              state={leftPanelData.state}
-              dispatch={leftPanelData.dispatch}
-              dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
-            />
+            {leftPanel}
           </div>
           <div className="col-start-10 col-end-11 flex items-center justify-center">
             <PanelToggler onAdd={makeRightVisible} />
@@ -94,11 +92,7 @@ export const DictionaryPage = () => {
           </div>
           <div className="col-start-2 col-end-10 h-full overflow-hidden">
             {/* RIGHT PANEL */}
-            <Panel
-              state={rightPanelData.state}
-              dispatch={rightPanelData.dispatch}
-              dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
-            />
+            {rightPanel}
           </div>
         </div>
       </PageWithNavBar>
@@ -112,19 +106,11 @@ export const DictionaryPage = () => {
       <div className="h-full grid grid-cols-2 p-4">
         <div className="col-span-1 mr-2 h-full overflow-hidden">
           {/* LEFT PANEL */}
-          <Panel
-            state={leftPanelData.state}
-            dispatch={leftPanelData.dispatch}
-            dispatchInOtherPanel={leftPanelData.dispatchInOtherPanel}
-          />
+          {leftPanel}
         </div>
         <div className="col-span-1 ml-2 h-full overflow-hidden">
           {/* RIGHT PANEL */}
-          <Panel
-            state={rightPanelData.state}
-            dispatch={rightPanelData.dispatch}
-            dispatchInOtherPanel={rightPanelData.dispatchInOtherPanel}
-          />
+          {rightPanel}
         </div>
       </div>
     </PageWithNavBar>

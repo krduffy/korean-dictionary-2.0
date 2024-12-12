@@ -13,7 +13,7 @@ import {
   WrongFormatError,
 } from "../../../../other/misc/ErrorMessageTemplates";
 import { useCallAPIWeb } from "../../../../../web-hooks/useCallAPIWeb";
-import { useViewDispatchersContext } from "../../../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import {
   isHanjaExampleKoreanWordType,
   KoreanWordInHanjaExamplesType,
@@ -45,7 +45,7 @@ export const HanjaDetailWordExamples = ({
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
 
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
 
   const handleDropdownStateToggle = (isToggled: boolean) => {
     dispatch({

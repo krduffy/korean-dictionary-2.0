@@ -2,7 +2,7 @@ import { StringWithNLPAndHanja } from "../../../../other/string-formatters/Strin
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
 import { TruncatorDropdown } from "../../../../other/misc/TruncatorDropdown";
 import { useRef } from "react";
-import { useViewDispatchersContext } from "../../../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSection";
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
 import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSection";
@@ -24,7 +24,7 @@ export const DetailedSenseView = ({
 }) => {
   const mainSenseRef = useRef<HTMLDivElement>(null);
 
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
 
   const getOnDropdownStateToggleFunction = (id: number) => {
     return (isExpanded: boolean) =>

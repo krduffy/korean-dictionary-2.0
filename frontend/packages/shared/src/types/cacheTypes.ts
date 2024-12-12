@@ -2,6 +2,8 @@ import { APIResponseType } from "./apiCallTypes";
 import {
   APIDataChangeListenerData,
   SavedSubscriptionArguments,
+  SubscribeFnType,
+  UnsubscribeFnType,
 } from "./apiDataChangeEventTypes";
 
 export type CacheItem = {
@@ -19,22 +21,35 @@ export type CacheType = {
 
 export type UseCacheReturns = {
   clear: () => void;
-  put: (
+  put: ({
     // eslint-disable-next-line no-unused-vars
-    url: string,
+    url,
     // eslint-disable-next-line no-unused-vars
-    response: APIResponseType,
+    response,
     // eslint-disable-next-line no-unused-vars
-    ok: boolean,
+    ok,
     // eslint-disable-next-line no-unused-vars
-    body?: BodyInit | undefined
-  ) => void;
+    body,
+    // eslint-disable-next-line no-unused-vars
+    unsubscribe,
+  }: {
+    url: string;
+    response: APIResponseType;
+    ok: boolean;
+    body?: BodyInit | undefined;
+    unsubscribe: UnsubscribeFnType;
+  }) => void;
   // eslint-disable-next-line no-unused-vars
   retrieve: (url: string, body?: BodyInit | undefined) => CacheItem | null;
   setItemListenerArgs: ({
+    // eslint-disable-next-line no-unused-vars
     url,
+    // eslint-disable-next-line no-unused-vars
     body,
+    // eslint-disable-next-line no-unused-vars
     cacheUpdaters,
+    // eslint-disable-next-line no-unused-vars
+    subscribe,
   }: {
     url: string;
     body?: BodyInit | undefined;
@@ -48,6 +63,7 @@ export type UseCacheReturns = {
         newValue: Parameters<APIDataChangeListenerData["onNotification"]>[0]
       ) => APIResponseType;
     }[];
+    subscribe: SubscribeFnType;
   }) => void;
 };
 

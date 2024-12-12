@@ -2,7 +2,7 @@ import { useKnownStudiedToggler } from "@repo/shared/hooks/useKnownStudiedToggle
 import { useCallAPIWeb } from "../../../../web-hooks/useCallAPIWeb";
 import { Book, BookCheck, Star, StarOff } from "lucide-react";
 import { LoadingIndicator } from "../../../other/misc/LoadingIndicator";
-import { useNotificationContext } from "../../../../web-contexts/NotificationContextProvider";
+import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { APIResponseType } from "@repo/shared/types/apiCallTypes";
 import { ErrorMessage } from "../../../../web-components/other/misc/ErrorMessage";
 import { useStarAnimation } from "./useStarAnimation";

@@ -9,6 +9,7 @@ import {
   WrongFormatError,
 } from "../../other/misc/ErrorMessageTemplates";
 import { isDetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { useKoreanDetailListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 export const KoreanDetailView = ({
   target_code,
@@ -17,10 +18,17 @@ export const KoreanDetailView = ({
   target_code: number;
   dropdownStates: boolean[];
 }) => {
+  const url = getEndpoint({ endpoint: "detail_korean", pk: target_code });
+
   const { successful, error, loading, response } = useFetchProps({
-    url: getEndpoint({ endpoint: "detail_korean", pk: target_code }),
+    url: url,
     useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
     refetchDependencyArray: [target_code],
+  });
+
+  useKoreanDetailListenerManager({
+    url: url,
+    response: response,
   });
 
   if (loading) {

@@ -4,7 +4,7 @@ import { HanjaSearchView } from "../views/HanjaSearchView";
 import { KoreanDetailView } from "../views/KoreanDetailView";
 import { HanjaDetailView } from "../views/HanjaDetailView";
 import { FindLemmaView } from "../views/FindLemmaView";
-import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { View } from "@repo/shared/types/views/viewTypes";
 
 /* a wrapper around MainContent to add the updating of scroll distance functionality */
@@ -17,7 +17,7 @@ export const MainContentArea = ({
   scrollDistance: number;
   historyPointer: number;
 }) => {
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
   const divRef = useRef<HTMLDivElement>(null);
 
   const onScroll: React.UIEventHandler<HTMLDivElement> = (uiHandler) => {

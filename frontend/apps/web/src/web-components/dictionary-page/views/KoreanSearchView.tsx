@@ -7,7 +7,6 @@ import {
   ResultCountMessage,
 } from "./view-components/ResultsMessages";
 import { PageChanger } from "./view-components/PageChanger";
-import { useViewDispatchersContext } from "../../../web-contexts/ViewDispatchersContext";
 import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import {
   NoResponseError,
@@ -23,27 +22,30 @@ import {
 import { isNumber } from "@repo/shared/types/guardUtils";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useKoreanSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const KoreanSearchView = ({
   searchConfig,
 }: {
   searchConfig: KoreanSearchConfig;
 }) => {
-  const { dispatch } = useViewDispatchersContext();
+  const { dispatch } = usePanelFunctionsContext();
 
   const url = getEndpoint({
     endpoint: "search_korean",
     queryParams: searchConfig,
   });
 
-  const { error, loading, searchResults, response } = usePaginatedResults({
-    baseUrl: url,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-  });
+  const { error, loading, searchResults, refetchSearchResults, response } =
+    usePaginatedResults({
+      baseUrl: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+    });
 
   useKoreanSearchResultListenerManager({
     url: url,
     searchResults: searchResults,
+    refetchSearchResults: refetchSearchResults,
   });
 
   if (loading) {

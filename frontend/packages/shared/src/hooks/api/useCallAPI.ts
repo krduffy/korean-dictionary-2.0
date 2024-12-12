@@ -63,7 +63,12 @@ export const useCallAPI = ({
 
     /* Setting cache here */
     if (cacheResults) {
-      put(url, jsonified, wasSuccessful, configBody);
+      put({
+        url: url,
+        response: jsonified,
+        ok: wasSuccessful,
+        body: configBody,
+      });
     }
 
     return new Promise((resolve) => resolve(jsonified));
