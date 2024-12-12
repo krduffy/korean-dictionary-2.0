@@ -13,7 +13,7 @@ interface UsePaginatedResultsArgs {
 
 interface UsePaginatedResultsReturns {
   searchResults: APIResponseType;
-  refetchSearchResults: () => void;
+  refetch: () => void;
   loading: boolean;
   successful: boolean;
   error: boolean;
@@ -47,18 +47,18 @@ export const usePaginatedResults = ({
     setter: setSearchResults,
   });
 
-  const fetchResults = () => {
+  const doFetch = () => {
     resetFallbackTimers();
     updateSearchResults();
   };
 
   useEffect(() => {
-    fetchResults();
+    doFetch();
   }, [baseUrl]);
 
   return {
     searchResults,
-    refetchSearchResults: fetchResults,
+    refetch: doFetch,
     loading: loading || showFallback,
     successful,
     error,

@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useCachingContext } from "../../contexts/CachingContextProvider";
-import { APIResponseType } from "../../types/apiCallTypes";
+import {
+  APIResponseType,
+  isPaginatedResultsResponse,
+} from "../../types/apiCallTypes";
 import {
   isDetailedKoreanType,
   isKoreanSearchResultType,
@@ -10,8 +13,19 @@ import {
   SubscribeFnType,
   UnsubscribeFnType,
 } from "../../types/apiDataChangeEventTypes";
-import { getKoreanSearchCacheUpdaters } from "../cache/cacheUpdaters";
+import { getCacheUpdaters } from "../cache/cacheUpdaters";
 import { usePanelFunctionsContext } from "../../contexts/PanelFunctionsContextProvider";
+import {
+  HanjaSearchResultType,
+  isDetailedHanjaType,
+  isHanjaExampleKoreanWordType,
+  isHanjaSearchResultType,
+  KoreanWordInHanjaExamplesType,
+} from "../../types/views/dictionary-items/hanjaDictionaryItems";
+import {
+  getPkField,
+  SearchResultType,
+} from "../../types/views/dictionary-items/sharedTypes";
 
 const getPkLoadedDataChangedSubscriptionArgs = (
   pks: (number | string)[],
@@ -47,87 +61,182 @@ const unsubscribeAll = (
   });
 };
 
-export const useKoreanSearchResultListenerManager = ({
+const useDictionaryItemListenerManager = ({
   url,
-  searchResults,
-  refetchSearchResults,
+  pks,
+  pathGetter,
+  refetch,
 }: {
   url: string;
-  searchResults: APIResponseType;
-  refetchSearchResults: () => void;
+  pks: (number | string)[];
+  pathGetter: (pk: number | string) => (number | string)[];
+  refetch: () => void;
 }) => {
   const { setItemListenerArgs } = useCachingContext();
-  const { dispatch, subscribe, unsubscribe } = usePanelFunctionsContext();
+  const { subscribe, unsubscribe } = usePanelFunctionsContext();
 
+  /* Setting the listeners in the cache to update the cached value on data change */
   useEffect(() => {
-    if (
-      !Array.isArray(searchResults?.results) ||
-      !searchResults?.results?.every((data) => isKoreanSearchResultType(data))
-    ) {
-      return;
-    }
+    /* (body is not used for any of the requests that use this hook) */
     setItemListenerArgs({
       url,
-      cacheUpdaters: getKoreanSearchCacheUpdaters({
+      cacheUpdaters: getCacheUpdaters({
         pks: pks,
-        pathGetter: getPathGetterFunc(searchResults.results),
+        pathGetter: pathGetter,
       }),
       subscribe,
     });
-  }, [searchResults]);
+  }, [pks]);
 
-  const pks =
-    Array.isArray(searchResults?.results) &&
-    searchResults?.results?.every((data) => isKoreanSearchResultType(data))
-      ? searchResults.results.map((searchResult) => searchResult.target_code)
-      : [];
-
+  /* Setting the listener for the view to reload when the value changes. The event for 
+     updating the cache fires first, so this will get the new value from the cache
+     or refretch from api if the cached value was evicted */
   useEffect(() => {
     const subscribeArguments = getPkLoadedDataChangedSubscriptionArgs(
       pks,
-      refetchSearchResults
+      refetch
     );
     subscribeAll(subscribe, subscribeArguments);
 
     return () => unsubscribeAll(unsubscribe, subscribeArguments);
   }, [pks]);
+};
 
-  const getPathGetterFunc = (results: KoreanSearchResultType[]) => {
-    return (pk: number) => {
-      const index = results.findIndex((result) => result.target_code === pk);
+const useSearchResultListListenerManager = <T extends SearchResultType>({
+  url,
+  searchResults,
+  refetch,
+  typeVerifier,
+}: {
+  url: string;
+  searchResults: APIResponseType;
+  refetch: () => void;
+  typeVerifier: (data: unknown) => data is T;
+}) => {
+  /* If any of the guards before this fail and the list is [] then nothing is done
+     by any of the use effects */
+  const searchResultsList =
+    isPaginatedResultsResponse(searchResults, typeVerifier) &&
+    Array.isArray(searchResults.results) &&
+    searchResults.results.every((data) => typeVerifier(data))
+      ? (searchResults.results as T[])
+      : [];
 
-      if (index === -1)
-        throw new Error(
-          `pk supplied to path getter not in searchResults array. pk: ${pk} result pks: ${results.map((result) => result.target_code)}`
-        );
+  const pks = searchResultsList.map((searchResult) => getPkField(searchResult));
 
-      return ["results", index, "user_data"];
-    };
+  const pathGetter = (pk: number | string) => {
+    /* returning [] will cause the update cache result function to do nothing */
+    if (
+      !Array.isArray(searchResultsList) ||
+      !searchResultsList.every((data) => typeVerifier(data))
+    ) {
+      return [];
+    }
+
+    const index = searchResultsList.findIndex(
+      (result) => getPkField(result) === pk
+    );
+
+    if (index === -1) return [];
+
+    return ["results", index, "user_data"];
   };
+
+  return useDictionaryItemListenerManager({
+    url,
+    pks,
+    pathGetter,
+    refetch,
+  });
+};
+
+/***************************/
+
+export const useKoreanSearchResultListenerManager = ({
+  url,
+  searchResults,
+  refetch,
+}: {
+  url: string;
+  searchResults: APIResponseType;
+  refetch: () => void;
+}) => {
+  return useSearchResultListListenerManager<KoreanSearchResultType>({
+    url,
+    searchResults: searchResults,
+    refetch: refetch,
+    typeVerifier: isKoreanSearchResultType,
+  });
 };
 
 export const useKoreanDetailListenerManager = ({
   url,
   response,
+  refetch,
 }: {
   url: string;
   response: APIResponseType;
+  refetch: () => void;
 }) => {
-  const { setItemListenerArgs } = useCachingContext();
-  const { subscribe } = usePanelFunctionsContext();
+  const pks = isDetailedKoreanType(response) ? [response.target_code] : [];
 
-  useEffect(() => {
-    if (!isDetailedKoreanType(response)) {
-      return;
-    }
+  return useDictionaryItemListenerManager({
+    url,
+    pks,
+    pathGetter: () => ["user_data"],
+    refetch,
+  });
+};
 
-    setItemListenerArgs({
-      url,
-      cacheUpdaters: getKoreanSearchCacheUpdaters({
-        pks: [response.target_code],
-        pathGetter: () => ["user_data"],
-      }),
-      subscribe,
-    });
-  }, [response]);
+export const useHanjaSearchResultListenerManager = ({
+  url,
+  searchResults,
+  refetch,
+}: {
+  url: string;
+  searchResults: APIResponseType;
+  refetch: () => void;
+}) => {
+  return useSearchResultListListenerManager<HanjaSearchResultType>({
+    url,
+    searchResults,
+    refetch,
+    typeVerifier: isHanjaSearchResultType,
+  });
+};
+
+export const useHanjaDetailListenerManager = ({
+  url,
+  response,
+  refetch,
+}: {
+  url: string;
+  response: APIResponseType;
+  refetch: () => void;
+}) => {
+  const pks = isDetailedHanjaType(response) ? [response.character] : [];
+
+  return useDictionaryItemListenerManager({
+    url,
+    pks,
+    pathGetter: () => ["user_data"],
+    refetch,
+  });
+};
+
+export const useHanjaExampleKoreanWordListenerManager = ({
+  url,
+  searchResults,
+  refetch,
+}: {
+  url: string;
+  searchResults: APIResponseType;
+  refetch: () => void;
+}) => {
+  return useSearchResultListListenerManager<KoreanWordInHanjaExamplesType>({
+    url,
+    searchResults,
+    refetch,
+    typeVerifier: isHanjaExampleKoreanWordType,
+  });
 };

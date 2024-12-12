@@ -24,6 +24,7 @@ import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import { useHanjaExampleKoreanWordListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 export const HanjaDetailWordExamples = ({
   character,
@@ -34,15 +35,24 @@ export const HanjaDetailWordExamples = ({
   pageNum: number;
   droppedDown: boolean;
 }) => {
-  const { searchResults, loading, error, response } = usePaginatedResults({
-    baseUrl: getEndpoint({
-      endpoint: "examples_hanja",
-      pk: character,
-      queryParams: {
-        page: pageNum,
-      },
-    }),
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+  const url = getEndpoint({
+    endpoint: "examples_hanja",
+    pk: character,
+    queryParams: {
+      page: pageNum,
+    },
+  });
+
+  const { searchResults, loading, error, response, refetch } =
+    usePaginatedResults({
+      baseUrl: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+    });
+
+  useHanjaExampleKoreanWordListenerManager({
+    url,
+    searchResults,
+    refetch,
   });
 
   const { dispatch } = usePanelFunctionsContext();

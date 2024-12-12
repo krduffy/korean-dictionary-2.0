@@ -22,6 +22,7 @@ import {
   isHanjaSearchResultType,
 } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { isNumber } from "@repo/shared/types/guardUtils";
+import { useHanjaSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 type HanjaSearchData = {
   searchConfig: HanjaSearchConfig;
@@ -32,12 +33,21 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
 }) => {
   const { dispatch } = usePanelFunctionsContext();
 
-  const { error, loading, searchResults, response } = usePaginatedResults({
-    baseUrl: getEndpoint({
-      endpoint: "search_hanja",
-      queryParams: searchConfig,
-    }),
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+  const url = getEndpoint({
+    endpoint: "search_hanja",
+    queryParams: searchConfig,
+  });
+
+  const { error, loading, searchResults, response, refetch } =
+    usePaginatedResults({
+      baseUrl: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+    });
+
+  useHanjaSearchResultListenerManager({
+    url,
+    searchResults,
+    refetch,
   });
 
   if (loading) {

@@ -1,20 +1,18 @@
 import { APIResponseType } from "src/types/apiCallTypes";
 import { withUpdatedKnownStudied } from "./responseUpdaters";
 
-export const getKoreanSearchCacheUpdaters = ({
+export const getCacheUpdaters = ({
   pks,
   pathGetter,
 }: {
-  pks: number[];
-  pathGetter: (pk: number) => (number | string)[];
+  pks: (number | string)[];
+  pathGetter: (pk: number | string) => (number | string)[];
 }) => {
-  return pks.flatMap((pk) =>
-    getKoreanSearchCacheUpdatersForPk(pk, pathGetter(pk))
-  );
+  return pks.flatMap((pk) => getKnownStudiedCacheUpdaters(pk, pathGetter(pk)));
 };
 
-const getKoreanSearchCacheUpdatersForPk = (
-  pk: number,
+const getKnownStudiedCacheUpdaters = (
+  pk: number | string,
   path: (number | string)[]
 ) => {
   const knownStudiedUpdaters = (["known", "studied"] as const).map(

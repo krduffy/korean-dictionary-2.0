@@ -7,6 +7,7 @@ import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { WrongFormatError } from "../../other/misc/ErrorMessageTemplates";
 import { HanjaDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { isDetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { useHanjaDetailListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 export const HanjaDetailView = ({
   character,
@@ -15,10 +16,18 @@ export const HanjaDetailView = ({
   character: string;
   interactionData: HanjaDetailInteractionData;
 }) => {
-  const { error, loading, response } = useFetchProps({
-    url: getEndpoint({ endpoint: "detail_hanja", pk: character }),
+  const url = getEndpoint({ endpoint: "detail_hanja", pk: character });
+
+  const { error, loading, response, refetch } = useFetchProps({
+    url: url,
     useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
     refetchDependencyArray: [character],
+  });
+
+  useHanjaDetailListenerManager({
+    url,
+    response,
+    refetch,
   });
 
   if (loading) {

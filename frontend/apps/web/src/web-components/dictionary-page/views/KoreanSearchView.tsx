@@ -36,7 +36,7 @@ export const KoreanSearchView = ({
     queryParams: searchConfig,
   });
 
-  const { error, loading, searchResults, refetchSearchResults, response } =
+  const { error, loading, searchResults, refetch, response } =
     usePaginatedResults({
       baseUrl: url,
       useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
@@ -45,7 +45,7 @@ export const KoreanSearchView = ({
   useKoreanSearchResultListenerManager({
     url: url,
     searchResults: searchResults,
-    refetchSearchResults: refetchSearchResults,
+    refetch: refetch,
   });
 
   if (loading) {

@@ -28,11 +28,13 @@ export const useFetchProps = ({
     callAPI(url);
   });
 
-  useEffect(() => {
+  const doFetch = () => {
     resetFallbackTimers();
     debouncedCallAPI();
-    /* DEPENDENCY ARRAY WILL NEED TO CHANGE SO THAT WHEN USER LOGS IN ETC THE APP KNOWS
-       IF THE CURRENT VIEW NEEDS TO BE UPDATED!!!!!!!! */
+  };
+
+  useEffect(() => {
+    doFetch();
   }, refetchDependencyArray);
 
   return {
@@ -40,5 +42,6 @@ export const useFetchProps = ({
     error,
     loading: loading || showFallback,
     response,
+    refetch: doFetch,
   };
 };
