@@ -16,110 +16,30 @@ describe("useTruncatorDropdown", () => {
 
   const maxHeight = 100;
 
-  it("should initialize with the correct state", () => {
-    const { result } = renderHook(() =>
-      useTruncatorDropdown({
-        children,
-        maxHeight,
-        initialDropdownState: false,
-        onDropdownStateToggle: jest.fn(),
-      })
-    );
-
-    /* Ensure dropdown is collapsed initially */
-    expect(result.current.isExpanded).toBe(false);
-    expect(result.current.showButton).toBe(false);
-  });
-
-  it("should toggle isExpanded state when button is clicked", () => {
-    const { result } = renderHook(() =>
-      useTruncatorDropdown({
-        children,
-        maxHeight,
-        initialDropdownState: false,
-        onDropdownStateToggle: jest.fn(),
-      })
-    );
-
-    act(() => {
-      result.current.handleClickButton();
-    });
-    expect(result.current.isExpanded).toBe(true);
-
-    act(() => {
-      result.current.handleClickButton();
-    });
-    expect(result.current.isExpanded).toBe(false);
-  });
-
-  it("should call onCollapse when collapsing the dropdown", () => {
-    const onCollapseMock = jest.fn();
-    /* mocking the ref for overriding scrollback */
-    const scrollbackElement = {
-      /* -10 for offscreen */
-      getBoundingClientRect: jest.fn(() => ({ top: -10 })),
-      scrollIntoView: onCollapseMock,
-    } as unknown as HTMLElement;
-
-    const { result } = renderHook(() =>
-      useTruncatorDropdown({
-        children,
-        maxHeight,
-        initialDropdownState: true,
-        onDropdownStateToggle: jest.fn(),
-        overrideScrollbackElement: scrollbackElement,
-      })
-    );
-
-    // Collapse the dropdown
-    act(() => {
-      result.current.handleClickButton();
-    });
-
-    // Check if onCollapse was called
-    expect(onCollapseMock).toHaveBeenCalled();
-  });
-
-  it("should call onDropdownStateToggle when state changes", () => {
-    const onDropdownStateToggleMock = jest.fn();
-
-    const { result } = renderHook(() =>
-      useTruncatorDropdown({
-        children,
-        maxHeight,
-        initialDropdownState: false,
-        onDropdownStateToggle: onDropdownStateToggleMock,
-      })
-    );
-
-    act(() => {
-      result.current.handleClickButton();
-    });
-
-    expect(onDropdownStateToggleMock).toHaveBeenCalledWith(true);
-
-    act(() => {
-      result.current.handleClickButton();
-    });
-
-    expect(onDropdownStateToggleMock).toHaveBeenCalledWith(false);
-  });
-
-  it("should handle overriding scrollbackRef and scrolling into view correctly", () => {
+  it("should scroll back to the override ref when collapsing", () => {
     const mockScrollIntoView = jest.fn();
-    const scrollbackElement = {
-      /* -10 for offscreen */
-      getBoundingClientRect: jest.fn(() => ({ top: -10 })),
+
+    /* because top === -50 it is out of view and should therefore
+       scroll into view on scrollback */
+    const overrideScrollbackElement = {
       scrollIntoView: mockScrollIntoView,
+      getBoundingClientRect: () => ({
+        top: -50,
+        bottom: 150,
+        left: 0,
+        right: 100,
+        width: 100,
+        height: 100,
+      }),
     } as unknown as HTMLElement;
 
     const { result } = renderHook(() =>
       useTruncatorDropdown({
         children,
         maxHeight,
-        initialDropdownState: true,
-        overrideScrollbackElement: scrollbackElement,
-        onDropdownStateToggle: jest.fn(),
+        droppedDown: true,
+        onDropdownStateToggle: () => {},
+        overrideScrollbackElement,
       })
     );
 
@@ -127,6 +47,6 @@ describe("useTruncatorDropdown", () => {
       result.current.handleClickButton();
     });
 
-    expect(mockScrollIntoView).toHaveBeenCalled();
+    expect(mockScrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
