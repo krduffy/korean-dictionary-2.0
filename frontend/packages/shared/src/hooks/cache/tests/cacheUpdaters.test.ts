@@ -1,3 +1,4 @@
+import { it, describe, expect } from "@jest/globals";
 import { withUpdatedKnownStudied } from "../responseUpdaters";
 
 const dataItem = {
@@ -12,15 +13,15 @@ const dataItem = {
     {
       field1: "q",
       user_data: {
-        known: true,
-        studied: false,
+        is_known: true,
+        is_studied: false,
       },
     },
     {
       field1: "u",
       user_data: {
-        known: false,
-        studied: true,
+        is_known: false,
+        is_studied: true,
       },
     },
   ],
@@ -38,15 +39,15 @@ const expectedAfterUpdateKnown = {
     {
       field1: "q",
       user_data: {
-        known: false,
-        studied: false,
+        is_known: false,
+        is_studied: false,
       },
     },
     {
       field1: "u",
       user_data: {
-        known: false,
-        studied: true,
+        is_known: false,
+        is_studied: true,
       },
     },
   ],
@@ -55,7 +56,7 @@ const expectedAfterUpdateKnown = {
 describe("cacheUpdaters", () => {
   it("can update known on an item", () => {
     const updated = withUpdatedKnownStudied({
-      fullObject: dataItem,
+      fullResponse: dataItem,
       pathToKnownStudied: ["searchResults", 0, "user_data"],
       knownOrStudied: "known",
       newValue: false,

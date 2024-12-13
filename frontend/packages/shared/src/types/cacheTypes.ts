@@ -1,20 +1,37 @@
 import { APIResponseType } from "./apiCallTypes";
 import {
-  CacheFacingAPIDataChangeListenerData,
+  APIDataChangeEventType,
+  CallbackParamMappings,
   SavedSubscriptionArguments,
+  SubscribeFnType,
+  UnsubscribeFnType,
 } from "./apiDataChangeEventTypes";
+import { ValidPkFieldType } from "./views/dictionary-items/sharedTypes";
 
 export type CacheItem = {
   lastAccessed: number;
   ok: boolean;
   response: APIResponseType;
-  apiDataChangeSubscriptionArgs: SavedSubscriptionArguments[];
+  apiDataChangeSubscriptionArgs: SavedSubscriptionArguments<APIDataChangeEventType>[];
 };
 
 export type CacheType = {
   capacity: number;
   stored: number;
   items: Map<string, CacheItem>;
+};
+
+export type APIDataChangeCacheUpdater<
+  EventTypeT extends APIDataChangeEventType,
+> = {
+  pk: ValidPkFieldType;
+  eventType: EventTypeT;
+  responseUpdater: (
+    // eslint-disable-next-line no-unused-vars
+    prevResponse: APIResponseType,
+    // eslint-disable-next-line no-unused-vars
+    newValue: CallbackParamMappings[EventTypeT]
+  ) => APIResponseType;
 };
 
 export type UseCacheReturns = {
@@ -46,21 +63,12 @@ export type UseCacheReturns = {
   }: {
     url: string;
     body?: BodyInit | undefined;
-    cacheUpdaters: {
-      pk: number | string;
-      eventType: CacheFacingAPIDataChangeListenerData["eventType"];
-      responseUpdater: (
-        // eslint-disable-next-line no-unused-vars
-        prevResponse: APIResponseType,
-        // eslint-disable-next-line no-unused-vars
-        newValue: Parameters<
-          CacheFacingAPIDataChangeListenerData["onNotification"]
-        >[0]
-      ) => APIResponseType;
-    }[];
+    cacheUpdaters: APIDataChangeCacheUpdater<APIDataChangeEventType>[];
   }) => void;
 };
 
 export type UseCacheArgs = {
   capacity: number;
+  globalSubscribe: SubscribeFnType;
+  globalUnsubscribe: UnsubscribeFnType;
 };

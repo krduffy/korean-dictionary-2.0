@@ -2,34 +2,74 @@
  * @jest-environment jsdom
  */
 
+import {
+  jest,
+  it,
+  describe,
+  beforeEach,
+  afterEach,
+  expect,
+} from "@jest/globals";
 import { renderHook, act } from "@testing-library/react";
 import { useCallAPI } from "../useCallAPI";
-import { TokenHandlers } from "src/types/apiCallTypes";
-import { CacheItem, UseCacheReturns } from "src/types/cacheTypes";
-
-/* Mocking all of the functions that are called internally to verify num of times they are called. */
-const mockedTokenHandlers: jest.Mocked<TokenHandlers> = {
-  getAccessToken: jest.fn(),
-  refreshTokens: jest.fn(),
-  onRefreshFail: jest.fn(),
-  deleteTokens: jest.fn(),
-  saveTokens: jest.fn(),
-};
-
-const mockedCacheFunctions: jest.Mocked<UseCacheReturns> = {
-  put: jest.fn(),
-  retrieve: jest.fn(),
-  clear: jest.fn(),
-};
-
-const mockedOnCaughtError = jest.fn();
+import { TokenHandlers, UseCallAPIArgs } from "../../../types/apiCallTypes";
+import { CacheItem, UseCacheReturns } from "../../../types/cacheTypes";
+import { MockedFetchType, FetchMockFactory } from "./FetchMockFactory";
 
 describe("useCallAPI", () => {
   const url = "";
 
+  /* Mocking all of the functions that are called internally to verify num of times they are called. */
+  const mockedTokenHandlers: jest.Mocked<TokenHandlers> = {
+    getAccessToken: jest.fn(),
+    refreshTokens: jest.fn(),
+    onRefreshFail: jest.fn(),
+    deleteTokens: jest.fn(),
+    saveTokens: jest.fn(),
+  };
+
+  const mockedCacheFunctions: jest.Mocked<UseCacheReturns> = {
+    put: jest.fn(),
+    retrieve: jest.fn(),
+    clear: jest.fn(),
+    setItemListenerArgs: jest.fn(),
+  };
+
+  const mockedOnCaughtError = jest.fn();
+
+  /* Values from fetch mock factory are used for expect calls */
+  const fetchMockFactory = new FetchMockFactory();
+
+  const mockFetch = (mockedImplementation: MockedFetchType) => {
+    /* The type of this mock is not at all the type of fetch, so the errors are just
+       silenced. very few fields are used in fetch for this project and pretty much every
+       api call is made through useCallAPI */
+
+    // @ts-ignore
+    // eslint-disable-next-line
+    global.fetch = jest
+      .fn<MockedFetchType>()
+      .mockImplementation(mockedImplementation);
+  };
+
+  const callRenderHook = ({
+    tokenHandlers = mockedTokenHandlers,
+    cacheResults = false,
+    cacheFunctions = mockedCacheFunctions,
+    onCaughtError = mockedOnCaughtError,
+  }: Partial<UseCallAPIArgs>) => {
+    return renderHook(() =>
+      useCallAPI({
+        tokenHandlers,
+        cacheResults,
+        cacheFunctions,
+        onCaughtError,
+      })
+    );
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = jest.fn();
   });
 
   afterEach(() => {
@@ -45,39 +85,19 @@ describe("useCallAPI", () => {
     mockedTokenHandlers.getAccessToken.mockResolvedValue(null);
     mockedTokenHandlers.refreshTokens.mockResolvedValue(null);
 
-    const authResponse = { message: "Authenticated; success" };
-    const notAuthResponse = { message: "Unauthenticated; success" };
+    const fetchMock = new FetchMockFactory().setAuthOnlyChecked().getMock();
+    mockFetch(fetchMock);
 
-    global.fetch = jest.fn().mockImplementation((url, requestInit) => {
-      return {
-        ok: true,
-        status: 200,
-        json: () => {
-          const hasAuthHeader = requestInit.headers.get("Authorization");
-          return hasAuthHeader ? authResponse : notAuthResponse;
-        },
-      };
-    });
-
-    const { result } = renderHook(() =>
-      useCallAPI({
-        tokenHandlers: mockedTokenHandlers,
-        cacheResults: false,
-        cacheFunctions: mockedCacheFunctions,
-        onCaughtError: mockedOnCaughtError,
-      })
-    );
+    const { result } = callRenderHook({});
 
     await act(async () => {
       await result.current.callAPI(url);
     });
 
+    expect(fetch).toHaveBeenCalledTimes(1);
     /* headers are empty since no config was passed into the callAPI func and access token
        is null */
-    const expectedConfigOnCall = { headers: new Headers() };
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(url, expectedConfigOnCall);
+    expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({}));
     expect(mockedTokenHandlers.getAccessToken).toHaveBeenCalledTimes(1);
     expect(mockedTokenHandlers.refreshTokens).toHaveBeenCalledTimes(1);
     expect(mockedTokenHandlers.onRefreshFail).toHaveBeenCalledTimes(1);
@@ -87,51 +107,41 @@ describe("useCallAPI", () => {
     /* still successful because */
     expect(result.current.successful).toBe(true);
     expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(notAuthResponse);
+    expect(result.current.response).toEqual(
+      fetchMockFactory.unauthenticatedSuccessResponse
+    );
   });
 
   /**
    * Same as test above but the access token is not initially null.
    */
   it("does properly: access not null / refresh not required / auth not required", async () => {
-    mockedTokenHandlers.getAccessToken.mockResolvedValue("token");
+    const returnedToken = /* (not valid) */ "token";
 
-    /* both are successes */
-    const authResponse = { message: "Authenticated; success" };
-    const notAuthResponse = { message: "Unauthenticated; success" };
+    mockedTokenHandlers.getAccessToken.mockResolvedValue(returnedToken);
 
-    global.fetch = jest.fn().mockImplementation((url, requestInit) => {
-      return {
-        ok: true,
-        status: 200,
-        json: () => {
-          const hasAuthHeader = requestInit.headers.get("Authorization");
-          return hasAuthHeader ? authResponse : notAuthResponse;
-        },
-      };
-    });
+    /* unauthenticated/authenticated are both successes */
+    const fetchMock = new FetchMockFactory().setAuthOnlyChecked().getMock();
+    mockFetch(fetchMock);
 
-    const { result } = renderHook(() =>
-      useCallAPI({
-        tokenHandlers: mockedTokenHandlers,
-        cacheResults: false,
-        cacheFunctions: mockedCacheFunctions,
-        onCaughtError: mockedOnCaughtError,
-      })
-    );
+    const { result } = callRenderHook({});
 
     await act(async () => {
       await result.current.callAPI(url);
     });
 
-    /* headers are empty since no config was passed into the callAPI func and access token
-       is null */
     const expectedConfigOnCall = { headers: new Headers() };
     /* "token" is value from above. */
-    expectedConfigOnCall.headers.set("Authorization", "Bearer token");
+    expectedConfigOnCall.headers.set(
+      "Authorization",
+      `Bearer ${returnedToken}`
+    );
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(url, expectedConfigOnCall);
+    expect(fetch).toHaveBeenCalledWith(
+      url,
+      expect.objectContaining({ ...expectedConfigOnCall })
+    );
     expect(mockedTokenHandlers.getAccessToken).toHaveBeenCalledTimes(1);
 
     /* because response.status was not 401 there should be no refresh attempt */
@@ -143,7 +153,9 @@ describe("useCallAPI", () => {
     /* still successful because api endpoint does not require auth */
     expect(result.current.successful).toBe(true);
     expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(authResponse);
+    expect(result.current.response).toEqual(
+      fetchMockFactory.unauthenticatedSuccessResponse
+    );
   });
 
   /**
@@ -153,34 +165,17 @@ describe("useCallAPI", () => {
   it("does properly: access not null / refresh required / refresh successful / auth required", async () => {
     /* will be considered invalid */
 
-    const validToken = "validtoken";
     const invalidToken = "invalidtoken";
 
+    const refreshResponse = {
+      access: fetchMockFactory.authenticatedToken,
+    };
+
     mockedTokenHandlers.getAccessToken.mockResolvedValue(invalidToken);
-    mockedTokenHandlers.refreshTokens.mockResolvedValue({
-      access: validToken,
-    });
+    mockedTokenHandlers.refreshTokens.mockResolvedValue(refreshResponse);
 
-    const authResponse = { message: "Authenticated; success" };
-    const notAuthResponse = { message: "Unauthenticated; error" };
-
-    global.fetch = jest.fn().mockImplementation((url, requestInit) => {
-      const token = requestInit.headers.get("Authorization");
-
-      if (token === `Bearer ${validToken}`) {
-        return {
-          ok: true,
-          status: 200,
-          json: () => authResponse,
-        };
-      } else {
-        return {
-          ok: false,
-          status: 401,
-          json: () => notAuthResponse,
-        };
-      }
-    });
+    const fetchMock = new FetchMockFactory().setAuthProtected().getMock();
+    mockFetch(fetchMock);
 
     const { result } = renderHook(() =>
       useCallAPI({
@@ -202,7 +197,10 @@ describe("useCallAPI", () => {
       `Bearer ${invalidToken}`
     );
     const expectedConfigOnCall2 = { headers: new Headers() };
-    expectedConfigOnCall2.headers.set("Authorization", `Bearer ${validToken}`);
+    expectedConfigOnCall2.headers.set(
+      "Authorization",
+      `Bearer ${fetchMockFactory.authenticatedToken}`
+    );
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenNthCalledWith(1, url, expectedConfigOnCall1);
@@ -210,48 +208,42 @@ describe("useCallAPI", () => {
 
     expect(mockedTokenHandlers.getAccessToken).toHaveBeenCalledTimes(1);
     expect(mockedTokenHandlers.refreshTokens).toHaveBeenCalledTimes(1);
+
     expect(mockedTokenHandlers.onRefreshFail).not.toHaveBeenCalled();
     expect(mockedTokenHandlers.saveTokens).toHaveBeenCalledTimes(1);
     /* expect this to be called once because the initial token that was 
        returned from the getAccessToken function resulted in 401 */
     expect(mockedTokenHandlers.deleteTokens).toHaveBeenCalledTimes(1);
 
-    /* still successful because */
+    console.log(result.current);
+
     expect(result.current.successful).toBe(true);
     expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(authResponse);
+    expect(result.current.response).toEqual(
+      fetchMockFactory.authenticatedSuccessResponse
+    );
   });
 
   it("puts and receives from the cache properly", async () => {
-    const response = { message: "Success" };
+    const response = { data: "data" };
 
-    global.fetch = jest.fn().mockImplementation((url, requestInit) => {
-      return {
-        ok: true,
-        status: 200,
-        json: () => response,
-      };
-    });
+    const fetchMock = new FetchMockFactory().setGetJson(response).getMock();
+    mockFetch(fetchMock);
 
-    const { result } = renderHook(() =>
-      useCallAPI({
-        tokenHandlers: mockedTokenHandlers,
-        cacheResults: true,
-        cacheFunctions: mockedCacheFunctions,
-        onCaughtError: mockedOnCaughtError,
-      })
-    );
+    const { result } = callRenderHook({ cacheResults: true });
 
     const cachedItem: CacheItem = {
       lastAccessed: 0,
       ok: true,
       response: response,
+      apiDataChangeSubscriptionArgs: [],
     };
 
     /* at first not in cache; when put is called the mock is updated. */
     mockedCacheFunctions.retrieve.mockImplementation(() => null);
     /* pretending that the caching was done to the mock */
     mockedCacheFunctions.put.mockImplementation(() => {
+      // eslint-disable-next-line no-unused-vars
       mockedCacheFunctions.retrieve.mockImplementation((calledUrl, body) => {
         if (calledUrl === url) {
           return cachedItem;
@@ -271,6 +263,8 @@ describe("useCallAPI", () => {
     expect(result.current.error).toBe(false);
     expect(result.current.response).toEqual(response);
 
+    /* After the first time the fetch mock needs to be updated */
+
     /* doing a second time; after first time things should have been cached */
     await act(async () => {
       await result.current.callAPI(url);
@@ -285,18 +279,10 @@ describe("useCallAPI", () => {
   });
 
   it("catches unknown errors", async () => {
-    global.fetch = jest.fn().mockImplementation(() => {
-      throw new Error("Error");
-    });
+    const fetchMock = new FetchMockFactory().setToError().getMock();
+    mockFetch(fetchMock);
 
-    const { result } = renderHook(() =>
-      useCallAPI({
-        tokenHandlers: mockedTokenHandlers,
-        cacheResults: false,
-        cacheFunctions: mockedCacheFunctions,
-        onCaughtError: mockedOnCaughtError,
-      })
-    );
+    const { result } = callRenderHook({});
 
     const doAction = async () => {
       await act(async () => {
@@ -304,7 +290,7 @@ describe("useCallAPI", () => {
       });
     };
 
-    await expect(doAction()).rejects.toThrow("Error");
+    await expect(doAction()).rejects.toThrow(fetchMockFactory.errorMessage);
     expect(mockedOnCaughtError).toHaveBeenCalled();
   });
 });

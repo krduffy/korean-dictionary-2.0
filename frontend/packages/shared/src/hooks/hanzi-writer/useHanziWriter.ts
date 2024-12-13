@@ -27,6 +27,7 @@ export const useHanziWriter = ({
               character,
               {
                 ...writerArgs,
+                // eslint-disable-next-line no-unused-vars
                 charDataLoader: function (char) {
                   return data;
                 },

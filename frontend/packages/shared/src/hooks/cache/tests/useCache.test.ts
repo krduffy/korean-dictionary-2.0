@@ -1,37 +1,54 @@
 /**
  * @jest-environment jsdom
  */
-// @ts-nocheck
 
+import { describe, it, expect, jest, afterEach } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useCache } from "../useCache";
-import { CacheItem } from "src/types/cacheTypes";
+import { UseCacheArgs } from "src/types/cacheTypes";
 
 describe("useCache", () => {
-  const smallCapacity = 2;
+  const baseCapacity = 2;
+  const baseGlobalSubscribe = jest.fn();
+  const baseGlobalUnsubscribe = jest.fn();
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  const doRenderHook = (args: Partial<UseCacheArgs>) =>
+    renderHook(() =>
+      useCache({
+        capacity: baseCapacity,
+        globalSubscribe: baseGlobalSubscribe,
+        globalUnsubscribe: baseGlobalUnsubscribe,
+        ...args,
+      })
+    );
 
   it("correctly puts and fetches a url", () => {
-    const { result } = renderHook(() => useCache({ capacity: smallCapacity }));
+    const { result } = doRenderHook({});
 
     const url = "url";
     const response = { data: 1 };
 
     act(() => {
-      result.current.put(url, response, true);
+      result.current.put({ url: url, response: response, ok: true });
     });
 
-    let fromCache = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve(url);
     });
 
+    expect(fromCache).not.toBe(null);
     expect(fromCache.response).not.toBe(null);
     expect(fromCache.response).toEqual(response);
   });
 
   it("correctly differentiates between different bodies and identical urls", () => {
-    const { result } = renderHook(() => useCache({ capacity: smallCapacity }));
+    const { result } = doRenderHook({});
 
     const url = "url";
 
@@ -42,11 +59,21 @@ describe("useCache", () => {
     const response2 = { data: 2 };
 
     act(() => {
-      result.current.put(url, response1, true, body1);
-      result.current.put(url, response2, true, body2);
+      result.current.put({
+        url: url,
+        response: response1,
+        ok: true,
+        body: body1,
+      });
+      result.current.put({
+        url: url,
+        response: response2,
+        ok: true,
+        body: body2,
+      });
     });
 
-    let fromCache = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve(url);
@@ -73,16 +100,15 @@ describe("useCache", () => {
   });
 
   it("deletes the first item when cache capacity is exceeded", () => {
-    const capacity = 2;
-
-    const { result } = renderHook(() => useCache({ capacity: capacity }));
+    // base is 2 so the capacity can be easily exceeded
+    const { result } = doRenderHook({});
 
     act(() => {
-      result.current.put("url1", { data: 1 }, true);
-      result.current.put("url2", { data: 2 }, true);
+      result.current.put({ url: "url1", response: { data: 1 }, ok: true });
+      result.current.put({ url: "url2", response: { data: 2 }, ok: true });
     });
 
-    let fromCache: CacheItem | null = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve("url1");
@@ -100,7 +126,7 @@ describe("useCache", () => {
 
     /* putting third item in which will exceed capacity */
     act(() => {
-      result.current.put("url3", { data: 3 }, true);
+      result.current.put({ url: "url3", response: { data: 3 }, ok: true });
     });
 
     /* reretrieving url1; should be null */
@@ -126,19 +152,17 @@ describe("useCache", () => {
   });
 
   it("updates lastAccessed on retrieval", () => {
-    const capacity = 2;
-
-    const { result } = renderHook(() => useCache({ capacity: capacity }));
+    const { result } = doRenderHook({});
 
     act(() => {
-      result.current.put("url1", { data: 1 }, true);
-      result.current.put("url2", { data: 2 }, true);
+      result.current.put({ url: "url1", response: { data: 1 }, ok: true });
+      result.current.put({ url: "url2", response: { data: 2 }, ok: true });
       /* url1 is being retrieved so url2 is lru instead */
       result.current.retrieve("url1");
-      result.current.put("url3", { data: 3 }, true);
+      result.current.put({ url: "url3", response: { data: 3 }, ok: true });
     });
 
-    let fromCache: CacheItem | null = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve("url1");
@@ -162,21 +186,23 @@ describe("useCache", () => {
   });
 
   it("does not increment items stored on item update", () => {
-    const capacity = 2;
-
-    const { result } = renderHook(() => useCache({ capacity: capacity }));
+    const { result } = doRenderHook({});
 
     act(() => {
-      result.current.put("url1", { data: 1 }, true);
-      result.current.put("url2", { data: 2 }, true);
+      result.current.put({ url: "url1", response: { data: 1 }, ok: true });
+      result.current.put({ url: "url2", response: { data: 2 }, ok: true });
 
       /* doing this should not lead to any evictions */
       for (let i = 0; i < 5; i++) {
-        result.current.put("url1", { data: "new" }, true);
+        result.current.put({
+          url: "url1",
+          response: { data: "new" },
+          ok: true,
+        });
       }
     });
 
-    let fromCache: CacheItem | null = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve("url1");
@@ -195,13 +221,13 @@ describe("useCache", () => {
   });
 
   it("can clear the cache", () => {
-    const { result } = renderHook(() => useCache({ capacity: smallCapacity }));
+    const { result } = doRenderHook({});
 
     act(() => {
-      result.current.put("url1", { data: 1 }, true);
+      result.current.put({ url: "url1", response: { data: 1 }, ok: true });
     });
 
-    let fromCache: CacheItem | null = null;
+    let fromCache: any = null;
 
     act(() => {
       fromCache = result.current.retrieve("url1");

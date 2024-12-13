@@ -72,6 +72,7 @@ const useDictionaryItemListenerManager = <
 }: {
   url: string;
   pks: PkFieldType[];
+  // eslint-disable-next-line no-unused-vars
   pathGetter: (pk: PkFieldType) => (number | string)[];
   refetch: () => void;
 }) => {

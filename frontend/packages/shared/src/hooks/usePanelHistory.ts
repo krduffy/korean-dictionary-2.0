@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { View, ViewType } from "../types/panelAndViewTypes";
+import { useRef } from "react";
+import { View } from "../types/views/viewTypes";
 
 export type UsePanelHistoryArgs = {
   viewStorageLimit: number;

@@ -1,10 +1,4 @@
 import { UpdateHanjaSearchConfigArgs } from "@repo/shared/hooks/useSearchBarArea";
-import {
-  ExamLevel,
-  GradeLevel,
-  HanjaSearchConfig,
-  OperandPrefix,
-} from "@repo/shared/types/panelAndViewTypes";
 
 import {
   RadicalArea,
@@ -13,6 +7,12 @@ import {
   GradeLevelArea,
   ExamLevelArea,
 } from "../web-components/dictionary-page/panel-top-bar/search-bar-area/HanjaConfigSettingAreas";
+import {
+  ExamLevel,
+  GradeLevel,
+  HanjaSearchConfig,
+  OperandPrefix,
+} from "@repo/shared/types/views/searchConfigTypes";
 
 export const useHanjaConfigSettingsMenu = ({
   config,
@@ -109,7 +109,7 @@ export const useHanjaConfigSettingsMenu = ({
     />
   );
 
-  const setExamLevelOperand = (operand: OperandPrefix) => {
+  const setExamLevelOperand = (operand: OperandPrefix): void => {
     updateHanjaSearchConfig({
       field: "exam_level",
       value: {

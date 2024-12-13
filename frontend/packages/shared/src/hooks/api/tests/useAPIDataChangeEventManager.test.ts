@@ -2,29 +2,28 @@
  * @jest-environment jsdom
  */
 
+import { jest, it, describe, expect } from "@jest/globals";
 import { renderHook, act } from "@testing-library/react";
 import { useAPIDataChangeManager } from "../useAPIDataChangeManager";
 
 describe("APIDataChangeEventManager", () => {
   it("notifies when a word is known", () => {
-    const onNotification = jest.fn().mockImplementation((newKnown: boolean) => {
-      return;
-    });
+    const onNotification = jest.fn();
 
     const { result } = renderHook(() => useAPIDataChangeManager());
 
     /* korean word (number pk) */
     act(() =>
       result.current.subscribe(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotification,
       })
     );
 
-    /* when this is set to known */
+    /* when this is set to knownChanged */
     act(() =>
       result.current.emit(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         passToCallback: true,
       })
     );
@@ -34,16 +33,14 @@ describe("APIDataChangeEventManager", () => {
   });
 
   it("does not notify when an unapplicable event is emitted", () => {
-    const onNotification = jest.fn().mockImplementation((newKnown: boolean) => {
-      return;
-    });
+    const onNotification = jest.fn();
 
     const { result } = renderHook(() => useAPIDataChangeManager());
 
     /* korean word (number pk) */
     act(() =>
       result.current.subscribe(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotification,
       })
     );
@@ -51,7 +48,7 @@ describe("APIDataChangeEventManager", () => {
     /* when this is set to studied */
     act(() =>
       result.current.emit(1, {
-        eventType: "studied",
+        eventType: "studiedChanged",
         passToCallback: true,
       })
     );
@@ -60,37 +57,29 @@ describe("APIDataChangeEventManager", () => {
     expect(onNotification).not.toHaveBeenCalled();
   });
 
-  it("only notifies applicable event when more than one is subscribed", () => {
-    const onNotificationToKoreanWord = jest
-      .fn()
-      .mockImplementation((newKnown: boolean) => {
-        return;
-      });
-    const onNotificationToHanjaChar = jest
-      .fn()
-      .mockImplementation((newKnown: boolean) => {
-        return;
-      });
+  it("only notifies applicable listener when more than one listener is subscribed", () => {
+    const onNotificationToKoreanWord = jest.fn();
+    const onNotificationToHanjaChar = jest.fn();
 
     const { result } = renderHook(() => useAPIDataChangeManager());
 
     /* korean word (number pk) */
     act(() =>
       result.current.subscribe(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotificationToKoreanWord,
       })
     );
     act(() =>
       result.current.subscribe("A", {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotificationToHanjaChar,
       })
     );
 
     act(() =>
       result.current.emit("A", {
-        eventType: "known",
+        eventType: "knownChanged",
         passToCallback: true,
       })
     );
@@ -101,7 +90,7 @@ describe("APIDataChangeEventManager", () => {
 
     act(() =>
       result.current.emit(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         passToCallback: false,
       })
     );
@@ -115,27 +104,25 @@ describe("APIDataChangeEventManager", () => {
   it("only allows for the same data to be subscribed twice and receive separate notifications", () => {
     const { result } = renderHook(() => useAPIDataChangeManager());
 
-    const onNotification = jest.fn().mockImplementation((newKnown: boolean) => {
-      return;
-    });
+    const onNotification = jest.fn();
 
     /* korean word (number pk) */
     act(() =>
       result.current.subscribe(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotification,
       })
     );
     act(() =>
       result.current.subscribe(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         onNotification: onNotification,
       })
     );
 
     act(() =>
       result.current.emit(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         passToCallback: true,
       })
     );
@@ -146,14 +133,12 @@ describe("APIDataChangeEventManager", () => {
 
   it("does not have race conditions with subscriptions under asynchronous conditions", async () => {
     const { result } = renderHook(() => useAPIDataChangeManager());
-    const onNotification = jest.fn().mockImplementation((newKnown: boolean) => {
-      return;
-    });
+    const onNotification = jest.fn();
 
     const addAsync = async (pk: number) => {
       act(() =>
         result.current.subscribe(pk, {
-          eventType: "known",
+          eventType: "knownChanged",
           onNotification: onNotification,
         })
       );
@@ -183,7 +168,7 @@ describe("APIDataChangeEventManager", () => {
     for (let i = 0; i < 20; i++) {
       act(() =>
         result.current.emit(i, {
-          eventType: "known",
+          eventType: "knownChanged",
           passToCallback: true,
         })
       );
@@ -194,12 +179,10 @@ describe("APIDataChangeEventManager", () => {
   it("allows for unsubscription", () => {
     const { result } = renderHook(() => useAPIDataChangeManager());
 
-    const onNotification = jest.fn().mockImplementation((newKnown: boolean) => {
-      return;
-    });
+    const onNotification = jest.fn();
 
     const listenerData = {
-      eventType: "known",
+      eventType: "knownChanged",
       onNotification: onNotification,
     } as const;
 
@@ -207,10 +190,10 @@ describe("APIDataChangeEventManager", () => {
     act(() => result.current.subscribe(1, listenerData));
     act(() => result.current.unsubscribe(1, listenerData));
 
-    /* when this is set to known */
+    /* when this is set to knownChanged */
     act(() =>
       result.current.emit(1, {
-        eventType: "known",
+        eventType: "knownChanged",
         passToCallback: true,
       })
     );

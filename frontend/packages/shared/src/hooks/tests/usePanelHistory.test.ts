@@ -1,17 +1,26 @@
 /**
  * @jest-environment jsdom
  */
-import { TestingView } from "../../types/panelAndViewTypes";
+import { it, describe, expect } from "@jest/globals";
+import { View } from "../../types/views/viewTypes";
 import { usePanelHistory } from "../usePanelHistory";
 import { act, renderHook } from "@testing-library/react";
 
 describe("usePanelHistory", () => {
   const smallStorageLimit = 2;
 
-  const makeView = (id: number): TestingView => {
+  const makeView = (id: number): View => {
+    /* korean detail views are used because they are among the simplest */
     return {
-      type: "testing",
-      id: id,
+      type: "korean_detail",
+      data: {
+        target_code: id,
+      },
+      /* not important */
+      interactionData: {
+        scrollDistance: 0,
+        dropdowns: [],
+      },
     };
   };
 

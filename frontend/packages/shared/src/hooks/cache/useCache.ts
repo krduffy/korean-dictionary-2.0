@@ -1,18 +1,19 @@
 import { useRef } from "react";
 import {
+  APIDataChangeCacheUpdater,
   CacheItem,
   CacheType,
   UseCacheArgs,
   UseCacheReturns,
 } from "../../types/cacheTypes";
 import { APIResponseType } from "../../types/apiCallTypes";
-import { CacheFacingAPIDataChangeListenerData } from "../../types/apiDataChangeEventTypes";
-import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
-import { useGlobalFunctionsContext } from "../../contexts/GlobalFunctionsContextProvider";
+import { APIDataChangeEventType } from "../../types/apiDataChangeEventTypes";
 
-export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
-  const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
-
+export const useCache = ({
+  capacity,
+  globalSubscribe,
+  globalUnsubscribe,
+}: UseCacheArgs): UseCacheReturns => {
   const initialCache = {
     capacity: capacity,
     stored: 0,
@@ -86,25 +87,14 @@ export const useCache = ({ capacity }: UseCacheArgs): UseCacheReturns => {
     }
   };
 
-  const setItemListenerArgs = <PkFieldType extends ValidPkFieldType>({
+  const setItemListenerArgs = ({
     url,
     body,
     cacheUpdaters,
   }: {
     url: string;
     body?: BodyInit | undefined;
-    cacheUpdaters: {
-      pk: PkFieldType;
-      eventType: CacheFacingAPIDataChangeListenerData["eventType"];
-      responseUpdater: (
-        // eslint-disable-next-line no-unused-vars
-        prevResponse: APIResponseType,
-        // eslint-disable-next-line no-unused-vars
-        newValue: Parameters<
-          CacheFacingAPIDataChangeListenerData["onNotification"]
-        >[0]
-      ) => APIResponseType;
-    }[];
+    cacheUpdaters: APIDataChangeCacheUpdater<APIDataChangeEventType>[];
   }) => {
     const key = getKey(url, body);
     const item = cache.current.items.get(key);

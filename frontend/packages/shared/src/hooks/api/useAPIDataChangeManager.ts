@@ -13,8 +13,10 @@ import { useRef } from "react";
 import {
   APIDataChangeListenerData,
   APIDataChangeNotificationData,
+  APIDataChangeEventType,
   UseAPIDataChangeManagerReturns,
 } from "../../types/apiDataChangeEventTypes";
+import { ValidPkFieldType } from "src/types/views/dictionary-items/sharedTypes";
 
 /* consumers need to be able to specify that they want to observe changes only to
    korean/hanja (way in which pk provided should be interpreted),
@@ -27,9 +29,9 @@ import {
 
 export const useAPIDataChangeManager = (): UseAPIDataChangeManagerReturns => {
   /* Korean words have number pks; hanja chars have string pks */
-  const listeners = useRef<Map<number | string, APIDataChangeListenerData[]>>(
-    new Map()
-  );
+  const listeners = useRef<
+    Map<ValidPkFieldType, APIDataChangeListenerData<APIDataChangeEventType>[]>
+  >(new Map());
 
   /**
    *
@@ -42,7 +44,7 @@ export const useAPIDataChangeManager = (): UseAPIDataChangeManagerReturns => {
    */
   const subscribe = (
     pk: number | string,
-    listenerData: APIDataChangeListenerData
+    listenerData: APIDataChangeListenerData<APIDataChangeEventType>
   ) => {
     const prevListenersForPk = listeners.current.get(pk);
 
@@ -62,8 +64,8 @@ export const useAPIDataChangeManager = (): UseAPIDataChangeManagerReturns => {
    * @param listenerData - The listener data of the listener(s) to remove.
    */
   const unsubscribe = (
-    pk: number | string,
-    listenerData: APIDataChangeListenerData
+    pk: ValidPkFieldType,
+    listenerData: APIDataChangeListenerData<APIDataChangeEventType>
   ) => {
     const prevListenersForPk = listeners.current.get(pk);
 
@@ -83,8 +85,8 @@ export const useAPIDataChangeManager = (): UseAPIDataChangeManagerReturns => {
    * @param notificationData The data for this notification.
    */
   const emit = (
-    pk: number | string,
-    notificationData: APIDataChangeNotificationData
+    pk: ValidPkFieldType,
+    notificationData: APIDataChangeNotificationData<APIDataChangeEventType>
   ) => {
     listeners.current.get(pk)?.forEach((listenerData) => {
       if (listenerData.eventType === notificationData.eventType) {
