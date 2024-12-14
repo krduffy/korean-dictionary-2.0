@@ -5,14 +5,32 @@ import {
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { isArrayOf } from "@repo/shared/types/guardUtils";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
+import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,
+  dropdownState,
 }: {
   historyInfo: HistoryInfoType;
+  dropdownState: boolean;
 }) => {
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+
+  const toggleHistoryVisible = (newVisible: boolean) => {
+    panelDispatchStateChangeSelf({
+      type: "update_korean_detail_interaction_data",
+      key: "historyDroppedDown",
+      newValue: newVisible,
+    });
+  };
+
   return (
-    <div>
+    <HideableDropdownNoTruncation
+      title="역사 정보"
+      droppedDown={dropdownState}
+      onDropdownStateToggle={toggleHistoryVisible}
+    >
       <HistoryOverviewData historyInfo={historyInfo} />
 
       {historyInfo.history_sense_info.length > 0 && (
@@ -30,7 +48,7 @@ export const KoreanHistoryInfoSection = ({
           </div>
         </div>
       )}
-    </div>
+    </HideableDropdownNoTruncation>
   );
 };
 

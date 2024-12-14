@@ -1,7 +1,8 @@
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { PanelState } from "@repo/shared/types/panel/panelTypes";
-import { View } from "@repo/shared/types/views/viewTypes";
+import { PanelState } from "src/types/panel/panelTypes";
 import { updateViewAndHistory } from "./panelStateReducer";
+import { View } from "src/types/views/viewTypes";
+import { PanelStateAction } from "src/types/panel/panelStateActionTypes";
+import { DetailedSenseDropdownState } from "src/types/views/interactionDataTypes";
 
 const updateInteractionData = (
   state: PanelState,
@@ -22,20 +23,24 @@ const updateInteractionData = (
   return updateViewAndHistory(state, updateFn);
 };
 
-const getWithUpdatedKoreanDetailDropdowns = (
+const getWithUpdatedKoreanDetailedSenseDropdowns = (
   state: PanelState,
-  id: number,
+  senseNumber: number,
+  dropdownKey: keyof DetailedSenseDropdownState,
   newIsDroppedDown: boolean
 ): PanelState => {
   if (state.view.type != "korean_detail") {
     return state;
   }
 
-  const newDropdowns = state.view.interactionData.dropdowns.map(
-    (current, index) => (index === id ? newIsDroppedDown : current)
+  const newDropdowns = state.view.interactionData.detailedSenseDropdowns.map(
+    (currentSenseDropdownsObj, index) =>
+      index === senseNumber
+        ? { ...currentSenseDropdownsObj, [dropdownKey]: newIsDroppedDown }
+        : currentSenseDropdownsObj
   );
 
-  return updateInteractionData(state, "dropdowns", newDropdowns);
+  return updateInteractionData(state, "detailedSenseDropdowns", newDropdowns);
 };
 
 export const updateInteractionDataIfApplicable = (
@@ -51,11 +56,15 @@ export const updateInteractionDataIfApplicable = (
       );
 
     case "update_korean_detail_dropdown_toggle":
-      return getWithUpdatedKoreanDetailDropdowns(
+      return getWithUpdatedKoreanDetailedSenseDropdowns(
         state,
-        action.id,
+        action.senseNumber,
+        action.dropdownKey,
         action.newIsDroppedDown
       );
+
+    case "update_korean_detail_interaction_data":
+      return updateInteractionData(state, action.key, action.newValue);
 
     case "update_hanja_detail_interaction_data":
       return updateInteractionData(state, action.key, action.newValue);

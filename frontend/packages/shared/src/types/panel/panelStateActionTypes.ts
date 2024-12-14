@@ -1,4 +1,8 @@
-import { HanjaDetailInteractionData } from "../views/interactionDataTypes";
+import {
+  DetailedSenseDropdownState,
+  HanjaDetailInteractionData,
+  KoreanDetailInteractionData,
+} from "../views/interactionDataTypes";
 import {
   HanjaSearchConfig,
   KoreanSearchConfig,
@@ -73,9 +77,10 @@ export interface UpdateScrollDistanceAction {
   scrollDistance: number;
 }
 
-export interface UpdateKoreanDetailDropdownToggleAction {
+export interface UpdateKoreanDetailedSenseDropdownsAction {
   type: "update_korean_detail_dropdown_toggle";
-  id: number;
+  senseNumber: number;
+  dropdownKey: keyof DetailedSenseDropdownState;
   newIsDroppedDown: boolean;
 }
 
@@ -95,6 +100,12 @@ export interface UpdateHanjaDetailInteractionDataAction {
   newValue: HanjaDetailInteractionData[keyof HanjaDetailInteractionData];
 }
 
+export interface UpdateKoreanDetailInteractionDataAction {
+  type: "update_korean_detail_interaction_data";
+  key: keyof KoreanDetailInteractionData;
+  newValue: KoreanDetailInteractionData[keyof KoreanDetailInteractionData];
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -109,8 +120,9 @@ export type PanelStateAction =
   | NavigateForwardAction
   | PushFindLemmaAction
   | UpdateScrollDistanceAction
-  | UpdateKoreanDetailDropdownToggleAction
+  | UpdateKoreanDetailedSenseDropdownsAction
   | UpdatePageAction
   | DeleteSearchConfigKeyAction
   | PushFindLemmaSuccessAction
-  | UpdateHanjaDetailInteractionDataAction;
+  | UpdateHanjaDetailInteractionDataAction
+  | UpdateKoreanDetailInteractionDataAction;

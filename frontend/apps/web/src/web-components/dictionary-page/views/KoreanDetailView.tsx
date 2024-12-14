@@ -10,13 +10,14 @@ import {
 } from "../../other/misc/ErrorMessageTemplates";
 import { isDetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { useKoreanDetailListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 
 export const KoreanDetailView = ({
   target_code,
-  dropdownStates,
+  interactionData,
 }: {
   target_code: number;
-  dropdownStates: boolean[];
+  interactionData: KoreanDetailInteractionData;
 }) => {
   const url = getEndpoint({ endpoint: "detail_korean", pk: target_code });
 
@@ -50,7 +51,7 @@ export const KoreanDetailView = ({
 
   if (successful && response) {
     return (
-      <KoreanDetailDisplay data={response} dropdownStates={dropdownStates} />
+      <KoreanDetailDisplay data={response} interactionData={interactionData} />
     );
   }
 };

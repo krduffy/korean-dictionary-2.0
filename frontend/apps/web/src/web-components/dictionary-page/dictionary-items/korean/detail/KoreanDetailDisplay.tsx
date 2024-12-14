@@ -5,14 +5,19 @@ import { memo } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { DetailedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
+import {
+  DetailedSenseDropdownState,
+  KoreanDetailInteractionData,
+} from "@repo/shared/types/views/interactionDataTypes";
+import { ErrorMessage } from "../../../../../web-components/other/misc/ErrorMessage";
 
 export const KoreanDetailDisplay = memo(
   ({
     data,
-    dropdownStates,
+    interactionData,
   }: {
     data: DetailedKoreanType;
-    dropdownStates: boolean[];
+    interactionData: KoreanDetailInteractionData;
   }) => {
     return (
       <div>
@@ -35,10 +40,16 @@ export const KoreanDetailDisplay = memo(
           )}
         </div>
 
-        <DetailedSenses senses={data.senses} dropdownStates={dropdownStates} />
+        <DetailedSenses
+          senses={data.senses}
+          dropdownStates={interactionData.detailedSenseDropdowns}
+        />
 
         {data.history_info && (
-          <KoreanHistoryInfoSection historyInfo={data.history_info} />
+          <KoreanHistoryInfoSection
+            historyInfo={data.history_info}
+            dropdownState={interactionData.historyDroppedDown}
+          />
         )}
       </div>
     );
@@ -50,18 +61,19 @@ const DetailedSenses = ({
   dropdownStates,
 }: {
   senses: DetailedSenseType[];
-  dropdownStates: boolean[];
+  dropdownStates: DetailedSenseDropdownState[];
 }) => {
-  return (
-    <>
-      {senses.map((senseData, id) => (
-        <div key={senseData.target_code} className="mb-4">
-          <DetailedSenseView
-            senseData={senseData}
-            dropdownState={dropdownStates[id] ?? false}
-          />
-        </div>
-      ))}
-    </>
-  );
+  return senses.map((senseData, id) => {
+    if (dropdownStates[id] === undefined) {
+      return <ErrorMessage errorResponse={{ detail: "this sense errored" }} />;
+    }
+    return (
+      <div key={senseData.target_code} className="mb-4">
+        <DetailedSenseView
+          senseData={senseData}
+          dropdownState={dropdownStates[id]}
+        />
+      </div>
+    );
+  });
 };

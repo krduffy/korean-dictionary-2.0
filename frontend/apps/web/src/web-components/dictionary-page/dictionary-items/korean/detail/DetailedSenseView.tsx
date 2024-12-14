@@ -7,32 +7,37 @@ import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSecti
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
 import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSection";
 import { ProverbInfoSection } from "./detailed-sense-components/ProverbInfoSection";
-import { DetailedSectionBox } from "./detailed-sense-components/DetailedSectionBox";
 import {
   DetailedSenseType,
   PatternType,
   RegionInfoType,
   SenseAdditionalInfoType,
 } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
+import { DetailedSenseDropdownState } from "@repo/shared/types/views/interactionDataTypes";
+import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 
 export const DetailedSenseView = ({
   senseData,
   dropdownState,
 }: {
   senseData: DetailedSenseType;
-  dropdownState: boolean;
+  dropdownState: DetailedSenseDropdownState;
 }) => {
   const mainSenseRef = useRef<HTMLDivElement>(null);
 
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-  const getOnDropdownStateToggleFunction = (id: number) => {
-    return (isExpanded: boolean) =>
-      panelDispatchStateChangeSelf({
-        type: "update_korean_detail_dropdown_toggle",
-        id: id,
-        newIsDroppedDown: isExpanded,
-      });
+  const getOnDropdownStateToggleFunction = (order: number) => {
+    return (dropdownKey: keyof DetailedSenseDropdownState) => {
+      return (isExpanded: boolean) => {
+        panelDispatchStateChangeSelf({
+          type: "update_korean_detail_dropdown_toggle",
+          senseNumber: order - 1,
+          dropdownKey: dropdownKey,
+          newIsDroppedDown: isExpanded,
+        });
+      };
+    };
   };
 
   return (
@@ -51,17 +56,13 @@ export const DetailedSenseView = ({
           />
         </div>
 
-        {/* ADDITIONAL INFO SECTION (in dropdown because it can be long) */}
-        <TruncatorDropdown
-          maxHeight={100}
-          droppedDown={dropdownState}
-          overrideScrollbackRef={mainSenseRef}
-          onDropdownStateToggle={getOnDropdownStateToggleFunction(
-            senseData.order - 1
+        <SenseAdditionalInfo
+          getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction(
+            senseData.order
           )}
-        >
-          <SenseAdditionalInfo additionalInfoData={senseData.additional_info} />
-        </TruncatorDropdown>
+          dropdownState={dropdownState}
+          additionalInfoData={senseData.additional_info}
+        />
       </div>
     </div>
   );
@@ -114,37 +115,113 @@ const SenseMainInfo = ({
 /* Examples are put in their own area. */
 
 const SenseAdditionalInfo = ({
+  getOnDropdownStateToggleFunction,
+  dropdownState,
   additionalInfoData,
 }: {
+  getOnDropdownStateToggleFunction: (
+    dropdownKey: keyof DetailedSenseDropdownState
+  ) => (isExpanded: boolean) => void;
+  dropdownState: DetailedSenseDropdownState;
+  additionalInfoData: SenseAdditionalInfoType;
+}) => {
+  const showOtherBox: boolean =
+    additionalInfoData.grammar_info !== undefined ||
+    additionalInfoData.norm_info !== undefined ||
+    additionalInfoData.relation_info !== undefined ||
+    additionalInfoData.proverb_info !== undefined;
+
+  return (
+    <div className="w-full">
+      {/* EXAMPLES */}
+      {additionalInfoData.example_info && (
+        <TruncatorDropdown
+          maxHeight={100}
+          droppedDown={dropdownState.exampleInfoDroppedDown}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            "exampleInfoDroppedDown"
+          )}
+        >
+          <div className="pad-10">
+            <ExampleInfoSection examples={additionalInfoData.example_info} />
+          </div>
+        </TruncatorDropdown>
+      )}
+
+      {showOtherBox && (
+        <AdditionalInfoOtherBox
+          getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction}
+          dropdownState={dropdownState}
+          additionalInfoData={additionalInfoData}
+        />
+      )}
+    </div>
+  );
+};
+
+const AdditionalInfoOtherBox = ({
+  getOnDropdownStateToggleFunction,
+  dropdownState,
+  additionalInfoData,
+}: {
+  getOnDropdownStateToggleFunction: (
+    dropdownKey: keyof DetailedSenseDropdownState
+  ) => (isExpanded: boolean) => void;
+  dropdownState: DetailedSenseDropdownState;
   additionalInfoData: SenseAdditionalInfoType;
 }) => {
   return (
-    <div className="w-full">
-      {additionalInfoData.example_info && (
-        <div className="pad-10">
-          <ExampleInfoSection examples={additionalInfoData.example_info} />
-        </div>
+    <HideableDropdownNoTruncation
+      droppedDown={dropdownState.otherInfoBoxDroppedDown}
+      onDropdownStateToggle={getOnDropdownStateToggleFunction(
+        "otherInfoBoxDroppedDown"
       )}
+      title="정보"
+    >
       {additionalInfoData.grammar_info && (
-        <DetailedSectionBox title="문법 정보">
+        <HideableDropdownNoTruncation
+          droppedDown={dropdownState.grammarInfoDroppedDown}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            "grammarInfoDroppedDown"
+          )}
+          title="문법 정보"
+        >
           <GrammarInfoSection grammarItems={additionalInfoData.grammar_info} />
-        </DetailedSectionBox>
+        </HideableDropdownNoTruncation>
       )}
       {additionalInfoData.norm_info && (
-        <DetailedSectionBox title="규범 정보">
+        <HideableDropdownNoTruncation
+          droppedDown={dropdownState.normInfoDroppedDown}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            "normInfoDroppedDown"
+          )}
+          title="규범 정보"
+        >
           <NormInfoSection norms={additionalInfoData.norm_info} />
-        </DetailedSectionBox>
+        </HideableDropdownNoTruncation>
       )}
       {additionalInfoData.relation_info && (
-        <DetailedSectionBox title="관련 어휘">
+        <HideableDropdownNoTruncation
+          droppedDown={dropdownState.relationInfoDroppedDown}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            "relationInfoDroppedDown"
+          )}
+          title="관련 어휘"
+        >
           <RelationInfoSection relations={additionalInfoData.relation_info} />
-        </DetailedSectionBox>
+        </HideableDropdownNoTruncation>
       )}
       {additionalInfoData.proverb_info && (
-        <DetailedSectionBox title="관용구 • 속담">
+        <HideableDropdownNoTruncation
+          droppedDown={dropdownState.proverbInfoDroppedDown}
+          onDropdownStateToggle={getOnDropdownStateToggleFunction(
+            "proverbInfoDroppedDown"
+          )}
+          title="관용구 • 속담"
+        >
           <ProverbInfoSection proverbs={additionalInfoData.proverb_info} />
-        </DetailedSectionBox>
+        </HideableDropdownNoTruncation>
       )}
-    </div>
+    </HideableDropdownNoTruncation>
   );
 };

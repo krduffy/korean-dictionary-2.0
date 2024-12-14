@@ -75,7 +75,7 @@ export const MainContent = ({ view }: { view: View }) => {
     return (
       <KoreanDetailView
         target_code={view.data.target_code}
-        dropdownStates={view.interactionData.dropdowns}
+        interactionData={view.interactionData}
       />
     );
   }

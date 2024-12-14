@@ -1,6 +1,6 @@
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { PanelState } from "@repo/shared/types/panel/panelTypes";
-import { View } from "@repo/shared/types/views/viewTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
+import { PanelState } from "../../types/panel/panelTypes";
+import { View } from "../../types/views/viewTypes";
 
 /* adds a new view to the end of history */
 const pushView = (state: PanelState, newView: View): PanelState => {
@@ -65,7 +65,15 @@ export const pushIfApplicable = (
         interactionData: {
           scrollDistance: 0,
           /* 30 is used tentatively as the max number of senses supported */
-          dropdowns: Array(30).fill(false),
+          historyDroppedDown: true,
+          detailedSenseDropdowns: Array(30).fill({
+            exampleInfoDroppedDown: false,
+            otherInfoBoxDroppedDown: false,
+            grammarInfoDroppedDown: true,
+            normInfoDroppedDown: true,
+            relationInfoDroppedDown: true,
+            proverbInfoDroppedDown: true,
+          }),
         },
       });
     case "push_hanja_detail":
