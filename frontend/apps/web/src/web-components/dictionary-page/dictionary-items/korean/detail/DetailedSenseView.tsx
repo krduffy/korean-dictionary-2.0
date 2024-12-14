@@ -111,6 +111,8 @@ const SenseMainInfo = ({
   );
 };
 
+/* Examples are put in their own area. */
+
 const SenseAdditionalInfo = ({
   additionalInfoData,
 }: {

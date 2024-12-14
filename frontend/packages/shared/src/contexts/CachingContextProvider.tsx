@@ -1,6 +1,7 @@
 import { useContext, createContext, ReactNode } from "react";
 import { useCache } from "../hooks/cache/useCache";
 import { UseCacheReturns } from "../types/cacheTypes";
+import { useGlobalFunctionsContext } from "./GlobalFunctionsContextProvider";
 
 export const CachingContext = createContext<UseCacheReturns | null>(null);
 
@@ -11,8 +12,12 @@ export const CachingContextProvider = ({
   children: ReactNode;
   cacheCapacity: number;
 }) => {
+  const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
+
   const { clear, put, retrieve, setItemListenerArgs } = useCache({
     capacity: cacheCapacity,
+    globalSubscribe,
+    globalUnsubscribe,
   });
 
   return (

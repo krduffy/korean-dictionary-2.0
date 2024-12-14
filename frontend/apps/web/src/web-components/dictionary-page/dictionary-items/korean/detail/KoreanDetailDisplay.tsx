@@ -4,6 +4,7 @@ import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { memo } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { DetailedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -34,14 +35,7 @@ export const KoreanDetailDisplay = memo(
           )}
         </div>
 
-        {data.senses.map((senseData, id) => (
-          <div key={senseData.target_code} className="mb-4">
-            <DetailedSenseView
-              senseData={senseData}
-              dropdownState={dropdownStates[id] ?? false}
-            />
-          </div>
-        ))}
+        <DetailedSenses senses={data.senses} dropdownStates={dropdownStates} />
 
         {data.history_info && (
           <KoreanHistoryInfoSection historyInfo={data.history_info} />
@@ -50,3 +44,24 @@ export const KoreanDetailDisplay = memo(
     );
   }
 );
+
+const DetailedSenses = ({
+  senses,
+  dropdownStates,
+}: {
+  senses: DetailedSenseType[];
+  dropdownStates: boolean[];
+}) => {
+  return (
+    <>
+      {senses.map((senseData, id) => (
+        <div key={senseData.target_code} className="mb-4">
+          <DetailedSenseView
+            senseData={senseData}
+            dropdownState={dropdownStates[id] ?? false}
+          />
+        </div>
+      ))}
+    </>
+  );
+};

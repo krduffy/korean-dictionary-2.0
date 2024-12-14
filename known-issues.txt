@@ -1,2 +1,12 @@
 Words in the nlp view do not work properly when surrounding in '' (dummy string) => due to indexing
 problem in the index heuristic
+
+way too many listeners registered. on every dispatch the effects refire so scrolling can
+register upwards of 500
+make instances of listeners not be registered in the case that the hook already has
+one with that set of args or make it so the effect conditionally registers them
+
+logging in does not invalidate everything on the page
+need new api data change event that clears most of the cache on login or logout
++ calls loadedDataChanged on the panels
+some things like find lemma are not login status contingent and can therefore be kept

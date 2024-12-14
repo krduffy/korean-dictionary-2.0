@@ -32,18 +32,19 @@ export type HistoryCenturyExampleType = {
 
 export type HistoryCenturyInfoType = {
   history_example_info?: HistoryCenturyExampleType[];
-  century: number;
+  century: string;
   mark: string;
 };
 
 export type HistorySenseInfoItem = {
-  history_century_info: HistoryCenturyInfoType;
+  history_century_info: HistoryCenturyInfoType[];
 };
 
 export type HistoryInfoType = {
   desc: string;
   allomorph: string;
-  history_sense_info: HistorySenseInfoItem[];
+  // no idea why this is an array in the base data
+  history_sense_info: [HistorySenseInfoItem];
   remark?: string;
   word_form: string;
 };
@@ -79,7 +80,7 @@ export function isKoreanSearchResultType(
   );
 }
 
-function isHistoryCenturyExampleType(
+export function isHistoryCenturyExampleType(
   value: unknown
 ): value is HistoryCenturyExampleType {
   const x =
@@ -91,7 +92,9 @@ function isHistoryCenturyExampleType(
   return x;
 }
 
-function isHistoryCenturyInfo(value: unknown): value is HistoryCenturyInfoType {
+export function isHistoryCenturyInfo(
+  value: unknown
+): value is HistoryCenturyInfoType {
   const x =
     isObject(value) &&
     isArrayOf(value.history_example_info, isHistoryCenturyExampleType) &&
@@ -100,7 +103,9 @@ function isHistoryCenturyInfo(value: unknown): value is HistoryCenturyInfoType {
   return x;
 }
 
-function isHistorySenseInfoItem(value: unknown): value is HistorySenseInfoItem {
+export function isHistorySenseInfoItem(
+  value: unknown
+): value is HistorySenseInfoItem {
   const x =
     isObject(value) &&
     isArrayOf(value.history_century_info, isHistoryCenturyInfo);
@@ -114,7 +119,9 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
     isString(value.desc) &&
     isString(value.word_form) &&
     isString(value.allomorph) &&
-    isArrayOf(value.history_sense_info, isHistorySenseInfoItem) &&
+    Array.isArray(value.history_sense_info) &&
+    value.history_sense_info.length === 1 &&
+    isHistorySenseInfoItem(value.history_sense_info[0]) &&
     (value.remark === undefined || isString(value.remark));
 
   return x;

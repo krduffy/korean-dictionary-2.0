@@ -1,8 +1,10 @@
 import {
   HistoryCenturyInfoType,
   HistoryInfoType,
+  isHistoryCenturyInfo,
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
+import { isArrayOf } from "@repo/shared/types/guardUtils";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,
@@ -12,12 +14,18 @@ export const KoreanHistoryInfoSection = ({
   return (
     <div>
       <HistoryOverviewData historyInfo={historyInfo} />
+
       {historyInfo.history_sense_info.length > 0 && (
         <div className="curved-box-nest1">
           <div className="curved-box-header textcentered">세기별 용례</div>
           <div className="pad-10 full-width">
             <CenturyTable
-              historyCenturiesInfo={historyInfo.history_sense_info}
+              /* data from korean lang institute is strangely formatted
+                 history sense info has length 1 and the only item is object with
+                 history_century_info as the only key */
+              historyCenturiesInfo={
+                historyInfo.history_sense_info[0].history_century_info
+              }
             />
           </div>
         </div>
@@ -68,6 +76,8 @@ const CenturyTable = ({
 }: {
   historyCenturiesInfo: HistoryCenturyInfoType[];
 }) => {
+  console.log(historyCenturiesInfo);
+
   return (
     <table
       style={{
@@ -103,6 +113,8 @@ const CenturyRow = ({
 }: {
   centuryInfo: HistoryCenturyInfoType;
 }) => {
+  console.log(centuryInfo);
+
   return (
     <tr>
       <td>{centuryInfo.century}세기</td>
@@ -114,7 +126,7 @@ const CenturyRow = ({
         }}
       >
         <ul>
-          {centuryInfo.examples?.map((example, innerId) => (
+          {centuryInfo.history_example_info?.map((example, innerId) => (
             <li key={innerId}>
               <div>
                 <StringWithHanja string={example.example} />
