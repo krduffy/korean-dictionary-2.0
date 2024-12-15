@@ -1,7 +1,7 @@
 import { DetailedSenseView } from "./DetailedSenseView";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { DetailedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
@@ -10,6 +10,7 @@ import {
   KoreanDetailInteractionData,
 } from "@repo/shared/types/views/interactionDataTypes";
 import { ErrorMessage } from "../../../../../web-components/other/misc/ErrorMessage";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -63,9 +64,25 @@ const DetailedSenses = ({
   senses: DetailedSenseType[];
   dropdownStates: DetailedSenseDropdownState[];
 }) => {
+  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+
+  useEffect(() => {
+    if (senses.length !== dropdownStates.length) {
+      panelDispatchStateChangeSelf({
+        type: "update_detailed_sense_dropdown_states_length",
+        newLength: senses.length,
+      });
+    }
+  }, []);
+
   return senses.map((senseData, id) => {
     if (dropdownStates[id] === undefined) {
-      return <ErrorMessage errorResponse={{ detail: "this sense errored" }} />;
+      return (
+        <ErrorMessage
+          key={senseData.target_code}
+          errorResponse={{ detail: "this sense errored" }}
+        />
+      );
     }
     return (
       <div key={senseData.target_code} className="mb-4">

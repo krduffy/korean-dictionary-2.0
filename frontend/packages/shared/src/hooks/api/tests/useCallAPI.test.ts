@@ -215,8 +215,6 @@ describe("useCallAPI", () => {
        returned from the getAccessToken function resulted in 401 */
     expect(mockedTokenHandlers.deleteTokens).toHaveBeenCalledTimes(1);
 
-    console.log(result.current);
-
     expect(result.current.successful).toBe(true);
     expect(result.current.error).toBe(false);
     expect(result.current.response).toEqual(

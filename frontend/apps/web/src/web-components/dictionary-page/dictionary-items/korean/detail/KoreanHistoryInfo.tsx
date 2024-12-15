@@ -28,6 +28,8 @@ export const KoreanHistoryInfoSection = ({
   return (
     <HideableDropdownNoTruncation
       title="역사 정보"
+      topBarColor="red"
+      childrenBackgroundColor="blue"
       droppedDown={dropdownState}
       onDropdownStateToggle={toggleHistoryVisible}
     >
@@ -94,8 +96,6 @@ const CenturyTable = ({
 }: {
   historyCenturiesInfo: HistoryCenturyInfoType[];
 }) => {
-  console.log(historyCenturiesInfo);
-
   return (
     <table
       style={{
@@ -131,8 +131,6 @@ const CenturyRow = ({
 }: {
   centuryInfo: HistoryCenturyInfoType;
 }) => {
-  console.log(centuryInfo);
-
   return (
     <tr>
       <td>{centuryInfo.century}세기</td>

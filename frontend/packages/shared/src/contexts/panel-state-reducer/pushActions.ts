@@ -1,3 +1,4 @@
+import { getDefaultDetailedSenseDropdowns } from "../../utils/basicViews";
 import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 import { PanelState } from "../../types/panel/panelTypes";
 import { View } from "../../types/views/viewTypes";
@@ -66,14 +67,9 @@ export const pushIfApplicable = (
           scrollDistance: 0,
           /* 30 is used tentatively as the max number of senses supported */
           historyDroppedDown: true,
-          detailedSenseDropdowns: Array(30).fill({
-            exampleInfoDroppedDown: false,
-            otherInfoBoxDroppedDown: false,
-            grammarInfoDroppedDown: true,
-            normInfoDroppedDown: true,
-            relationInfoDroppedDown: true,
-            proverbInfoDroppedDown: true,
-          }),
+          detailedSenseDropdowns: Array(40).fill(
+            getDefaultDetailedSenseDropdowns()
+          ),
         },
       });
     case "push_hanja_detail":

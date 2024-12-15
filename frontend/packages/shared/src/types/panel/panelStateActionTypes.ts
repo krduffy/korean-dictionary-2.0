@@ -106,6 +106,11 @@ export interface UpdateKoreanDetailInteractionDataAction {
   newValue: KoreanDetailInteractionData[keyof KoreanDetailInteractionData];
 }
 
+export interface UpdateDetailedSenseDropdownStatesLengthAction {
+  type: "update_detailed_sense_dropdown_states_length";
+  newLength: number;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -125,4 +130,5 @@ export type PanelStateAction =
   | DeleteSearchConfigKeyAction
   | PushFindLemmaSuccessAction
   | UpdateHanjaDetailInteractionDataAction
-  | UpdateKoreanDetailInteractionDataAction;
+  | UpdateKoreanDetailInteractionDataAction
+  | UpdateDetailedSenseDropdownStatesLengthAction;

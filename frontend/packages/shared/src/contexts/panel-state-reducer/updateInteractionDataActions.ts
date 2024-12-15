@@ -2,12 +2,18 @@ import { PanelState } from "src/types/panel/panelTypes";
 import { updateViewAndHistory } from "./panelStateReducer";
 import { View } from "src/types/views/viewTypes";
 import { PanelStateAction } from "src/types/panel/panelStateActionTypes";
-import { DetailedSenseDropdownState } from "src/types/views/interactionDataTypes";
+import {
+  BaseInteractionData,
+  DetailedSenseDropdownState,
+  HanjaDetailInteractionData,
+  KoreanDetailInteractionData,
+} from "../../types/views/interactionDataTypes";
+import { getDefaultDetailedSenseDropdowns } from "../../utils/basicViews";
 
-const updateInteractionData = (
+const updateInteractionData = <T extends BaseInteractionData>(
   state: PanelState,
-  key: string,
-  newValue: any
+  key: keyof T,
+  newValue: T[keyof T]
 ) => {
   /* type guards */
 
@@ -40,7 +46,31 @@ const getWithUpdatedKoreanDetailedSenseDropdowns = (
         : currentSenseDropdownsObj
   );
 
-  return updateInteractionData(state, "detailedSenseDropdowns", newDropdowns);
+  return updateInteractionData<KoreanDetailInteractionData>(
+    state,
+    "detailedSenseDropdowns",
+    newDropdowns
+  );
+};
+
+const updateDetailedSenseDropdownsLength = (
+  state: PanelState,
+  newLength: number
+) => {
+  if (state.view.type !== "korean_detail") return state;
+
+  const detailedSenseDropdowns =
+    state.view.interactionData.detailedSenseDropdowns;
+
+  return updateInteractionData<KoreanDetailInteractionData>(
+    state,
+    "detailedSenseDropdowns",
+    Array(newLength)
+      .fill(null)
+      .map((_, id) => {
+        return detailedSenseDropdowns[id] || getDefaultDetailedSenseDropdowns();
+      })
+  );
 };
 
 export const updateInteractionDataIfApplicable = (
@@ -49,7 +79,7 @@ export const updateInteractionDataIfApplicable = (
 ): PanelState | null => {
   switch (action.type) {
     case "update_scroll_distance":
-      return updateInteractionData(
+      return updateInteractionData<BaseInteractionData>(
         state,
         "scrollDistance",
         action.scrollDistance
@@ -66,8 +96,15 @@ export const updateInteractionDataIfApplicable = (
     case "update_korean_detail_interaction_data":
       return updateInteractionData(state, action.key, action.newValue);
 
+    case "update_detailed_sense_dropdown_states_length":
+      return updateDetailedSenseDropdownsLength(state, action.newLength);
+
     case "update_hanja_detail_interaction_data":
-      return updateInteractionData(state, action.key, action.newValue);
+      return updateInteractionData<HanjaDetailInteractionData>(
+        state,
+        action.key,
+        action.newValue
+      );
 
     default:
       return null;

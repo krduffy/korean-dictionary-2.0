@@ -145,7 +145,6 @@ export class FetchMockFactory {
       statusIfUnauth: 200,
       responseIfUnauth: this.unauthenticatedSuccessResponse,
     });
-    console.log(this.getJson.toString());
     return this;
   }
 

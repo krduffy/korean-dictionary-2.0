@@ -20,7 +20,8 @@ const getKnownStudiedCacheUpdaters = <PkFieldType extends ValidPkFieldType>(
     (knownOrStudied) => {
       return {
         pk: pk,
-        eventType: knownOrStudied,
+        eventType:
+          knownOrStudied === "known" ? "knownChanged" : "studiedChanged",
         responseUpdater: (prevResponse: APIResponseType, newValue: boolean) => {
           return withUpdatedKnownStudied({
             fullResponse: prevResponse,

@@ -45,6 +45,8 @@ const HanjaExplanation = ({
   return (
     <HideableDropdownNoTruncation
       title="설명"
+      topBarColor="red"
+      childrenBackgroundColor="blue"
       droppedDown={droppedDown}
       onDropdownStateToggle={(isToggled: boolean) => {
         panelDispatchStateChangeSelf({

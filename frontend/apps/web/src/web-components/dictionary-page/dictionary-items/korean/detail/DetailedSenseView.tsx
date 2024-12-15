@@ -1,7 +1,7 @@
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
 import { TruncatorDropdown } from "../../../../other/misc/TruncatorDropdown";
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSection";
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
@@ -9,8 +9,12 @@ import { RelationInfoSection } from "./detailed-sense-components/RelationInfoSec
 import { ProverbInfoSection } from "./detailed-sense-components/ProverbInfoSection";
 import {
   DetailedSenseType,
+  GrammarItemType,
+  NormType,
   PatternType,
+  ProverbType,
   RegionInfoType,
+  RelationType,
   SenseAdditionalInfoType,
 } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { DetailedSenseDropdownState } from "@repo/shared/types/views/interactionDataTypes";
@@ -132,7 +136,7 @@ const SenseAdditionalInfo = ({
     additionalInfoData.proverb_info !== undefined;
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-4">
       {/* EXAMPLES */}
       {additionalInfoData.example_info && (
         <TruncatorDropdown
@@ -170,58 +174,75 @@ const AdditionalInfoOtherBox = ({
   dropdownState: DetailedSenseDropdownState;
   additionalInfoData: SenseAdditionalInfoType;
 }) => {
+  /* excludes examples */
+  const additionalInfoItems = [
+    {
+      name: "relation",
+      title: "관련 어휘",
+      getComponent: (relation_info: RelationType[]) => (
+        <RelationInfoSection relations={relation_info} />
+      ),
+    },
+    {
+      name: "proverb",
+      title: "관용구 • 속담",
+      getComponent: (proverb_info: ProverbType[]) => (
+        <ProverbInfoSection proverbs={proverb_info} />
+      ),
+    },
+    {
+      name: "norm",
+      title: "규범 정보",
+      getComponent: (norm_info: NormType[]) => (
+        <NormInfoSection norms={norm_info} />
+      ),
+    },
+    {
+      name: "grammar",
+      title: "문법 정보",
+      getComponent: (grammar_info: GrammarItemType[]) => (
+        <GrammarInfoSection grammarItems={grammar_info} />
+      ),
+    },
+  ] as const;
+
   return (
     <HideableDropdownNoTruncation
       droppedDown={dropdownState.otherInfoBoxDroppedDown}
+      topBarColor="var(--surface-color)"
+      childrenBackgroundColor="var(--background-tertiary)"
       onDropdownStateToggle={getOnDropdownStateToggleFunction(
         "otherInfoBoxDroppedDown"
       )}
       title="정보"
     >
-      {additionalInfoData.grammar_info && (
-        <HideableDropdownNoTruncation
-          droppedDown={dropdownState.grammarInfoDroppedDown}
-          onDropdownStateToggle={getOnDropdownStateToggleFunction(
-            "grammarInfoDroppedDown"
-          )}
-          title="문법 정보"
-        >
-          <GrammarInfoSection grammarItems={additionalInfoData.grammar_info} />
-        </HideableDropdownNoTruncation>
-      )}
-      {additionalInfoData.norm_info && (
-        <HideableDropdownNoTruncation
-          droppedDown={dropdownState.normInfoDroppedDown}
-          onDropdownStateToggle={getOnDropdownStateToggleFunction(
-            "normInfoDroppedDown"
-          )}
-          title="규범 정보"
-        >
-          <NormInfoSection norms={additionalInfoData.norm_info} />
-        </HideableDropdownNoTruncation>
-      )}
-      {additionalInfoData.relation_info && (
-        <HideableDropdownNoTruncation
-          droppedDown={dropdownState.relationInfoDroppedDown}
-          onDropdownStateToggle={getOnDropdownStateToggleFunction(
-            "relationInfoDroppedDown"
-          )}
-          title="관련 어휘"
-        >
-          <RelationInfoSection relations={additionalInfoData.relation_info} />
-        </HideableDropdownNoTruncation>
-      )}
-      {additionalInfoData.proverb_info && (
-        <HideableDropdownNoTruncation
-          droppedDown={dropdownState.proverbInfoDroppedDown}
-          onDropdownStateToggle={getOnDropdownStateToggleFunction(
-            "proverbInfoDroppedDown"
-          )}
-          title="관용구 • 속담"
-        >
-          <ProverbInfoSection proverbs={additionalInfoData.proverb_info} />
-        </HideableDropdownNoTruncation>
-      )}
+      <div className="flex flex-col p-4 gap-4">
+        {/* Individual info items (grammar, etc) */}
+
+        {additionalInfoItems.map(
+          ({ name, title, getComponent }, id) =>
+            additionalInfoData[`${name}_info`] && (
+              <HideableDropdownNoTruncation
+                key={title}
+                droppedDown={dropdownState[`${name}InfoDroppedDown`]}
+                topBarColor={`var(--accent-${id + 1})`}
+                childrenBackgroundColor="var(--background-quaternary)"
+                onDropdownStateToggle={getOnDropdownStateToggleFunction(
+                  `${name}InfoDroppedDown`
+                )}
+                title={title}
+              >
+                <div>
+                  {
+                    /* Easier to just disable; the array is const and it works */
+                    // @ts-ignore
+                    getComponent(additionalInfoData[`${name}_info`])
+                  }
+                </div>
+              </HideableDropdownNoTruncation>
+            )
+        )}
+      </div>
     </HideableDropdownNoTruncation>
   );
 };

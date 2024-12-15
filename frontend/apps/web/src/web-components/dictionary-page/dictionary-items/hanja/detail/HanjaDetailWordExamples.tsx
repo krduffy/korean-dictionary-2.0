@@ -77,6 +77,8 @@ export const HanjaDetailWordExamples = ({
     return (
       <HideableDropdownNoTruncation
         title="용례 단어"
+        topBarColor="red"
+        childrenBackgroundColor="blue"
         droppedDown={droppedDown}
         onDropdownStateToggle={handleDropdownStateToggle}
       >
@@ -121,6 +123,8 @@ export const HanjaDetailWordExamples = ({
     <HideableDropdownNoTruncation
       title="용례 단어"
       droppedDown={droppedDown}
+      topBarColor="red"
+      childrenBackgroundColor="blue"
       onDropdownStateToggle={handleDropdownStateToggle}
     >
       <ResultCountMessage

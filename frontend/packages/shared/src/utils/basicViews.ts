@@ -26,3 +26,12 @@ export const getBasicHanjaSearchViewData = ({
     page: 1,
   };
 };
+
+export const getDefaultDetailedSenseDropdowns = () => ({
+  exampleInfoDroppedDown: false,
+  otherInfoBoxDroppedDown: false,
+  grammarInfoDroppedDown: true,
+  normInfoDroppedDown: true,
+  relationInfoDroppedDown: true,
+  proverbInfoDroppedDown: true,
+});

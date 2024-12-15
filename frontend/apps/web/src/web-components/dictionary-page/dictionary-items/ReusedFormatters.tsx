@@ -25,11 +25,15 @@ export const HideableDropdownNoTruncation = ({
   title,
   droppedDown,
   onDropdownStateToggle,
+  topBarColor,
+  childrenBackgroundColor,
   children,
 }: {
   title: string;
   droppedDown: boolean;
   onDropdownStateToggle: (droppedDown: boolean) => void;
+  topBarColor: string;
+  childrenBackgroundColor: string;
   children: ReactNode;
 }) => {
   const { handleClickButton, contentRef, topLevelRef } = useTruncatorDropdown({
@@ -41,7 +45,10 @@ export const HideableDropdownNoTruncation = ({
 
   return (
     <div className="w-full" ref={topLevelRef}>
-      <div className="flex flex-row justify-between">
+      <div
+        style={{ backgroundColor: topBarColor }}
+        className={`px-2 flex flex-row justify-between items-center border-[color:--border-color] ${droppedDown ? "border-t-2 rounded-t-xl" : "border-2 rounded-xl"}`}
+      >
         <div className="text-[150%]">{title}</div>
         <div
           className="cursor-pointer"
@@ -54,8 +61,9 @@ export const HideableDropdownNoTruncation = ({
       <div
         style={{
           maxHeight: droppedDown ? "" : "0px",
+          backgroundColor: childrenBackgroundColor,
         }}
-        className="overflow-y-hidden"
+        className="overflow-y-hidden rounded-b-xl"
         ref={contentRef}
       >
         {children}

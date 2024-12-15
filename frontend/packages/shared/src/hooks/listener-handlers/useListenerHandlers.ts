@@ -48,7 +48,6 @@ const subscribeAll = (
   subscriptionArgs: Parameters<SubscribeFnType>[]
 ) => {
   subscriptionArgs.forEach((subscriptionArgsItem) => {
-    console.log("subbing");
     subscribe(subscriptionArgsItem[0], subscriptionArgsItem[1]);
   });
 };
