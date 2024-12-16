@@ -239,13 +239,11 @@ const NonExampleInfoAdditionalInfo = ({
               )}
               title={title}
             >
-              <div className="p-2 pt-4">
-                {
-                  /* Easier to just disable; the array is const and it works */
-                  // @ts-ignore
-                  getComponent(additionalInfoData[`${name}_info`])
-                }
-              </div>
+              {
+                /* Easier to just disable; the array is const and it works */
+                // @ts-ignore
+                getComponent(additionalInfoData[`${name}_info`])
+              }
             </DetailViewBaseDefaultHideableDropdownNoTruncation>
           )
       )}

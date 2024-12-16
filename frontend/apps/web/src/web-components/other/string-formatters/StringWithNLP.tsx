@@ -11,8 +11,9 @@ import { NLPToken } from "@repo/shared/types/koreanLangTypes";
 
 export const StringWithNLP = memo(({ string }: { string: string }) => {
   return (
-    <BaseStringWithNLP
+    <BaseFormattedString
       string={string}
+      embedNLP={true}
       embedHanja={false}
       embedExamples={false}
     />
@@ -21,9 +22,10 @@ export const StringWithNLP = memo(({ string }: { string: string }) => {
 
 export const StringWithNLPAndHanja = memo(({ string }: { string: string }) => {
   return (
-    <BaseStringWithNLP
+    <BaseFormattedString
       string={string}
       embedHanja={true}
+      embedNLP={true}
       embedExamples={false}
     />
   );
@@ -32,8 +34,9 @@ export const StringWithNLPAndHanja = memo(({ string }: { string: string }) => {
 export const ExampleStringWithNLPAndHanja = memo(
   ({ string }: { string: string }) => {
     return (
-      <BaseStringWithNLP
+      <BaseFormattedString
         string={string}
+        embedNLP={true}
         embedHanja={true}
         embedExamples={true}
       />
@@ -41,12 +44,25 @@ export const ExampleStringWithNLPAndHanja = memo(
   }
 );
 
-const BaseStringWithNLP = ({
+export const ExampleStringWithHanja = memo(({ string }: { string: string }) => {
+  return (
+    <BaseFormattedString
+      string={string}
+      embedNLP={false}
+      embedHanja={true}
+      embedExamples={true}
+    />
+  );
+});
+
+const BaseFormattedString = ({
   string,
+  embedNLP,
   embedHanja,
   embedExamples,
 }: {
   string: string;
+  embedNLP: boolean;
   embedHanja: boolean;
   embedExamples: boolean;
 }) => {
@@ -64,10 +80,11 @@ const BaseStringWithNLP = ({
         return (
           <Fragment key={sentenceId}>
             {tokens?.map((nlpToken, nlpTokenId) => (
-              <PrintedNLPToken
+              <PrintedToken
                 key={nlpTokenId}
                 nlpToken={nlpToken}
                 sentence={sentence}
+                embedNLP={embedNLP}
                 embedHanja={embedHanja}
               />
             ))}
@@ -80,22 +97,34 @@ const BaseStringWithNLP = ({
   );
 };
 
-const PrintedNLPToken = ({
+const PrintedToken = ({
   nlpToken,
   sentence,
+  embedNLP,
   embedHanja,
 }: {
   nlpToken: NLPToken;
   sentence: string;
+  embedNLP: boolean;
   embedHanja: boolean;
 }) => {
   if (nlpToken.type === "hangul") {
-    return <WordWithNLP word={nlpToken.token} sentence={sentence} />;
-  } else if (nlpToken.type === "other" && embedHanja) {
-    return <StringWithHanja string={nlpToken.token} />;
-  } else if (nlpToken.type === "other") {
-    return <span>{nlpToken.token}</span>;
-  } else if (nlpToken.type === "example") {
+    return embedNLP ? (
+      <WordWithNLP word={nlpToken.token} sentence={sentence} />
+    ) : (
+      <span>{nlpToken.token}</span>
+    );
+  }
+
+  if (nlpToken.type === "other") {
+    return embedHanja ? (
+      <StringWithHanja string={nlpToken.token} />
+    ) : (
+      <span>{nlpToken.token}</span>
+    );
+  }
+
+  if (nlpToken.type === "example") {
     return <span className="underline">{nlpToken.token}</span>;
   }
 };

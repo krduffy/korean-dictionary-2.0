@@ -2,7 +2,6 @@ import {
   HistoryCenturyInfoType,
   HistoryInfoType,
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
-import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 import {
@@ -10,6 +9,7 @@ import {
   NonModernKoreanText,
   Source,
 } from "../../../../other/string-formatters/SpanStylers";
+import { ExampleStringWithHanja } from "../../../../other/string-formatters/StringWithNLP";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,
@@ -198,7 +198,7 @@ const CenturyRowData = ({
           {centuryInfo.history_example_info?.map((example, exampleNumber) => (
             <li key={exampleNumber}>
               <NonModernKoreanText>
-                <StringWithHanja string={example.example} />
+                <ExampleStringWithHanja string={example.example} />
               </NonModernKoreanText>
 
               <Source>출처: {example.source}</Source>
