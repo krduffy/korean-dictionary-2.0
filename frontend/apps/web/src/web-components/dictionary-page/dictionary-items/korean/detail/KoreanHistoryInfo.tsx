@@ -158,9 +158,8 @@ const CenturyTable = ({
           );
 
           return (
-            <tr className={applyBorder}>
+            <tr className={applyBorder} key={id}>
               <CenturyRowData
-                key={id}
                 centuryInfo={centuryInfo}
                 getRowItemBorderStyleString={getRowItemBorderStyleString}
               />

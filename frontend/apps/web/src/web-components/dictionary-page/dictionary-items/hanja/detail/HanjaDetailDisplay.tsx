@@ -1,10 +1,9 @@
 import { memo } from "react";
 import { HanjaDetailDisplayTopInfo } from "./HanjaDetailDisplayTopInfo";
-import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
 import { HanjaDetailWordExamples } from "./HanjaDetailWordExamples";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { HanjaDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
-import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
+import { HanjaDetailExplanation } from "./HanjaDetailExplanation";
 
 export const HanjaDetailDisplay = memo(
   ({
@@ -15,10 +14,10 @@ export const HanjaDetailDisplay = memo(
     interactionData: HanjaDetailInteractionData;
   }) => {
     return (
-      <>
+      <div className="flex flex-col gap-4">
         <HanjaDetailDisplayTopInfo data={data} />
         {data.explanation && (
-          <HanjaExplanation
+          <HanjaDetailExplanation
             explanation={data.explanation}
             droppedDown={interactionData.explanationDroppedDown}
           />
@@ -28,35 +27,7 @@ export const HanjaDetailDisplay = memo(
           pageNum={interactionData.exampleWordsPageNum}
           droppedDown={interactionData.exampleWordsDroppedDown}
         />
-      </>
+      </div>
     );
   }
 );
-
-const HanjaExplanation = ({
-  explanation,
-  droppedDown,
-}: {
-  explanation: string;
-  droppedDown: boolean;
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-
-  return (
-    <HideableDropdownNoTruncation
-      title="설명"
-      topBarColor="red"
-      childrenBackgroundColor="blue"
-      droppedDown={droppedDown}
-      onDropdownStateToggle={(isToggled: boolean) => {
-        panelDispatchStateChangeSelf({
-          type: "update_hanja_detail_interaction_data",
-          key: "explanationDroppedDown",
-          newValue: isToggled,
-        });
-      }}
-    >
-      <div>{explanation}</div>
-    </HideableDropdownNoTruncation>
-  );
-};

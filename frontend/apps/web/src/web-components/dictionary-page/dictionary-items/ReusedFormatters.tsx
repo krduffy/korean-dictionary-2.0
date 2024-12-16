@@ -82,3 +82,30 @@ export const HideableDropdownNoTruncation = ({
     </div>
   );
 };
+
+export const DetailViewBaseDefaultHideableDropdownNoTruncation = ({
+  title,
+  droppedDown,
+  onDropdownStateToggle,
+  children,
+}: {
+  title: ReactNode;
+  droppedDown: boolean;
+  onDropdownStateToggle: (droppedDown: boolean) => void;
+  children: ReactNode;
+}) => {
+  return (
+    <HideableDropdownNoTruncation
+      title={title}
+      droppedDown={droppedDown}
+      onDropdownStateToggle={onDropdownStateToggle}
+      classes={{
+        topBarClassName: "py-2 bg-[color:--surface-color]",
+        titleClassName: "text-[130%]",
+        childrenClassName: "p-2 bg-[color:--background-quaternary]",
+      }}
+    >
+      {children}
+    </HideableDropdownNoTruncation>
+  );
+};

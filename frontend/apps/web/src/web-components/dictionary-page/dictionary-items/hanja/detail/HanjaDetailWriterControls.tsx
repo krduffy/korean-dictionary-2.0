@@ -1,5 +1,3 @@
-import { ReactNode, useRef, useState } from "react";
-import { useHanziWriter } from "@repo/shared/hooks/hanzi-writer/useHanziWriter";
 import HanziWriter from "hanzi-writer";
 import {
   LucideIcon,

@@ -23,7 +23,7 @@ import { ReactNode } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
-import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../ReusedFormatters";
 import { useHanjaExampleKoreanWordListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 
 export const HanjaDetailWordExamples = ({
@@ -75,19 +75,17 @@ export const HanjaDetailWordExamples = ({
 
   if (loading) {
     return (
-      <HideableDropdownNoTruncation
+      <DetailViewBaseDefaultHideableDropdownNoTruncation
         title="용례 단어"
-        topBarColor="red"
-        childrenBackgroundColor="blue"
         droppedDown={droppedDown}
         onDropdownStateToggle={handleDropdownStateToggle}
       >
         {Array(API_PAGE_SIZE)
           .fill(0)
-          .map((_) => (
-            <ExampleWordSkeleton />
+          .map((_, id) => (
+            <ExampleWordSkeleton key={id} />
           ))}
-      </HideableDropdownNoTruncation>
+      </DetailViewBaseDefaultHideableDropdownNoTruncation>
     );
   }
 
@@ -120,11 +118,9 @@ export const HanjaDetailWordExamples = ({
   const maxPageNum = Math.ceil(searchResults.count / API_PAGE_SIZE);
 
   return (
-    <HideableDropdownNoTruncation
+    <DetailViewBaseDefaultHideableDropdownNoTruncation
       title="용례 단어"
       droppedDown={droppedDown}
-      topBarColor="red"
-      childrenBackgroundColor="blue"
       onDropdownStateToggle={handleDropdownStateToggle}
     >
       <ResultCountMessage
@@ -133,7 +129,7 @@ export const HanjaDetailWordExamples = ({
       />
 
       {searchResults.results.map((result: KoreanWordInHanjaExamplesType) => (
-        <ExampleWord result={result} />
+        <ExampleWord key={result.target_code} result={result} />
       ))}
 
       <PageChanger
@@ -141,7 +137,7 @@ export const HanjaDetailWordExamples = ({
         setPageNum={handlePageChange}
         maxPageNum={maxPageNum}
       />
-    </HideableDropdownNoTruncation>
+    </DetailViewBaseDefaultHideableDropdownNoTruncation>
   );
 };
 

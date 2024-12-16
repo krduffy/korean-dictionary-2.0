@@ -17,7 +17,10 @@ import {
   SenseAdditionalInfoType,
 } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { DetailedSenseDropdownState } from "@repo/shared/types/views/interactionDataTypes";
-import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import {
+  DetailViewBaseDefaultHideableDropdownNoTruncation,
+  HideableDropdownNoTruncation,
+} from "../../ReusedFormatters";
 import { data } from "autoprefixer";
 
 export const DetailedSenseView = ({
@@ -228,14 +231,9 @@ const NonExampleInfoAdditionalInfo = ({
       {additionalInfoItems.map(
         ({ name, title, getComponent }, id) =>
           additionalInfoData[`${name}_info`] && (
-            <HideableDropdownNoTruncation
+            <DetailViewBaseDefaultHideableDropdownNoTruncation
               key={title}
               droppedDown={dropdownState[`${name}InfoDroppedDown`]}
-              classes={{
-                topBarClassName: "bg-[color:--surface-color] p-1",
-                childrenClassName: "bg-[color:--background-quaternary]",
-                titleStyles: { fontSize: "130% " },
-              }}
               onDropdownStateToggle={getOnDropdownStateToggleFunction(
                 `${name}InfoDroppedDown`
               )}
@@ -248,7 +246,7 @@ const NonExampleInfoAdditionalInfo = ({
                   getComponent(additionalInfoData[`${name}_info`])
                 }
               </div>
-            </HideableDropdownNoTruncation>
+            </DetailViewBaseDefaultHideableDropdownNoTruncation>
           )
       )}
     </div>

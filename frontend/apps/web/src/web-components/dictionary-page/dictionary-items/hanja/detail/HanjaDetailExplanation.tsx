@@ -1,13 +1,12 @@
-import { useRef } from "react";
-import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const HanjaDetailExplanation = ({
   explanation,
-  dropdownState,
+  droppedDown,
 }: {
   explanation: string;
-  dropdownState: boolean;
+  droppedDown: boolean;
 }) => {
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
@@ -20,14 +19,12 @@ export const HanjaDetailExplanation = ({
   };
 
   return (
-    <HideableDropdownNoTruncation
+    <DetailViewBaseDefaultHideableDropdownNoTruncation
       title="설명"
-      topBarColor="red"
-      childrenBackgroundColor="blue"
-      droppedDown={dropdownState}
+      droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >
       <div>{explanation}</div>
-    </HideableDropdownNoTruncation>
+    </DetailViewBaseDefaultHideableDropdownNoTruncation>
   );
 };

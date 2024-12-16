@@ -46,6 +46,8 @@ export const TraditionalKoreanText = ({
   );
 };
 
+/** For text with characters from non-modern Korean. Without this wrapper, they
+ *  will display as ?. */
 export const NonModernKoreanText = ({ children }: { children: ReactNode }) => {
   return (
     <div
