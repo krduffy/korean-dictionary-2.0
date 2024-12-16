@@ -75,7 +75,7 @@ const FoundWordNotification = ({ word }: { word: string }) => {
     <div className="text-center">
       단어 "{word}"{subjectMarker} 검색되었습니다.
       <div>
-        <Footnote string="이 알림은 설정에 차단하실 수 있습니다." />
+        <Footnote>이 알림은 설정에 차단하실 수 있습니다</Footnote>
       </div>
     </div>
   );

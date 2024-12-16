@@ -2,6 +2,10 @@ import { Fragment } from "react";
 
 import { PanelSpecificDispatcher } from "../../../../panel/PanelSpecificDispatcher";
 import { RelationType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
+import {
+  AccentedTextWithBorder,
+  ClickableLinkStyler,
+} from "../../../../../other/string-formatters/SpanStylers";
 
 export const RelationInfoSection = ({
   relations,
@@ -20,31 +24,21 @@ export const RelationInfoSection = ({
     "옛말",
   ];
 
-  return (
-    <div
-      style={{
-        display: "table",
-        borderCollapse: "separate",
-        borderSpacing: "0px 5px",
-      }}
-    >
-      {possibleRelationTypes.map((relationType) => {
-        const relationItems = relations.filter(
-          (relation) => relation.type === relationType
-        );
+  const rows = possibleRelationTypes
+    .map<[string, RelationType[]]>((relationType) => [
+      relationType,
+      relations.filter((relation) => relation.type === relationType),
+    ])
+    .filter((relationItems) => relationItems[1].length > 0)
+    .map((relationItems) => (
+      <RelationshipRow
+        key={relationItems[0]}
+        type={relationItems[0]}
+        relationItems={relationItems[1]}
+      />
+    ));
 
-        return (
-          relationItems.length > 0 && (
-            <RelationshipRow
-              key={relationType}
-              type={relationType}
-              relationItems={relationItems}
-            />
-          )
-        );
-      })}
-    </div>
-  );
+  return <div className="flex flex-col gap-4">{rows}</div>;
 };
 
 const RelationshipRow = ({
@@ -55,17 +49,11 @@ const RelationshipRow = ({
   relationItems: RelationType[];
 }) => {
   return (
-    <dl>
-      <dt
-        style={{
-          display: "table-cell",
-          whiteSpace: "nowrap",
-          width: "100px",
-        }}
-      >
-        {type}
-      </dt>
-      <dd style={{ display: "table-cell" }}>
+    <div className="flex flex-row gap-2">
+      <div className="table-cell w-[20%] text-center">
+        <AccentedTextWithBorder accentNumber={3}>{type}</AccentedTextWithBorder>
+      </div>
+      <div className="table-cell w-[80%] self-center">
         {relationItems.map((relation, innerIndex, filteredArray) => (
           <Fragment key={innerIndex}>
             {/* only render wrapped in dispatcher if it has a link ! */}
@@ -76,7 +64,7 @@ const RelationshipRow = ({
                   target_code: relation.link_target_code,
                 }}
               >
-                {relation.word}
+                <ClickableLinkStyler>{relation.word}</ClickableLinkStyler>
               </PanelSpecificDispatcher>
             ) : (
               <span>{relation.word}</span>
@@ -85,7 +73,7 @@ const RelationshipRow = ({
             {innerIndex < filteredArray.length - 1 && ", "}
           </Fragment>
         ))}
-      </dd>
-    </dl>
+      </div>
+    </div>
   );
 };

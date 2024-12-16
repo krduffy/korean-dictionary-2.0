@@ -1,5 +1,9 @@
 import { ExampleType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { ExampleStringWithNLPAndHanja } from "../../../../../other/string-formatters/StringWithNLP";
+import {
+  Source,
+  Href,
+} from "../../../../../other/string-formatters/SpanStylers";
 
 export const ExampleInfoSection = ({
   examples,
@@ -19,10 +23,22 @@ export const ExampleInfoSection = ({
 
 const SenseExample = ({ example }: { example: ExampleType }) => {
   return (
-    <div style={{ marginBottom: "10px" }}>
-      <ExampleStringWithNLPAndHanja string={example["example"]} />
-
-      {example["source"] && <span>출처: {example["source"]}</span>}
+    <div className="mb-2 flex flex-col">
+      <div>
+        <ExampleStringWithNLPAndHanja string={example.example} />
+      </div>
+      <div>
+        {example.source && (
+          <Source>
+            출처:{" "}
+            <Href
+              urlString={`https://ko.wikipedia.org/w/index.php?search=${example.source}`}
+            >
+              {example.source}
+            </Href>
+          </Source>
+        )}
+      </div>
     </div>
   );
 };

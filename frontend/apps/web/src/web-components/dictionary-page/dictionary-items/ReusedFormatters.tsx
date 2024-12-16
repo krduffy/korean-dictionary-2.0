@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useTruncatorDropdown } from "../../../web-hooks/useTruncatorDropdown";
 import { MeaningReadings } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 
@@ -21,53 +21,64 @@ export const MeaningReadingsDiv = ({
   );
 };
 
+export type HideableDropdownNoTruncationClasses = {
+  topBarClassName: string;
+  topBarStyles: React.CSSProperties;
+  titleClassName: string;
+  titleStyles: React.CSSProperties;
+  childrenClassName: string;
+  childrenStyles: React.CSSProperties;
+};
+
 export const HideableDropdownNoTruncation = ({
   title,
+  disableDropdown = false,
   droppedDown,
   onDropdownStateToggle,
-  topBarColor,
-  childrenBackgroundColor,
+  classes,
   children,
 }: {
-  title: string;
+  title: ReactNode;
+  disableDropdown?: boolean;
   droppedDown: boolean;
   onDropdownStateToggle: (droppedDown: boolean) => void;
-  topBarColor: string;
-  childrenBackgroundColor: string;
+  classes?: Partial<HideableDropdownNoTruncationClasses> | undefined;
   children: ReactNode;
 }) => {
-  const { handleClickButton, contentRef, topLevelRef } = useTruncatorDropdown({
-    children: children,
-    maxHeight: 0,
-    droppedDown: droppedDown,
-    onDropdownStateToggle: onDropdownStateToggle,
-  });
-
   return (
-    <div className="w-full" ref={topLevelRef}>
+    <div className="w-full">
       <div
-        style={{ backgroundColor: topBarColor }}
-        className={`px-2 flex flex-row justify-between items-center border-[color:--border-color] ${droppedDown ? "border-t-2 rounded-t-xl" : "border-2 rounded-xl"}`}
+        style={classes?.topBarStyles}
+        className={`px-2 flex flex-row justify-between items-center 
+          border-[color:--border-color] 
+          ${droppedDown ? "rounded-t-xl border-t-2 border-x-2" : "rounded-xl border-2"}
+           ${classes?.topBarClassName}`}
       >
-        <div className="text-[150%]">{title}</div>
         <div
-          className="cursor-pointer"
-          title={droppedDown ? "접기" : "펴기"}
-          onClick={handleClickButton}
+          style={classes?.titleStyles}
+          className={`${classes?.titleClassName}`}
         >
-          {droppedDown ? <ChevronUp /> : <ChevronDown />}
+          {title}
         </div>
+        {!disableDropdown && (
+          <div
+            className="cursor-pointer"
+            title={droppedDown ? "접기" : "펴기"}
+            onClick={() => onDropdownStateToggle(!droppedDown)}
+          >
+            {droppedDown ? <ChevronUp /> : <ChevronDown />}
+          </div>
+        )}
       </div>
-      <div
-        style={{
-          maxHeight: droppedDown ? "" : "0px",
-          backgroundColor: childrenBackgroundColor,
-        }}
-        className="overflow-y-hidden rounded-b-xl"
-        ref={contentRef}
-      >
-        {children}
-      </div>
+      {droppedDown && (
+        <div
+          style={classes?.childrenStyles}
+          className={`rounded-b-xl border-b-2 border-x-2 border-[color:--border-color]
+             ${classes?.childrenClassName}`}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 };

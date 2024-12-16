@@ -1,3 +1,4 @@
+import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { ReactNode } from "react";
 
 export const SearchResultStyler = ({ children }: { children: ReactNode }) => {
@@ -21,7 +22,7 @@ export const ClickableLinkStyler = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <span className="hover:underline">{children}</span>;
+  return <span className="cursor-pointer hover:underline">{children}</span>;
 };
 
 export const TraditionalKoreanText = ({
@@ -74,13 +75,67 @@ export const SpanPicture = ({ string }: { string: string }) => {
   );
 };
 
-export const Footnote = ({ string }: { string: string }) => {
+export const Footnote = ({ children }: { children: ReactNode }) => {
+  return <span className="text-[80%]">{children}</span>;
+};
+
+export const Source = ({ children }: { children: ReactNode }) => {
+  return <Footnote>{children}</Footnote>;
+};
+
+export const Href = ({
+  children,
+  urlString,
+}: {
+  children: ReactNode;
+  urlString: string;
+}) => {
+  const { sendNotification } = useNotificationContext();
+
+  const failedMessage = (
+    <div className="float items-center justify-center p-4">
+      창을 열기가 실패했습니다.
+    </div>
+  );
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    /* disabled to prevent 2 tabs from coming up */
+    e.preventDefault();
+
+    const tab = window.open(urlString);
+
+    if (tab === null) {
+      sendNotification(failedMessage, 2000);
+    }
+  };
+
   return (
-    <span
-      style={{ fontSize: "80%" }}
-      className="color:[color:--text-secondary]"
+    <a
+      href={urlString}
+      referrerPolicy="no-referrer"
+      rel="noopener noreferrer"
+      target="_blank"
+      onClick={handleClick}
     >
-      {string}
-    </span>
+      {children}
+    </a>
+  );
+};
+
+export const AccentedTextWithBorder = ({
+  children,
+  accentNumber,
+}: {
+  children: ReactNode;
+  accentNumber: number;
+}) => {
+  return (
+    <div
+      className={`p-1 bg-[color:--accent-button-color] border-2 
+        border-[color:--border-color] rounded-xl text-[color:--accent-button-text-color]
+        `}
+    >
+      {children}
+    </div>
   );
 };

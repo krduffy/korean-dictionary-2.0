@@ -1,7 +1,6 @@
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { ExampleInfoSection } from "./detailed-sense-components/ExampleInfoSection";
 import { TruncatorDropdown } from "../../../../other/misc/TruncatorDropdown";
-import { ReactNode, useRef } from "react";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { GrammarInfoSection } from "./detailed-sense-components/GrammarInfoSection";
 import { NormInfoSection } from "./detailed-sense-components/NormInfoSection";
@@ -19,6 +18,7 @@ import {
 } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { DetailedSenseDropdownState } from "@repo/shared/types/views/interactionDataTypes";
 import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import { data } from "autoprefixer";
 
 export const DetailedSenseView = ({
   senseData,
@@ -27,8 +27,6 @@ export const DetailedSenseView = ({
   senseData: DetailedSenseType;
   dropdownState: DetailedSenseDropdownState;
 }) => {
-  const mainSenseRef = useRef<HTMLDivElement>(null);
-
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   const getOnDropdownStateToggleFunction = (order: number) => {
@@ -44,22 +42,47 @@ export const DetailedSenseView = ({
     };
   };
 
-  return (
-    <div className="flex flex-row gap-1" ref={mainSenseRef}>
+  const title = (
+    <div className="flex flex-row gap-1 py-1 pr-8">
       <div>{senseData.order}.</div>
 
       <div className="flex-1">
-        <div className="pb-4">
-          <SenseMainInfo
-            definition={senseData.definition}
-            type={senseData.type}
-            pos={senseData.pos}
-            category={senseData.category}
-            patternInfo={senseData.additional_info.pattern_info}
-            regionInfo={senseData.additional_info.region_info}
-          />
-        </div>
+        <SenseMainInfo
+          definition={senseData.definition}
+          type={senseData.type}
+          pos={senseData.pos}
+          category={senseData.category}
+          patternInfo={senseData.additional_info.pattern_info}
+          regionInfo={senseData.additional_info.region_info}
+        />
+      </div>
+    </div>
+  );
 
+  const hasAdditionalInfo = [
+    senseData.additional_info.example_info,
+    senseData.additional_info.grammar_info,
+    senseData.additional_info.norm_info,
+    senseData.additional_info.proverb_info,
+    senseData.additional_info.relation_info,
+  ].some((info) => info !== undefined);
+
+  return (
+    <HideableDropdownNoTruncation
+      /* if there is no additional info then the dropdown is disabled
+         to prevent droppable div with just padding */
+      disableDropdown={!hasAdditionalInfo}
+      droppedDown={dropdownState.additionalInfoBoxDroppedDown}
+      classes={{
+        topBarClassName: "bg-[color:--neutral-color-not-hovering] py-2",
+        childrenClassName: "bg-[color:--background-tertiary]",
+      }}
+      onDropdownStateToggle={getOnDropdownStateToggleFunction(senseData.order)(
+        "additionalInfoBoxDroppedDown"
+      )}
+      title={title}
+    >
+      <div className="p-4">
         <SenseAdditionalInfo
           getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction(
             senseData.order
@@ -68,7 +91,7 @@ export const DetailedSenseView = ({
           additionalInfoData={senseData.additional_info}
         />
       </div>
-    </div>
+    </HideableDropdownNoTruncation>
   );
 };
 
@@ -129,12 +152,6 @@ const SenseAdditionalInfo = ({
   dropdownState: DetailedSenseDropdownState;
   additionalInfoData: SenseAdditionalInfoType;
 }) => {
-  const showOtherBox: boolean =
-    additionalInfoData.grammar_info !== undefined ||
-    additionalInfoData.norm_info !== undefined ||
-    additionalInfoData.relation_info !== undefined ||
-    additionalInfoData.proverb_info !== undefined;
-
   return (
     <div className="w-full flex flex-col gap-4">
       {/* EXAMPLES */}
@@ -152,18 +169,16 @@ const SenseAdditionalInfo = ({
         </TruncatorDropdown>
       )}
 
-      {showOtherBox && (
-        <AdditionalInfoOtherBox
-          getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction}
-          dropdownState={dropdownState}
-          additionalInfoData={additionalInfoData}
-        />
-      )}
+      <NonExampleInfoAdditionalInfo
+        getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction}
+        dropdownState={dropdownState}
+        additionalInfoData={additionalInfoData}
+      />
     </div>
   );
 };
 
-const AdditionalInfoOtherBox = ({
+const NonExampleInfoAdditionalInfo = ({
   getOnDropdownStateToggleFunction,
   dropdownState,
   additionalInfoData,
@@ -207,42 +222,35 @@ const AdditionalInfoOtherBox = ({
   ] as const;
 
   return (
-    <HideableDropdownNoTruncation
-      droppedDown={dropdownState.otherInfoBoxDroppedDown}
-      topBarColor="var(--surface-color)"
-      childrenBackgroundColor="var(--background-tertiary)"
-      onDropdownStateToggle={getOnDropdownStateToggleFunction(
-        "otherInfoBoxDroppedDown"
-      )}
-      title="정보"
-    >
-      <div className="flex flex-col p-4 gap-4">
-        {/* Individual info items (grammar, etc) */}
+    <div className="flex flex-col gap-4">
+      {/* Individual info items (grammar, etc) */}
 
-        {additionalInfoItems.map(
-          ({ name, title, getComponent }, id) =>
-            additionalInfoData[`${name}_info`] && (
-              <HideableDropdownNoTruncation
-                key={title}
-                droppedDown={dropdownState[`${name}InfoDroppedDown`]}
-                topBarColor={`var(--accent-${id + 1})`}
-                childrenBackgroundColor="var(--background-quaternary)"
-                onDropdownStateToggle={getOnDropdownStateToggleFunction(
-                  `${name}InfoDroppedDown`
-                )}
-                title={title}
-              >
-                <div>
-                  {
-                    /* Easier to just disable; the array is const and it works */
-                    // @ts-ignore
-                    getComponent(additionalInfoData[`${name}_info`])
-                  }
-                </div>
-              </HideableDropdownNoTruncation>
-            )
-        )}
-      </div>
-    </HideableDropdownNoTruncation>
+      {additionalInfoItems.map(
+        ({ name, title, getComponent }, id) =>
+          additionalInfoData[`${name}_info`] && (
+            <HideableDropdownNoTruncation
+              key={title}
+              droppedDown={dropdownState[`${name}InfoDroppedDown`]}
+              classes={{
+                topBarClassName: "bg-[color:--surface-color] p-1",
+                childrenClassName: "bg-[color:--background-quaternary]",
+                titleStyles: { fontSize: "130% " },
+              }}
+              onDropdownStateToggle={getOnDropdownStateToggleFunction(
+                `${name}InfoDroppedDown`
+              )}
+              title={title}
+            >
+              <div className="p-2 pt-4">
+                {
+                  /* Easier to just disable; the array is const and it works */
+                  // @ts-ignore
+                  getComponent(additionalInfoData[`${name}_info`])
+                }
+              </div>
+            </HideableDropdownNoTruncation>
+          )
+      )}
+    </div>
   );
 };

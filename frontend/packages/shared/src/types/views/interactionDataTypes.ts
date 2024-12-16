@@ -10,8 +10,8 @@ export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;
 
 export type DetailedSenseDropdownState = {
+  additionalInfoBoxDroppedDown: boolean;
   exampleInfoDroppedDown: boolean;
-  otherInfoBoxDroppedDown: boolean;
   grammarInfoDroppedDown: boolean;
   normInfoDroppedDown: boolean;
   relationInfoDroppedDown: boolean;

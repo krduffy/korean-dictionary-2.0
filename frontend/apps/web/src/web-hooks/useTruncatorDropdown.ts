@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 
 export const useTruncatorDropdown = ({
   children,
@@ -21,7 +21,7 @@ export const useTruncatorDropdown = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const topLevelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (contentRef.current) {
       const contentHeight = contentRef.current.getBoundingClientRect().height;
       setShowButton(contentHeight >= maxHeight);
