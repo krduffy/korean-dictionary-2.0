@@ -1,12 +1,15 @@
 import {
   HistoryCenturyInfoType,
   HistoryInfoType,
-  isHistoryCenturyInfo,
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
-import { isArrayOf } from "@repo/shared/types/guardUtils";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { HideableDropdownNoTruncation } from "../../ReusedFormatters";
+import {
+  AccentedTextWithBorder,
+  NonModernKoreanText,
+  Source,
+} from "../../../../other/string-formatters/SpanStylers";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,
@@ -28,28 +31,39 @@ export const KoreanHistoryInfoSection = ({
   return (
     <HideableDropdownNoTruncation
       title="역사 정보"
-      topBarColor="red"
-      childrenBackgroundColor="blue"
+      classes={{
+        topBarClassName: "py-4 bg-[color:--surface-color]",
+        titleClassName: "text-[130%]",
+        childrenClassName: "pt-4",
+      }}
       droppedDown={dropdownState}
       onDropdownStateToggle={toggleHistoryVisible}
     >
-      <HistoryOverviewData historyInfo={historyInfo} />
+      <div className="p-4 flex flex-col gap-4">
+        <HistoryOverviewData historyInfo={historyInfo} />
 
-      {historyInfo.history_sense_info.length > 0 && (
-        <div className="curved-box-nest1">
-          <div className="curved-box-header textcentered">세기별 용례</div>
-          <div className="pad-10 full-width">
-            <CenturyTable
-              /* data from korean lang institute is strangely formatted
+        {historyInfo.history_sense_info.length > 0 && (
+          <div>
+            <div
+              className="border-2 border-[color:--border-color] 
+            rounded-t-xl text-center bg-[color:--surface-color] 
+            text-[130%] py-1"
+            >
+              세기별 용례
+            </div>
+            <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]">
+              <CenturyTable
+                /* data from korean lang institute is strangely formatted
                  history sense info has length 1 and the only item is object with
                  history_century_info as the only key */
-              historyCenturiesInfo={
-                historyInfo.history_sense_info[0].history_century_info
-              }
-            />
+                historyCenturiesInfo={
+                  historyInfo.history_sense_info[0].history_century_info
+                }
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </HideableDropdownNoTruncation>
   );
 };
@@ -59,35 +73,39 @@ const HistoryOverviewData = ({
 }: {
   historyInfo: HistoryInfoType;
 }) => {
-  return (
-    <table
-      className="history-header-info-table tbmargin-10"
-      style={{
-        borderSpacing: "0px 10px",
-      }}
-    >
-      <colgroup>
-        <col width={"20%"} />
-        <col width={"80%"} />
-      </colgroup>
+  const rowData = [
+    { name: "이형태", data: historyInfo.allomorph },
+    { name: "변화", data: historyInfo.word_form },
+    { name: "설명", data: historyInfo.desc },
+  ];
 
-      <tbody>
-        <tr className="tbpad-10">
-          <th className="history-header-table-header">이형태</th>
-          <td className="history-header-table-data">{historyInfo.allomorph}</td>
-        </tr>
-        <tr>
-          <th className="history-header-table-header">변화</th>
-          <td className="history-header-table-data tbpad-10">
-            {historyInfo.word_form}
-          </td>
-        </tr>
-        <tr>
-          <th className="history-header-table-header">설명</th>
-          <td className="history-header-table-data">{historyInfo.desc}</td>
-        </tr>
-      </tbody>
-    </table>
+  return (
+    <div className="flex flex-col gap-2">
+      {rowData.map(({ name, data }) => (
+        <HistoryOverviewTableRow key={name} name={name} data={data} />
+      ))}
+    </div>
+  );
+};
+
+const HistoryOverviewTableRow = ({
+  name,
+  data,
+}: {
+  name: string;
+  data: string;
+}) => {
+  return (
+    <div className="flex flex-row gap-2 w-full">
+      <div className="text-center w-[20%]">
+        <div className="flex flex-1 justify-center">
+          <AccentedTextWithBorder accentNumber={3}>
+            {name}
+          </AccentedTextWithBorder>
+        </div>
+      </div>
+      <div className="w-[80%] self-center">{data}</div>
+    </div>
   );
 };
 
@@ -96,65 +114,99 @@ const CenturyTable = ({
 }: {
   historyCenturiesInfo: HistoryCenturyInfoType[];
 }) => {
+  const getRowBorderStyleString = (
+    includeTop: boolean,
+    includeBottom: boolean
+  ) => {
+    return `border-double border-[color:--border-color] ${includeTop ? "border-t-4" : ""} ${includeBottom ? "border-b-4" : ""}`;
+  };
+
+  const getRowItemBorderStyleString = (
+    includeLeft: boolean,
+    includeRight: boolean
+  ) => {
+    return `border-double border-[color:--border-color] ${includeLeft ? "border-l-4" : ""} ${includeRight ? "border-r-4" : ""}`;
+  };
+
   return (
-    <table
-      style={{
-        borderCollapse: "collapse",
-        width: "100%",
-      }}
-    >
+    <table className="w-full border-collapse">
       <colgroup>
-        <col width={"15%"} />
-        <col width={"15%"} />
-        <col width={"70%"} />
+        <col className="w-[15%]" />
+        <col className="w-[15%]" />
+        <col className="w-[70%]" />
       </colgroup>
 
       <thead>
-        <tr>
-          <th className="tbpad-10 underlined">세기</th>
-          <th className="tbpad-10 underlined">형태</th>
-          <th className="tbpad-10 underlined">용례</th>
+        <tr className={getRowBorderStyleString(false, true)}>
+          <th className={`py-3 ${getRowItemBorderStyleString(false, true)}`}>
+            세기
+          </th>
+          <th className={`py-3 ${getRowItemBorderStyleString(true, true)}`}>
+            형태
+          </th>
+          <th className={`py-3 ${getRowItemBorderStyleString(true, false)}`}>
+            용례
+          </th>
         </tr>
       </thead>
 
       <tbody>
-        {historyCenturiesInfo.map((centuryInfo, id) => (
-          <CenturyRow key={id} centuryInfo={centuryInfo} />
-        ))}
+        {historyCenturiesInfo.map((centuryInfo, id, arr) => {
+          const applyBorder = getRowBorderStyleString(
+            id !== 0,
+            id !== arr.length - 1
+          );
+
+          return (
+            <tr className={applyBorder}>
+              <CenturyRowData
+                key={id}
+                centuryInfo={centuryInfo}
+                getRowItemBorderStyleString={getRowItemBorderStyleString}
+              />
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
 };
 
-const CenturyRow = ({
+const CenturyRowData = ({
   centuryInfo,
+  getRowItemBorderStyleString,
 }: {
   centuryInfo: HistoryCenturyInfoType;
+  getRowItemBorderStyleString: (
+    includeLeft: boolean,
+    includeRight: boolean
+  ) => string;
 }) => {
   return (
-    <tr>
-      <td>{centuryInfo.century}세기</td>
-      <td>{centuryInfo.mark}</td>
+    <>
       <td
-        className="lrpad-10"
-        style={{
-          paddingBottom: "20px",
-        }}
+        className={`p-4 text-center ${getRowItemBorderStyleString(false, true)}`}
       >
-        <ul>
-          {centuryInfo.history_example_info?.map((example, innerId) => (
-            <li key={innerId}>
-              <div>
+        {centuryInfo.century}세기
+      </td>
+      <td
+        className={`p-4 text-center ${getRowItemBorderStyleString(true, true)}`}
+      >
+        {centuryInfo.mark}
+      </td>
+      <td className={`p-4 ${getRowItemBorderStyleString(true, false)}`}>
+        <ul className="space-y-4">
+          {centuryInfo.history_example_info?.map((example, exampleNumber) => (
+            <li key={exampleNumber}>
+              <NonModernKoreanText>
                 <StringWithHanja string={example.example} />
-              </div>
+              </NonModernKoreanText>
 
-              <div className="source">
-                <StringWithHanja string={example.source} />
-              </div>
+              <Source>출처: {example.source}</Source>
             </li>
           ))}
         </ul>
       </td>
-    </tr>
+    </>
   );
 };

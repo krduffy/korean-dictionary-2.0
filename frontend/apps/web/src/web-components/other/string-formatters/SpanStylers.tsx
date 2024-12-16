@@ -46,6 +46,18 @@ export const TraditionalKoreanText = ({
   );
 };
 
+export const NonModernKoreanText = ({ children }: { children: ReactNode }) => {
+  return (
+    <div
+      style={{
+        fontFamily: "'Nanum Barun Gothic','New Gulim','새굴림','dotum','돋움'",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
 export const TraditionalHanjaText = ({
   children,
   className = "",

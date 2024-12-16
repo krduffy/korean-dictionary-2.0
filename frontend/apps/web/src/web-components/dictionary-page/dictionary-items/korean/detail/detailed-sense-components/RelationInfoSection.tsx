@@ -50,10 +50,14 @@ const RelationshipRow = ({
 }) => {
   return (
     <div className="flex flex-row gap-2">
-      <div className="table-cell w-[20%] text-center">
-        <AccentedTextWithBorder accentNumber={3}>{type}</AccentedTextWithBorder>
+      <div className="w-[20%] text-center">
+        <div className="flex flex-1 justify-center">
+          <AccentedTextWithBorder accentNumber={3}>
+            {type}
+          </AccentedTextWithBorder>
+        </div>
       </div>
-      <div className="table-cell w-[80%] self-center">
+      <div className="w-[80%] self-center">
         {relationItems.map((relation, innerIndex, filteredArray) => (
           <Fragment key={innerIndex}>
             {/* only render wrapped in dispatcher if it has a link ! */}
