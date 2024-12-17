@@ -1,9 +1,6 @@
 import { ReactNode, useContext, createContext } from "react";
-import {
-  UseFontSizeSettingsReturns,
-  useFontSizeSettings,
-} from "../web-hooks/useFontSizeSettings";
-import { useKeyboardConversionSettings } from "../web-hooks/useKeyboardConversionSettings";
+import { useKeyboardConversionSettings } from "./useKeyboardConversionSettings";
+import { useFontSizeSettings } from "./useFontSizeSettings";
 
 export type FontSizeSettingsType = {
   relativeFontSize: number;
