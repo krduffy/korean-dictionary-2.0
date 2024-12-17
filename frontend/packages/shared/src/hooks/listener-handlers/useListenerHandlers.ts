@@ -105,40 +105,40 @@ const useDictionaryItemListenerManager = <
   }, [pks]);
 };
 
-const useSearchResultListListenerManager = <T extends SearchResultType>({
+export const useSearchResultListListenerManager = <
+  ResultType extends SearchResultType,
+>({
   url,
-  searchResults,
+  response,
   refetch,
   typeVerifier,
 }: {
   url: string;
-  searchResults: APIResponseType;
+  response: APIResponseType;
   refetch: () => void;
-  typeVerifier: (data: unknown) => data is T;
+  typeVerifier: (data: unknown) => data is ResultType;
 }) => {
   /* If any of the guards before this fail and the list is [] then nothing is done
      by any of the use effects */
-  const searchResultsList =
-    isPaginatedResultsResponse(searchResults, typeVerifier) &&
-    Array.isArray(searchResults.results) &&
-    searchResults.results.every((data) => typeVerifier(data))
-      ? (searchResults.results as T[])
+  const responseList =
+    isPaginatedResultsResponse(response, typeVerifier) &&
+    Array.isArray(response.results) &&
+    response.results.every((data) => typeVerifier(data))
+      ? (response.results as ResultType[])
       : [];
 
-  const pks = searchResultsList.map((searchResult) => getPkField(searchResult));
+  const pks = responseList.map((searchResult) => getPkField(searchResult));
 
   const pathGetter = (pk: number | string) => {
     /* returning [] will cause the update cache result function to do nothing */
     if (
-      !Array.isArray(searchResultsList) ||
-      !searchResultsList.every((data) => typeVerifier(data))
+      !Array.isArray(responseList) ||
+      !responseList.every((data) => typeVerifier(data))
     ) {
       return [];
     }
 
-    const index = searchResultsList.findIndex(
-      (result) => getPkField(result) === pk
-    );
+    const index = responseList.findIndex((result) => getPkField(result) === pk);
 
     if (index === -1) return [];
 
@@ -157,16 +157,16 @@ const useSearchResultListListenerManager = <T extends SearchResultType>({
 
 export const useKoreanSearchResultListenerManager = ({
   url,
-  searchResults,
+  response,
   refetch,
 }: {
   url: string;
-  searchResults: APIResponseType;
+  response: APIResponseType;
   refetch: () => void;
 }) => {
   return useSearchResultListListenerManager<KoreanSearchResultType>({
     url,
-    searchResults: searchResults,
+    response: response,
     refetch: refetch,
     typeVerifier: isKoreanSearchResultType,
   });
@@ -193,16 +193,16 @@ export const useKoreanDetailListenerManager = ({
 
 export const useHanjaSearchResultListenerManager = ({
   url,
-  searchResults,
+  response,
   refetch,
 }: {
   url: string;
-  searchResults: APIResponseType;
+  response: APIResponseType;
   refetch: () => void;
 }) => {
   return useSearchResultListListenerManager<HanjaSearchResultType>({
     url,
-    searchResults,
+    response,
     refetch,
     typeVerifier: isHanjaSearchResultType,
   });
@@ -229,16 +229,16 @@ export const useHanjaDetailListenerManager = ({
 
 export const useHanjaExampleKoreanWordListenerManager = ({
   url,
-  searchResults,
+  response,
   refetch,
 }: {
   url: string;
-  searchResults: APIResponseType;
+  response: APIResponseType;
   refetch: () => void;
 }) => {
   return useSearchResultListListenerManager<KoreanWordInHanjaExamplesType>({
     url,
-    searchResults,
+    response,
     refetch,
     typeVerifier: isHanjaExampleKoreanWordType,
   });

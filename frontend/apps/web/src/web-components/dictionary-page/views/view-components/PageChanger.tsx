@@ -1,18 +1,42 @@
 import { usePageChanger } from "@repo/shared/hooks/usePageChanger";
 
 import "./no-spinner-styles.css";
-
-export type PageChangerArgs = {
-  pageNum: number;
-  setPageNum: (n: number) => void;
-  maxPageNum: number;
-};
+import { JsonDataType } from "@repo/shared/types/apiCallTypes";
+import { isNumber } from "@repo/shared/types/guardUtils";
+import { API_PAGE_SIZE } from "@repo/shared/constants";
 
 export const PageChanger = ({
   pageNum,
   setPageNum,
+  responseCount,
+}: {
+  pageNum: number;
+  setPageNum: (n: number) => void;
+  responseCount: JsonDataType | undefined;
+}) => {
+  if (!isNumber(responseCount)) {
+    console.warn(`responseCount must be a number but is ${responseCount}.`);
+    return <div>페이지수: {pageNum}</div>;
+  }
+
+  return (
+    <FunctionalPageChanger
+      pageNum={pageNum}
+      setPageNum={setPageNum}
+      maxPageNum={Math.ceil(responseCount / API_PAGE_SIZE)}
+    />
+  );
+};
+
+const FunctionalPageChanger = ({
+  pageNum,
+  setPageNum,
   maxPageNum,
-}: PageChangerArgs) => {
+}: {
+  pageNum: number;
+  setPageNum: (n: number) => void;
+  maxPageNum: number;
+}) => {
   const {
     onClickPageDown,
     onClickPageUp,

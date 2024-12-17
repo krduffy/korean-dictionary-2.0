@@ -3,6 +3,8 @@ import {
   longNumberToFormatted,
 } from "@repo/shared/utils/koreanLangUtils";
 import { API_PAGE_SIZE } from "@repo/shared/constants";
+import { isNumber } from "@repo/shared/types/guardUtils";
+import { JsonDataType } from "@repo/shared/types/apiCallTypes";
 
 export const NoResultsMessage = ({ searchTerm }: { searchTerm: string }) => {
   const searchTermHasBatchim = hasBatchim(searchTerm);
@@ -25,14 +27,19 @@ export const NoResultsMessage = ({ searchTerm }: { searchTerm: string }) => {
 
 export const ResultCountMessage = ({
   pageNum,
-  totalResults,
+  responseCount,
 }: {
   pageNum: number;
-  totalResults: number;
+  responseCount: JsonDataType | undefined;
 }) => {
-  const resultNumberString = longNumberToFormatted(totalResults);
+  if (!isNumber(responseCount)) {
+    console.warn(`responseCount must be a number but is ${responseCount}.`);
+    return <div>페이지수: {pageNum}</div>;
+  }
+
+  const resultNumberString = longNumberToFormatted(responseCount);
   const firstResultShown = (pageNum - 1) * API_PAGE_SIZE + 1;
-  const lastResultShown = Math.min(totalResults, pageNum * API_PAGE_SIZE);
+  const lastResultShown = Math.min(responseCount, pageNum * API_PAGE_SIZE);
 
   return (
     <div>

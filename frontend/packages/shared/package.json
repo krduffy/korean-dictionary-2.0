@@ -7,7 +7,6 @@
     "hooks/useFetchProps": "./src/hooks/useFetchProps.ts",
     "hooks/useForm": "./src/hooks/useForm.ts",
     "hooks/useLoginForm": "./src/hooks/useLoginForm.ts",
-    "hooks/usePaginatedResults": "./src/hooks/usePaginatedResults.ts",
     "hooks/usePanel": "./src/hooks/usePanel.ts",
     "hooks/useCache": "./src/hooks/useCache.ts",
     "hooks/useCallAPIWeb": "./src/hooks/useCallAPIWeb.ts",

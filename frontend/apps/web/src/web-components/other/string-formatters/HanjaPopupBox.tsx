@@ -15,7 +15,7 @@ import {
 export const HanjaPopupBox = ({ character }: { character: string }) => {
   const { successful, error, loading, response } = useFetchProps({
     url: getEndpoint({ endpoint: "popup_hanja", pk: character }),
-    useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
     refetchDependencyArray: [character],
   });
 

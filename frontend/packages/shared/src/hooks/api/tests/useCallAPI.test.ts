@@ -105,9 +105,8 @@ describe("useCallAPI", () => {
     expect(mockedTokenHandlers.deleteTokens).not.toHaveBeenCalled();
 
     /* still successful because */
-    expect(result.current.successful).toBe(true);
-    expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(
+    expect(result.current.requestState.progress).toBe("success");
+    expect(result.current.requestState.response).toEqual(
       fetchMockFactory.unauthenticatedSuccessResponse
     );
   });
@@ -151,9 +150,8 @@ describe("useCallAPI", () => {
     expect(mockedTokenHandlers.deleteTokens).not.toHaveBeenCalled();
 
     /* still successful because api endpoint does not require auth */
-    expect(result.current.successful).toBe(true);
-    expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(
+    expect(result.current.requestState.progress).toBe("success");
+    expect(result.current.requestState.response).toEqual(
       fetchMockFactory.unauthenticatedSuccessResponse
     );
   });
@@ -215,9 +213,8 @@ describe("useCallAPI", () => {
        returned from the getAccessToken function resulted in 401 */
     expect(mockedTokenHandlers.deleteTokens).toHaveBeenCalledTimes(1);
 
-    expect(result.current.successful).toBe(true);
-    expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(
+    expect(result.current.requestState.progress).toBe("success");
+    expect(result.current.requestState.response).toEqual(
       fetchMockFactory.authenticatedSuccessResponse
     );
   });
@@ -257,9 +254,8 @@ describe("useCallAPI", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(mockedCacheFunctions.put).toHaveBeenCalled();
     expect(mockedCacheFunctions.retrieve).toHaveLastReturnedWith(null);
-    expect(result.current.successful).toBe(true);
-    expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(response);
+    expect(result.current.requestState.progress).toBe("success");
+    expect(result.current.requestState.response).toEqual(response);
 
     /* After the first time the fetch mock needs to be updated */
 
@@ -271,9 +267,8 @@ describe("useCallAPI", () => {
     /* still 1 ! */
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(mockedCacheFunctions.retrieve).toHaveLastReturnedWith(cachedItem);
-    expect(result.current.successful).toBe(true);
-    expect(result.current.error).toBe(false);
-    expect(result.current.response).toEqual(response);
+    expect(result.current.requestState.progress).toBe("success");
+    expect(result.current.requestState.response).toEqual(response);
   });
 
   it("catches unknown errors", async () => {

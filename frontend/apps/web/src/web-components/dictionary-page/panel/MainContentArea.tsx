@@ -1,9 +1,9 @@
 import { ReactNode, useLayoutEffect, useRef } from "react";
-import { KoreanSearchView } from "../views/KoreanSearchView";
-import { HanjaSearchView } from "../views/HanjaSearchView";
-import { KoreanDetailView } from "../views/KoreanDetailView";
-import { HanjaDetailView } from "../views/HanjaDetailView";
-import { FindLemmaView } from "../views/FindLemmaView";
+import { KoreanSearchView } from "../../api-callers/KoreanSearchView";
+import { HanjaSearchView } from "../../api-callers/HanjaSearchView";
+import { KoreanDetailView } from "../../api-callers/KoreanDetailView";
+import { HanjaDetailView } from "../../api-callers/HanjaDetailView";
+import { FindLemmaView } from "../../api-callers/FindLemmaView";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { View } from "@repo/shared/types/views/viewTypes";
 

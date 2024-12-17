@@ -9,7 +9,7 @@ const dataItem = {
       x: 4,
     },
   ],
-  searchResults: [
+  response: [
     {
       field1: "q",
       user_data: {
@@ -35,7 +35,7 @@ const expectedAfterUpdateKnown = {
       x: 4,
     },
   ],
-  searchResults: [
+  response: [
     {
       field1: "q",
       user_data: {
@@ -57,7 +57,7 @@ describe("cacheUpdaters", () => {
   it("can update known on an item", () => {
     const updated = withUpdatedKnownStudied({
       fullResponse: dataItem,
-      pathToKnownStudied: ["searchResults", 0, "user_data"],
+      pathToKnownStudied: ["response", 0, "user_data"],
       knownOrStudied: "known",
       newValue: false,
     });

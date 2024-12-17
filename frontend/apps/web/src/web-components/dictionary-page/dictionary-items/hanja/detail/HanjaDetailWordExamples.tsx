@@ -1,30 +1,20 @@
-import { API_PAGE_SIZE } from "@repo/shared/constants";
-import { usePaginatedResults } from "@repo/shared/hooks/api/usePaginatedResults";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { PageChanger } from "../../../../dictionary-page/views/view-components/PageChanger";
-import {
-  NoResultsMessage,
-  ResultCountMessage,
-} from "../../../../dictionary-page/views/view-components/ResultsMessages";
-import { ErrorMessage } from "../../../../other/misc/ErrorMessage";
-import {
-  NoResponseError,
-  NotAnArrayError,
-  WrongFormatError,
-} from "../../../../other/misc/ErrorMessageTemplates";
+import { ResultCountMessage } from "../../../../dictionary-page/views/view-components/ResultsMessages";
 import { useCallAPIWeb } from "../../../../../web-hooks/useCallAPIWeb";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import {
   isHanjaExampleKoreanWordType,
   KoreanWordInHanjaExamplesType,
 } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { isNumber } from "@repo/shared/types/guardUtils";
 import { ReactNode } from "react";
 import { KoreanWordTogglers } from "../../known-studied/KnownStudiedTogglers";
 import { StringWithHanja } from "../../../../other/string-formatters/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../../../other/string-formatters/StringWithNLP";
 import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../ReusedFormatters";
 import { useHanjaExampleKoreanWordListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { PaginatedResultsFormatter } from "../../../../api-data-formatters/PaginatedResultsFormatter";
+import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 
 export const HanjaDetailWordExamples = ({
   character,
@@ -43,15 +33,15 @@ export const HanjaDetailWordExamples = ({
     },
   });
 
-  const { searchResults, loading, error, response, refetch } =
-    usePaginatedResults({
-      baseUrl: url,
-      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    });
+  const { requestState, refetch } = useFetchProps({
+    url: url,
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+    refetchDependencyArray: [url],
+  });
 
   useHanjaExampleKoreanWordListenerManager({
     url,
-    searchResults,
+    response: requestState.response,
     refetch,
   });
 
@@ -73,50 +63,6 @@ export const HanjaDetailWordExamples = ({
     });
   };
 
-  if (loading) {
-    return (
-      <DetailViewBaseDefaultHideableDropdownNoTruncation
-        title="용례 단어"
-        droppedDown={droppedDown}
-        onDropdownStateToggle={handleDropdownStateToggle}
-      >
-        {Array(API_PAGE_SIZE)
-          .fill(0)
-          .map((_, id) => (
-            <ExampleWordSkeleton key={id} />
-          ))}
-      </DetailViewBaseDefaultHideableDropdownNoTruncation>
-    );
-  }
-
-  if (error) {
-    return <ErrorMessage errorResponse={response} />;
-  }
-
-  if (!searchResults) {
-    return <NoResponseError />;
-  }
-
-  if (searchResults.count === 0) {
-    return <NoResultsMessage searchTerm={character} />;
-  }
-
-  if (!Array.isArray(searchResults.results)) {
-    return <NotAnArrayError />;
-  }
-
-  if (
-    !searchResults.results.every((data) => isHanjaExampleKoreanWordType(data))
-  ) {
-    return <WrongFormatError />;
-  }
-
-  if (!isNumber(searchResults.count)) {
-    return <WrongFormatError />;
-  }
-
-  const maxPageNum = Math.ceil(searchResults.count / API_PAGE_SIZE);
-
   return (
     <DetailViewBaseDefaultHideableDropdownNoTruncation
       title="용례 단어"
@@ -125,17 +71,20 @@ export const HanjaDetailWordExamples = ({
     >
       <ResultCountMessage
         pageNum={pageNum}
-        totalResults={searchResults.count}
+        responseCount={requestState?.response?.count}
       />
 
-      {searchResults.results.map((result: KoreanWordInHanjaExamplesType) => (
-        <ExampleWord key={result.target_code} result={result} />
-      ))}
+      <PaginatedResultsFormatter
+        requestState={requestState}
+        searchTerm={character}
+        verifier={isHanjaExampleKoreanWordType}
+        ResultComponent={ExampleWord}
+      />
 
       <PageChanger
         pageNum={pageNum}
         setPageNum={handlePageChange}
-        maxPageNum={maxPageNum}
+        responseCount={requestState?.response?.count}
       />
     </DetailViewBaseDefaultHideableDropdownNoTruncation>
   );

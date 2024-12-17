@@ -49,12 +49,14 @@ export interface RequestConfig {
   credentials?: "include";
 }
 
+export type RequestStateType = {
+  progress: "loading" | "success" | "error" | "idle";
+  response: APIResponseType | null;
+};
+
 /* Returned from useCallAPI. */
 export interface UseCallAPIReturns {
-  successful: boolean;
-  error: boolean;
-  loading: boolean;
-  response: APIResponseType | null;
+  requestState: RequestStateType;
   // eslint-disable-next-line no-unused-vars
   callAPI: (url: string, config?: RequestConfig) => Promise<APIResponseType>;
 }

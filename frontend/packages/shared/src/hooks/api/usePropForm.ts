@@ -20,13 +20,7 @@ export const usePropForm = ({
   useCallAPIInstance,
   repostDependencies,
 }: UsePropFormArgs) => {
-  const { successful, error, loading, response, callAPI } = useCallAPIInstance;
-
-  const { showFallback, resetFallbackTimers } = useShowFallback({
-    earlyCanceller: successful,
-    fallbackMinTimeMs: FALLBACK_MIN_TIME_MS,
-    fallbackMaxTimeMs: FALLBACK_MAX_TIME_MS,
-  });
+  const { requestState, callAPI } = useCallAPIInstance;
 
   const doPost = async () => {
     const config: RequestConfig = {
@@ -41,14 +35,10 @@ export const usePropForm = ({
   };
 
   useEffect(() => {
-    resetFallbackTimers();
     doPost();
   }, repostDependencies);
 
   return {
-    successful,
-    error,
-    loading: loading || showFallback,
-    response,
+    requestState,
   };
 };

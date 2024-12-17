@@ -1,17 +1,12 @@
 import { usePropForm } from "@repo/shared/hooks/api/usePropForm";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
-import { useCallAPIWeb } from "../../../web-hooks/useCallAPIWeb";
-import { LoadingIndicator } from "../../other/misc/LoadingIndicator";
-import { ErrorMessage } from "../../other/misc/ErrorMessage";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import {
-  NoResponseError,
-  WrongFormatError,
-} from "../../other/misc/ErrorMessageTemplates";
 import { useEffect } from "react";
 import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { hasBatchim } from "@repo/shared/utils/koreanLangUtils";
-import { Footnote } from "../../other/string-formatters/SpanStylers";
+import { useCallAPIWeb } from "../../web-hooks/useCallAPIWeb";
+import { Footnote } from "../other/string-formatters/SpanStylers";
+import { FindLemmaFormatter } from "../api-data-formatters/FindLemmaFormatter";
 
 export const FindLemmaView = ({
   word,
@@ -27,7 +22,7 @@ export const FindLemmaView = ({
     };
   };
 
-  const { error, loading, response } = usePropForm({
+  const { requestState } = usePropForm({
     url: getEndpoint({ endpoint: "find_lemma" }),
     formDataGetter: getFormData,
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
@@ -37,9 +32,11 @@ export const FindLemmaView = ({
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
   const { sendNotification } = useNotificationContext();
 
+  /* If a word is found then this view will redirect to a new view for showing the
+     korean search results using the word that was found */
   useEffect(() => {
-    if (response?.found) {
-      const found = String(response.found);
+    if (requestState.response?.found) {
+      const found = String(requestState.response.found);
 
       sendNotification(<FoundWordNotification word={found} />, 4000);
       panelDispatchStateChangeSelf({
@@ -47,23 +44,9 @@ export const FindLemmaView = ({
         word: found,
       });
     }
-  }, [response]);
+  }, [requestState]);
 
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
-  if (error) {
-    return <ErrorMessage errorResponse={response} />;
-  }
-
-  if (!response) {
-    return <NoResponseError />;
-  }
-
-  if (!response.found) {
-    return <WrongFormatError />;
-  }
+  return <FindLemmaFormatter requestState={requestState} />;
 };
 
 const FoundWordNotification = ({ word }: { word: string }) => {

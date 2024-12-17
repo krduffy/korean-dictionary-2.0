@@ -14,9 +14,9 @@ export const NavBar = memo(() => {
   const navigate = useNavigate();
 
   /* needed to test if the user is logged in */
-  const { response } = useFetchProps({
+  const { requestState, refetch } = useFetchProps({
     url: getEndpoint({ endpoint: "user_info" }),
-    useAPICallInstance: useCallAPIWeb({ cacheResults: true }),
+    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
 
   return (
@@ -26,7 +26,7 @@ export const NavBar = memo(() => {
       </button>
       <div className="flex flex-row gap-4 h-[80%]">
         <div className="h-[70%]">
-          {response?.user ? (
+          {requestState.response?.user ? (
             <LoggedInUserButton />
           ) : (
             <LoginButton navigate={navigate} />

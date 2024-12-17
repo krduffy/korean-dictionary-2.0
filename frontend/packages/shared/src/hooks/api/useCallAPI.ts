@@ -3,6 +3,7 @@ import {
   UseCallAPIArgs,
   UseCallAPIReturns,
   RequestConfig,
+  RequestStateType,
 } from "../../types/apiCallTypes";
 import { APIResponseType } from "../../types/apiCallTypes";
 
@@ -14,14 +15,10 @@ export const useCallAPI = ({
 }: UseCallAPIArgs): UseCallAPIReturns => {
   const { put, retrieve } = cacheFunctions;
 
-  /* Whether the most recent api call was successful (response.ok) or not. */
-  const [successful, setSuccessful] = useState(false);
-  /* Whether the most recent api call was unsuccessful (!response.ok) or not. */
-  const [error, setError] = useState(false);
-  /* Whether an api call is in progress. */
-  const [loading, setLoading] = useState(false);
-  /* The most recent response, stored as a json object. */
-  const [response, setResponse] = useState<APIResponseType | null>(null);
+  const [requestState, setRequestState] = useState<RequestStateType>({
+    progress: "idle",
+    response: null,
+  });
 
   /**
    * Attempts to refresh the access token in storage.
@@ -55,11 +52,7 @@ export const useCallAPI = ({
     configBody: BodyInit | undefined
   ): Promise<APIResponseType> => {
     const wasSuccessful = response.ok;
-    setSuccessful(wasSuccessful);
-    setError(!wasSuccessful);
-
     const jsonified = await response.json();
-    setResponse(jsonified);
 
     /* Setting cache here */
     if (cacheResults) {
@@ -70,6 +63,11 @@ export const useCallAPI = ({
         body: configBody,
       });
     }
+
+    setRequestState({
+      progress: wasSuccessful ? "success" : "error",
+      response: jsonified,
+    });
 
     return new Promise((resolve) => resolve(jsonified));
   };
@@ -85,17 +83,15 @@ export const useCallAPI = ({
     url: string,
     config: RequestConfig = {}
   ): Promise<APIResponseType> => {
-    setSuccessful(false);
-    setError(false);
-    setLoading(true);
+    setRequestState({ ...requestState, progress: "loading" });
 
     /* Check for cache hit first */
     const fromCache = retrieve(url, config.body);
     if (fromCache) {
-      setSuccessful(fromCache.ok);
-      setError(!fromCache.ok);
-      setResponse(fromCache.response);
-      setLoading(false);
+      setRequestState({
+        progress: fromCache.ok ? "success" : "error",
+        response: fromCache.response,
+      });
       return new Promise((resolve) => resolve(fromCache.response));
     }
 
@@ -165,19 +161,13 @@ export const useCallAPI = ({
 
       return exitWithResponse(response, url, config.body);
     } catch (err) {
-      setError(true);
       onCaughtError(err);
       return Promise.reject(err);
-    } finally {
-      setLoading(false);
     }
   };
 
   return {
-    successful,
-    error,
-    loading,
-    response,
+    requestState,
     callAPI,
   };
 };
