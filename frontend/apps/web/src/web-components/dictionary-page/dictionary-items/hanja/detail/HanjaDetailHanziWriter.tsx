@@ -14,7 +14,11 @@ export const HanjaDetailHanziWriter = ({
   const { hanziWriter, numStrokes } = useHanziWriter({
     ref: divRef,
     character: character,
-    writerArgs: {},
+    writerArgs: {
+      showOutline: false,
+      showCharacter: false,
+      strokeAnimationSpeed: 1.5,
+    },
     onWriterLoadError,
   });
 

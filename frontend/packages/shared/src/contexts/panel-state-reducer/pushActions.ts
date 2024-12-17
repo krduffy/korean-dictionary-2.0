@@ -78,11 +78,8 @@ export const pushIfApplicable = (
         type: "hanja_detail",
         data: { character: action.character },
         interactionData: {
-          seenInitialAnimation: false,
           explanationDroppedDown: true,
           exampleWordsDroppedDown: true,
-          nextStrokeNum: 1,
-          isLooping: false,
           exampleWordsPageNum: 1,
           scrollDistance: 0,
         },

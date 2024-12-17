@@ -24,11 +24,8 @@ export interface KoreanDetailInteractionData extends BaseInteractionData {
 }
 
 export interface HanjaDetailInteractionData extends BaseInteractionData {
-  seenInitialAnimation: boolean;
   explanationDroppedDown: boolean;
   exampleWordsDroppedDown: boolean;
-  nextStrokeNum: number;
-  isLooping: boolean;
   exampleWordsPageNum: number;
 }
 

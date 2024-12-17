@@ -6,7 +6,7 @@ import {
   SquareDashed,
   StepForward,
 } from "lucide-react";
-import { useHanjaDetailWriterControls } from "@repo/shared/hooks/hanzi-writer/useHanjaDetailWriterControls";
+import { useHanjaDetailWriterAnimator } from "@repo/shared/hooks/hanzi-writer/useHanjaDetailWriterAnimator";
 
 export const HanjaDetailWriterControls = ({
   hanziWriter,
@@ -18,7 +18,7 @@ export const HanjaDetailWriterControls = ({
   /* expected controls are pause, play, step forward and back */
 
   const { pause, play, stepForward, switchOutlineShown } =
-    useHanjaDetailWriterControls({
+    useHanjaDetailWriterAnimator({
       hanziWriter: hanziWriter,
       numStrokes: numStrokes,
     });
