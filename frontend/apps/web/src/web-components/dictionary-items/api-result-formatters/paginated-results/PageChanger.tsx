@@ -16,7 +16,7 @@ export const PageChanger = ({
 }) => {
   if (!isNumber(responseCount)) {
     console.warn(`responseCount must be a number but is ${responseCount}.`);
-    return <div>페이지수: {pageNum}</div>;
+    return;
   }
 
   return (

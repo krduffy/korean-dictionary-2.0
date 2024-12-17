@@ -6,9 +6,9 @@ import {
   NoResponseError,
   NotAnArrayError,
   WrongFormatError,
-} from "./ErrorMessageTemplates";
-import { NoResultsMessage } from "../../dictionary-page/views/view-components/ResultsMessages";
-import { ErrorMessage } from "../../text-formatters/ErrorMessage";
+} from "../ErrorMessageTemplates";
+import { NoResultsMessage } from "./ResultsMessages";
+import { ErrorMessage } from "../../../text-formatters/ErrorMessage";
 
 export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
   requestState,
@@ -62,17 +62,36 @@ export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
   return (
     <>
       {response.results.map((result, id) => (
-        <ResultComponent key={id} result={result} />
+        <SearchResultWrapper key={id}>
+          <ResultComponent result={result} />
+        </SearchResultWrapper>
       ))}
     </>
   );
 };
 
+const SearchResultWrapper = ({
+  children,
+  additionalStyling,
+}: {
+  children: ReactNode;
+  additionalStyling?: string;
+}) => {
+  return (
+    <div
+      className={`bg-[color:--background-tertiary] rounded-2xl 
+          shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200/20 p-4 my-4
+          ${additionalStyling}`}
+    >
+      {children}
+    </div>
+  );
+};
+
 const DefaultSkeleton = () => {
   return (
-    <div className="grid min-h-16 animate-pulse">
-      <div className="row-span-1 col-span-1 bg-slate-700"></div>
-      <div className="row-span-1 col-span-4 bg-slate-700"></div>
-    </div>
+    <SearchResultWrapper additionalStyling="min-h-16 animate-pulse">
+      <></>
+    </SearchResultWrapper>
   );
 };

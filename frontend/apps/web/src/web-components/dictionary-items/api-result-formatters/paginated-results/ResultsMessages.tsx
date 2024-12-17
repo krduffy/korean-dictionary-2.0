@@ -32,9 +32,11 @@ export const ResultCountMessage = ({
   pageNum: number;
   responseCount: JsonDataType | undefined;
 }) => {
-  if (!isNumber(responseCount)) {
-    console.warn(`responseCount must be a number but is ${responseCount}.`);
-    return <div>페이지수: {pageNum}</div>;
+  /* if result count is 0 then the no result message above should be shown instead of
+     this message + the mapped results and the page changer */
+  if (!isNumber(responseCount) || responseCount < 1) {
+    console.warn(`responseCount must be a number > 1 but is ${responseCount}.`);
+    return;
   }
 
   const resultNumberString = longNumberToFormatted(responseCount);

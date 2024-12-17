@@ -102,7 +102,7 @@ export const hasBatchim = (string: string): boolean | undefined => {
 };
 
 /**
- * Returns a string with 만 inserted to make the number shorter.
+ * Returns a string with 만 inserted to make the number more readable.
  *
  * @param number A number. Should satisfy 0 <= `number` < 10**8.
  * @returns A stringified form of the number.

@@ -1,12 +1,12 @@
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
-import { ResultCountMessage } from "../../dictionary-page/views/view-components/ResultsMessages";
-import { PageChanger } from "../../dictionary-page/views/view-components/PageChanger";
+import { ResultCountMessage } from "../api-result-formatters/paginated-results/ResultsMessages";
+import { PageChanger } from "../api-result-formatters/paginated-results/PageChanger";
 import { KoreanSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
 import { isKoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useKoreanSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { PaginatedResultsFormatter } from "../api-result-formatters/PaginatedResultsFormatter";
+import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { KoreanSearchResult } from "../item-components/korean/KoreanSearchResult";
 
