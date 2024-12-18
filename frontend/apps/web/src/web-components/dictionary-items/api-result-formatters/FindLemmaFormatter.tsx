@@ -10,6 +10,10 @@ export const FindLemmaFormatter = ({
 }) => {
   const { progress, response } = requestState;
 
+  if (progress === "idle") {
+    return;
+  }
+
   if (progress === "loading") {
     return <LoadingIndicator />;
   }
