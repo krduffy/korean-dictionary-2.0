@@ -4,7 +4,7 @@ import { PanelSpecificDispatcher } from "../../../../../pages/dictionary-page/Pa
 import { RelationType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import {
   AccentedTextWithBorder,
-  ClickableLinkStyler,
+  DetailViewLinkStyler,
 } from "../../../../../text-formatters/SpanStylers";
 
 export const RelationInfoSection = ({
@@ -68,7 +68,7 @@ const RelationshipRow = ({
                   target_code: relation.link_target_code,
                 }}
               >
-                <ClickableLinkStyler>{relation.word}</ClickableLinkStyler>
+                <DetailViewLinkStyler>{relation.word}</DetailViewLinkStyler>
               </PanelSpecificDispatcher>
             ) : (
               <span>{relation.word}</span>

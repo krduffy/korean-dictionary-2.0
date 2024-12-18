@@ -8,7 +8,7 @@ import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
-} from "../../text-formatters/SpanStylers";
+} from "../../text-formatters/Fonts";
 
 export const NavBar = memo(() => {
   const navigate = useNavigate();

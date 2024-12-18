@@ -5,9 +5,9 @@ import {
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import {
   AccentedTextWithBorder,
-  NonModernKoreanText,
   Source,
 } from "../../../../text-formatters/SpanStylers";
+import { NonModernKoreanText } from "../../../../text-formatters/Fonts";
 import { ExampleStringWithHanja } from "../../shared/formatted-string/FormattedString";
 import { HideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
 

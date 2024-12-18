@@ -10,3 +10,6 @@ logging in does not invalidate everything on the page
 need new api data change event that clears most of the cache on login or logout
 + calls loadedDataChanged on the panels
 some things like find lemma are not login status contingent and can therefore be kept
+
+arrows in word origin look weird when origin is to the left of word (get rid of entirely in db?)
+

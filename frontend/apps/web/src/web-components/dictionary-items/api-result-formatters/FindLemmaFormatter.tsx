@@ -15,7 +15,7 @@ export const FindLemmaFormatter = ({
   }
 
   if (progress === "loading") {
-    return <LoadingIndicator />;
+    return <LoadingIndicator maxDim={32} />;
   }
 
   if (progress === "error") {

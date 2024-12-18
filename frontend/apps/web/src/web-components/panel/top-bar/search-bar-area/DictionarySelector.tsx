@@ -2,7 +2,7 @@ import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
-} from "../../../text-formatters/SpanStylers";
+} from "../../../text-formatters/Fonts";
 
 export const DictionarySelector = ({
   searchConfig,

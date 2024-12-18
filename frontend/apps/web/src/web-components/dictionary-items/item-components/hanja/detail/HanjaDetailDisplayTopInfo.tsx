@@ -55,10 +55,12 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
       {/* top level; character and meaning readings */}
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row gap-4 items-center">
-          <div className="text-[300%]">{data.character}</div>
-          <div className="text-[150%] flex-1">
+          <h1 className="text-[300%] text-[color:--accent-1]">
+            {data.character}
+          </h1>
+          <h3 className="text-[150%] flex-1">
             <MeaningReadingsDisplay meaningReadings={data.meaning_readings} />
-          </div>
+          </h3>
         </div>
         {data.user_data && (
           <HanjaCharacterKnownStudiedTogglers

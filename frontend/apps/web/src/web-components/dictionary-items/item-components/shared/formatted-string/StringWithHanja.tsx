@@ -3,6 +3,7 @@ import { useHanjaPopupBox } from "./useHanjaPopupBox";
 import { memo, useRef } from "react";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
 import { HanjaPopupView } from "../../../api-fetchers/HanjaPopupView";
+import { DetailViewLinkStyler } from "../../../../text-formatters/SpanStylers";
 
 export const StringWithHanja = memo(({ string }: { string: string }) => {
   const isolatedHanja =
@@ -45,7 +46,7 @@ const HanjaWithPopupBox = ({ character }: { character: string }) => {
         <PanelSpecificDispatcher
           panelStateAction={{ type: "push_hanja_detail", character: character }}
         >
-          <span>{character}</span>
+          <DetailViewLinkStyler>{character}</DetailViewLinkStyler>
         </PanelSpecificDispatcher>
       </span>
       {showHoverBox && (

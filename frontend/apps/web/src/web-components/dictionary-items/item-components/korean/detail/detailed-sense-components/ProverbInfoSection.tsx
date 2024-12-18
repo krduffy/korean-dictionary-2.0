@@ -4,6 +4,7 @@ import { ProverbType } from "@repo/shared/types/views/dictionary-items/senseDict
 import {
   AccentedTextWithBorder,
   ClickableLinkStyler,
+  DetailViewLinkStyler,
 } from "../../../../../text-formatters/SpanStylers";
 
 export const ProverbInfoSection = ({
@@ -45,7 +46,7 @@ const SenseProverb = ({ proverb }: { proverb: ProverbType }) => {
         target_code: proverb.link_target_code,
       }}
     >
-      <ClickableLinkStyler>{proverb.word}</ClickableLinkStyler>
+      <DetailViewLinkStyler>{proverb.word}</DetailViewLinkStyler>
     </PanelSpecificDispatcher>
   ) : (
     <span>{proverb.word}</span>

@@ -8,7 +8,8 @@ import { View } from "@repo/shared/types/views/viewTypes";
 import { useScrollSaveAndRestoration } from "./useRestoreScroll";
 import { LineBreakArea } from "../ui/LineBreakArea";
 
-/* a wrapper around PanelContent to add the updating of scroll distance functionality */
+/* a wrapper around PanelContent to add the updating of scroll distance 
+   functionality */
 export const PanelContent = ({
   view,
   scrollDistance,
@@ -27,16 +28,18 @@ export const PanelContent = ({
   });
 
   return (
-    <div
-      ref={mainContentRef}
-      className="flex flex-1 flex-col overflow-y-scroll overflow-x-hidden"
-      style={{
-        scrollbarWidth: "thin",
-      }}
-      onScroll={onScroll}
-    >
-      <ViewContent view={view} />
-      <LineBreakArea marginSize={20} />
+    <div className="flex-1 p-2 flex flex-col overflow-y-scroll overflow-x-hidden">
+      <div
+        ref={mainContentRef}
+        className="overflow-y-auto"
+        style={{
+          scrollbarWidth: "thin",
+        }}
+        onScroll={onScroll}
+      >
+        <ViewContent view={view} />
+        <LineBreakArea marginSize={20} />
+      </div>
     </div>
   );
 };

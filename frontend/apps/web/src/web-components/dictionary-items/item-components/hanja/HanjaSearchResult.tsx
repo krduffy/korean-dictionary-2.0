@@ -3,6 +3,7 @@ import { memo } from "react";
 import { HanjaCharacterKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
 import { HanjaSearchResultType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { MeaningReadingsDisplay } from "./MeaningReadingsDisplay";
+import { DetailViewLinkStyler } from "../../../text-formatters/SpanStylers";
 
 export const HanjaSearchResult = memo(
   ({ result }: { result: HanjaSearchResultType }) => {
@@ -10,14 +11,14 @@ export const HanjaSearchResult = memo(
       <>
         <div className="flex flex-row items-center justify-between pb-8">
           <div className="flex flex-row gap-4 items-center">
-            <div className="[color:--accent-1] text-[200%] cursor-pointer">
+            <div className="[color:--accent-1] text-[200%]">
               <PanelSpecificDispatcher
                 panelStateAction={{
                   type: "push_hanja_detail",
                   character: result.character,
                 }}
               >
-                {result.character}
+                <DetailViewLinkStyler>{result.character}</DetailViewLinkStyler>
               </PanelSpecificDispatcher>
             </div>
             <MeaningReadingsDisplay meaningReadings={result.meaning_readings} />

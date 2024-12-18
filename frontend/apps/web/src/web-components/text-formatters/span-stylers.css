@@ -1,0 +1,3 @@
+.accent-1-text-shadow-on-hover:hover {
+  text-shadow: var(--accent-1) 1px 0 10px;
+}
