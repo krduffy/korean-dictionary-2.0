@@ -18,13 +18,11 @@ export const Panel = memo((panelData: PersistentPanelData) => {
           state={panelData.state}
           panelDispatchStateChangeSelf={panelData.panelDispatchStateChangeSelf}
         />
-        <div className="p-2 h-[90%] max-h-[90%] flex flex-1 flex-col overflow-y-scroll overflow-x-hidden">
-          <PanelContent
-            view={panelData.state.view}
-            scrollDistance={panelData.state.view.interactionData.scrollDistance}
-            historyPointer={panelData.state.historyData.pointer}
-          />
-        </div>
+        <PanelContent
+          view={panelData.state.view}
+          scrollDistance={panelData.state.view.interactionData.scrollDistance}
+          historyPointer={panelData.state.historyData.pointer}
+        />
       </div>
     </PanelFunctionsContextProvider>
   );

@@ -29,9 +29,8 @@ export const PanelContent = ({
   return (
     <div
       ref={mainContentRef}
+      className="flex flex-1 flex-col overflow-y-scroll overflow-x-hidden"
       style={{
-        maxHeight: "100%",
-        overflowY: "auto",
         scrollbarWidth: "thin",
       }}
       onScroll={onScroll}
