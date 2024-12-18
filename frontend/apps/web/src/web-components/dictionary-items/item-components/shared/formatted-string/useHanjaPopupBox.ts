@@ -6,7 +6,7 @@ export const useHanjaPopupBox = () => {
   const enteredTimerInstance = useRef<ReturnType<typeof setTimeout> | null>(
     null
   );
-  const timeoutDurationMs = 1000;
+  const timeoutDurationMs = 500;
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();

@@ -9,15 +9,15 @@ import { FunctionlessKnownStudiedDisplayers } from "../shared/known-studied/Know
 
 export const HanjaPopupDisplay = ({ data }: { data: HanjaPopupType }) => {
   return (
-    <article className="min-h-16 min-w-16 p-4 bg-[color:--background-tertiary] border-2 border-[color:--border-color]">
-      <header className="h-[20%] w-full">
+    <article className="flex flex-col min-h-32 min-w-56 bg-[color:--background-tertiary] border-2 border-[color:--border-color]">
+      <header className="h-[20%] w-full bg-[color:--surface-color] p-2">
         <HanjaPopupHeaderContents
           character={data.character}
           meaningReadings={data.meaning_readings}
           userData={data.user_data}
         />
       </header>
-      <section>
+      <section className="flex-1 w-full p-2">
         {data.word_results.length === 0 ? (
           <HanjaPopupWordGridNoWords />
         ) : (
@@ -38,9 +38,15 @@ const HanjaPopupHeaderContents = ({
   userData: UserDataType | null;
 }) => {
   return (
-    <div className="h-full w-full flex flex-row justify-between">
-      <h1 className="text-[color:--accent-1]">{character}</h1>
-      <MeaningReadingsDisplay meaningReadings={meaningReadings} />
+    <div className="h-full w-full flex flex-row justify-between items-center">
+      <div className="flex flex-row gap-2 items-center">
+        <h3 className="text-[color:--accent-1] text-[200%] left-2">
+          {character}
+        </h3>
+        <h4 className="text-[120%]">
+          <MeaningReadingsDisplay meaningReadings={meaningReadings} />
+        </h4>
+      </div>
       {userData && (
         <FunctionlessKnownStudiedDisplayers
           known={userData.is_known}
@@ -64,7 +70,7 @@ const HanjaPopupWordGrid = ({
   const col2Words = wordData.slice(col1Words.length);
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row gap-2 justify-evenly">
       <HanjaPopupWordGridColumn wordDataSubarray={col1Words} />
       <HanjaPopupWordGridColumn wordDataSubarray={col2Words} />
     </div>
@@ -77,7 +83,7 @@ const HanjaPopupWordGridColumn = ({
   wordDataSubarray: KoreanWordInHanjaPopupType[];
 }) => {
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {wordDataSubarray.map((wordData) => (
         <HanjaPopupWordGridSingleWord
           key={wordData.target_code}
@@ -94,16 +100,9 @@ const HanjaPopupWordGridSingleWord = ({
   data: KoreanWordInHanjaPopupType;
 }) => {
   return (
-    <div>
-      <span>
-        {data.origin} {data.word}
-      </span>
-      {data.user_data && (
-        <FunctionlessKnownStudiedDisplayers
-          known={data.user_data.is_known}
-          studied={data.user_data.is_studied}
-        />
-      )}
-    </div>
+    <article className="flex flex-row gap-2">
+      <p>{data.origin}</p>
+      <p>{data.word}</p>
+    </article>
   );
 };
