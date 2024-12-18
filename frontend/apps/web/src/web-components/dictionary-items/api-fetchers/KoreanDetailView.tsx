@@ -35,11 +35,8 @@ export const KoreanDetailView = ({
     <BasicAPIDataFormatter
       requestState={requestState}
       verifier={isDetailedKoreanType}
-      DisplayComponent={({ data }: { data: DetailedKoreanType }) => {
-        return (
-          <KoreanDetailDisplay data={data} interactionData={interactionData} />
-        );
-      }}
+      interactionData={interactionData}
+      DisplayComponent={KoreanDetailDisplay}
     />
   );
 };

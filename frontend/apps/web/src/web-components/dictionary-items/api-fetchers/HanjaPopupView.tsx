@@ -16,6 +16,7 @@ export const HanjaPopupView = ({ character }: { character: string }) => {
     <BasicAPIDataFormatter
       requestState={requestState}
       verifier={isHanjaPopupDataType}
+      interactionData={undefined}
       DisplayComponent={HanjaPopupDisplay}
     />
   );

@@ -4,16 +4,21 @@ import { NoResponseError, WrongFormatError } from "./ErrorMessageTemplates";
 import { LoadingIndicator } from "../../ui/LoadingIndicator";
 import { ErrorMessage } from "../../text-formatters/ErrorMessage";
 
-export const BasicAPIDataFormatter = <DataType,>({
+export const BasicAPIDataFormatter = <DataType, InteractionDataType>({
   requestState,
   verifier,
   DisplayComponent,
   LoadingComponent = LoadingIndicator,
+  interactionData,
 }: {
   requestState: RequestStateType;
   verifier: (data: unknown) => data is DataType;
-  DisplayComponent: ComponentType<{ data: DataType }>;
+  DisplayComponent: ComponentType<{
+    data: DataType;
+    interactionData: InteractionDataType;
+  }>;
   LoadingComponent?: ComponentType;
+  interactionData: InteractionDataType;
 }) => {
   const { progress, response } = requestState;
 
@@ -31,5 +36,5 @@ export const BasicAPIDataFormatter = <DataType,>({
     return <WrongFormatError />;
   }
 
-  return <DisplayComponent data={response} />;
+  return <DisplayComponent data={response} interactionData={interactionData} />;
 };

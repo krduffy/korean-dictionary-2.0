@@ -1,7 +1,7 @@
 import {
   HanjaSearchConfig,
   KoreanSearchConfig,
-} from "../types/panelAndViewTypes";
+} from "../types/views/searchConfigTypes";
 
 export const getBasicKoreanSearchViewData = ({
   searchTerm,
@@ -28,6 +28,7 @@ export const getBasicHanjaSearchViewData = ({
 };
 
 export const getDefaultDetailedSenseDropdowns = () => ({
+  additionalInfoBoxDroppedDown: false,
   exampleInfoDroppedDown: false,
   otherInfoBoxDroppedDown: false,
   grammarInfoDroppedDown: true,

@@ -35,9 +35,8 @@ export const HanjaDetailView = ({
     <BasicAPIDataFormatter
       requestState={requestState}
       verifier={isDetailedHanjaType}
-      DisplayComponent={({ data }: { data: DetailedHanjaType }) => (
-        <HanjaDetailDisplay data={data} interactionData={interactionData} />
-      )}
+      interactionData={interactionData}
+      DisplayComponent={HanjaDetailDisplay}
     />
   );
 };

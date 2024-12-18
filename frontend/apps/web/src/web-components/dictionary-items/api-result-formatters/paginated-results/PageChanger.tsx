@@ -15,7 +15,6 @@ export const PageChanger = ({
   responseCount: JsonDataType | undefined;
 }) => {
   if (!isNumber(responseCount)) {
-    console.warn(`responseCount must be a number but is ${responseCount}.`);
     return;
   }
 
