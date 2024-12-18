@@ -1,5 +1,5 @@
 import { KoreanWordInHanjaExamplesType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { KoreanWordTogglers } from "../../shared/known-studied/KnownStudiedTogglers";
+import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 
@@ -18,7 +18,7 @@ export const HanjaExampleKoreanWord = ({
           <div className="text-[100%]">{result.word}</div>
         </div>
         {result.user_data && (
-          <KoreanWordTogglers
+          <KoreanWordKnownStudiedTogglers
             pk={result.target_code}
             initiallyKnown={result.user_data.is_known}
             initiallyStudied={result.user_data.is_studied}

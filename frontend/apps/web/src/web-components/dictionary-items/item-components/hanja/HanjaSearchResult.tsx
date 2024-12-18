@@ -1,6 +1,6 @@
 import { PanelSpecificDispatcher } from "../../../pages/dictionary-page/PanelSpecificDispatcher";
 import { memo } from "react";
-import { HanjaTogglers } from "../shared/known-studied/KnownStudiedTogglers";
+import { HanjaCharacterKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
 import { HanjaSearchResultType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { MeaningReadingsDisplay } from "./MeaningReadingsDisplay";
 
@@ -28,7 +28,7 @@ export const HanjaSearchResult = memo(
           </div>
           {result.user_data ? (
             <div>
-              <HanjaTogglers
+              <HanjaCharacterKnownStudiedTogglers
                 pk={result.character}
                 initiallyKnown={result.user_data.is_known}
                 initiallyStudied={result.user_data.is_studied}

@@ -1,9 +1,4 @@
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { KoreanWordInHanjaExamplesType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { ReactNode } from "react";
-import { KoreanWordTogglers } from "../../shared/known-studied/KnownStudiedTogglers";
-import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
-import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
 import { HanjaExamplesView } from "../../../api-fetchers/HanjaExamplesView";
 

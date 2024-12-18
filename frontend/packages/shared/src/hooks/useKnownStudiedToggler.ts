@@ -26,19 +26,20 @@ export const useKnownStudiedToggler = ({
   const [isToggled, setIsToggled] = useState<boolean>(initiallyToggled);
   const newValue = useRef<boolean>(!initiallyToggled);
 
-  const { successful, error, loading, response, callAPI } = useCallAPIInstance;
+  const { requestState, callAPI } = useCallAPIInstance;
   const { globalEmit } = useGlobalFunctionsContext();
   const { panelEmitOther } = usePanelFunctionsContext();
 
   const url = getEndpoint({ endpoint: "update_known_studied", pk: pk });
 
   useEffect(() => {
-    if (successful) {
+    if (requestState.progress === "success") {
       setIsToggled(newValue.current);
       onSuccess(newValue.current);
       /* Cache listeners use the global context */
       globalEmit(pk, {
-        eventType: knownOrStudied,
+        eventType:
+          knownOrStudied === "known" ? "knownChanged" : "studiedChanged",
         passToCallback: newValue.current,
       });
       /* Loaded data changed events are scoped at the panel level */
@@ -46,10 +47,10 @@ export const useKnownStudiedToggler = ({
         eventType: "loadedDataChanged",
         passToCallback: undefined,
       });
-    } else if (error) {
-      onError(response);
+    } else if (requestState.progress === "error") {
+      onError(requestState.response);
     }
-  }, [successful, error]);
+  }, [requestState]);
 
   const onClick = async () => {
     newValue.current = !isToggled;
@@ -68,10 +69,7 @@ export const useKnownStudiedToggler = ({
   };
 
   return {
-    successful,
-    loading,
-    error,
-    response,
+    requestState,
     isToggled,
     onClick,
   };

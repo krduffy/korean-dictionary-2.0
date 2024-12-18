@@ -12,15 +12,7 @@ export const LoginPage = () => {
 };
 
 const LoginForm = () => {
-  const {
-    successful,
-    error,
-    loading,
-    response,
-    formData,
-    postForm,
-    updateField,
-  } = useLoginForm({
+  const { requestState, formData, postForm, updateField } = useLoginForm({
     useCallAPIInstance: useCallAPIWeb({ cacheResults: false }),
     tokenHandlers: tokenHandlers,
   });

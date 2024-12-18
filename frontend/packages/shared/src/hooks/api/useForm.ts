@@ -27,7 +27,7 @@ export const useForm = ({
 }: UseFormArgs) => {
   const [formData, setFormData] = useState<JsonObjectType>(initialFormData);
 
-  const { successful, error, loading, response, callAPI } = useCallAPIInstance;
+  const { requestState, callAPI } = useCallAPIInstance;
 
   const doPost = async () => {
     const config: RequestConfig = {
@@ -57,10 +57,7 @@ export const useForm = ({
   };
 
   return {
-    successful,
-    error,
-    loading,
-    response,
+    requestState,
     formData,
     postForm,
     updateField,

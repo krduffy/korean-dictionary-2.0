@@ -14,15 +14,7 @@ export const useLoginForm = ({
   useCallAPIInstance: UseCallAPIReturns;
   tokenHandlers: TokenHandlers;
 }) => {
-  const {
-    successful,
-    error,
-    loading,
-    response,
-    formData,
-    postForm,
-    updateField,
-  } = useForm({
+  const { requestState, formData, postForm, updateField } = useForm({
     url: getEndpoint({ endpoint: "login" }),
     initialFormData: {
       username: "",
@@ -34,10 +26,10 @@ export const useLoginForm = ({
 
   const updatedPost = async (e: React.FormEvent) => {
     await postForm(e);
-    if (response !== null) {
+    if (requestState.response !== null) {
       const authTokens: AuthTokens = {
-        access: response.access,
-        refresh: response.refresh,
+        access: requestState.response.access,
+        refresh: requestState.response.refresh,
       } as AuthTokens;
 
       tokenHandlers.saveTokens(authTokens);
@@ -45,10 +37,7 @@ export const useLoginForm = ({
   };
 
   return {
-    successful,
-    error,
-    loading,
-    response,
+    requestState,
     formData,
     postForm: updatedPost,
     updateField,

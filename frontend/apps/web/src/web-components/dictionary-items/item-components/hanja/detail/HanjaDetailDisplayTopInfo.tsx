@@ -1,6 +1,6 @@
 import { memo, ReactNode, useRef, useState } from "react";
 import { HanjaDetailHanziWriter } from "./HanjaDetailHanziWriter";
-import { HanjaTogglers } from "../../shared/known-studied/KnownStudiedTogglers";
+import { HanjaCharacterKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useDimObserver";
 import { Copier } from "../../../../ui/Copier";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
@@ -61,7 +61,7 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
           </div>
         </div>
         {data.user_data && (
-          <HanjaTogglers
+          <HanjaCharacterKnownStudiedTogglers
             pk={data.character}
             initiallyKnown={data.user_data.is_known}
             initiallyStudied={data.user_data.is_studied}

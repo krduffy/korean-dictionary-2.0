@@ -36,7 +36,7 @@ export interface DetailedHanjaType extends BaseHanjaType {
 export type KoreanWordInHanjaPopupType = BaseKoreanWordType;
 
 export interface HanjaPopupType extends BaseHanjaType {
-  word_data: KoreanWordInHanjaPopupType[];
+  word_results: KoreanWordInHanjaPopupType[];
 }
 
 export type SenseInKoreanExampleType = {

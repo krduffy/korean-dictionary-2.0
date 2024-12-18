@@ -7,7 +7,7 @@ import {
   KoreanDetailInteractionData,
 } from "@repo/shared/types/views/interactionDataTypes";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { KoreanWordTogglers } from "../../shared/known-studied/KnownStudiedTogglers";
+import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { DetailedSenseView } from "./detailed-sense-components/DetailedSenseView";
 import { ErrorMessage } from "../../../../text-formatters/ErrorMessage";
@@ -32,7 +32,7 @@ export const KoreanDetailDisplay = memo(
 
           {data.user_data && (
             <div>
-              <KoreanWordTogglers
+              <KoreanWordKnownStudiedTogglers
                 pk={data.target_code}
                 initiallyKnown={data.user_data.is_known}
                 initiallyStudied={data.user_data.is_studied}

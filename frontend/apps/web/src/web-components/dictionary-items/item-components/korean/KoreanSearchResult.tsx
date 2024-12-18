@@ -2,7 +2,7 @@ import { PanelSpecificDispatcher } from "../../../pages/dictionary-page/PanelSpe
 import { StringWithHanja } from "../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../shared/formatted-string/FormattedString";
 import { SearchResultSideInfoStyler } from "../.././../text-formatters/SpanStylers";
-import { KoreanWordTogglers } from "../shared/known-studied/KnownStudiedTogglers";
+import { KoreanWordKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
 import { memo } from "react";
 import { KoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { SimplifiedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
@@ -35,7 +35,7 @@ export const KoreanSearchResult = memo(
           {/* for known studied togglers*/}
           {result.user_data && (
             <div className="self-center">
-              <KoreanWordTogglers
+              <KoreanWordKnownStudiedTogglers
                 pk={result.target_code}
                 initiallyKnown={result.user_data.is_known}
                 initiallyStudied={result.user_data.is_studied}
