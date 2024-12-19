@@ -13,7 +13,16 @@ export const MoreButton = ({ navigate }: { navigate: NavigateFunction }) => {
       title="더 보기"
       buttonContent={buttonContent}
       dropdownContent={dropdownContent}
-      popupBoxArgs={{ align: "end" }}
+      positioning={{
+        verticalAlignment: {
+          hashMarkAlignment: "entirely-after",
+          relativeHashMark: "end",
+        },
+        horizontalAlignment: {
+          hashMarkAlignment: "entirely-before",
+          relativeHashMark: "end",
+        },
+      }}
     />
   );
 };

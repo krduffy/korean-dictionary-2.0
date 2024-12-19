@@ -9,15 +9,21 @@ import { FunctionlessKnownStudiedDisplayers } from "../shared/known-studied/Know
 
 export const HanjaPopupDisplay = ({ data }: { data: HanjaPopupType }) => {
   return (
-    <article className="flex flex-col min-h-32 min-w-56 bg-[color:--background-tertiary] border-2 border-[color:--border-color]">
-      <header className="h-[20%] w-full bg-[color:--surface-color] p-2">
+    <article className="flex flex-col h-full w-full">
+      <header
+        className="h-[20%] w-full bg-[color:--surface-color] p-2
+                  rounded-t-xl border-x-2 border-t-2 border-[color:--border-color]"
+      >
         <HanjaPopupHeaderContents
           character={data.character}
           meaningReadings={data.meaning_readings}
           userData={data.user_data}
         />
       </header>
-      <section className="flex-1 w-full p-2">
+      <section
+        className="flex-1 w-full p-2 bg-[color:--background-tertiary]
+                  rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]"
+      >
         {data.word_results.length === 0 ? (
           <HanjaPopupWordGridNoWords />
         ) : (

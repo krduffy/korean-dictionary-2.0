@@ -1,5 +1,6 @@
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
+import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 
 export const HanjaDetailExplanation = ({
   explanation,
@@ -24,7 +25,7 @@ export const HanjaDetailExplanation = ({
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >
-      <div>{explanation}</div>
+      <StringWithNLPAndHanja string={explanation} />
     </DetailViewBaseDefaultHideableDropdownNoTruncation>
   );
 };

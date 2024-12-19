@@ -1,22 +1,18 @@
 import { ReactNode, useRef, useState } from "react";
-import { PopupBox, PopupBoxArgs } from "./PopupBox";
+import { PopupBox, Positioning } from "./popup-box/PopupBox";
 import { CloseButton } from "./CloseButton";
-
-export type AllowedPopupBoxArgs = {
-  align?: PopupBoxArgs["align"];
-};
 
 export const ButtonWithClickDropdown = ({
   title = "",
   buttonContent,
   dropdownContent,
-  popupBoxArgs,
+  positioning,
   addXInTopRight = false,
 }: {
   title?: string;
   buttonContent: ReactNode;
   dropdownContent: ReactNode;
-  popupBoxArgs?: AllowedPopupBoxArgs;
+  positioning: Positioning;
   addXInTopRight?: boolean;
 }) => {
   const [show, setShow] = useState(false);
@@ -37,11 +33,7 @@ export const ButtonWithClickDropdown = ({
         {buttonContent}
       </button>
       {show && (
-        <PopupBox
-          targetElement={buttonRef.current}
-          constrainToWindow={true}
-          {...popupBoxArgs}
-        >
+        <PopupBox relativeTo={buttonRef.current} positioning={positioning}>
           {dropdownContent}
           {addXInTopRight && <CloseButton onClick={() => setShow(false)} />}
         </PopupBox>

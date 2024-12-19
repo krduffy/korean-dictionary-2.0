@@ -1,4 +1,4 @@
-import { PopupBox } from "../../../../ui/PopupBox";
+import { PopupBox } from "../../../../ui/popup-box/PopupBox";
 import { useHanjaPopupBox } from "./useHanjaPopupBox";
 import { memo, useRef } from "react";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
@@ -50,7 +50,19 @@ const HanjaWithPopupBox = ({ character }: { character: string }) => {
         </PanelSpecificDispatcher>
       </span>
       {showHoverBox && (
-        <PopupBox targetElement={spanRef.current}>
+        <PopupBox
+          relativeTo={spanRef.current}
+          positioning={{
+            horizontalAlignment: {
+              relativeHashMark: "end",
+              hashMarkAlignment: "entirely-after",
+            },
+            verticalAlignment: {
+              relativeHashMark: "middle",
+              hashMarkAlignment: "entirely-before",
+            },
+          }}
+        >
           <HanjaPopupView character={character} />
         </PopupBox>
       )}

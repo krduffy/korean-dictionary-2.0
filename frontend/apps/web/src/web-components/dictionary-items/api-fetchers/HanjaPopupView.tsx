@@ -13,11 +13,16 @@ export const HanjaPopupView = ({ character }: { character: string }) => {
   });
 
   return (
-    <BasicAPIDataFormatter
-      requestState={requestState}
-      verifier={isHanjaPopupDataType}
-      interactionData={undefined}
-      DisplayComponent={HanjaPopupDisplay}
-    />
+    /* It is extremely important that this has a constant
+       height and width. If not, the popup box will jump as the
+       item resizes */
+    <div className="h-56 w-56">
+      <BasicAPIDataFormatter
+        requestState={requestState}
+        verifier={isHanjaPopupDataType}
+        interactionData={undefined}
+        DisplayComponent={HanjaPopupDisplay}
+      />
+    </div>
   );
 };

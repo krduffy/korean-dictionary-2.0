@@ -58,6 +58,16 @@ export const SearchSettingsButton = ({
       buttonContent={buttonContent}
       dropdownContent={dropdownContent}
       addXInTopRight={true}
+      positioning={{
+        verticalAlignment: {
+          hashMarkAlignment: "entirely-after",
+          relativeHashMark: "end",
+        },
+        horizontalAlignment: {
+          hashMarkAlignment: "entirely-before",
+          relativeHashMark: "end",
+        },
+      }}
     />
   );
 };
