@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { Coordinates, Positioning } from "./PopupBox";
+import { Coordinates, Positioning } from "./popupBoxTypes";
 import { getCoords } from "./positioningCalculations";
 import { useResizeObserver } from "./useResizeObserver";
 
@@ -19,18 +19,18 @@ export const usePopupBox = ({
   const { size: popupBoxDim } = useResizeObserver({ ref: popupBoxRef });
 
   useLayoutEffect(() => {
-    if (popupBoxDim && relativeToBox) {
+    if (popupBoxDim && relativeToBox && containingBox) {
       const relativeToBoxDim = relativeToBox.getBoundingClientRect();
       const containingBoxDim = containingBox?.getBoundingClientRect();
 
-      setBoxCoords(
-        getCoords(
-          { height: popupBoxDim.height, width: popupBoxDim.width },
-          relativeToBoxDim,
-          positioning,
-          containingBoxDim
-        )
+      const newCoords = getCoords(
+        { height: popupBoxDim.height, width: popupBoxDim.width },
+        relativeToBoxDim,
+        containingBoxDim,
+        positioning
       );
+
+      if (newCoords !== null) setBoxCoords(newCoords);
     }
   }, [popupBoxDim, relativeToBox, containingBox, positioning]);
 

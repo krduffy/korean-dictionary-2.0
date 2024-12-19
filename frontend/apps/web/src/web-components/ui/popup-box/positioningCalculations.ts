@@ -1,25 +1,65 @@
 import {
-  HashMarkAlignment,
-  BoxHashMark,
-  Coordinates,
   Positioning,
-} from "./PopupBox";
+  BoxHashMark,
+  HashMarkAlignment,
+  Coordinates,
+  DOMRectlike,
+  Range,
+  HeightAndWidth,
+} from "./popupBoxTypes";
 
-export type DOMRectlike = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
+import { doPopupBoxPositionCoercion } from "./doPopupBoxPositionCoercion";
 
-export type HeightAndWidth = {
-  height: number;
-  width: number;
-};
+export function getCoords(
+  popupBoxDimensions: HeightAndWidth,
+  relativeBox: DOMRectlike,
+  containingBox: DOMRectlike,
+  positioning: Positioning
+): Coordinates | null {
+  const initialRelativePlacement: Coordinates = getInitialRelativePlacement(
+    popupBoxDimensions,
+    relativeBox,
+    positioning
+  );
+
+  return doPopupBoxPositionCoercion(
+    { ...initialRelativePlacement, ...popupBoxDimensions },
+    relativeBox,
+    containingBox
+  );
+}
+
+function getInitialRelativePlacement(
+  popupBoxDimensions: HeightAndWidth,
+  relativeBox: DOMRectlike,
+  positioning: Positioning
+): Coordinates {
+  return {
+    x: getBaseCoord(
+      {
+        start: relativeBox.x,
+        end: relativeBox.x + relativeBox.width,
+        length: relativeBox.width,
+      },
+      popupBoxDimensions.width,
+      positioning.horizontalAlignment.relativeHashMark,
+      positioning.horizontalAlignment.hashMarkAlignment
+    ),
+    y: getBaseCoord(
+      {
+        start: relativeBox.y,
+        end: relativeBox.y + relativeBox.height,
+        length: relativeBox.height,
+      },
+      popupBoxDimensions.height,
+      positioning.verticalAlignment.relativeHashMark,
+      positioning.verticalAlignment.hashMarkAlignment
+    ),
+  };
+}
 
 export function getBaseCoord(
-  relativeDomStart: number,
-  relativeDomLength: number,
+  relativeElementAxisRange: Range,
   popupLength: number,
   relativeHashMark: BoxHashMark,
   hashMarkAlignment: HashMarkAlignment
@@ -27,13 +67,14 @@ export function getBaseCoord(
   let relativeX: number;
   switch (relativeHashMark) {
     case "beginning":
-      relativeX = relativeDomStart;
+      relativeX = relativeElementAxisRange.start;
       break;
     case "end":
-      relativeX = relativeDomStart + relativeDomLength;
+      relativeX = relativeElementAxisRange.end;
       break;
     case "middle":
-      relativeX = relativeDomStart + relativeDomLength / 2;
+      relativeX =
+        (relativeElementAxisRange.start + relativeElementAxisRange.end) / 2;
   }
 
   switch (hashMarkAlignment) {
@@ -44,88 +85,4 @@ export function getBaseCoord(
     case "middles-aligned":
       return relativeX - popupLength / 2;
   }
-}
-
-export function coercePopupCoordsInsideBox(
-  containingBox: DOMRectlike,
-  popupBox: DOMRectlike
-): Coordinates {
-  if (
-    popupBox.width > containingBox.width ||
-    popupBox.height > containingBox.height
-  ) {
-    throw new Error("Popup box does not fit in containing box");
-  }
-
-  const newCoords: Coordinates = { x: popupBox.x, y: popupBox.y };
-
-  /* Check containing box left edge */
-  if (containingBox.x > popupBox.x) {
-    newCoords.x = containingBox.x;
-  }
-
-  /* Check containing box right edge */
-  if (popupBox.x + popupBox.width > containingBox.x + containingBox.width) {
-    newCoords.x = containingBox.width + containingBox.x - popupBox.width;
-  }
-
-  /* Check containing box top edge */
-  if (containingBox.y > popupBox.y) {
-    newCoords.y = containingBox.y;
-  }
-
-  /* Check containing box bottom edge */
-  if (popupBox.y + popupBox.height > containingBox.y + containingBox.height) {
-    newCoords.y = containingBox.height + containingBox.y - popupBox.height;
-  }
-
-  return newCoords;
-}
-
-function getInitialRelativePlacement(
-  popupBoxDimensions: HeightAndWidth,
-  relativeBox: DOMRectlike,
-  positioning: Positioning
-): Coordinates {
-  return {
-    x: getBaseCoord(
-      relativeBox.x,
-      relativeBox.width,
-      popupBoxDimensions.width,
-      positioning.horizontalAlignment.relativeHashMark,
-      positioning.horizontalAlignment.hashMarkAlignment
-    ),
-    y: getBaseCoord(
-      relativeBox.y,
-      relativeBox.height,
-      popupBoxDimensions.height,
-      positioning.verticalAlignment.relativeHashMark,
-      positioning.verticalAlignment.hashMarkAlignment
-    ),
-  };
-}
-
-export function getCoords(
-  popupBoxDimensions: HeightAndWidth,
-  relativeBox: DOMRectlike,
-  positioning: Positioning,
-  containingBox?: DOMRectlike
-): Coordinates {
-  const initialRelativePlacement: Coordinates = getInitialRelativePlacement(
-    popupBoxDimensions,
-    relativeBox,
-    positioning
-  );
-
-  if (containingBox === undefined) {
-    return {
-      x: initialRelativePlacement.x,
-      y: initialRelativePlacement.y,
-    };
-  }
-
-  return coercePopupCoordsInsideBox(containingBox, {
-    ...initialRelativePlacement,
-    ...popupBoxDimensions,
-  });
 }
