@@ -30,7 +30,7 @@ export const HanjaDetailWriterControls = ({
         title="다음 획순 그리기"
         onClick={stepForward}
       />
-      <HanjaControlButton icon={Play} title="반복 재생" onClick={play} />
+      <HanjaControlButton icon={Play} title="재생" onClick={play} />
       <HanjaControlButton icon={Pause} title="중지" onClick={pause} />
       <HanjaControlButton
         icon={SquareDashed}

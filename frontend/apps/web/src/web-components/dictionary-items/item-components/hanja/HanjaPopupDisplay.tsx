@@ -11,7 +11,7 @@ export const HanjaPopupDisplay = ({ data }: { data: HanjaPopupType }) => {
   return (
     <article className="flex flex-col h-full w-full">
       <header
-        className="h-[20%] w-full bg-[color:--surface-color] p-2
+        className="w-full bg-[color:--surface-color] p-2
                   rounded-t-xl border-x-2 border-t-2 border-[color:--border-color]"
       >
         <HanjaPopupHeaderContents
@@ -44,7 +44,10 @@ const HanjaPopupHeaderContents = ({
   userData: UserDataType | null;
 }) => {
   return (
-    <div className="h-full w-full flex flex-row justify-between items-center">
+    <div
+      className={`w-full flex flex-row items-center
+                    ${userData === null ? "justify-center" : "justify-between"}`}
+    >
       <div className="flex flex-row gap-2 items-center">
         <h3 className="text-[color:--accent-1] text-[200%] left-2">
           {character}
@@ -64,7 +67,11 @@ const HanjaPopupHeaderContents = ({
 };
 
 const HanjaPopupWordGridNoWords = () => {
-  return <div>no words</div>;
+  return (
+    <div className="flex justify-center items-center">
+      이 한자는 용례가 없습니다.
+    </div>
+  );
 };
 
 const HanjaPopupWordGrid = ({
@@ -72,29 +79,10 @@ const HanjaPopupWordGrid = ({
 }: {
   wordData: KoreanWordInHanjaPopupType[];
 }) => {
-  const col1Words = wordData.slice(0, Math.ceil(wordData.length / 2));
-  const col2Words = wordData.slice(col1Words.length);
-
   return (
-    <div className="flex flex-row gap-2 justify-evenly">
-      <HanjaPopupWordGridColumn wordDataSubarray={col1Words} />
-      <HanjaPopupWordGridColumn wordDataSubarray={col2Words} />
-    </div>
-  );
-};
-
-const HanjaPopupWordGridColumn = ({
-  wordDataSubarray,
-}: {
-  wordDataSubarray: KoreanWordInHanjaPopupType[];
-}) => {
-  return (
-    <div className="flex flex-col gap-2">
-      {wordDataSubarray.map((wordData) => (
-        <HanjaPopupWordGridSingleWord
-          key={wordData.target_code}
-          data={wordData}
-        />
+    <div className="grid grid-cols-2 gap-x-4 gap-y-2 auto-rows-min w-full">
+      {wordData.map((data) => (
+        <HanjaPopupWordGridSingleWord key={data.target_code} data={data} />
       ))}
     </div>
   );
@@ -106,7 +94,7 @@ const HanjaPopupWordGridSingleWord = ({
   data: KoreanWordInHanjaPopupType;
 }) => {
   return (
-    <article className="flex flex-row gap-2">
+    <article className="flex flex-row gap-2 text-nowrap justify-center items-center">
       <p>{data.origin}</p>
       <p>{data.word}</p>
     </article>

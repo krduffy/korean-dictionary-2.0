@@ -24,7 +24,7 @@ export const HanjaDetailDisplayTopInfo = ({
 
   return (
     <div
-      className={`flex min-h-48 ${belowCutoff ? "flex-col" : "flex-row"}`}
+      className={`flex min-h-48 gap-2 ${belowCutoff ? "flex-col" : "flex-row"}`}
       ref={detailDisplayTopRef}
     >
       <div

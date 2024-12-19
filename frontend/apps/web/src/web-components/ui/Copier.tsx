@@ -1,10 +1,14 @@
 import { ClipboardCheck, ClipboardCopy, ClipboardX } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 
 export const Copier = ({ textToCopy }: { textToCopy: string }) => {
   const [successful, setSuccessful] = useState<boolean | null>(null);
   const { sendNotification } = useNotificationContext();
+
+  useEffect(() => {
+    setTimeout(() => setSuccessful(null), 5000);
+  }, [successful]);
 
   const handleClick = () => {
     navigator.clipboard
@@ -35,9 +39,9 @@ export const Copier = ({ textToCopy }: { textToCopy: string }) => {
       {successful === null ? (
         <ClipboardCopy />
       ) : successful === true ? (
-        <ClipboardCheck />
+        <ClipboardCheck className="[color:--success-color]" />
       ) : (
-        <ClipboardX />
+        <ClipboardX className="[color:--error-color]" />
       )}
     </div>
   );
@@ -45,14 +49,15 @@ export const Copier = ({ textToCopy }: { textToCopy: string }) => {
 
 const ClipboardSuccessMessage = ({ string }: { string: string }) => {
   return (
-    <div className="flex justify-center items-center p-4 [color:--success-color]">
+    <div className="flex justify-center items-center p-2 [color:--success-color]">
       {string}
     </div>
   );
 };
+
 const ClipboardErrorMessage = ({ string }: { string: string }) => {
   return (
-    <div className="flex justify-center items-center p-4 [color:--error-color]">
+    <div className="flex justify-center items-center p-2 [color:--error-color]">
       {string}
     </div>
   );

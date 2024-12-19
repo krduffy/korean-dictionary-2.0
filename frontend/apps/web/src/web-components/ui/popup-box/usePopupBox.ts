@@ -19,19 +19,27 @@ export const usePopupBox = ({
   const { size: popupBoxDim } = useResizeObserver({ ref: popupBoxRef });
 
   useLayoutEffect(() => {
-    if (popupBoxDim && relativeToBox && containingBox) {
-      const relativeToBoxDim = relativeToBox.getBoundingClientRect();
-      const containingBoxDim = containingBox?.getBoundingClientRect();
+    const reposition = () => {
+      if (popupBoxDim && relativeToBox && containingBox) {
+        const relativeToBoxDim = relativeToBox.getBoundingClientRect();
+        const containingBoxDim = containingBox?.getBoundingClientRect();
 
-      const newCoords = getCoords(
-        { height: popupBoxDim.height, width: popupBoxDim.width },
-        relativeToBoxDim,
-        containingBoxDim,
-        positioning
-      );
+        const newCoords = getCoords(
+          { height: popupBoxDim.height, width: popupBoxDim.width },
+          relativeToBoxDim,
+          containingBoxDim,
+          positioning
+        );
 
-      if (newCoords !== null) setBoxCoords(newCoords);
-    }
+        if (newCoords !== null) setBoxCoords(newCoords);
+      }
+    };
+
+    reposition();
+
+    window.addEventListener("resize", reposition);
+
+    return () => window.removeEventListener("resize", reposition);
   }, [popupBoxDim, relativeToBox, containingBox, positioning]);
 
   return boxCoords;
