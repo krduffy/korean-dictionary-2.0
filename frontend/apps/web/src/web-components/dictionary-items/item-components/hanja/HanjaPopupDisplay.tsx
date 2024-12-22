@@ -6,31 +6,61 @@ import {
 import { UserDataType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { MeaningReadingsDisplay } from "./MeaningReadingsDisplay";
 import { FunctionlessKnownStudiedDisplayers } from "../shared/known-studied/KnownStudiedDisplayers";
+import { Source } from "../../../text-formatters/SpanStylers";
 
 export const HanjaPopupDisplay = ({ data }: { data: HanjaPopupType }) => {
   return (
     <article className="flex flex-col h-full w-full">
-      <header
-        className="w-full bg-[color:--surface-color] p-2
-                  rounded-t-xl border-x-2 border-t-2 border-[color:--border-color]"
-      >
-        <HanjaPopupHeaderContents
-          character={data.character}
-          meaningReadings={data.meaning_readings}
-          userData={data.user_data}
-        />
-      </header>
-      <section
-        className="flex-1 w-full p-2 bg-[color:--background-tertiary]
-                  rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]"
-      >
-        {data.word_results.length === 0 ? (
-          <HanjaPopupWordGridNoWords />
-        ) : (
-          <HanjaPopupWordGrid wordData={data.word_results} />
-        )}
-      </section>
+      <HanjaPopupTopInfo data={data} />
+      <HanjaPopupBottomInfo wordResults={data.word_results} />
     </article>
+  );
+};
+
+const HanjaPopupTopInfo = ({ data }: { data: HanjaPopupType }) => {
+  return (
+    <header
+      className="w-full bg-[color:--surface-color] p-2
+                  rounded-t-xl border-x-2 border-t-2 border-[color:--border-color]"
+    >
+      <HanjaPopupHeaderContents
+        character={data.character}
+        meaningReadings={data.meaning_readings}
+        userData={data.user_data}
+      />
+    </header>
+  );
+};
+
+const HanjaPopupBottomInfo = ({
+  wordResults,
+}: {
+  wordResults: KoreanWordInHanjaPopupType[];
+}) => {
+  return (
+    <section
+      className="flex-1 w-full p-2 bg-[color:--background-tertiary]
+                  rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]"
+    >
+      {wordResults.length === 0 ? (
+        <HanjaPopupWordGridNoWords />
+      ) : (
+        <HanjaPopupWordGrid wordData={wordResults} />
+      )}
+      <br />
+      <HanjaPopupSource />
+    </section>
+  );
+};
+
+const HanjaPopupSource = () => {
+  return (
+    <footer className="flex items-center justify-center">
+      <Source>
+        <p className="pb-1">한자 훈음 출처: 나무위키</p>
+        <p>한자 용례 출처: 우리말샘</p>
+      </Source>
+    </footer>
   );
 };
 

@@ -18,6 +18,7 @@ export const HanjaDetailDisplay = memo(
         <HanjaDetailDisplayTopInfo data={data} />
         {data.explanation && (
           <HanjaDetailExplanation
+            character={data.character}
             explanation={data.explanation}
             droppedDown={interactionData.explanationDroppedDown}
           />

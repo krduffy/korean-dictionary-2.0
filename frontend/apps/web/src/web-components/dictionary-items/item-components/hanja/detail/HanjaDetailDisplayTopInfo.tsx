@@ -5,6 +5,7 @@ import { useWidthObserver } from "../../../../../shared-web-hooks/useDimObserver
 import { Copier } from "../../../../ui/Copier";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { MeaningReadingsDisplay } from "../MeaningReadingsDisplay";
+import { Href, Source } from "../../../../text-formatters/SpanStylers";
 
 export const HanjaDetailDisplayTopInfo = ({
   data,
@@ -34,7 +35,7 @@ export const HanjaDetailDisplayTopInfo = ({
       </div>
       {!writerLoadError && (
         <div
-          className={`flex justify-center items-center ${
+          className={`flex flex-col gap-2 justify-center items-center ${
             belowCutoff ? "w-full" : "w-[30%]"
           }`}
         >
@@ -42,6 +43,13 @@ export const HanjaDetailDisplayTopInfo = ({
             character={data.character}
             onWriterLoadError={() => setWriterLoadError(true)}
           />
+          <br />
+          <Source>
+            <p className="text-center">
+              한자 획순 재생기 출처:{" "}
+              <Href urlString="https://hanziwriter.org/">hanziwriter</Href>
+            </p>
+          </Source>
         </div>
       )}
     </div>
@@ -72,7 +80,42 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
       </div>
       {/* lower level; table of other info */}
       <HanjaMainInfoTable data={data} />
+      <br />
+      <HanjaMainInfoSources
+        radicalSource={data.radical_source}
+        character={data.character}
+      />
     </div>
+  );
+};
+
+const HanjaMainInfoSources = ({
+  radicalSource,
+  character,
+}: {
+  radicalSource: "namuwiki" | "makemeahanzi";
+  character: string;
+}) => {
+  const fromNamuwiki = `훈음, ${radicalSource === "namuwiki" ? "부수, " : ""}교육용, 급수별, 획수`;
+  const fromMakemeahanzi = `${radicalSource === "makemeahanzi" ? "부수, " : ""}모양자 분해`;
+
+  return (
+    <footer className="flex justify-between items-center gap-[20%]">
+      <Source>
+        <p>
+          {fromNamuwiki} 출처:{" "}
+          <Href urlString={`https://namu.wiki/w/${character}`}>나무위키</Href>
+        </p>
+      </Source>
+      <Source>
+        <p>
+          {fromMakemeahanzi} 출처:{" "}
+          <Href urlString={`https://github.com/skishore/makemeahanzi`}>
+            makemeahanzi
+          </Href>
+        </p>
+      </Source>
+    </footer>
   );
 };
 

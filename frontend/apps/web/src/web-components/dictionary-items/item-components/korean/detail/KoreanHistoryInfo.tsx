@@ -64,6 +64,9 @@ export const KoreanHistoryInfoSection = ({
           </div>
         )}
       </div>
+      <footer className="p-4">
+        <Source>출처: 우리말샘</Source>
+      </footer>
     </HideableDropdownNoTruncation>
   );
 };

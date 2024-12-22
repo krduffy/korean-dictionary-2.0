@@ -3,7 +3,11 @@ import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/Known
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
-import { DetailViewLinkStyler } from "../../../../text-formatters/SpanStylers";
+import {
+  DetailViewLinkStyler,
+  Href,
+  Source,
+} from "../../../../text-formatters/SpanStylers";
 
 export const HanjaExampleKoreanWord = ({
   result,
@@ -39,7 +43,26 @@ export const HanjaExampleKoreanWord = ({
 
       <div>
         <StringWithNLPAndHanja string={result.first_sense.definition} />
+
+        <br />
+
+        <HanjaExampleKoreanWordSource origin={result.origin} />
       </div>
     </>
+  );
+};
+
+const HanjaExampleKoreanWordSource = ({ origin }: { origin: string }) => {
+  return (
+    <footer>
+      <Source>
+        출처:{" "}
+        <Href
+          urlString={`https://opendict.korean.go.kr/search/searchResult?query=${origin}`}
+        >
+          우리말샘
+        </Href>
+      </Source>
+    </footer>
   );
 };

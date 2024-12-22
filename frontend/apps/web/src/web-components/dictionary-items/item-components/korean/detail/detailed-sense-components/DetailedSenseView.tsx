@@ -21,6 +21,7 @@ import {
   DetailViewBaseDefaultHideableDropdownNoTruncation,
   HideableDropdownNoTruncation,
 } from "../../../shared/ReusedFormatters";
+import { Href, Source } from "../../../../../text-formatters/SpanStylers";
 
 export const DetailedSenseView = ({
   senseData,
@@ -92,6 +93,15 @@ export const DetailedSenseView = ({
           dropdownState={dropdownState}
           additionalInfoData={senseData.additional_info}
         />
+        <br />
+        <Source>
+          출처:{" "}
+          <Href
+            urlString={`https://opendict.korean.go.kr/dictionary/view?sense_no=${senseData.target_code}`}
+          >
+            우리말샘
+          </Href>
+        </Source>
       </div>
     </HideableDropdownNoTruncation>
   );

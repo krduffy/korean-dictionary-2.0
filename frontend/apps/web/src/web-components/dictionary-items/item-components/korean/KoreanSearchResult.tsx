@@ -3,7 +3,9 @@ import { StringWithHanja } from "../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../shared/formatted-string/FormattedString";
 import {
   DetailViewLinkStyler,
+  Href,
   SearchResultSideInfoStyler,
+  Source,
 } from "../.././../text-formatters/SpanStylers";
 import { KoreanWordKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
 import { memo } from "react";
@@ -16,35 +18,7 @@ export const KoreanSearchResult = memo(
       <>
         {/* Header with word and origin */}
         <div className="pb-4 flex flex-row justify-between items-center">
-          <div className="flex flex-row gap-4">
-            <div className="text-[170%] text-[color:--accent-1]">
-              <PanelSpecificDispatcher
-                panelStateAction={{
-                  type: "push_korean_detail",
-                  target_code: result.target_code,
-                }}
-              >
-                <DetailViewLinkStyler>{result.word}</DetailViewLinkStyler>
-              </PanelSpecificDispatcher>
-            </div>
-            {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
-              <div className="self-center text-[130%]">
-                <SearchResultSideInfoStyler>
-                  <StringWithHanja string={result.origin} />
-                </SearchResultSideInfoStyler>
-              </div>
-            )}
-          </div>
-          {/* for known studied togglers*/}
-          {result.user_data && (
-            <div className="self-center">
-              <KoreanWordKnownStudiedTogglers
-                pk={result.target_code}
-                initiallyKnown={result.user_data.is_known}
-                initiallyStudied={result.user_data.is_studied}
-              />
-            </div>
-          )}
+          <KoreanSearchResultTopInfo result={result} />
         </div>
 
         {/* Senses */}
@@ -53,10 +27,69 @@ export const KoreanSearchResult = memo(
             <SimplifiedSense key={senseData.target_code} data={senseData} />
           ))}
         </div>
+
+        <br />
+
+        <KoreanSearchResultSource word={result.word} />
       </>
     );
   }
 );
+
+const KoreanSearchResultTopInfo = ({
+  result,
+}: {
+  result: KoreanSearchResultType;
+}) => {
+  return (
+    <>
+      <div className="flex flex-row gap-4">
+        <div className="text-[170%] text-[color:--accent-1]">
+          <PanelSpecificDispatcher
+            panelStateAction={{
+              type: "push_korean_detail",
+              target_code: result.target_code,
+            }}
+          >
+            <DetailViewLinkStyler>{result.word}</DetailViewLinkStyler>
+          </PanelSpecificDispatcher>
+        </div>
+        {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
+          <div className="self-center text-[130%]">
+            <SearchResultSideInfoStyler>
+              <StringWithHanja string={result.origin} />
+            </SearchResultSideInfoStyler>
+          </div>
+        )}
+      </div>
+      {/* for known studied togglers*/}
+      {result.user_data && (
+        <div className="self-center">
+          <KoreanWordKnownStudiedTogglers
+            pk={result.target_code}
+            initiallyKnown={result.user_data.is_known}
+            initiallyStudied={result.user_data.is_studied}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
+const KoreanSearchResultSource = ({ word }: { word: string }) => {
+  return (
+    <footer>
+      <Source>
+        출처:{" "}
+        <Href
+          urlString={`https://opendict.korean.go.kr/search/searchResult?query=${word}`}
+        >
+          우리말샘
+        </Href>
+      </Source>
+    </footer>
+  );
+};
 
 const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
   return (
