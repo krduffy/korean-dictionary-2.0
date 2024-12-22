@@ -75,8 +75,8 @@
     --text-tertiary: #9ca3af;
     --text-footnote: rgb(128, 128, 128);
 
-    --button-color: pink;
-    --button-hover-color: blue;
+    --button-color: white;
+    --button-hover-color: gray;
     --border-color: #374151;
 
     --accent-button-color: silver;
