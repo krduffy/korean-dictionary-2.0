@@ -10,7 +10,7 @@ import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsCo
 import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { DetailedSenseView } from "./detailed-sense-components/DetailedSenseView";
-import { ErrorMessage } from "../../../../text-formatters/ErrorMessage";
+import { ErrorMessage } from "../../../../text-formatters/messages/ErrorMessage";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -80,7 +80,7 @@ const DetailedSenses = ({
       return (
         <ErrorMessage
           key={senseData.target_code}
-          errorResponse={{ detail: "this sense errored" }}
+          error="뜻풀이 데이터는 구조가 안 됩니다."
         />
       );
     }

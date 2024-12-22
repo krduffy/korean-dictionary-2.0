@@ -3,7 +3,7 @@ import { useCallAPIWeb } from "../../../../../shared-web-hooks/useCallAPIWeb";
 import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { APIResponseType } from "@repo/shared/types/apiCallTypes";
 import { useStarAnimation } from "./useStarAnimation";
-import { ErrorMessage } from "../../../../text-formatters/ErrorMessage";
+import { ErrorMessage } from "../../../../text-formatters/messages/ErrorMessage";
 import { KnownStudiedIcon } from "./KnownStudiedIcon";
 
 export const KnownStudiedToggler = ({
@@ -34,7 +34,7 @@ export const KnownStudiedToggler = ({
   };
 
   const onError = (response: APIResponseType) => {
-    sendNotification(<ErrorMessage errorResponse={response} />, 2000);
+    sendNotification(<ErrorMessage error={response} />, 2000);
   };
 
   const { requestState, isToggled, onClick } = useKnownStudiedToggler({

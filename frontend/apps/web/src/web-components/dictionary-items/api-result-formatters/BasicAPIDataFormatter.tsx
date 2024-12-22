@@ -2,7 +2,7 @@ import { RequestStateType } from "@repo/shared/types/apiCallTypes";
 import { ComponentType } from "react";
 import { NoResponseError, WrongFormatError } from "./ErrorMessageTemplates";
 import { LoadingIndicator } from "../../ui/LoadingIndicator";
-import { ErrorMessage } from "../../text-formatters/ErrorMessage";
+import { ErrorMessage } from "../../text-formatters/messages/ErrorMessage";
 
 const DefaultLoadingComponent = () => <LoadingIndicator maxDim={32} />;
 
@@ -28,7 +28,7 @@ export const BasicAPIDataFormatter = <DataType, InteractionDataType>({
 
   if (progress === "loading") return <LoadingComponent />;
 
-  if (progress === "error") return <ErrorMessage errorResponse={response} />;
+  if (progress === "error") return <ErrorMessage error={response} />;
 
   if (!response) {
     return <NoResponseError />;

@@ -1,7 +1,7 @@
 import { RequestStateType } from "@repo/shared/types/apiCallTypes";
 import { NoResponseError, WrongFormatError } from "./ErrorMessageTemplates";
 import { LoadingIndicator } from "../../ui/LoadingIndicator";
-import { ErrorMessage } from "../../text-formatters/ErrorMessage";
+import { ErrorMessage } from "../../text-formatters/messages/ErrorMessage";
 
 export const FindLemmaFormatter = ({
   requestState,
@@ -19,7 +19,7 @@ export const FindLemmaFormatter = ({
   }
 
   if (progress === "error") {
-    return <ErrorMessage errorResponse={response} />;
+    return <ErrorMessage error={response} />;
   }
 
   if (!response) {

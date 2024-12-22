@@ -8,7 +8,7 @@ import {
   WrongFormatError,
 } from "../ErrorMessageTemplates";
 import { NoResultsMessage } from "./ResultsMessages";
-import { ErrorMessage } from "../../../text-formatters/ErrorMessage";
+import { ErrorMessage } from "../../../text-formatters/messages/ErrorMessage";
 
 export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
   requestState,
@@ -40,7 +40,7 @@ export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
   }
 
   if (progress === "error") {
-    return <ErrorMessage errorResponse={response} />;
+    return <ErrorMessage error={response} />;
   }
 
   if (!response) {
