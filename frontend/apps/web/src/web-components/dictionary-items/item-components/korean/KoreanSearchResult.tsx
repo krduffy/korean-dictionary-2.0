@@ -103,6 +103,18 @@ const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
       )}
       {data.pos && <span className="text-[color:--accent-5]">{data.pos} </span>}
       <StringWithNLPAndHanja string={data.definition} />
+      {data.region_info && (
+        <span>
+          {" ("}
+          {data.region_info.map((region, id, regionArray) => (
+            <span key={id}>
+              {region.region}
+              {id + 1 < regionArray.length && ", "}
+            </span>
+          ))}
+          {")."}
+        </span>
+      )}
     </div>
   );
 };

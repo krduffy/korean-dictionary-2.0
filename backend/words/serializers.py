@@ -81,10 +81,23 @@ class KoreanWordDetailedSerializer(BaseKoreanWordSerializer):
 
 # Serializer for senses as they are listed under Korean word search results.
 class SimplifiedSenseSerializer(serializers.ModelSerializer):
+    region_info = serializers.SerializerMethodField()
+
     class Meta:
         model = Sense
-        fields = ["target_code", "definition", "type", "order", "category", "pos"]
+        fields = [
+            "target_code",
+            "definition",
+            "type",
+            "order",
+            "category",
+            "pos",
+            "region_info",
+        ]
         read_only_fields = ["__all__"]
+
+    def get_region_info(self, obj):
+        return obj.additional_info.get("region_info", None)
 
 
 # Serializer for senses as they are listed under Korean word detail views.

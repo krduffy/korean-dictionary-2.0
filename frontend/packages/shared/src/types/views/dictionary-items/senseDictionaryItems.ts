@@ -9,7 +9,9 @@ export type BaseSenseType = {
   category: string;
 };
 
-export type SimplifiedSenseType = BaseSenseType;
+export interface SimplifiedSenseType extends BaseSenseType {
+  region_info?: RegionInfoType[];
+}
 
 export interface SenseAdditionalInfoType {
   proverb_info?: ProverbType[];

@@ -77,19 +77,19 @@ const BaseFormattedString = ({
         const sentence: string = pair[0];
         const tokens: NLPToken[] = pair[1];
 
-        let eojeolNumber = 0;
+        let eojeolIndex = 0;
 
         return (
           <Fragment key={sentenceId}>
             {tokens?.map((nlpToken, nlpTokenId) => {
-              if (nlpToken.token.includes(" ")) eojeolNumber++;
+              if (nlpToken.token.includes(" ")) eojeolIndex++;
 
               return (
                 <PrintedToken
                   key={nlpTokenId}
                   nlpToken={nlpToken}
                   sentence={sentence}
-                  index={eojeolNumber}
+                  index={eojeolIndex}
                   embedNLP={embedNLP}
                   embedHanja={embedHanja}
                 />

@@ -137,14 +137,14 @@ const SenseMainInfo = ({
       <StringWithNLPAndHanja string={definition} />
       {regionInfo && (
         <span>
-          {"("}
+          {" ("}
           {regionInfo.map((region, id, regionArray) => (
             <span key={id}>
               {region.region}
               {id + 1 < regionArray.length && ", "}
             </span>
           ))}
-          {")"}
+          {")."}
         </span>
       )}
     </div>
