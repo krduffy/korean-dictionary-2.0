@@ -28,6 +28,7 @@ export interface KoreanDetailView {
 export interface FindLemmaData {
   word: string;
   sentence: string;
+  index: number;
 }
 
 export interface FindLemmaView {

@@ -77,17 +77,24 @@ const BaseFormattedString = ({
         const sentence: string = pair[0];
         const tokens: NLPToken[] = pair[1];
 
+        let eojeolNumber = 0;
+
         return (
           <Fragment key={sentenceId}>
-            {tokens?.map((nlpToken, nlpTokenId) => (
-              <PrintedToken
-                key={nlpTokenId}
-                nlpToken={nlpToken}
-                sentence={sentence}
-                embedNLP={embedNLP}
-                embedHanja={embedHanja}
-              />
-            ))}
+            {tokens?.map((nlpToken, nlpTokenId) => {
+              if (nlpToken.token.includes(" ")) eojeolNumber++;
+
+              return (
+                <PrintedToken
+                  key={nlpTokenId}
+                  nlpToken={nlpToken}
+                  sentence={sentence}
+                  index={eojeolNumber}
+                  embedNLP={embedNLP}
+                  embedHanja={embedHanja}
+                />
+              );
+            })}
             {/* if not last sentence then add space */}
             {sentenceId != sentenceArray.length - 1 && " "}
           </Fragment>
@@ -100,17 +107,19 @@ const BaseFormattedString = ({
 const PrintedToken = ({
   nlpToken,
   sentence,
+  index,
   embedNLP,
   embedHanja,
 }: {
   nlpToken: NLPToken;
   sentence: string;
+  index: number;
   embedNLP: boolean;
   embedHanja: boolean;
 }) => {
   if (nlpToken.type === "hangul") {
     return embedNLP ? (
-      <WordWithNLP word={nlpToken.token} sentence={sentence} />
+      <WordWithNLP word={nlpToken.token} sentence={sentence} index={index} />
     ) : (
       <span>{nlpToken.token}</span>
     );
@@ -132,9 +141,11 @@ const PrintedToken = ({
 const WordWithNLP = ({
   word,
   sentence,
+  index,
 }: {
   word: string;
   sentence: string;
+  index: number;
 }) => {
   return (
     <span>
@@ -143,6 +154,7 @@ const WordWithNLP = ({
           type: "push_find_lemma",
           word: word,
           sentence: sentence,
+          index: index,
         }}
       >
         <ClickableLinkStyler>{word}</ClickableLinkStyler>

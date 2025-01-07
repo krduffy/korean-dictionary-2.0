@@ -57,6 +57,6 @@ class FindLemmaInStringView(APIView):
         index = request.data["index"]
         mouse_over = request.data["mouse_over"]
 
-        lemma = self.lemmatizer.get_lemma_at_index(sentence, index)
+        lemma = self.lemmatizer.get_lemma_at_index(sentence, index, mouse_over)
 
         return get_found_response(lemma)

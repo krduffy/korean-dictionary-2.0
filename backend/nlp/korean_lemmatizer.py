@@ -93,10 +93,16 @@ class KoreanLemmatizer:
 
         return -1
 
-    def get_lemma_at_index(self, context: str, index: int) -> str:
+    def get_lemma_at_index(self, context: str, index: int, inflected: str) -> str:
         lemmas = self.get_lemmas(context)
 
-        try:
-            return lemmas[index][0]
-        except IndexError:
-            return ""
+        # lemma list has no output at this index; just return the inflected form
+        if len(lemmas[index]) == 0:
+            return inflected
+
+        inflected_lemma = self.get_lemmas(inflected)
+
+        if len(inflected_lemma) < 1 or len(inflected_lemma[0]) < 1:
+            return inflected
+
+        return inflected_lemma[0][0]

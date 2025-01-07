@@ -32,6 +32,8 @@ export type RegionInfoType = {
 export type ExampleType = {
   example: string;
   source?: string;
+  /** Usually for when the example is dialect and it is rewritten in
+   *  standard korean */
   translation?: string;
   origin?: string;
   region?: string;

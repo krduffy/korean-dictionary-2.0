@@ -91,6 +91,7 @@ export const pushIfApplicable = (
         data: {
           word: action.word,
           sentence: action.sentence,
+          index: action.index,
         },
         interactionData: {
           scrollDistance: 0,

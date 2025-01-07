@@ -11,14 +11,17 @@ import { Footnote } from "../../text-formatters/SpanStylers";
 export const FindLemmaView = ({
   word,
   sentence,
+  index,
 }: {
   word: string;
   sentence: string;
+  index: number;
 }) => {
   const getFormData = () => {
     return {
       mouse_over: word,
       sentence: sentence,
+      index: index,
     };
   };
 
@@ -26,7 +29,7 @@ export const FindLemmaView = ({
     url: getEndpoint({ endpoint: "find_lemma" }),
     formDataGetter: getFormData,
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    repostDependencies: [word, sentence],
+    repostDependencies: [word, sentence, index],
   });
 
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();

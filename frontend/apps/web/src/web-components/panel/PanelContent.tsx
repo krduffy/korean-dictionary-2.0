@@ -73,7 +73,11 @@ const ViewContent = ({ view }: { view: View }) => {
 
   if (view.type === "find_lemma") {
     return (
-      <FindLemmaView word={view.data.word} sentence={view.data.sentence} />
+      <FindLemmaView
+        word={view.data.word}
+        sentence={view.data.sentence}
+        index={view.data.index}
+      />
     );
   }
 

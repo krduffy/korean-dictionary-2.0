@@ -65,6 +65,7 @@ export interface PushFindLemmaAction {
   type: "push_find_lemma";
   word: string;
   sentence: string;
+  index: number;
 }
 
 export interface PushFindLemmaSuccessAction {
