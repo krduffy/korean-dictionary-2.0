@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class KoreanLemmatizer:
@@ -54,25 +54,45 @@ class KoreanLemmatizer:
             for morph_list in grouped_morphs
         ]
 
-    def _remove_eomi_from_verb(self, morph) -> str:
-        return morph.feature.expression.split("/")[0]
+    def _get_first_morph_from_potentially_combined(self, morph) -> str:
+        if morph.feature.expression:
+            return morph.feature.expression.split("/")[0]
+        return morph.feature.reading
 
-    def _get_lemma_from_morph(self, morph) -> str:
-        pos = morph.feature.pos
+    def _get_lemmas_from_morph_list(self, morphs) -> List[str]:
 
-        if pos.startswith("V"):
-            stem = self._remove_eomi_from_verb(morph) if "+" in pos else morph.surface
-            if self.attach_다_to_verbs:
-                return stem + "다"
-            return stem
+        i = 0
+        lemmas = []
 
-        return morph.surface
+        while i < len(morphs):
+
+            morph = morphs[i]
+            pos = morph.feature.pos
+
+            if pos.startswith("V"):
+                stem = self._get_first_morph_from_potentially_combined(morph)
+                lemmas.append(f"{stem}{"다" if self.attach_다_to_verbs else ""}")
+
+            # 어근/명사에다 접미사 붙임.
+            # xsa => 형용사일 경우 (무모(하다)); xsv => 동사 (안녕(하다))
+            if pos.startswith("XSA") or pos.startswith("XSV"):
+                lemmas[-1] = (
+                    f"{lemmas[-1]}{self._get_first_morph_from_potentially_combined(morph)}{"다" if self.attach_다_to_verbs else ""}"
+                )
+
+            else:
+                lemmas.append(morph.surface)
+
+            i += 1
+
+        return lemmas
 
     def _get_lemmas_from_trimmed_grouped_morphs(
         self, trimmed_grouped_morphs: List[List]
     ) -> List[List[str]]:
+
         return [
-            [self._get_lemma_from_morph(morph) for morph in morph_list]
+            self._get_lemmas_from_morph_list(morph_list)
             for morph_list in trimmed_grouped_morphs
         ]
 
@@ -95,6 +115,9 @@ class KoreanLemmatizer:
 
     def get_lemma_at_index(self, context: str, index: int, inflected: str) -> str:
         lemmas = self.get_lemmas(context)
+
+        if len(lemmas[index]) == 1:
+            return lemmas[index][0]
 
         # lemma list has no output at this index; just return the inflected form
         if len(lemmas[index]) == 0:
