@@ -24,6 +24,12 @@ const SenseExample = ({ example }: { example: ExampleType }) => {
       <div>
         <ExampleStringWithNLPAndHanja string={example.example} />
       </div>
+      {example.translation && (
+        <div>
+          <label>표준어: </label>
+          <ExampleStringWithNLPAndHanja string={example.translation} />
+        </div>
+      )}
       <div>
         {example.source && (
           <Source>
