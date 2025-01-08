@@ -1,6 +1,3 @@
-Words in the nlp view do not work properly when surrounding in '' (dummy string) => due to indexing
-problem in the index heuristic
-
 way too many listeners registered. on every dispatch the effects refire so scrolling can
 register upwards of 500
 make instances of listeners not be registered in the case that the hook already has

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "users.apps.UsersConfig",
     "words.apps.WordsConfig",
+    "nlp.apps.NlpConfig",
     #'ratelimit',
     "corsheaders",
     "django_extensions",
