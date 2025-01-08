@@ -29,6 +29,14 @@ This is still a work in progress, but the functionality of searching for words a
 
 The next step of development is adding user-added word examples, which will include example sentences, example images, and example videos. I also plan to allow the user to input texts that they have read, after which examples of various words will be automatically searched for in the text without their input (see "add an LLM based system" above). This will have to involve NLP and word sense disambiguation.
 
+## Links to Relevant Repositories/Tools
+
+- [Urimalsaem (우리말샘)](https://opendict.korean.go.kr/main): Source of Korean word data. Largest Korean dictionary with > 1mil headwords. If you make an account you can download the entire dictionary.
+- [Namuwiki (나무위키)](https://namu.wiki): Source of most Hanja character data.
+- [Hanzi Writer](https://github.com/chanind/hanzi-writer): Good library for animating Hanja (Hanzi) characters' strokes.
+- [makemeahanzi](https://github.com/skishore/makemeahanzi): Source of Hanja ideograph decompositions + many radicals.
+- [python-mecab-ko](https://github.com/jonghwanhyeon/python-mecab-ko): Python wrapper for the Korean MeCab part of speech tagger.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
@@ -39,6 +47,5 @@ This project uses various third-party resources and libraries, each with its own
 - Data from Namuwiki (나무위키): [Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Korea (CC BY-NC-SA 2.0 KR)](LICENSES/by-nc-sa-2.0-kr.txt)
 - Hanzi Writer: [MIT License](LICENSES/mit.txt)
 - Data from makemeahanzi: [GNU Lesser General Public License (LGPL)](LICENSES/lgpl.txt)
-- konlpy: [GNU General Public License (GPL)](LICENSES/gpl.txt)
 
 Please refer to each project's license for more details on their terms of use.
