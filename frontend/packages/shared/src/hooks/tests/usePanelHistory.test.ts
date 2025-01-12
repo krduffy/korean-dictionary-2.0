@@ -19,7 +19,17 @@ describe("usePanelHistory", () => {
       /* not important */
       interactionData: {
         scrollDistance: 0,
-        dropdowns: [],
+        detailedSenseDropdowns: [
+          {
+            additionalInfoBoxDroppedDown: true,
+            exampleInfoDroppedDown: true,
+            grammarInfoDroppedDown: true,
+            normInfoDroppedDown: true,
+            relationInfoDroppedDown: true,
+            proverbInfoDroppedDown: true,
+          },
+        ],
+        historyDroppedDown: true,
       },
     };
   };

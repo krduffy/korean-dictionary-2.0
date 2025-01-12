@@ -12,6 +12,9 @@ export type UsePropFormArgs = {
   repostDependencies: any[];
 };
 
+/* 'Prop form' refers to requests that are pretty much get requests but instead are
+   post requests. ie find lemma request, which is a post request */
+
 export const usePropForm = ({
   url,
   formDataGetter,

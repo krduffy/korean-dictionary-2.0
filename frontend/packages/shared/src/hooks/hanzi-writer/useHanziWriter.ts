@@ -50,6 +50,7 @@ export const useHanziWriter = ({
     const onResize = () => {
       const dim = ref.current?.getBoundingClientRect();
       if (dim) {
+        /* height and width same */
         const newHW = Math.min(dim.height, dim.width);
         hanziWriterRef.current?.updateDimensions({
           height: newHW,

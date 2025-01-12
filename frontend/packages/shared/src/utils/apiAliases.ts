@@ -43,15 +43,18 @@ export const getEndpoint = ({ endpoint, pk, queryParams }: GetEndpointArgs) => {
 };
 
 const getArgsAsQueryParamString = (params: QueryParams) => {
-  return Object.entries(params)
-    .reduce(
-      (accumulator, [key, value]) =>
-        accumulator +
-        encodeURIComponent(key) +
-        "=" +
-        encodeURIComponent(String(value)) +
-        "&",
-      ""
-    )
-    .slice(0, -1);
+  return (
+    Object.entries(params)
+      .reduce(
+        (accumulator, [key, value]) =>
+          accumulator +
+          encodeURIComponent(key) +
+          "=" +
+          encodeURIComponent(String(value)) +
+          "&",
+        ""
+      )
+      /* the last char is deleted because it is a trailing '&' */
+      .slice(0, -1)
+  );
 };
