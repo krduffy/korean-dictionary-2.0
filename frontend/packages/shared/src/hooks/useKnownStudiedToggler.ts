@@ -26,6 +26,11 @@ export const useKnownStudiedToggler = ({
   const [isToggled, setIsToggled] = useState<boolean>(initiallyToggled);
   const newValue = useRef<boolean>(!initiallyToggled);
 
+  /* REWRITE THIS */
+  useEffect(() => {
+    setIsToggled(initiallyToggled);
+  }, [initiallyToggled]);
+
   const { requestState, callAPI } = useCallAPIInstance;
   const { globalEmit } = useGlobalFunctionsContext();
   const { panelEmitOther } = usePanelFunctionsContext();

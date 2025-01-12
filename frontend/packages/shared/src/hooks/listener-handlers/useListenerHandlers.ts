@@ -10,6 +10,7 @@ import {
   KoreanSearchResultType,
 } from "../../types/views/dictionary-items/koreanDictionaryItems";
 import {
+  CallbackParamMappings,
   SubscribeFnType,
   UnsubscribeFnType,
 } from "../../types/apiDataChangeEventTypes";
@@ -27,6 +28,7 @@ import {
   SearchResultType,
   ValidPkFieldType,
 } from "../../types/views/dictionary-items/sharedTypes";
+import { APIDataChangeCacheUpdater } from "../../types/cacheTypes";
 
 const getPkLoadedDataChangedSubscriptionArgs = (
   pks: (number | string)[],
@@ -87,7 +89,7 @@ const useDictionaryItemListenerManager = <
       cacheUpdaters: getCacheUpdaters<PkFieldType>({
         pks: pks,
         pathGetter: pathGetter,
-      }),
+      }) as APIDataChangeCacheUpdater<keyof CallbackParamMappings>[],
     });
   }, [pks]);
 

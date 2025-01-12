@@ -1,6 +1,7 @@
 import { APIResponseType } from "../../types/apiCallTypes";
 import { withUpdatedKnownStudied } from "./responseUpdaters";
 import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
+import { APIDataChangeCacheUpdater } from "src/types/cacheTypes";
 
 export const getCacheUpdaters = <PkFieldType extends ValidPkFieldType>({
   pks,
@@ -15,13 +16,17 @@ export const getCacheUpdaters = <PkFieldType extends ValidPkFieldType>({
 const getKnownStudiedCacheUpdaters = <PkFieldType extends ValidPkFieldType>(
   pk: PkFieldType,
   path: (number | string)[]
-) => {
+): APIDataChangeCacheUpdater<"knownChanged" | "studiedChanged">[] => {
   const knownStudiedUpdaters = (["known", "studied"] as const).map(
     (knownOrStudied) => {
+      const eventTypeMapping = {
+        known: "knownChanged",
+        studied: "studiedChanged",
+      } as const;
+
       return {
         pk: pk,
-        eventType:
-          knownOrStudied === "known" ? "knownChanged" : "studiedChanged",
+        eventType: eventTypeMapping[knownOrStudied],
         responseUpdater: (prevResponse: APIResponseType, newValue: boolean) => {
           return withUpdatedKnownStudied({
             fullResponse: prevResponse,
