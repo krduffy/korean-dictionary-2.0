@@ -13,7 +13,9 @@ export const usePageChanger = ({
   const [currentlyTypedCustomPage, setCurrentlyTypedCustomPage] =
     useState<string>(String(pageNum));
 
-  useEffect(() => {}, [currentlyTypedCustomPage]);
+  useEffect(() => {
+    setCurrentlyTypedCustomPage(String(pageNum));
+  }, [pageNum]);
 
   const onClickPageDown = () => {
     setPageNum(Math.max(1, pageNum - 1));
