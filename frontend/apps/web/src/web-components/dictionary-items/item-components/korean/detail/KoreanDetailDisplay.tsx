@@ -34,8 +34,8 @@ export const KoreanDetailDisplay = memo(
             <div>
               <KoreanWordKnownStudiedTogglers
                 pk={data.target_code}
-                initiallyKnown={data.user_data.is_known}
-                initiallyStudied={data.user_data.is_studied}
+                isKnown={data.user_data.is_known}
+                isStudied={data.user_data.is_studied}
               />
             </div>
           )}

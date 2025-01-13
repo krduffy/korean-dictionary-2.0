@@ -73,8 +73,8 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
         {data.user_data && (
           <HanjaCharacterKnownStudiedTogglers
             pk={data.character}
-            initiallyKnown={data.user_data.is_known}
-            initiallyStudied={data.user_data.is_studied}
+            isKnown={data.user_data.is_known}
+            isStudied={data.user_data.is_studied}
           />
         )}
       </div>

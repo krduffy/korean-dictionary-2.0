@@ -2,7 +2,7 @@ import { useKnownStudiedToggler } from "@repo/shared/hooks/useKnownStudiedToggle
 import { useCallAPIWeb } from "../../../../../shared-web-hooks/useCallAPIWeb";
 import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { APIResponseType } from "@repo/shared/types/apiCallTypes";
-import { useStarAnimation } from "./useStarAnimation";
+import { StarAnimationWrapper } from "./StarAnimationWrapper";
 import { ErrorMessage } from "../../../../text-formatters/messages/ErrorMessage";
 import { KnownStudiedIcon } from "./KnownStudiedIcon";
 
@@ -10,12 +10,12 @@ export const KnownStudiedToggler = ({
   pk,
   knownOrStudied,
   koreanOrHanja,
-  initiallyToggled,
+  isToggled,
 }: {
   pk: number | string;
   koreanOrHanja: "korean" | "hanja";
   knownOrStudied: "known" | "studied";
-  initiallyToggled: boolean;
+  isToggled: boolean;
 }) => {
   const { sendNotification } = useNotificationContext();
 
@@ -28,20 +28,17 @@ export const KnownStudiedToggler = ({
       />,
       2000
     );
-    if (setTrueOrFalse) {
-      triggerAnimation();
-    }
   };
 
   const onError = (response: APIResponseType) => {
     sendNotification(<ErrorMessage error={response} />, 2000);
   };
 
-  const { requestState, isToggled, onClick } = useKnownStudiedToggler({
+  const { requestState, onClick } = useKnownStudiedToggler({
     pk,
     koreanOrHanja,
     knownOrStudied,
-    initiallyToggled,
+    isToggled,
     onSuccess,
     onError,
     useCallAPIInstance: useCallAPIWeb({
@@ -49,8 +46,20 @@ export const KnownStudiedToggler = ({
     }),
   });
 
-  const { sparkleWrappedChild, triggerAnimation } = useStarAnimation({
-    buttonContent: (
+  return isToggled ? (
+    <button className="h-full w-full rounded-xl" onClick={onClick}>
+      <StarAnimationWrapper numStars={10}>
+        <div className="h-full border-2 rounded-md p-2 border-[color:--accent-1] shadow-lg transition-shadow hover:shadow-xl">
+          <KnownStudiedIcon
+            loading={requestState.progress === "loading"}
+            knownOrStudied={knownOrStudied}
+            isToggled={isToggled}
+          />
+        </div>
+      </StarAnimationWrapper>
+    </button>
+  ) : (
+    <button className="h-full w-full rounded-xl" onClick={onClick}>
       <div className="h-full border-2 rounded-md p-2 border-[color:--accent-1] shadow-lg transition-shadow hover:shadow-xl">
         <KnownStudiedIcon
           loading={requestState.progress === "loading"}
@@ -58,14 +67,7 @@ export const KnownStudiedToggler = ({
           isToggled={isToggled}
         />
       </div>
-    ),
-    numStars: 10,
-  });
-
-  return (
-    <div className="h-full w-full rounded-xl" onClick={onClick}>
-      {sparkleWrappedChild}
-    </div>
+    </button>
   );
 };
 

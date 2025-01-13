@@ -26,12 +26,12 @@ export const FunctionlessKnownStudiedDisplayers = ({
 
 export const KoreanWordKnownStudiedTogglers = ({
   pk,
-  initiallyKnown,
-  initiallyStudied,
+  isKnown,
+  isStudied,
 }: {
   pk: number;
-  initiallyKnown: boolean;
-  initiallyStudied: boolean;
+  isKnown: boolean;
+  isStudied: boolean;
 }) => {
   return (
     <div className="flex gap-2 h-full">
@@ -39,13 +39,13 @@ export const KoreanWordKnownStudiedTogglers = ({
         pk={pk}
         knownOrStudied="known"
         koreanOrHanja="korean"
-        initiallyToggled={initiallyKnown}
+        isToggled={isKnown}
       />
       <KnownStudiedToggler
         pk={pk}
         knownOrStudied="studied"
         koreanOrHanja="korean"
-        initiallyToggled={initiallyStudied}
+        isToggled={isStudied}
       />
     </div>
   );
@@ -53,12 +53,12 @@ export const KoreanWordKnownStudiedTogglers = ({
 
 export const HanjaCharacterKnownStudiedTogglers = ({
   pk,
-  initiallyKnown,
-  initiallyStudied,
+  isKnown,
+  isStudied,
 }: {
   pk: string;
-  initiallyKnown: boolean;
-  initiallyStudied: boolean;
+  isKnown: boolean;
+  isStudied: boolean;
 }) => {
   return (
     <div className="flex gap-2">
@@ -66,13 +66,13 @@ export const HanjaCharacterKnownStudiedTogglers = ({
         pk={pk}
         knownOrStudied="known"
         koreanOrHanja="hanja"
-        initiallyToggled={initiallyKnown}
+        isToggled={isKnown}
       />
       <KnownStudiedToggler
         pk={pk}
         knownOrStudied="studied"
         koreanOrHanja="hanja"
-        initiallyToggled={initiallyStudied}
+        isToggled={isStudied}
       />
     </div>
   );

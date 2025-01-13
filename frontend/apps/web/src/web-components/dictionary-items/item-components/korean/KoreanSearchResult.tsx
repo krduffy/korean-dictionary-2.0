@@ -67,8 +67,8 @@ const KoreanSearchResultTopInfo = ({
         <div className="self-center">
           <KoreanWordKnownStudiedTogglers
             pk={result.target_code}
-            initiallyKnown={result.user_data.is_known}
-            initiallyStudied={result.user_data.is_studied}
+            isKnown={result.user_data.is_known}
+            isStudied={result.user_data.is_studied}
           />
         </div>
       )}

@@ -55,8 +55,8 @@ const HanjaSearchResultTopInfo = ({
         <div>
           <HanjaCharacterKnownStudiedTogglers
             pk={result.character}
-            initiallyKnown={result.user_data.is_known}
-            initiallyStudied={result.user_data.is_studied}
+            isKnown={result.user_data.is_known}
+            isStudied={result.user_data.is_studied}
           />
         </div>
       ) : (
