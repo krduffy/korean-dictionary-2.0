@@ -20,7 +20,8 @@
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "test": "jest",
-    "test-coverage": "jest --coverage"
+    "test-coverage": "jest --coverage",
+    "test-file": "jest --testPathPattern"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

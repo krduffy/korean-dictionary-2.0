@@ -19,10 +19,12 @@ const endpoints = {
   find_lemma: "nlp/find_lemma/",
 } as const;
 
+export type ApiEndpoint = keyof typeof endpoints;
+
 type QueryParams = SearchConfig;
 
 interface GetEndpointArgs {
-  endpoint: keyof typeof endpoints;
+  endpoint: ApiEndpoint;
   pk?: number | string;
   queryParams?: QueryParams;
 }

@@ -65,6 +65,8 @@ export type UseCacheReturns = {
     body?: BodyInit | undefined;
     cacheUpdaters: APIDataChangeCacheUpdater<APIDataChangeEventType>[];
   }) => void;
+  // eslint-disable-next-line no-unused-vars
+  keepOnlyUrlsWithOneOfSubstrings: (substrings: string[]) => void;
 };
 
 export type UseCacheArgs = {

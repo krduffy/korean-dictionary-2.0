@@ -14,7 +14,7 @@ export const CachingContextProvider = ({
 }) => {
   const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
 
-  const { clear, put, retrieve, setItemListenerArgs } = useCache({
+  const useCacheReturns = useCache({
     capacity: cacheCapacity,
     globalSubscribe,
     globalUnsubscribe,
@@ -23,10 +23,7 @@ export const CachingContextProvider = ({
   return (
     <CachingContext.Provider
       value={{
-        clear,
-        put,
-        retrieve,
-        setItemListenerArgs,
+        ...useCacheReturns,
       }}
     >
       {children}

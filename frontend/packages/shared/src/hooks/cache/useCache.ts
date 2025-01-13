@@ -149,10 +149,41 @@ export const useCache = ({
     }
   };
 
+  const keepOnlyUrlsWithOneOfSubstrings = (substrings: string[]) => {
+    /* key is constructed with the url,
+     * so if none of the substrs of key are an exception, delete.
+     */
+
+    const newCache: CacheType = {
+      capacity: capacity,
+      stored: 0,
+      items: new Map(),
+    };
+
+    for (const [key, value] of cache.current.items) {
+      let isKept = false;
+
+      for (const keptSubstring of substrings) {
+        if (key.includes(keptSubstring)) {
+          isKept = true;
+          break;
+        }
+      }
+
+      if (isKept) {
+        newCache.items.set(key, value);
+        newCache.stored++;
+      }
+    }
+
+    cache.current = newCache;
+  };
+
   return {
     clear,
     put,
     retrieve,
     setItemListenerArgs,
+    keepOnlyUrlsWithOneOfSubstrings,
   };
 };

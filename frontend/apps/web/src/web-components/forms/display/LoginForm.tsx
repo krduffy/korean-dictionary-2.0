@@ -2,8 +2,7 @@ import { tokenHandlers } from "../../../shared-web-hooks/tokenHandlers";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { useLoginForm } from "@repo/shared/hooks/useLoginForm";
 import { FormResultInfoArea } from "../FormResultInfoArea";
-import { BasicSuccessComponent } from "../BasicSuccessComponent";
-import { useLocation, useNavigate } from "react-router-dom";
+import { LoginSuccessComponent } from "../success-components/LoginSuccessComponent";
 
 export const LoginForm = () => {
   const { requestState, formData, postForm, updateField } = useLoginForm({
@@ -24,27 +23,6 @@ export const LoginForm = () => {
         SuccessComponent={LoginSuccessComponent}
       />
     </form>
-  );
-};
-
-const LoginSuccessComponent = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const redirectDelay = 3000;
-
-  const calledOnRender = () => {
-    setTimeout(() => {
-      const previousPage = location.state.previousLocation;
-      navigate(previousPage);
-    }, redirectDelay);
-  };
-
-  return (
-    <BasicSuccessComponent
-      successString={"로그인이 성공했습니다."}
-      calledOnRender={calledOnRender}
-    />
   );
 };
 

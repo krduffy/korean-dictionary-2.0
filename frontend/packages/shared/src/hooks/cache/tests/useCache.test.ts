@@ -243,4 +243,47 @@ describe("useCache", () => {
 
     expect(fromCache).toBe(null);
   });
+
+  it("clears all but kept items with keepOnlyUrlsWithOneOfSubstrings", () => {
+    const { result } = doRenderHook({ capacity: 100 });
+
+    const testUrls = [
+      "api/users/123",
+      "api/posts/456",
+      "api/comments/789",
+      "api/users/987",
+      "api/settings/654",
+    ];
+
+    act(() => {
+      testUrls.forEach((url) => {
+        result.current.put({
+          url,
+          response: { data: "test" },
+          ok: true,
+        });
+      });
+    });
+
+    const keepSubstrings = ["users", "posts"];
+
+    act(() => {
+      result.current.keepOnlyUrlsWithOneOfSubstrings(keepSubstrings);
+    });
+
+    testUrls.forEach((url) => {
+      const shouldBeKept = keepSubstrings.some((substr) =>
+        url.includes(substr)
+      );
+
+      const cached = result.current.retrieve(url);
+
+      if (shouldBeKept) {
+        expect(cached).not.toBeNull();
+        expect(cached?.response).toEqual({ data: "test" });
+      } else {
+        expect(cached).toBeNull();
+      }
+    });
+  });
 });
