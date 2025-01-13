@@ -1,6 +1,10 @@
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
-import { BrowserRouter as Router, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { BookOpen, LogIn, UserRound } from "lucide-react";
 import { MoreButton } from "./MoreMenu";
 import { memo } from "react";
@@ -64,12 +68,14 @@ const LoginButton = ({
 }: {
   navigate: ReturnType<typeof useNavigate>;
 }) => {
+  const location = useLocation();
+
   return (
     <button
       className="h-full"
       title="로그인"
       onClick={() => {
-        navigate("/login");
+        navigate("/login", { state: { previousLocation: location } });
       }}
     >
       <LogIn className="h-full w-auto" strokeWidth={1.5} />
