@@ -1,8 +1,8 @@
 import { SearchBarArea } from "./search-bar-area/SearchBarArea";
 import { HistoryNavigationArea } from "./HistoryNavigationArea";
-import { SpanPicture } from "../../text-formatters/SpanStylers";
 import { PanelState } from "@repo/shared/types/panel/panelTypes";
 import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
+import { CloseButton } from "../../ui/CloseButton";
 
 export const PanelTopBar = ({
   state,
@@ -12,39 +12,30 @@ export const PanelTopBar = ({
   panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
 }) => {
   return (
-    <div className="flex flex-row h-12 mb-4">
-      <div className="w-[80%]">
+    <div className="flex flex-row h-12 mb-4 gap-4">
+      <div className="flex-1">
         <SearchBarArea
           searchConfig={state.searchConfig}
           panelDispatchStateChangeSelf={panelDispatchStateChangeSelf}
         />
       </div>
-      <div className="w-[20%] flex flex-row">
-        <div className="w-[80%] h-full">
+      <div className="flex flex-row">
+        <div className="h-full">
           <HistoryNavigationArea
+            historyData={state.historyData}
             panelDispatchStateChangeSelf={panelDispatchStateChangeSelf}
           />
         </div>
-        <div className="w-[20%]">
+        {/* width of x in button is 24 px */}
+        <div className="w-6">
           <CloseButton
-            onClose={() =>
+            onClick={() =>
               panelDispatchStateChangeSelf({ type: "make_invisible" })
             }
+            title="사전창 닫기"
           />
         </div>
       </div>
     </div>
-  );
-};
-
-const CloseButton = ({ onClose }: { onClose: () => void }) => {
-  return (
-    <button
-      className="h-[33%] w-full flex items-center justify-center"
-      title="간판을 닫기"
-      onClick={onClose}
-    >
-      <SpanPicture string="✖" />
-    </button>
   );
 };

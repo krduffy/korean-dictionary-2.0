@@ -21,7 +21,7 @@ const HanjaPopupTopInfo = ({ data }: { data: HanjaPopupType }) => {
   return (
     <header
       className="w-full bg-[color:--surface-color] p-2
-                  rounded-t-xl border-x-2 border-t-2 border-[color:--border-color]"
+                  rounded-t-xl border-x-2 border-t-2 border-[color:--accent-border-color]"
     >
       <HanjaPopupHeaderContents
         character={data.character}
@@ -40,7 +40,7 @@ const HanjaPopupBottomInfo = ({
   return (
     <section
       className="flex-1 w-full p-2 bg-[color:--background-tertiary]
-                  rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]"
+                  rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]"
     >
       {wordResults.length === 0 ? (
         <HanjaPopupWordGridNoWords />

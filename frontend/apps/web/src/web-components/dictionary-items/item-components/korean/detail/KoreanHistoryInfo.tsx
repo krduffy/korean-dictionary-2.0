@@ -45,13 +45,13 @@ export const KoreanHistoryInfoSection = ({
         {historyInfo.history_sense_info.length > 0 && (
           <div>
             <div
-              className="border-2 border-[color:--border-color] 
+              className="border-2 border-[color:--accent-border-color] 
             rounded-t-xl text-center bg-[color:--surface-color] 
             text-[130%] py-1"
             >
               세기별 용례
             </div>
-            <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--border-color]">
+            <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]">
               <CenturyTable
                 /* data from korean lang institute is strangely formatted
                  history sense info has length 1 and the only item is object with
@@ -121,14 +121,14 @@ const CenturyTable = ({
     includeTop: boolean,
     includeBottom: boolean
   ) => {
-    return `border-double border-[color:--border-color] ${includeTop ? "border-t-4" : ""} ${includeBottom ? "border-b-4" : ""}`;
+    return `border-double border-[color:--accent-border-color] ${includeTop ? "border-t-4" : ""} ${includeBottom ? "border-b-4" : ""}`;
   };
 
   const getRowItemBorderStyleString = (
     includeLeft: boolean,
     includeRight: boolean
   ) => {
-    return `border-double border-[color:--border-color] ${includeLeft ? "border-l-4" : ""} ${includeRight ? "border-r-4" : ""}`;
+    return `border-double border-[color:--accent-border-color] ${includeLeft ? "border-l-4" : ""} ${includeRight ? "border-r-4" : ""}`;
   };
 
   return (

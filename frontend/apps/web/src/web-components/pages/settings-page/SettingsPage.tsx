@@ -20,7 +20,7 @@ const SettingsPageContent = () => {
   const { currentSettings, save } = useSettingsPageContent();
 
   return (
-    <div className="overflow-y-scroll h-full w-full border-[color:--border-color] rounded-xl bg-[color:--background-secondary]">
+    <div className="overflow-y-scroll h-full w-full border-[color:--accent-border-color] rounded-xl bg-[color:--background-secondary]">
       <div
         style={{
           fontSize: "200%",

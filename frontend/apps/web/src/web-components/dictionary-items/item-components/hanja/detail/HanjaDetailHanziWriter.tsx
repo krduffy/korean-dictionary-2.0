@@ -23,12 +23,12 @@ export const HanjaDetailHanziWriter = ({
   });
 
   return (
-    <div className="flex flex-col max-h-full max-w-full bg-[color:--background-quaternary] border-2 border-[color:--border-color] rounded-lg">
+    <div className="flex flex-col max-h-full max-w-full bg-[color:--background-quaternary] border-2 border-[color:--accent-border-color] rounded-lg">
       <div className="flex flex-1 justify-center items-center h-full w-full">
         <div className="h-full w-full" ref={divRef} />
       </div>
       {hanziWriter && numStrokes && numStrokes > 0 && (
-        <div className="border-t-2 p-2 border-[color:--border-color]">
+        <div className="border-t-2 p-2 border-[color:--accent-border-color]">
           <HanjaDetailWriterControls
             hanziWriter={hanziWriter}
             numStrokes={numStrokes}

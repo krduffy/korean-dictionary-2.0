@@ -126,7 +126,7 @@ const PanelToggler = ({ onAdd }: { onAdd: () => void }) => {
       items-center justify-center hover:bg-[color:--button-hover-color] 
       transition-colors"
     >
-      <span className="text-3xl text-[color:--text-primary]-600 leading-none">
+      <span className="text-3xl text-[color:--button-text-color] leading-none">
         +
       </span>
     </button>

@@ -80,7 +80,7 @@ const SearchResultWrapper = ({
   return (
     <div
       className={`bg-[color:--background-tertiary] rounded-2xl 
-          shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200/20 p-4 my-4
+          shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[color:--border-color] p-4 my-4
           ${additionalStyling}`}
     >
       {children}

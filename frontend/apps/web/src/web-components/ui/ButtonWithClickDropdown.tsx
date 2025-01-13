@@ -1,6 +1,7 @@
 import { ReactNode, useRef, useState } from "react";
-import { PopupBox, Positioning } from "./popup-box/PopupBox";
+import { PopupBox } from "./popup-box/PopupBox";
 import { CloseButton } from "./CloseButton";
+import { Positioning } from "./popup-box/popupBoxTypes";
 
 export const ButtonWithClickDropdown = ({
   title = "",

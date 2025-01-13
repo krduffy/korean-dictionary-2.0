@@ -32,7 +32,7 @@ export const DictionarySelector = ({
     <div>
       <div className="flex flex-row justify-between items-center">
         <button
-          className="border-2 text-[color:--accent-button-text-color] bg-[color:--accent-button-color] p-2 border-1 rounded-xl border-[color:--border-color]"
+          className="border-2 text-[color:--accent-button-text-color] bg-[color:--accent-button-color] p-2 border-1 rounded-xl border-[color:--accent-border-color]"
           onClick={switchDictionary}
         >
           {dictionaryButtonContent}

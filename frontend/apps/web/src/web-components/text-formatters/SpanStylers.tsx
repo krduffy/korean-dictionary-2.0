@@ -37,14 +37,6 @@ export const DetailViewLinkStyler = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const SpanPicture = ({ string }: { string: string }) => {
-  return (
-    <span className="inline-flex items-center justify-center w-full h-full overflow-hidden">
-      {string}
-    </span>
-  );
-};
-
 export const Footnote = ({ children }: { children: ReactNode }) => {
   return <span className="text-[80%]">{children}</span>;
 };
@@ -102,7 +94,7 @@ export const AccentedTextWithBorder = ({
   return (
     <div
       className={`p-1 bg-[color:--accent-button-color] border-2 
-        border-[color:--border-color] rounded-xl text-[color:--accent-button-text-color]
+        border-[color:--accent-border-color] rounded-xl text-[color:--accent-button-text-color]
         `}
     >
       {children}

@@ -9,8 +9,11 @@ export const Panel = memo((panelData: PersistentPanelData) => {
     <PanelFunctionsContextProvider panelData={panelData}>
       <div
         className="
-        flex flex-col h-full bg-[color:--background-secondary] text-[color:--text-secondary] 
-        p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200/20
+        flex flex-col h-full p-4 rounded-2xl 
+        bg-[color:--background-secondary] 
+        text-[color:--text-secondary] 
+        shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
+        border border-[color:--border-color]
         backdrop-blur-[12px] overflow-hidden"
       >
         {/* area for search bar and history navigation + closing panel */}

@@ -80,7 +80,7 @@ const SearchSettingsMenu = ({
   deleteSearchConfigItemByKey,
 }: SearchSettingsButtonArgs) => {
   return (
-    <div className="min-h-12 max-h-96 overflow-y-scroll bg-[color:--background-tertiary] px-6 py-3 rounded-md border-4 border-[color:--border-color]">
+    <div className="min-h-12 max-h-96 overflow-y-scroll bg-[color:--background-tertiary] px-6 py-3 rounded-md border-4 border-[color:--accent-border-color]">
       <div
         style={{
           fontSize: "125%",

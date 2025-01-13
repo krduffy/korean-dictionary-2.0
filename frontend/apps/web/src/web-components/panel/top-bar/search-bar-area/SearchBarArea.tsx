@@ -79,7 +79,7 @@ const SearchBar = ({
         }
         className="h-full w-full pl-10 px-4 py-2 
       bg-[color:--neutral-color-not-hovering]
-      border border-gray-200/20 
+      border border-[color:--border-color]
       rounded-full
       outline-none text-[color:--text-primary]
       focus:ring-2 focus:border-[color:--focus-blue]
