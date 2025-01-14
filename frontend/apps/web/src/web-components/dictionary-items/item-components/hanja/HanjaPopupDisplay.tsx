@@ -20,7 +20,7 @@ export const HanjaPopupDisplay = ({ data }: { data: HanjaPopupType }) => {
 const HanjaPopupTopInfo = ({ data }: { data: HanjaPopupType }) => {
   return (
     <header
-      className="w-full bg-[color:--surface-color] p-2
+      className="w-full bg-[color:--understated-accent-not-hovering] p-2
                   rounded-t-xl border-x-2 border-t-2 border-[color:--accent-border-color]"
     >
       <HanjaPopupHeaderContents

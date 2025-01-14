@@ -20,35 +20,46 @@
 
 /* LIGHT COLORS */
 :root {
-  --background-primary: white;
-  --background-secondary: #f3f4f6;
-  --background-tertiary: #e5e7eb;
-  --background-quaternary: red;
+  --background-primary: #ffffff;
+  --background-secondary: #f5f5f5;
+  --background-tertiary: #f0f0f0;
+  --background-quaternary: #ebebeb;
 
-  --navbar-background: red;
+  --neutral-color-not-hovering: rgb(220, 220, 220);
+  --neutral-color-hovering: rgb(180, 180, 180);
 
-  --text-primary: #111827;
-  --text-secondary: #374151;
-  --text-tertiary: #6b7280;
+  --understated-accent-not-hovering: #e2e8f0;
+  --understated-accent-hovering: #cbd5e1;
 
-  --button-color: purple;
-  --button-hover-color: gray;
-  --accent-border-color: #e5e7eb;
+  --navbar-background: rgb(192, 192, 192);
 
-  --accent-button-color: #329cbf;
-  --accent-button-hover-color: #81b7c9;
+  --text-primary: #454545;
+  --text-secondary: #333333;
+  --text-tertiary: #4b5563;
+  --text-footnote: rgb(128, 128, 128);
 
-  --accent-1: #2563eb;
-  --accent-2: #3b82f6;
-  --accent-3: red;
-  --accent-4: green;
-  --accent-5: yellow;
+  --border-color: #dddddd;
 
-  /* Surface colors for cards, modals, etc */
-  --surface-color: white;
-  --surface-hover: #f9fafb;
+  --button-color: #d0d7de;
+  --button-hover-color: #666666;
+  --button-text-color: black;
 
-  /* Status colors if needed */
+  --accent-border-color: #cbd5e1;
+  --accent-button-color: #404040;
+  --accent-button-hover-color: #ffd700;
+  --accent-button-text-color: white;
+
+  /* Accents */
+  --accent-1: #8a6cb5;
+  --accent-2: #c86384;
+  --accent-3: #7b71a1;
+  --accent-4: #4a6da8;
+  --accent-5: #4d7f87;
+  --accent-6: #c9a667;
+  --accent-7: #1a3c6e;
+
+  --loading-color: var(--accent-7);
+
   --error-color: #dc2626;
   --success-color: #16a34a;
   --warning-color: #d97706;
@@ -67,6 +78,8 @@
 
     --neutral-color-not-hovering: rgb(36, 36, 36);
     --neutral-color-hovering: rgb(72, 72, 72);
+    --understated-accent-not-hovering: #1f2937;
+    --understated-accent-hovering: #374151;
 
     --navbar-background: rgb(64, 64, 64);
 
@@ -88,21 +101,18 @@
     --accent-button-text-color: black;
 
     /* Accents */
-    --accent-5: #6d959c;
-    --accent-3: #9a90b0;
-    --accent-4: #6a8ecc;
     --accent-1: #b8a9d4;
     --accent-2: #db97ae;
+    --accent-3: #9a90b0;
+    --accent-4: #6a8ecc;
+    --accent-5: #6d959c;
     --accent-6: #dbc197;
     --accent-7: #355382;
 
     --loading-color: var(--accent-7);
 
-    --surface-color: #1f2937;
-    --surface-hover: #374151;
-
-    --error-color: #ef4444;
-    --success-color: #22c55e;
+    --error-color: #b02c2a;
+    --success-color: #43a351;
     --warning-color: #f59e0b;
   }
 }

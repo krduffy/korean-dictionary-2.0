@@ -49,7 +49,7 @@ export const KnownStudiedToggler = ({
   return isToggled ? (
     <button className="h-full w-full rounded-xl" onClick={onClick}>
       <StarAnimationWrapper numStars={10}>
-        <div className="h-full border-2 rounded-md p-2 border-[color:--accent-1] shadow-lg transition-shadow hover:shadow-xl">
+        <div className="h-full border-2 rounded-md p-2 border-[color:--accent-border-color] shadow-lg transition-shadow hover:shadow-xl">
           <KnownStudiedIcon
             loading={requestState.progress === "loading"}
             knownOrStudied={knownOrStudied}
@@ -60,7 +60,7 @@ export const KnownStudiedToggler = ({
     </button>
   ) : (
     <button className="h-full w-full rounded-xl" onClick={onClick}>
-      <div className="h-full border-2 rounded-md p-2 border-[color:--accent-1] shadow-lg transition-shadow hover:shadow-xl">
+      <div className="h-full border-2 rounded-md p-2 border-[color:--accent-border-color] shadow-lg transition-shadow hover:shadow-xl">
         <KnownStudiedIcon
           loading={requestState.progress === "loading"}
           knownOrStudied={knownOrStudied}

@@ -24,7 +24,7 @@ export const KnownStudiedIcon = ({
   const togglerContent = {
     known: {
       toggled: {
-        icon: <BookCheck className="h-full w-full" />,
+        icon: <BookCheck className="[color:--accent-5] h-full w-full" />,
         title: "암기장에 추가되어 있습니다.",
       },
       notToggled: {

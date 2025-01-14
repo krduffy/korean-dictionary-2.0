@@ -80,7 +80,7 @@ export const DetailViewBaseDefaultHideableDropdownNoTruncation = ({
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
       classes={{
-        topBarClassName: "py-2 bg-[color:--surface-color]",
+        topBarClassName: "py-2 bg-[color:--understated-accent-not-hovering]",
         titleClassName: "text-[130%]",
         childrenClassName: "p-2 bg-[color:--background-quaternary]",
       }}

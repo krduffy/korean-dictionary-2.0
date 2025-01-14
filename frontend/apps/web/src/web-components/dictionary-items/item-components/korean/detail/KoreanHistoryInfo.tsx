@@ -32,7 +32,7 @@ export const KoreanHistoryInfoSection = ({
     <HideableDropdownNoTruncation
       title="역사 정보"
       classes={{
-        topBarClassName: "py-4 bg-[color:--surface-color]",
+        topBarClassName: "py-4 bg-[color:--understated-accent-not-hovering]",
         titleClassName: "text-[130%]",
         childrenClassName: "pt-4",
       }}
@@ -46,7 +46,7 @@ export const KoreanHistoryInfoSection = ({
           <div>
             <div
               className="border-2 border-[color:--accent-border-color] 
-            rounded-t-xl text-center bg-[color:--surface-color] 
+            rounded-t-xl text-center bg-[color:--understated-accent-not-hovering] 
             text-[130%] py-1"
             >
               세기별 용례
