@@ -12,6 +12,7 @@ import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 /* does not add or remove any views; only updates the current state of the current view */
 export const updateViewAndHistory = (
   state: PanelState,
+  // eslint-disable-next-line no-unused-vars
   updateFn: (view: View) => Partial<View>
 ): PanelState => {
   const updatedView: View = {

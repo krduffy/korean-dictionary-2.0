@@ -7,7 +7,6 @@ import { FindLemmaView } from "../dictionary-items/api-fetchers/FindLemmaView";
 import { View } from "@repo/shared/types/views/viewTypes";
 import { useScrollSaveAndRestoration } from "./useRestoreScroll";
 import { LineBreakArea } from "../ui/LineBreakArea";
-
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({

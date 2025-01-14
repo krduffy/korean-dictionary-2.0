@@ -1,5 +1,5 @@
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { PanelState } from "@repo/shared/types/panel/panelTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
+import { PanelState } from "../../types/panel/panelTypes";
 
 export const updateHistoryPointerIfApplicable = (
   state: PanelState,

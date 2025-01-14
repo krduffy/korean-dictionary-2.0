@@ -1,10 +1,10 @@
-import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
-import { PanelState } from "@repo/shared/types/panel/panelTypes";
-import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
+import { PanelState } from "../../types/panel/panelTypes";
+import { SearchBarConfig } from "../../types/views/searchConfigTypes";
 import {
   getBasicHanjaSearchViewData,
   getBasicKoreanSearchViewData,
-} from "@repo/shared/utils/basicViews";
+} from "../../utils/basicViews";
 
 const getPanelStateWithDeletedSearchConfigKey = (
   state: PanelState,

@@ -1,6 +1,6 @@
-import { PanelStateAction } from "src/types/panel/panelStateActionTypes";
-import { PanelState } from "src/types/panel/panelTypes";
-import { View } from "src/types/views/viewTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
+import { PanelState } from "../../types/panel/panelTypes";
+import { View } from "../../types/views/viewTypes";
 
 /* completely removes the current view and puts a new one in its place */
 const overwriteCurrentView = (state: PanelState, newView: View): PanelState => {

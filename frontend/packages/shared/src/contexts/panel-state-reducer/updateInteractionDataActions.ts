@@ -1,7 +1,7 @@
-import { PanelState } from "src/types/panel/panelTypes";
+import { PanelState } from "../../types/panel/panelTypes";
 import { updateViewAndHistory } from "./panelStateReducer";
-import { View } from "src/types/views/viewTypes";
-import { PanelStateAction } from "src/types/panel/panelStateActionTypes";
+import { View } from "../../types/views/viewTypes";
+import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 import {
   BaseInteractionData,
   DetailedSenseDropdownState,
