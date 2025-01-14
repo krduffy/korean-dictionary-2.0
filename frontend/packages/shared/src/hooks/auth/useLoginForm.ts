@@ -1,10 +1,12 @@
-import { useForm } from "./api/useForm";
-import { getEndpoint } from "../utils/apiAliases";
+import { useForm } from "../api/useForm";
+import { getEndpoint } from "../../utils/apiAliases";
 import {
   AuthTokens,
   TokenHandlers,
   UseCallAPIReturns,
-} from "../types/apiCallTypes";
+} from "../../types/apiCallTypes";
+import { useEffect } from "react";
+import { useDoLoginStatusUpdate } from "./useDoLoginStatusUpdate";
 
 /* Calls the callAPI's token setter on success. */
 export const useLoginForm = ({
@@ -23,6 +25,14 @@ export const useLoginForm = ({
     useCallAPIInstance: useCallAPIInstance,
     includeCredentials: true,
   });
+
+  const { doLoginStatusUpdate } = useDoLoginStatusUpdate();
+
+  useEffect(() => {
+    if (requestState.progress === "success") {
+      doLoginStatusUpdate();
+    }
+  }, [requestState]);
 
   const updatedPost = async (e: React.FormEvent) => {
     await postForm(e);

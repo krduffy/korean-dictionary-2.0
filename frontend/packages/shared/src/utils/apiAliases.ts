@@ -5,6 +5,7 @@ const API_URL = "https://localhost:8000/";
 
 const endpoints = {
   login: "users/auth/login",
+  logout: "users/auth/logout",
   refresh: "users/auth/refresh",
   register: "users/auth/register",
   change_password: "users/auth/change_password",

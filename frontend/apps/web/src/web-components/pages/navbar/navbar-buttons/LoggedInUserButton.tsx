@@ -1,6 +1,7 @@
 import { UserCheck } from "lucide-react";
-import { ButtonWithClickDropdown } from "../../ui/ButtonWithClickDropdown";
-import { NavBarDropdownMenu } from "./NavBarDropdownMenu";
+import { ButtonWithClickDropdown } from "../../../ui/ButtonWithClickDropdown";
+import { NavBarDropdownMenu } from "../NavBarDropdownMenu";
+import { LogoutButton } from "./LogoutButton";
 
 export const LoggedInUserButton = ({ username }: { username: string }) => {
   const buttonContent = (
@@ -51,5 +52,5 @@ const LeftSideOfDropdown = ({ username }: { username: string }) => {
 };
 
 const RightSideOfDropdown = () => {
-  return <div>로그아웃</div>;
+  return <LogoutButton />;
 };

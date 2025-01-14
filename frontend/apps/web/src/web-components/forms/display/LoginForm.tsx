@@ -1,6 +1,6 @@
 import { tokenHandlers } from "../../../shared-web-hooks/tokenHandlers";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
-import { useLoginForm } from "@repo/shared/hooks/useLoginForm";
+import { useLoginForm } from "@repo/shared/hooks/auth/useLoginForm";
 import { FormResultInfoArea } from "../FormResultInfoArea";
 import { LoginSuccessComponent } from "../success-components/LoginSuccessComponent";
 

@@ -1,10 +1,12 @@
 import { ReactNode } from "react";
-import { ButtonWithClickDropdown } from "../../ui/ButtonWithClickDropdown";
+import { ButtonWithClickDropdown } from "../../../ui/ButtonWithClickDropdown";
 import { Menu, Settings } from "lucide-react";
-import { NavigateFunction } from "react-router-dom";
-import { NavBarDropdownMenu } from "./NavBarDropdownMenu";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavBarDropdownMenu } from "../NavBarDropdownMenu";
 
-export const MoreButton = ({ navigate }: { navigate: NavigateFunction }) => {
+export const MoreButton = () => {
+  const navigate = useNavigate();
+
   const buttonContent = <Menu className="h-full w-auto" strokeWidth={1.5} />;
 
   const dropdownContent = <MoreButtonDropdown navigate={navigate} />;
