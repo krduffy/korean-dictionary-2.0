@@ -5,7 +5,7 @@ import {
   DetailedKoreanType,
   isDetailedKoreanType,
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
-import { useKoreanDetailListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { useKoreanDetailListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataFormatter";
 import { KoreanDetailDisplay } from "../item-components/korean/detail/KoreanDetailDisplay";
@@ -25,7 +25,7 @@ export const KoreanDetailView = ({
     refetchDependencyArray: [target_code],
   });
 
-  useKoreanDetailListenerManager({
+  useKoreanDetailListenerHandler({
     url: url,
     response: requestState.response,
     refetch: refetch,

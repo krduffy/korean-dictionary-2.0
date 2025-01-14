@@ -3,11 +3,8 @@ import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { HanjaDetailDisplay } from "../item-components/hanja/detail/HanjaDetailDisplay";
 import { HanjaDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
-import {
-  DetailedHanjaType,
-  isDetailedHanjaType,
-} from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { useHanjaDetailListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { isDetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { useHanjaDetailListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataFormatter";
 
 export const HanjaDetailView = ({
@@ -25,7 +22,7 @@ export const HanjaDetailView = ({
     refetchDependencyArray: [character],
   });
 
-  useHanjaDetailListenerManager({
+  useHanjaDetailListenerHandler({
     url,
     response: requestState.response,
     refetch,

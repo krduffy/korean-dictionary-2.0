@@ -10,7 +10,7 @@ import { SearchBarConfig } from "../types/views/searchConfigTypes";
 import { View } from "../types/views/viewTypes";
 import { getBasicKoreanSearchViewData } from "../utils/basicViews";
 import { panelStateReducer } from "./panel-state-reducer/panelStateReducer";
-import { useAPIDataChangeManager } from "../hooks/api/useAPIDataChangeManager";
+import { useAPIDataChangeManager } from "../hooks/listener-handlers/useAPIDataChangeManager";
 
 export const PersistentDictionaryPageStateContext = createContext<
   PersistentDictionaryPageStateContextType | undefined

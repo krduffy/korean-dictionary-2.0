@@ -44,7 +44,7 @@ const deleteTokens = async () => {
 const onRefreshFail = async () => {
   if (!alreadyShowedSessionInvalidMessage) {
     alreadyShowedSessionInvalidMessage = true;
-    alert("session is invalid");
+    //alert("session is invalid");
   }
 };
 

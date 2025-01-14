@@ -4,7 +4,7 @@
 
 import { jest, it, describe, expect } from "@jest/globals";
 import { renderHook, act } from "@testing-library/react";
-import { useAPIDataChangeManager } from "../useAPIDataChangeManager";
+import { useAPIDataChangeManager } from "../../listener-handlers/useAPIDataChangeManager";
 
 describe("APIDataChangeEventManager", () => {
   it("notifies when a word is known", () => {

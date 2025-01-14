@@ -6,7 +6,7 @@ import { PageChanger } from "../api-result-formatters/paginated-results/PageChan
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { HanjaSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
 import { isHanjaSearchResultType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { useHanjaSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { useHanjaSearchResultListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 
@@ -30,7 +30,7 @@ export const HanjaSearchView: React.FC<HanjaSearchData> = ({
     refetchDependencyArray: [url],
   });
 
-  useHanjaSearchResultListenerManager({
+  useHanjaSearchResultListenerHandler({
     url,
     response: requestState.response,
     refetch,

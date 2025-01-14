@@ -4,7 +4,7 @@ import { ResultCountMessage } from "../api-result-formatters/paginated-results/R
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { isHanjaExampleKoreanWordType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { useHanjaExampleKoreanWordListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { useHanjaExampleKoreanWordListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { HanjaExampleKoreanWord } from "../item-components/hanja/detail/HanjaExampleKoreanWord";
@@ -30,7 +30,7 @@ export const HanjaExamplesView = ({
     refetchDependencyArray: [url],
   });
 
-  useHanjaExampleKoreanWordListenerManager({
+  useHanjaExampleKoreanWordListenerHandler({
     url,
     response: requestState.response,
     refetch,

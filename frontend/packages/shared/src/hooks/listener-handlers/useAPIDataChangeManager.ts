@@ -39,7 +39,8 @@ export const useAPIDataChangeManager = (): UseAPIDataChangeManagerReturns => {
    * call unsubscribe to avoid memory leaks !!
    *
    * @param pk The primary key to observe changes in. `number`s are generally for korean words,
-   *           while `string`s are generally for hanja characters.
+   *           while `string`s are generally for hanja characters. Strings can also be used for
+   *           any identifier of a manager's subscribe ("NAVBAR").
    * @param listenerData The data to provide for the listener.
    */
   const subscribe = (

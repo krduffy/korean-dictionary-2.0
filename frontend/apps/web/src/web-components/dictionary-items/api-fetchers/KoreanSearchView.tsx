@@ -4,7 +4,7 @@ import { PageChanger } from "../api-result-formatters/paginated-results/PageChan
 import { KoreanSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
 import { isKoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
-import { useKoreanSearchResultListenerManager } from "@repo/shared/hooks/listener-handlers/useListenerHandlers";
+import { useKoreanSearchResultListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
@@ -28,7 +28,7 @@ export const KoreanSearchView = ({
     refetchDependencyArray: [url],
   });
 
-  useKoreanSearchResultListenerManager({
+  useKoreanSearchResultListenerHandler({
     url: url,
     response: requestState.response,
     refetch: refetch,
