@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     #'ratelimit',
     "corsheaders",
     "django_extensions",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [

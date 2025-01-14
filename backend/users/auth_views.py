@@ -12,6 +12,7 @@ from rest_framework.status import (
     HTTP_401_UNAUTHORIZED,
 )
 from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.views import APIView
 
 from backend.settings import MAX_REFRESH_COOKIE_AGE
 from users.models import User
@@ -32,6 +33,14 @@ def get_token_response(access, refresh):
     return response
 
 
+def get_deleted_token_response():
+    response = JsonResponse({"detail": "Logged out."}, status=HTTP_200_OK)
+
+    response.delete_cookie(key="refresh", path="/")
+
+    return response
+
+
 class LoginView(TokenObtainPairView):
     permission_classes = (AllowAny,)
 
@@ -41,6 +50,30 @@ class LoginView(TokenObtainPairView):
         tokens = serializer.validated_data
 
         return get_token_response(access=tokens["access"], refresh=tokens["refresh"])
+
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get("refresh")
+
+        if refresh_token:
+            try:
+                token_as_object = RefreshToken(refresh_token)
+                token_as_object.blacklist()
+            except InvalidToken:
+                return Response(
+                    {"detail": "Token is invalid."}, status=HTTP_400_BAD_REQUEST
+                )
+            except TokenError as error:
+                return Response(
+                    {"detail": f"A token error occurred: {error}"},
+                    status=HTTP_400_BAD_REQUEST,
+                )
+
+        response = get_deleted_token_response()
+        return response
 
 
 class RefreshAccessView(TokenRefreshView):

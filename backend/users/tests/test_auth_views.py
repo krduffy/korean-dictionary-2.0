@@ -177,3 +177,28 @@ class AuthViewsTest(APITestCase):
                     self.assertEqual(login_response.status_code, status.HTTP_200_OK)
                 else:
                     self.assertFalse(self.user.check_password(attempt["new_password1"]))
+
+    def test_logout_authenticated_user(self):
+        logout_url = reverse("logout")
+
+        self.client.force_authenticate(user=self.user)
+        self.client.cookies.load({"refresh": str(RefreshToken.for_user(self.user))})
+
+        response = self.client.post(logout_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()["detail"], "Logged out.")
+
+    def test_logout_unauthenticated_user(self):
+        logout_url = reverse("logout")
+        self.client.force_authenticate(user=None)
+        response = self.client.post(logout_url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_logout_without_refresh_token(self):
+        logout_url = reverse("logout")
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(logout_url)
+
+        # even without the refresh token this should still succeed.
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()["detail"], "Logged out.")
