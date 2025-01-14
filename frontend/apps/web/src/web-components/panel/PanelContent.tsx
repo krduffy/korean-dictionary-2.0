@@ -30,7 +30,7 @@ export const PanelContent = ({
     <div className="flex-1 p-2 flex flex-col overflow-y-scroll overflow-x-hidden">
       <div
         ref={mainContentRef}
-        className="overflow-y-auto"
+        className="overflow-y-auto overflow-x-hidden"
         style={{
           scrollbarWidth: "thin",
         }}
