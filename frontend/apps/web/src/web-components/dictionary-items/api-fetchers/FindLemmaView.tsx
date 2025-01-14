@@ -7,6 +7,7 @@ import { hasBatchim } from "@repo/shared/utils/koreanLangUtils";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { FindLemmaFormatter } from "../api-result-formatters/FindLemmaFormatter";
 import { Footnote } from "../../text-formatters/SpanStylers";
+import { SimpleNotification } from "../../pages/notifications/SimpleNotification";
 
 export const FindLemmaView = ({
   word,
@@ -58,11 +59,11 @@ const FoundWordNotification = ({ word }: { word: string }) => {
     wordHasBatchim === true ? "이" : wordHasBatchim === false ? "가" : "";
 
   return (
-    <div className="text-center">
+    <SimpleNotification>
       단어 "{word}"{subjectMarker} 검색되었습니다.
       <div>
         <Footnote>이 알림은 설정에 차단하실 수 있습니다</Footnote>
       </div>
-    </div>
+    </SimpleNotification>
   );
 };

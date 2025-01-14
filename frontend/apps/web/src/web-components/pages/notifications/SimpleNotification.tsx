@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
 
 export const SimpleNotification = ({ children }: { children: ReactNode }) => {
-  return <div className="flex items-center justify-center p-4">{children}</div>;
+  return (
+    <div className="flex flex-col items-center justify-center p-4">
+      {children}
+    </div>
+  );
 };
