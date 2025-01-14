@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { ButtonWithClickDropdown } from "../../ui/ButtonWithClickDropdown";
 import { Menu, Settings } from "lucide-react";
 import { NavigateFunction } from "react-router-dom";
+import { NavBarDropdownMenu } from "./NavBarDropdownMenu";
 
 export const MoreButton = ({ navigate }: { navigate: NavigateFunction }) => {
   const buttonContent = <Menu className="h-full w-auto" strokeWidth={1.5} />;
@@ -23,6 +24,7 @@ export const MoreButton = ({ navigate }: { navigate: NavigateFunction }) => {
           relativeHashMark: "end",
         },
       }}
+      addXInTopRight={true}
     />
   );
 };
@@ -48,12 +50,14 @@ const MoreButtonDropdownIconWithLabel = ({
 
 const MoreButtonDropdown = ({ navigate }: { navigate: NavigateFunction }) => {
   return (
-    <div className="flex flex-col gap-4">
-      <MoreButtonDropdownIconWithLabel
-        icon={<Settings />}
-        onIconClick={() => navigate("/settings")}
-        label="설정"
-      />
-    </div>
+    <NavBarDropdownMenu>
+      <div className="flex flex-col gap-4">
+        <MoreButtonDropdownIconWithLabel
+          icon={<Settings />}
+          onIconClick={() => navigate("/settings")}
+          label="설정"
+        />
+      </div>
+    </NavBarDropdownMenu>
   );
 };

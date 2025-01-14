@@ -5,27 +5,77 @@ export function doPopupBoxPositionCoercion(
   cannotOverlapWithBox: DOMRectlike,
   mustBeInsideBox: DOMRectlike
 ): Coordinates | null {
-  const coercedX = getCoercedRangeFromBoxes(
+  const returnedCoords = {
+    x: movableBox.x,
+    y: movableBox.y,
+  };
+
+  const shouldMove = whichShouldMove(
+    movableBox,
+    cannotOverlapWithBox,
+    mustBeInsideBox
+  );
+
+  if (shouldMove === null) {
+    return returnedCoords;
+  }
+
+  const coercedRange = getCoercedRangeFromBoxes(
     movableBox,
     cannotOverlapWithBox,
     mustBeInsideBox,
-    "x"
+    shouldMove
   );
 
-  if (coercedX === null) return null;
+  if (coercedRange === null) return null;
 
-  const coercedY = getCoercedRangeFromBoxes(
-    movableBox,
-    cannotOverlapWithBox,
-    mustBeInsideBox,
-    "y"
+  returnedCoords[shouldMove] = coercedRange.start;
+
+  return returnedCoords;
+}
+
+function whichShouldMove(
+  movableBox: DOMRectlike,
+  cannotOverlapWithBox: DOMRectlike,
+  mustBeInsideBox: DOMRectlike
+): "x" | "y" | null {
+  if (
+    !rangeContainsRange(
+      rangeFromDOMRectLike(mustBeInsideBox, "x"),
+      rangeFromDOMRectLike(movableBox, "x")
+    )
+  )
+    return "x";
+
+  if (
+    !rangeContainsRange(
+      rangeFromDOMRectLike(mustBeInsideBox, "y"),
+      rangeFromDOMRectLike(movableBox, "y")
+    )
+  )
+    return "y";
+
+  const xDoesNotOverlap = rangesHaveNoOverlap(
+    rangeFromDOMRectLike(cannotOverlapWithBox, "x"),
+    rangeFromDOMRectLike(movableBox, "x")
+  );
+  const yDoesNotOverlap = rangesHaveNoOverlap(
+    rangeFromDOMRectLike(cannotOverlapWithBox, "y"),
+    rangeFromDOMRectLike(movableBox, "y")
   );
 
-  if (coercedY === null) return null;
+  if (xDoesNotOverlap || yDoesNotOverlap) return null;
+
+  return "y";
+}
+
+function rangeFromDOMRectLike(domrectlike: DOMRectlike, dimension: "x" | "y") {
+  const lengthAttribute = dimension === "x" ? "width" : "height";
 
   return {
-    x: coercedX.start,
-    y: coercedY.start,
+    start: domrectlike[dimension],
+    end: domrectlike[dimension] + domrectlike[lengthAttribute],
+    length: domrectlike[lengthAttribute],
   };
 }
 
@@ -35,25 +85,13 @@ function getCoercedRangeFromBoxes(
   mustBeInsideBox: DOMRectlike,
   dimension: "x" | "y"
 ): Range | null {
-  const lengthAttribute = dimension === "x" ? "width" : "height";
-
   const coercedHorizontalRange = getCoercedRange({
-    movableRange: {
-      start: movableBox[dimension],
-      end: movableBox[dimension] + movableBox[lengthAttribute],
-      length: movableBox[lengthAttribute],
-    },
-    mustBeInsideRange: {
-      start: mustBeInsideBox[dimension],
-      end: mustBeInsideBox[dimension] + mustBeInsideBox[lengthAttribute],
-      length: mustBeInsideBox[lengthAttribute],
-    },
-    cannotOverlapWithRange: {
-      start: cannotOverlapWithBox[dimension],
-      end:
-        cannotOverlapWithBox[dimension] + cannotOverlapWithBox[lengthAttribute],
-      length: cannotOverlapWithBox[lengthAttribute],
-    },
+    movableRange: rangeFromDOMRectLike(movableBox, dimension),
+    mustBeInsideRange: rangeFromDOMRectLike(mustBeInsideBox, dimension),
+    cannotOverlapWithRange: rangeFromDOMRectLike(
+      cannotOverlapWithBox,
+      dimension
+    ),
   });
 
   return coercedHorizontalRange;

@@ -22,11 +22,13 @@ export function getCoords(
     positioning
   );
 
-  return doPopupBoxPositionCoercion(
+  const coerced = doPopupBoxPositionCoercion(
     { ...initialRelativePlacement, ...popupBoxDimensions },
     relativeBox,
     containingBox
   );
+
+  return coerced;
 }
 
 function getInitialRelativePlacement(
@@ -65,6 +67,7 @@ export function getBaseCoord(
   hashMarkAlignment: HashMarkAlignment
 ): number {
   let relativeX: number;
+
   switch (relativeHashMark) {
     case "beginning":
       relativeX = relativeElementAxisRange.start;

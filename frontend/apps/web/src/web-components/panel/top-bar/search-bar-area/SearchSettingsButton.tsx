@@ -64,8 +64,8 @@ export const SearchSettingsButton = ({
           relativeHashMark: "end",
         },
         horizontalAlignment: {
-          hashMarkAlignment: "entirely-before",
-          relativeHashMark: "end",
+          hashMarkAlignment: "middles-aligned",
+          relativeHashMark: "middle",
         },
       }}
     />

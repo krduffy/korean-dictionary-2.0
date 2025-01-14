@@ -5,17 +5,32 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { BookOpen, LogIn, UserRound } from "lucide-react";
-import { MoreButton } from "./MoreMenu";
-import { memo } from "react";
+import { BookOpen, LogIn } from "lucide-react";
+import { MoreButton } from "./MoreButton";
+import { memo, useEffect } from "react";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
+import { LoggedInUserButton } from "./LoggedInUserButton";
 import {
   TraditionalHanjaText,
   TraditionalKoreanText,
 } from "../../text-formatters/Fonts";
+import { useGlobalFunctionsContext } from "@repo/shared/contexts/GlobalFunctionsContextProvider";
 
 export const NavBar = memo(() => {
   const navigate = useNavigate();
+
+  const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
+
+  useEffect(() => {
+    const listenerData = {
+      eventType: "loadedDataChanged",
+      onNotification: () => refetch(),
+    } as const;
+
+    globalSubscribe("navBarDataChange", listenerData);
+
+    return () => globalUnsubscribe("navBarDataChange", listenerData);
+  }, []);
 
   /* needed to test if the user is logged in */
   const { requestState, refetch } = useFetchProps({
@@ -30,8 +45,10 @@ export const NavBar = memo(() => {
       </button>
       <div className="flex flex-row gap-4 h-[80%]">
         <div className="h-[70%]">
-          {requestState.response?.user ? (
-            <LoggedInUserButton />
+          {requestState.response?.username ? (
+            <LoggedInUserButton
+              username={String(requestState.response.username)}
+            />
           ) : (
             <LoginButton navigate={navigate} />
           )}
@@ -79,14 +96,6 @@ const LoginButton = ({
       }}
     >
       <LogIn className="h-full w-auto" strokeWidth={1.5} />
-    </button>
-  );
-};
-
-const LoggedInUserButton = () => {
-  return (
-    <button className="h-full">
-      <UserRound className="h-full w-auto" strokeWidth={1.5} />
     </button>
   );
 };

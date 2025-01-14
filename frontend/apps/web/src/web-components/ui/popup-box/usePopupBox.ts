@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { Coordinates, Positioning } from "./popupBoxTypes";
+import { Coordinates, DOMRectlike, Positioning } from "./popupBoxTypes";
 import { getCoords } from "./positioningCalculations";
 import { useResizeObserver } from "./useResizeObserver";
 
