@@ -7,6 +7,7 @@ import { FindLemmaView } from "../dictionary-items/api-fetchers/FindLemmaView";
 import { View } from "@repo/shared/types/views/viewTypes";
 import { useScrollSaveAndRestoration } from "./useRestoreScroll";
 import { LineBreakArea } from "../ui/LineBreakArea";
+import { PanelHomepage } from "./PanelHomepage";
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({
@@ -78,6 +79,10 @@ const ViewContent = ({ view }: { view: View }) => {
         index={view.data.index}
       />
     );
+  }
+
+  if (view.type === "panel_homepage") {
+    return <PanelHomepage interactionData={view.interactionData} />;
   }
 
   return <div>Unknown view.</div>;

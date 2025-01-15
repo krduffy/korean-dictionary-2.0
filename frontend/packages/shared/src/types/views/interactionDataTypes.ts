@@ -5,6 +5,7 @@ export interface BaseInteractionData {
 }
 
 /* currently nothing except for the scroll distance */
+export type PanelHomepageInteractionData = BaseInteractionData;
 export type KoreanSearchInteractionData = BaseInteractionData;
 export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;

@@ -4,8 +4,10 @@ import {
   KoreanDetailView,
   KoreanSearchView,
 } from "./koreanViewTypes";
+import { PanelHomepageView } from "./panelHomepageViewTypes";
 
 export type View =
+  | PanelHomepageView
   | KoreanSearchView
   | HanjaSearchView
   | KoreanDetailView

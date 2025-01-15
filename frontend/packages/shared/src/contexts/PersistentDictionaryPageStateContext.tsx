@@ -51,11 +51,7 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const initialPanelView: View = {
-    type: "korean_search",
-    data: {
-      ...getBasicKoreanSearchViewData({ searchTerm: "" }),
-      page: 1,
-    },
+    type: "panel_homepage",
     interactionData: {
       scrollDistance: 0,
     },
