@@ -1,4 +1,4 @@
-import { NLPToken } from "src/types/koreanLangTypes";
+import { NLPToken } from "../types/koreanLangTypes";
 import { splitAlongHangul } from "../utils/koreanLangUtils";
 
 export const useStringWithNLP = ({

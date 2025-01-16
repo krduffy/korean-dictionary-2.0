@@ -1,13 +1,14 @@
 import { APIResponseType } from "../../types/apiCallTypes";
 import { withUpdatedKnownStudied } from "./responseUpdaters";
 import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
-import { APIDataChangeCacheUpdater } from "src/types/cacheTypes";
+import { APIDataChangeCacheUpdater } from "../../types/cacheTypes";
 
 export const getCacheUpdaters = <PkFieldType extends ValidPkFieldType>({
   pks,
   pathGetter,
 }: {
   pks: PkFieldType[];
+  // eslint-disable-next-line no-unused-vars
   pathGetter: (pk: PkFieldType) => (number | string)[];
 }) => {
   return pks.flatMap((pk) => getKnownStudiedCacheUpdaters(pk, pathGetter(pk)));

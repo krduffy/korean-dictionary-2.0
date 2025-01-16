@@ -16,7 +16,7 @@ import {
   APIDataChangeEventType,
   UseAPIDataChangeManagerReturns,
 } from "../../types/apiDataChangeEventTypes";
-import { ValidPkFieldType } from "src/types/views/dictionary-items/sharedTypes";
+import { ValidPkFieldType } from "../../types/views/dictionary-items/sharedTypes";
 
 /* consumers need to be able to specify that they want to observe changes only to
    korean/hanja (way in which pk provided should be interpreted),

@@ -1,4 +1,4 @@
-import { APIResponseType } from "src/types/apiCallTypes";
+import { APIResponseType } from "../../../types/apiCallTypes";
 
 export type MockedFetchType = (
   // eslint-disable-next-line no-unused-vars

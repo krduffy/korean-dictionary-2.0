@@ -4,7 +4,7 @@
 
 import { renderHook } from "@testing-library/react";
 import { useStringWithNLP } from "../useStringWithNLP";
-import { NLPTokenType } from "src/types/koreanLangTypes";
+import { NLPTokenType } from "../../types/koreanLangTypes";
 
 const getReturnedToken = (token: string, type: NLPTokenType) => {
   return { token: token, type: type };

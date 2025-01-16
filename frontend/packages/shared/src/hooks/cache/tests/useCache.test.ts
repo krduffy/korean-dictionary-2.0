@@ -5,7 +5,7 @@
 import { describe, it, expect, jest, afterEach } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useCache } from "../useCache";
-import { UseCacheArgs } from "src/types/cacheTypes";
+import { UseCacheArgs } from "../../../types/cacheTypes";
 
 describe("useCache", () => {
   const baseCapacity = 2;
