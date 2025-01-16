@@ -6,6 +6,7 @@ import { LoginSuccessComponent } from "../success-components/LoginSuccessCompone
 import { Eye, EyeOff } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Button } from "../../ui/Button";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
   const { requestState, formData, postForm, updateField } = useLoginForm({
@@ -15,20 +16,39 @@ export const LoginForm = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center w-full"
       onSubmit={postForm}
     >
-      <InputBoxes
-        username={String(formData.username)}
-        password={String(formData.password)}
-        updateField={updateField}
-      />
-      <LoginButton />
+      <div className="w-full px-16 flex flex-row justify-between items-center flex-1">
+        <div className="">
+          <InputBoxes
+            username={String(formData.username)}
+            password={String(formData.password)}
+            updateField={updateField}
+          />
+        </div>
+        <div className="text-nowrap flex flex-col gap-4 items-start justify-between">
+          <LoginButton />
+          <MakeNewAccountButton />
+        </div>
+      </div>
       <FormResultInfoArea
         requestState={requestState}
         SuccessComponent={LoginSuccessComponent}
       />
     </form>
+  );
+};
+
+const MakeNewAccountButton = () => {
+  const navigate = useNavigate();
+
+  const onClick = () => navigate("/create-account");
+
+  return (
+    <Button type="button" onClick={onClick}>
+      계정 만들기
+    </Button>
   );
 };
 
@@ -42,7 +62,7 @@ const InputBoxes = ({
   updateField: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <div className="flex flex-col gap-12 justify-center items-center w-[50%] min-w-64 max-w-96">
+    <div className="flex flex-col gap-12 justify-center items-center w-full">
       <InputWithLabel formDataName="username" displayedLabel="아이디">
         <UsernameInput value={username} updateField={updateField} />
       </InputWithLabel>

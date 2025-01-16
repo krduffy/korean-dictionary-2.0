@@ -8,12 +8,12 @@ export const ErrorMessage = ({
   error: APIResponseType | string;
 }) => {
   return (
-    <section>
+    <section className="w-full">
       <header className="[color:--error-color] flex flex-row items-center justify-center gap-4">
         <CircleX />
         <h2 className="text-center">오류가 발생했습니다.</h2>
       </header>
-      <div className="">
+      <div className="text-center">
         <FormattedError error={error} />
       </div>
     </section>
@@ -37,6 +37,10 @@ export const APIResponseErrorMessage = ({
 }: {
   errorResponse: APIResponseType;
 }) => {
+  if (errorResponse?.detail) {
+    return <span>{String(errorResponse.detail)}</span>;
+  }
+
   return (
     <div className="w-full">
       <div className="px-[10%] items-center flex flex-1">
