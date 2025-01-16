@@ -12,7 +12,7 @@ export const Notifications = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex absolute z-50 bottom-0 w-[33%] flex-col gap-2 pb-2">
+      <div className="flex absolute z-50 bottom-0 w-[33%] flex-col gap-2 pb-2 overflow-hidden">
         <StackedNotifications
           notifications={notifications}
           clearNotification={clearNotification}

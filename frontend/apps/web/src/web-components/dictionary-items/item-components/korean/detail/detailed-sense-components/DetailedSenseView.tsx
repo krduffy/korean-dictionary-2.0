@@ -51,6 +51,7 @@ export const DetailedSenseView = ({
 
       <div className="flex-1">
         <SenseMainInfo
+          targetCode={senseData.target_code}
           definition={senseData.definition}
           type={senseData.type}
           pos={senseData.pos}
@@ -75,10 +76,13 @@ export const DetailedSenseView = ({
       /* if there is no additional info then the dropdown is disabled
          to prevent droppable div with just padding */
       disableDropdown={!hasAdditionalInfo}
-      droppedDown={dropdownState.additionalInfoBoxDroppedDown}
+      droppedDown={
+        dropdownState.additionalInfoBoxDroppedDown && hasAdditionalInfo
+      }
       classes={{
         topBarClassName: "bg-[color:--neutral-color-not-hovering] py-2",
         childrenClassName: "bg-[color:--background-tertiary]",
+        titleClassName: "w-full",
       }}
       onDropdownStateToggle={getOnDropdownStateToggleFunction(senseData.order)(
         "additionalInfoBoxDroppedDown"
@@ -94,20 +98,27 @@ export const DetailedSenseView = ({
           additionalInfoData={senseData.additional_info}
         />
         <br />
-        <Source>
-          출처:{" "}
-          <Href
-            urlString={`https://opendict.korean.go.kr/dictionary/view?sense_no=${senseData.target_code}`}
-          >
-            우리말샘
-          </Href>
-        </Source>
+        <SourceForSenseNumber targetCode={senseData.target_code} />
       </div>
     </HideableDropdownNoTruncation>
   );
 };
 
+const SourceForSenseNumber = ({ targetCode }: { targetCode: number }) => (
+  <footer>
+    <Source>
+      출처:{" "}
+      <Href
+        urlString={`https://opendict.korean.go.kr/dictionary/view?sense_no=${targetCode}`}
+      >
+        우리말샘
+      </Href>
+    </Source>
+  </footer>
+);
+
 const SenseMainInfo = ({
+  targetCode,
   definition,
   type,
   pos,
@@ -115,6 +126,7 @@ const SenseMainInfo = ({
   patternInfo,
   regionInfo,
 }: {
+  targetCode: number;
   definition: string;
   type: string;
   pos: string;
@@ -147,6 +159,8 @@ const SenseMainInfo = ({
           {")."}
         </span>
       )}
+      <br />
+      <SourceForSenseNumber targetCode={targetCode} />
     </div>
   );
 };

@@ -28,18 +28,16 @@ export const PanelContent = ({
   });
 
   return (
-    <div className="flex-1 p-2 flex flex-col overflow-y-scroll overflow-x-hidden">
-      <div
-        ref={mainContentRef}
-        className="overflow-y-auto overflow-x-hidden"
-        style={{
-          scrollbarWidth: "thin",
-        }}
-        onScroll={onScroll}
-      >
-        <ViewContent view={view} />
-        <LineBreakArea marginSize={20} />
-      </div>
+    <div
+      ref={mainContentRef}
+      className="p-2 flex flex-col overflow-y-auto overflow-x-hidden"
+      style={{
+        scrollbarWidth: "thin",
+      }}
+      onScroll={onScroll}
+    >
+      <ViewContent view={view} />
+      <LineBreakArea marginSize={80} />
     </div>
   );
 };
