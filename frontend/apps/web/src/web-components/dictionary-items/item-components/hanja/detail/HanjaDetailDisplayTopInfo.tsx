@@ -1,7 +1,7 @@
 import { memo, ReactNode, useRef, useState } from "react";
 import { HanjaDetailHanziWriter } from "./HanjaDetailHanziWriter";
 import { HanjaCharacterKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
-import { useWidthObserver } from "../../../../../shared-web-hooks/useDimObserver";
+import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { Copier } from "../../../../ui/Copier";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { MeaningReadingsDisplay } from "../MeaningReadingsDisplay";
