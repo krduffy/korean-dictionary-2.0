@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework import serializers, status
 from rest_framework.response import Response
@@ -53,10 +54,17 @@ class FindLemmaInStringView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        sentence = request.data["sentence"]
-        index = request.data["index"]
-        mouse_over = request.data["mouse_over"]
+        sentence = serializer.validated_data["sentence"]
+        index = serializer.validated_data["index"]
+        mouse_over = serializer.validated_data["mouse_over"]
 
-        lemma = self.lemmatizer.get_lemma_at_index(sentence, index, mouse_over)
-
-        return get_found_response(lemma)
+        try:
+            lemma = self.lemmatizer.get_lemma_at_index(sentence, index, mouse_over)
+            return get_found_response(lemma)
+        except IndexError:
+            return JsonResponse(
+                {
+                    "detail": "제공한 index가 0에 불과하거나 문장의 어절 수를 초과합니다."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )

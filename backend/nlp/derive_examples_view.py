@@ -22,6 +22,7 @@ class DeriveExamplesFromTextView(APIView):
 
     def post(self, request):
         # file uploaded?
+
         if "txt_file" in request.FILES:
             serializer = self.txt_file_serializer_class(data=request.FILES)
             if not serializer.is_valid():

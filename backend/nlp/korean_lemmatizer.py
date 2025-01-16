@@ -116,6 +116,9 @@ class KoreanLemmatizer:
     def get_lemma_at_index(self, context: str, index: int, inflected: str) -> str:
         lemmas = self.get_lemmas(context)
 
+        if index < 0 or index > len(lemmas):
+            raise IndexError
+
         if len(lemmas[index]) == 1:
             return lemmas[index][0]
 
