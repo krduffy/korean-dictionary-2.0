@@ -8,8 +8,11 @@ export const ErrorMessage = ({
   error: APIResponseType | string;
 }) => {
   return (
-    <section className="w-full">
-      <header className="[color:--error-color] flex flex-row items-center justify-center gap-4">
+    <section
+      style={{ border: "1px var(--error-border) solid" }}
+      className="w-full bg-[color:--error-background] rounded-lg p-2"
+    >
+      <header className="[color:--error-text] flex flex-row items-center justify-center gap-4">
         <CircleX />
         <h2 className="text-center">오류가 발생했습니다.</h2>
       </header>

@@ -60,7 +60,7 @@
 
   --loading-color: var(--accent-7);
 
-  --error-color: #dc2626;
+  --error-text: #dc2626;
   --success-color: #16a34a;
   --warning-color: #d97706;
 
@@ -111,7 +111,9 @@
 
     --loading-color: var(--accent-7);
 
-    --error-color: #b02c2a;
+    --error-text: #ed6f64;
+    --error-background: #3d050b;
+    --error-border: #a81608;
     --success-color: #43a351;
     --warning-color: #f59e0b;
   }

@@ -19,7 +19,7 @@ export const LoginForm = () => {
       className="flex flex-col justify-center items-center w-full"
       onSubmit={postForm}
     >
-      <div className="w-full px-16 flex flex-row justify-between items-center flex-1">
+      <div className="pb-8 w-full px-16 flex flex-row justify-between items-center flex-1">
         <div className="">
           <InputBoxes
             username={String(formData.username)}
@@ -62,7 +62,7 @@ const InputBoxes = ({
   updateField: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <div className="flex flex-col gap-12 justify-center items-center w-full">
+    <div className="flex flex-col gap-8 justify-center items-center w-full">
       <InputWithLabel formDataName="username" displayedLabel="아이디">
         <UsernameInput value={username} updateField={updateField} />
       </InputWithLabel>

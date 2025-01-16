@@ -58,7 +58,7 @@ const SaveMessage = ({
     return <span className="text-[color:--success-color]">저장 성공</span>;
 
   return (
-    <span className="text-[color:--error-color]">
+    <span className="text-[color:--error-text]">
       저장하려다가 오류가 발생했습니다. 브라우저 설정 또는 프라이빗 모드가
       원인일 수 있습니다.
     </span>

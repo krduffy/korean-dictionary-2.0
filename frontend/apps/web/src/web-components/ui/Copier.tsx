@@ -41,7 +41,7 @@ export const Copier = ({ textToCopy }: { textToCopy: string }) => {
       ) : successful === true ? (
         <ClipboardCheck className="[color:--success-color]" />
       ) : (
-        <ClipboardX className="[color:--error-color]" />
+        <ClipboardX className="[color:--error-text]" />
       )}
     </div>
   );
@@ -57,7 +57,7 @@ const ClipboardSuccessMessage = ({ string }: { string: string }) => {
 
 const ClipboardErrorMessage = ({ string }: { string: string }) => {
   return (
-    <div className="flex justify-center items-center p-2 [color:--error-color]">
+    <div className="flex justify-center items-center p-2 [color:--error-text]">
       {string}
     </div>
   );

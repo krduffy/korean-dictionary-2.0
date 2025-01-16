@@ -67,7 +67,7 @@ const SenseProverb = ({ proverb }: { proverb: ProverbType }) => {
       </div>
       <div>
         {actualProverbDefinition === undefined ? (
-          <div className="text-[color:--error-color]">
+          <div className="text-[color:--error-text]">
             뜻풀이 로드 과정 중간에 오류가 발생했습니다.
           </div>
         ) : (
