@@ -75,7 +75,7 @@ class KoreanLemmatizer:
 
             # 어근/명사에다 접미사 붙임.
             # xsa => 형용사일 경우 (무모(하다)); xsv => 동사 (안녕(하다))
-            if pos.startswith("XSA") or pos.startswith("XSV"):
+            elif pos.startswith("XSA") or pos.startswith("XSV"):
                 lemmas[-1] = (
                     f"{lemmas[-1]}{self._get_first_morph_from_potentially_combined(morph)}{"다" if self.attach_다_to_verbs else ""}"
                 )
