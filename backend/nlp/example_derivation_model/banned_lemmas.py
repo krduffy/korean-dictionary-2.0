@@ -10,6 +10,10 @@
 # I will continue to add to this. There will likely be 100+ when all is said
 # and done
 
+# ! It may be worthwhile to force all lemmas of len 1 and an ambiguous set of
+# headwords to by default be banned. words like 주, 분, 전, ... which are not
+# "stop words" which most of the ones below could probably be called
+
 banned_lemmas = set(
     [
         # 주로는 대명사

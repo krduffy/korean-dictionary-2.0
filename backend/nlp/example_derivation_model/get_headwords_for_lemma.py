@@ -32,10 +32,21 @@ def get_headwords_for_lemma(lemma: str):
             if example_info is None or len(example_info) < NUM_REQUIRED_EXAMPLES:
                 continue
 
-            example_usages = [
-                tag_first_curly_with_tgt(example_item["example"])
-                for example_item in example_info
-            ]
+            example_usages = []
+            for example_item in example_info:
+                try:
+                    example_usages.append(
+                        tag_first_curly_with_tgt(example_item["example"])
+                    )
+                # error for if { } not in example
+                except ValueError:
+                    pass
+
+            # Just in case there are so many examples with improperly formatted/
+            # absent curly braces that the num of total examples is brought below
+            # required num from the number of exceptions above (unlikely)
+            if len(example_usages) < NUM_REQUIRED_EXAMPLES:
+                continue
 
             known_senses.append(
                 {

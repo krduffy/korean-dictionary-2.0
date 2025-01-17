@@ -35,7 +35,6 @@ class Embedder:
     def _get_input_subinterval_indices_for_embedding(
         self, tgt_start_index: int, tgt_end_index: int, num_tokens: int
     ) -> Tuple[int, int]:
-        print("LEN IS ", num_tokens)
 
         tgt_interval_len = tgt_end_index - tgt_start_index + 1
 
@@ -71,7 +70,6 @@ class Embedder:
                 total_interval_end + min(right_buffer_length, remaining_after_left),
             )
 
-        print(total_interval_start, total_interval_end)
         return (total_interval_start, total_interval_end)
 
     def get_embedding_from_tgt_marked_text(self, text: str):
@@ -92,10 +90,7 @@ class Embedder:
 
         input_subset_indices = (0, len(input_ids))
 
-        print(input_subset_indices)
-
         if len(input_ids) > self.token_limit:
-            print("Truncating tokens;")
             input_subset_indices = self._get_input_subinterval_indices_for_embedding(
                 tgt_start_index, tgt_end_index, len(input_ids)
             )

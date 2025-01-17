@@ -44,8 +44,8 @@ class DeriveExamplesFromTextView(APIView):
         # neither; error
         else:
             return Response(
-                {"detail": "A .txt file or raw text was not correctly provided."},
+                {"detail": "텍스트 혹은 .txt 파일이 제공되지 않았습니다."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response({"detail": "Added derived examples"}, status.HTTP_201_CREATED)
+        return Response({"detail": "예문이 추가되었습니다."}, status.HTTP_201_CREATED)

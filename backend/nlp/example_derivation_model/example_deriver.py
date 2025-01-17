@@ -9,6 +9,8 @@ from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambig
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import get_headwords_for_lemma
 from nlp.example_derivation_model.banned_lemmas import banned_lemmas
+from users.models import User
+from nlp.models import DerivedExampleText, DerivedExampleLemma
 
 
 class ExampleDeriver:
@@ -34,17 +36,14 @@ class ExampleDeriver:
     def _add_examples_in_text(self, text):
         all_lemmas = self.lemmatizer.get_lemmas(text)
 
-        c = 0
+        to_add = []
 
         for index, lemma_list_at_index in enumerate(all_lemmas):
             for lemma in lemma_list_at_index:
 
                 assumed_headword = self._pick_headword_target_code(text, index, lemma)
 
-                # print(
-                #     f"i think the tc for '{lemma}' is "
-                #     f"{self._pick_headword_target_code(text, index, lemma)}"
-                # )
+                to_add.append([])
 
     def _pick_headword_target_code(self, text: str, index, lemma):
         # If on banlist then any further disambiguation is a waste of time
@@ -73,8 +72,6 @@ class ExampleDeriver:
             return LEMMA_AMBIGUOUS
 
         # >= 2 pertinent headwords; actual disambiguation is required
-
-        print(f"lemma {lemma} is ambiguous")
 
         return self.headword_disambiguator.pick_headword_from_choices(
             text, index, headwords_for_lemma

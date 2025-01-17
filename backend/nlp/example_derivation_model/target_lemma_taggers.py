@@ -12,6 +12,7 @@ def tag_first_curly_with_tgt(example: str) -> str:
     if example != replaced:
         return replaced
 
+    print(example)
     raise ValueError("`example` does not have a substring enclosed in { }.")
 
 

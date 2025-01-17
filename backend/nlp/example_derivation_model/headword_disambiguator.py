@@ -60,8 +60,6 @@ class HeadwordDisambiguator:
 
         target_tagged_text = tag_index_with_tgt(text, index)
 
-        print("len of text is", len(target_tagged_text.split(" ")))
-
         text_embedding_for_lemma = self.embedder.get_embedding_from_tgt_marked_text(
             target_tagged_text
         )

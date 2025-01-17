@@ -21,5 +21,4 @@ class DerivedExampleLemma(models.Model):
     lemma = models.CharField()
     word_ref = models.ForeignKey(to=KoreanWord, null=True, on_delete=models.CASCADE)
 
-    start_index_in_source_text = models.IntegerField()
-    end_index_in_source_text = models.IntegerField()
+    eojeol_number_in_source_text = models.IntegerField()
