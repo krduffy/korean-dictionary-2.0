@@ -28,7 +28,9 @@ class DeriveExamplesFromTextView(APIView):
             serializer = self.txt_file_serializer_class(data=request.FILES)
             if not serializer.is_valid():
                 return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-            self.example_deriver.derive_examples(request.FILES["txt_file"])
+            self.example_deriver.derive_examples_from_file(
+                serializer.validated_data["txt_file"]
+            )
 
         # text uploaded?
         elif "text" in request.data:
@@ -36,7 +38,8 @@ class DeriveExamplesFromTextView(APIView):
             if not serializer.is_valid():
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            text = request.data["text"]
+            text = serializer.validated_data["text"]
+            self.example_deriver.derive_examples_from_text(text)
 
         # neither; error
         else:

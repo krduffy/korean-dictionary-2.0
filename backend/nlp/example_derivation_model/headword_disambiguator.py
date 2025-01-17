@@ -1,5 +1,5 @@
 from typing import List
-from nlp.example_derivation_model.types import UNSURE, KnownHeadwordInformation
+from nlp.example_derivation_model.types import LEMMA_AMBIGUOUS, KnownHeadwordInformation
 from nlp.example_derivation_model.target_lemma_taggers import tag_index_with_tgt
 from nlp.example_derivation_model.embedder import Embedder
 from nlp.example_derivation_model.similarity_calculator import (
@@ -22,9 +22,7 @@ class HeadwordDisambiguator:
     def pick_headword_from_choices(
         self, text: str, index: int, headwords_for_lemma: List[KnownHeadwordInformation]
     ) -> int:
-        definition_scores = self._get_scores_for_definitions(
-            text, index, headwords_for_lemma
-        )
+        definition_scores = self._get_scores_for_definitions(text, headwords_for_lemma)
         example_scores = self._get_scores_for_examples(text, index, headwords_for_lemma)
 
         scores = [
@@ -35,13 +33,13 @@ class HeadwordDisambiguator:
         scores.sort(reverse=True)
 
         if scores[0][0] < ACCEPTANCE_MIN_SCORE:
-            return UNSURE
+            return LEMMA_AMBIGUOUS
         if scores[0][0] - scores[1][0] < ACCEPTANCE_MIN_DELTA:
-            return UNSURE
+            return LEMMA_AMBIGUOUS
         return headwords_for_lemma[scores[0][1]]["target_code"]
 
     def _get_scores_for_definitions(
-        self, text: str, index: int, headwords_for_lemma: List[KnownHeadwordInformation]
+        self, text: str, headwords_for_lemma: List[KnownHeadwordInformation]
     ):
         text_average_token_embedding = self.embedder.get_average_token_embedding(text)
         definitions_average_token_embeddings = (
@@ -61,6 +59,8 @@ class HeadwordDisambiguator:
         # input text
 
         target_tagged_text = tag_index_with_tgt(text, index)
+
+        print("len of text is", len(target_tagged_text.split(" ")))
 
         text_embedding_for_lemma = self.embedder.get_embedding_from_tgt_marked_text(
             target_tagged_text

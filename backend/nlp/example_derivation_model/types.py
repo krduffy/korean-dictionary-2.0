@@ -1,8 +1,9 @@
 from typing import List
 from dataclasses import dataclass
 
-UNSURE = -1
+LEMMA_AMBIGUOUS = -1
 NO_KNOWN_HEADWORDS = -2
+LEMMA_IGNORED = -3
 
 
 @dataclass

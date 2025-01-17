@@ -14,8 +14,11 @@ def get_headwords_for_lemma(lemma: str):
     # Each known sense has definition and list of known usages
 
     headword_data = []
+    has_any_headword = False
 
     for headword in lemma_data:
+        has_any_headword = True
+
         headword_senses = headword.senses.all()
 
         known_senses = []
@@ -46,4 +49,4 @@ def get_headwords_for_lemma(lemma: str):
                 {"target_code": headword.target_code, "known_senses": known_senses}
             )
 
-    return headword_data
+    return headword_data, has_any_headword
