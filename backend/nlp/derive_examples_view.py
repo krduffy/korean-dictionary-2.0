@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework import serializers, status
 from rest_framework.response import Response
-from nlp.korean_lemmatizer import KoreanLemmatizer
 
-from nlp.example_derivation import derive_examples
+from nlp.korean_lemmatizer import KoreanLemmatizer
+from nlp.example_derivation_model.example_deriver import ExampleDeriver
 
 
 class DeriveExamplesFromTextValidator(serializers.Serializer):
@@ -19,6 +19,7 @@ class DeriveExamplesFromTextView(APIView):
     text_serializer_class = DeriveExamplesFromTextValidator
     txt_file_serializer_class = DeriveExamplesFromFileValidator
     lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
+    example_deriver = ExampleDeriver()
 
     def post(self, request):
         # file uploaded?
@@ -27,7 +28,7 @@ class DeriveExamplesFromTextView(APIView):
             serializer = self.txt_file_serializer_class(data=request.FILES)
             if not serializer.is_valid():
                 return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-            derive_examples(request.FILES["txt_file"])
+            self.example_deriver.derive_examples(request.FILES["txt_file"])
 
         # text uploaded?
         elif "text" in request.data:
