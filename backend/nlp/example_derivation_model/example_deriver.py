@@ -1,22 +1,16 @@
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from nlp.example_derivation_model.embedder import Embedder
+from nlp.example_derivation_model.types import UNSURE
+from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambiguator
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import get_headwords_for_lemma
-from nlp.example_derivation_model.target_lemma_taggers import (
-    tag_index_with_tgt,
-)
-
-# For the headword picker if it cannot decide
-# which target_code is the correct lemma
-UNSURE = -1
 
 
 class ExampleDeriver:
 
     def __init__(self):
         self.lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
-        self.embedder = Embedder()
+        self.headword_disambiguator = HeadwordDisambiguator()
 
     def derive_examples(self, in_memory_file: InMemoryUploadedFile):
         in_memory_file.open(mode="rb")
@@ -58,5 +52,6 @@ class ExampleDeriver:
 
         # >= 2 headwords; actual disambiguation is required
 
-        target_tagged_text = tag_index_with_tgt(text, index)
-        self.embedder.get_average_token_embedding(text)
+        return self.headword_disambiguator.pick_headword_from_choices(
+            text, index, headwords_for_lemma
+        )

@@ -2,7 +2,7 @@ from typing import List
 from transformers import BertTokenizer, BertModel
 import torch
 
-from nlp.nlp_types import KnownHeadwordInformation
+from nlp.example_derivation_model.types import KnownHeadwordInformation
 
 # import random
 # import numpy as np
@@ -66,7 +66,6 @@ class Embedder:
         inputs = self.tokenizer(
             text, return_tensors="pt", padding=True, truncation=True
         )
-        print(inputs)
 
         with torch.no_grad():
             embeddings = self.model(**inputs)
