@@ -1,5 +1,6 @@
 from words.models import KoreanWord
 from nlp.example_derivation_model.target_lemma_taggers import tag_first_curly_with_tgt
+from nlp.example_derivation_model.configuration import NUM_REQUIRED_EXAMPLES
 
 
 def get_headwords_for_lemma(lemma: str):
@@ -24,11 +25,14 @@ def get_headwords_for_lemma(lemma: str):
             example_usages = []
             example_info = sense.additional_info.get("example_info", None)
 
-            if example_info is not None:
-                example_usages = [
-                    tag_first_curly_with_tgt(example_item["example"])
-                    for example_item in example_info
-                ]
+            # This sense does not count !
+            if example_info is None or len(example_info) < NUM_REQUIRED_EXAMPLES:
+                continue
+
+            example_usages = [
+                tag_first_curly_with_tgt(example_item["example"])
+                for example_item in example_info
+            ]
 
             known_senses.append(
                 {
@@ -37,6 +41,9 @@ def get_headwords_for_lemma(lemma: str):
                 }
             )
 
-        headword_data.append({"known_senses": known_senses})
+        if len(known_senses) > 0:
+            headword_data.append(
+                {"target_code": headword.target_code, "known_senses": known_senses}
+            )
 
     return headword_data

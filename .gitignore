@@ -4,3 +4,4 @@ backend/words/management/dictionary_data/*
 frontend/packages/shared/src/hooks/hanzi-writer/hanzi-writer-data/*
 __pycache__
 known-issues.txt
+notes.txt
