@@ -14,26 +14,12 @@
 # headwords to by default be banned. words like 주, 분, 전, ... which are not
 # "stop words" which most of the ones below could probably be called
 
-banned_lemmas = set(
-    [
-        # 주로는 대명사
-        "저",
-        "나",
-        "당신",
-        "우리",
-        # 주로는 관형사
-        "그",
-        "이",
-        "저",
-        # 주로는 의존명사
-        "수",
-        # 용언/의존용언
-        "이다",
-        "하다",
-        "지다",
-        "보다",
-        "의하다",
-        "있다",
-        "없다",
-    ]
-)
+# 두번이상 나오는 단어도 있음
+주로는_대명사 = """저 나 당신 우리""".split(" ")
+주로는_관형사 = """그 이 저""".split(" ")
+주로는_의존명사 = """수 지 데""".split(" ")
+용언 = """이다 하다 지다 보다 의하다 있다 없다""".split(" ")
+
+금지_단어 = 주로는_대명사 + 주로는_관형사 + 주로는_의존명사 + 용언
+
+banned_lemmas = set(금지_단어)

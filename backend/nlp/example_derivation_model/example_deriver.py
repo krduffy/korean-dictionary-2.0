@@ -60,7 +60,7 @@ class ExampleDeriver:
         # unlikely that anything valuable can be gotten from running model
         # Just return ambiguous result and let it be a lemma-bound example
         # instead of a headword-bound example
-        elif len(headwords_for_lemma) == 0:
+        if len(headwords_for_lemma) == 0:
             return LEMMA_AMBIGUOUS
 
         # >= 2 pertinent headwords; actual disambiguation is required
