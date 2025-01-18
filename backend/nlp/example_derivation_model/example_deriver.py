@@ -1,5 +1,3 @@
-from django.core.files.uploadedfile import InMemoryUploadedFile
-
 from nlp.example_derivation_model.types import (
     LEMMA_IGNORED,
     LEMMA_AMBIGUOUS,
@@ -9,8 +7,6 @@ from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambig
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import get_headwords_for_lemma
 from nlp.example_derivation_model.banned_lemmas import banned_lemmas
-from users.models import User
-from nlp.models import DerivedExampleText, DerivedExampleLemma
 
 
 class ExampleDeriver:
@@ -20,30 +16,26 @@ class ExampleDeriver:
         self.headword_disambiguator = HeadwordDisambiguator()
         self.banned_lemmas = banned_lemmas
 
-    def derive_examples_from_text(self, text: str):
-        len(text)
-        self._add_examples_in_text(text)
-
-    def derive_examples_from_file(self, in_memory_file: InMemoryUploadedFile):
-        in_memory_file.open(mode="rb")
-
-        for i, bytes in enumerate(in_memory_file.chunks()):
-            text = bytes.decode("utf-8")
-            # print(f"text {i} is {text}")
-            # print("here are lemmas")
-            self._add_examples_in_text(text)
-
-    def _add_examples_in_text(self, text):
+    def generate_examples_in_text(self, text):
         all_lemmas = self.lemmatizer.get_lemmas(text)
-
-        to_add = []
 
         for index, lemma_list_at_index in enumerate(all_lemmas):
             for lemma in lemma_list_at_index:
 
                 assumed_headword = self._pick_headword_target_code(text, index, lemma)
 
-                to_add.append([])
+                if assumed_headword == LEMMA_IGNORED:
+                    continue
+                if assumed_headword == NO_KNOWN_HEADWORDS:
+                    continue
+                if assumed_headword == LEMMA_AMBIGUOUS:
+                    assumed_headword = None
+
+                yield {
+                    "lemma": lemma,
+                    "headword_pk": assumed_headword,
+                    "eojeol_num": index,
+                }
 
     def _pick_headword_target_code(self, text: str, index, lemma):
         # If on banlist then any further disambiguation is a waste of time
