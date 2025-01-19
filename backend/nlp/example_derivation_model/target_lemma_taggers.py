@@ -18,7 +18,8 @@ def tag_first_curly_with_tgt(example: str) -> str:
 
 def tag_index_with_tgt(text: str, index_of_tgt: int) -> str:
 
-    individual_tokens = text.split(" ")
+    # TODO Will removing newlines impact results?
+    individual_tokens = text.split()
 
     with_replaced = [
         "[TGT]" + token + "[/TGT]" if i == index_of_tgt else token
