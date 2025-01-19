@@ -25,17 +25,18 @@ The primary goals of this project are in response to feedback from and observati
 
 ## Current Progress
 
-This is still a work in progress, but the functionality of searching for words and Hanja characters, adding and removing words to/from the known and studied lists, and toggling certain settings has been implemented. Search result order is also dependent on the known/studied lists of users.
+This is still a work in progress, but the functionality of searching for words and Hanja characters, adding and removing words to/from the known and studied lists, and toggling settings has been implemented. Search result order is also dependent on the known/studied lists of users.
 
-The next step of development is adding user-added word examples, which will include example sentences, example images, and example videos. I also plan to allow the user to input texts that they have read, after which examples of various words will be automatically searched for in the text without their input (see "add an LLM based system" above). This will have to involve NLP and word sense disambiguation.
+The next step of development is adding user-added word examples, which will include example sentences, example images, and example videos. I will also allow the user to input texts that they have read, after which examples of various words will be automatically searched for in the text without their input (see "add an LLM based system" above).
 
 ## Links to Relevant Repositories/Tools
 
-- [Urimalsaem (우리말샘)](https://opendict.korean.go.kr/main): Source of Korean word data. Largest Korean dictionary with > 1mil headwords. If you make an account you can download the entire dictionary.
+- [Urimalsaem (우리말샘)](https://opendict.korean.go.kr/main): Source of Korean word data. Largest Korean dictionary with > 1mil headwords.
 - [Namuwiki (나무위키)](https://namu.wiki): Source of most Hanja character data.
 - [Hanzi Writer](https://github.com/chanind/hanzi-writer): Good library for animating Hanja (Hanzi) characters' strokes.
 - [makemeahanzi](https://github.com/skishore/makemeahanzi): Source of Hanja ideograph decompositions + many radicals.
 - [python-mecab-ko](https://github.com/jonghwanhyeon/python-mecab-ko): Python wrapper for the Korean MeCab part of speech tagger.
+- [KoBERT](https://github.com/SKTBrain/KoBERT): Korean language model for text embeddings
 
 ## License
 
