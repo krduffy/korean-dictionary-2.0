@@ -1,3 +1,4 @@
+from typing import Tuple
 from nlp.example_derivation_model.types import (
     LEMMA_IGNORED,
     LEMMA_AMBIGUOUS,
@@ -7,6 +8,9 @@ from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambig
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import get_headwords_for_lemma
 from nlp.example_derivation_model.banned_lemmas import banned_lemmas
+
+from backend.settings import DEBUG
+from time import perf_counter
 
 
 class ExampleDeriver:
@@ -22,25 +26,24 @@ class ExampleDeriver:
         for index, lemma_list_at_index in enumerate(all_lemmas):
             for lemma in lemma_list_at_index:
 
-                assumed_headword = self._pick_headword_target_code(text, index, lemma)
-
-                if assumed_headword == LEMMA_IGNORED:
-                    continue
-                if assumed_headword == NO_KNOWN_HEADWORDS:
-                    continue
-                if assumed_headword == LEMMA_AMBIGUOUS:
-                    assumed_headword = None
+                time_in_disambiguator, assumed_headword = (
+                    self._pick_headword_target_code(text, index, lemma)
+                )
 
                 yield {
                     "lemma": lemma,
                     "headword_pk": assumed_headword,
                     "eojeol_num": index,
+                    "time_in_disambiguator": time_in_disambiguator,
                 }
 
-    def _pick_headword_target_code(self, text: str, index, lemma):
+    def _pick_headword_target_code(self, text: str, index, lemma) -> Tuple[float, int]:
+        """Returns a tuple containing whether the model time spent in pick_headword_from_choices
+        and the predicted headword's pk"""
+
         # If on banlist then any further disambiguation is a waste of time
         if lemma in banned_lemmas:
-            return LEMMA_IGNORED
+            return (0, LEMMA_IGNORED)
 
         # get headwords. get_headwords_for_lemma cuts out many of the
         # headwords if they have no sense with enough examples
@@ -49,22 +52,28 @@ class ExampleDeriver:
         # No headword at all (including ones cut out because they didn't have
         # enough examples)
         if not has_any_headword:
-            return NO_KNOWN_HEADWORDS
+            return (0, NO_KNOWN_HEADWORDS)
 
         # Only one headword common enough to have any examples. Skip kobert
         # embeddings entirely
         if len(headwords_for_lemma) == 1:
-            return headwords_for_lemma[0]["target_code"]
+            return (0, headwords_for_lemma[0]["target_code"])
 
         # Lemma has some headwords but none have enough examples, so it's
         # unlikely that anything valuable can be gotten from running model
         # Just return ambiguous result and let it be a lemma-bound example
         # instead of a headword-bound example
         if len(headwords_for_lemma) == 0:
-            return LEMMA_AMBIGUOUS
+            return (0, LEMMA_AMBIGUOUS)
 
         # >= 2 pertinent headwords; actual disambiguation is required
 
-        return self.headword_disambiguator.pick_headword_from_choices(
+        time_before = perf_counter()
+
+        pk = self.headword_disambiguator.pick_headword_from_choices(
             text, index, headwords_for_lemma
         )
+
+        total_time_in_disambiguator = perf_counter() - time_before
+
+        return (total_time_in_disambiguator, pk)
