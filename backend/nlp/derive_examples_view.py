@@ -15,6 +15,7 @@ from nlp.example_derivation_model.types import (
     LEMMA_IGNORED,
     LEMMA_AMBIGUOUS,
     NO_KNOWN_HEADWORDS,
+    LEMMA_ALREADY_DISAMBIGUATED,
 )
 
 
@@ -35,12 +36,12 @@ class DeriveExamplesFromTextView(APIView):
     text_serializer_class = DeriveExamplesFromTextValidator
     txt_file_serializer_class = DeriveExamplesFromFileValidator
 
-    lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
-    example_deriver = ExampleDeriver()
-
     SAVE_BATCH_SIZE = 512
 
     def _do_derivation_from_text(self, user, source, text) -> int:
+
+        operation_start_time = perf_counter()
+
         time_in_db: float = 0
 
         before_new_det_save = perf_counter()
@@ -53,14 +54,17 @@ class DeriveExamplesFromTextView(APIView):
         total_lemmas = 0
         num_ignored_lemmas = 0
         num_disambiguated_lemmas = 0
+        num_skipped_repeats = 0
         disambiguated_lemmas = []
         num_ambiguous_lemmas = 0
         num_lemmas_without_headwords = 0
         total_time_in_disambiguator: float = 0
+        total_skip_lookup_time: float = 0
 
         for derived_example in self.example_deriver.generate_examples_in_text(text):
 
             total_lemmas += 1
+            total_skip_lookup_time += derived_example["skip_lookup_time"]
 
             time_in_disambiguator = derived_example["time_in_disambiguator"]
             if DEBUG and time_in_disambiguator > 0:
@@ -82,6 +86,10 @@ class DeriveExamplesFromTextView(APIView):
             elif returned_pk == NO_KNOWN_HEADWORDS:
                 if DEBUG:
                     num_lemmas_without_headwords += 1
+                continue
+            elif returned_pk == LEMMA_ALREADY_DISAMBIGUATED:
+                if DEBUG:
+                    num_skipped_repeats += 1
                 continue
             else:
                 try:
@@ -111,18 +119,23 @@ class DeriveExamplesFromTextView(APIView):
         if not DEBUG:
             return {"examples_written": len(created)}
 
+        total_time = perf_counter() - operation_start_time
+
         return {
+            "total_time": total_time,
             "total_lemmas": total_lemmas,
             "examples_written": len(created),
             "lemmas_ignored": num_ignored_lemmas,
             "disambiguation": {
                 "num_disambiguated_lemmas": num_disambiguated_lemmas,
+                "num_skipped_repeats": num_skipped_repeats,
                 "disambiguated_lemmas": disambiguated_lemmas,
                 "total_time_in_disambiguator": total_time_in_disambiguator,
                 "avg_time_in_disambiguator": total_time_in_disambiguator
                 / num_disambiguated_lemmas,
             },
             "time_in_db": time_in_db,
+            "total_skip_lookup_time": total_skip_lookup_time,
         }
 
     def _do_derivation_from_file(self, user, source, in_memory_uploaded_file) -> int:
@@ -132,6 +145,9 @@ class DeriveExamplesFromTextView(APIView):
         return self._do_derivation_from_text(user, source, text)
 
     def post(self, request, *args, **kwargs):
+
+        self.lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
+        self.example_deriver = ExampleDeriver()
 
         user = request.user
         derivation_result = {}

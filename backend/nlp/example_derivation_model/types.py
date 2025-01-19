@@ -4,6 +4,7 @@ from dataclasses import dataclass
 LEMMA_AMBIGUOUS = -1
 NO_KNOWN_HEADWORDS = -2
 LEMMA_IGNORED = -3
+LEMMA_ALREADY_DISAMBIGUATED = -4
 
 
 @dataclass

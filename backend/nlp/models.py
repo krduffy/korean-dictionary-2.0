@@ -3,6 +3,10 @@ from words.models import KoreanWord
 from users.models import User
 
 
+class SkippedLemma(models.Model):
+    lemma = models.TextField(unique=True, primary_key=True)
+
+
 class DerivedExampleText(models.Model):
     text = models.TextField()
     source = models.CharField()
