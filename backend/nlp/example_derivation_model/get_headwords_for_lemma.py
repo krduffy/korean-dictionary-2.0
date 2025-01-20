@@ -1,6 +1,9 @@
 from words.models import KoreanWord
 from nlp.example_derivation_model.target_lemma_taggers import tag_first_curly_with_tgt
-from nlp.example_derivation_model.configuration import NUM_REQUIRED_EXAMPLES
+from nlp.example_derivation_model.configuration import (
+    NUM_REQUIRED_EXAMPLES,
+    MAX_EXAMPLES_ON_SENSE,
+)
 
 
 def get_headwords_for_lemma(lemma: str):
@@ -34,6 +37,9 @@ def get_headwords_for_lemma(lemma: str):
 
             example_usages = []
             for example_item in example_info:
+                if len(example_usages) >= MAX_EXAMPLES_ON_SENSE:
+                    break
+
                 try:
                     example_usages.append(
                         tag_first_curly_with_tgt(example_item["example"])

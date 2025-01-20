@@ -29,8 +29,8 @@ class Command(BaseCommand):
         # + 목록이 아직 정밀하지는 않음
         skipped_lemmas = """
           저 나 너 당신 우리 그 이 저 수 지 데 때
-          이다 아니다 하다 지다 보다 의하다 있다 없다 먹다 따르다
-          적 한 번 다 전 만 등 조금 좀
+          이다 아니다 하다 지다 보다 의하다 있다 없다 먹다 따르다 받다 가다
+          적 한 번 다 전 만 등 조금 좀 위 색
         """.split()
 
         skipped_lemmas = set(skipped_lemmas)

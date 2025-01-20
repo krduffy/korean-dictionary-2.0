@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 from nlp.example_derivation_model.types import (
     LEMMA_IGNORED,
     LEMMA_AMBIGUOUS,
@@ -9,6 +9,7 @@ from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambig
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import get_headwords_for_lemma
 from nlp.models import SkippedLemma
+from nlp.example_derivation_model.configuration import SUBTEXT_TARGET_CHARACTER_LENGTH
 
 from time import perf_counter
 
@@ -20,23 +21,65 @@ class ExampleDeriver:
         self.headword_disambiguator = HeadwordDisambiguator()
         self.already_disambiguated_set = set()
 
+    def _get_split_texts(self, text: str) -> List[str]:
+        """Splits a text into a number of smaller strings to be input into
+        the model. Done to limit the amount of tokens that need to be
+        tokenized"""
+        paragraphs = text.split("\n")
+
+        current_text = ""
+        current_length = 0
+
+        texts = []
+
+        for paragraph in paragraphs:
+            paragraph_length = len(paragraph)
+
+            if paragraph_length + current_length > SUBTEXT_TARGET_CHARACTER_LENGTH:
+                texts.append(current_text)
+
+                current_text = paragraph
+                current_length = paragraph_length
+            elif current_length > 0:
+                current_text += "\n" + paragraph
+                current_length += paragraph_length
+            else:
+                current_text = paragraph
+                current_length = paragraph_length
+
+        if current_text:
+            texts.append(current_text)
+
+        return texts
+
     def generate_examples_in_text(self, text):
-        all_lemmas = self.lemmatizer.get_lemmas(text)
 
-        for index, lemma_list_at_index in enumerate(all_lemmas):
-            for lemma in lemma_list_at_index:
+        input_texts = self._get_split_texts(text)
+        print(input_texts)
 
-                skip_lookup_time, time_in_disambiguator, assumed_headword = (
-                    self._pick_headword_target_code(text, index, lemma)
-                )
+        # running number regardless of split input texts' boundaries
+        eojeol_num = 0
 
-                yield {
-                    "lemma": lemma,
-                    "headword_pk": assumed_headword,
-                    "eojeol_num": index,
-                    "time_in_disambiguator": time_in_disambiguator,
-                    "skip_lookup_time": skip_lookup_time,
-                }
+        for input_text in input_texts:
+
+            all_lemmas = self.lemmatizer.get_lemmas(input_text)
+
+            for index, lemma_list_at_index in enumerate(all_lemmas):
+                for lemma in lemma_list_at_index:
+
+                    skip_lookup_time, time_in_disambiguator, assumed_headword = (
+                        self._pick_headword_target_code(input_text, index, lemma)
+                    )
+
+                    yield {
+                        "lemma": lemma,
+                        "headword_pk": assumed_headword,
+                        "eojeol_num": eojeol_num,
+                        "time_in_disambiguator": time_in_disambiguator,
+                        "skip_lookup_time": skip_lookup_time,
+                    }
+
+                    eojeol_num += 1
 
     def _pick_headword_target_code(
         self, text: str, index, lemma
