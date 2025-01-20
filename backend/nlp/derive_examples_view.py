@@ -1,6 +1,6 @@
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework import serializers, status
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from words.models import KoreanWord
@@ -8,6 +8,8 @@ from words.models import KoreanWord
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.example_deriver import ExampleDeriver
 from nlp.models import DerivedExampleText, DerivedExampleLemma
+
+from shared.cprofile_function_calls import cprofile_function_calls
 
 from backend.settings import DEBUG
 from time import perf_counter
@@ -38,7 +40,10 @@ class DeriveExamplesFromTextView(APIView):
 
     SAVE_BATCH_SIZE = 512
 
-    def _do_derivation_from_text(self, user, source, text) -> int:
+    lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
+    example_deriver = ExampleDeriver()
+
+    def _do_derivation_from_text(self, user, source, text):
 
         operation_start_time = perf_counter()
 
@@ -57,6 +62,9 @@ class DeriveExamplesFromTextView(APIView):
         num_skipped_repeats = 0
         disambiguated_lemmas = []
         num_ambiguous_lemmas = 0
+        num_ambiguous_decisions_made = 0
+        lemmas_decision_made = []
+        lemmas_and_decision_times = []
         num_lemmas_without_headwords = 0
         total_time_in_disambiguator: float = 0
         total_skip_lookup_time: float = 0
@@ -66,14 +74,25 @@ class DeriveExamplesFromTextView(APIView):
             total_lemmas += 1
             total_skip_lookup_time += derived_example["skip_lookup_time"]
 
+            returned_pk = derived_example["headword_pk"]
+            returned_korean_word = None
+
             time_in_disambiguator = derived_example["time_in_disambiguator"]
             if DEBUG and time_in_disambiguator > 0:
                 num_disambiguated_lemmas += 1
                 total_time_in_disambiguator += time_in_disambiguator
                 disambiguated_lemmas.append(derived_example["lemma"])
 
-            returned_pk = derived_example["headword_pk"]
-            returned_korean_word = None
+                lemmas_and_decision_times.append(
+                    {
+                        "lemma": derived_example["lemma"],
+                        "decision_time": derived_example["time_in_disambiguator"],
+                    }
+                )
+
+                if returned_pk >= 0:
+                    num_ambiguous_decisions_made += 1
+                    lemmas_decision_made.append(derived_example["lemma"])
 
             if returned_pk == LEMMA_IGNORED:
                 if DEBUG:
@@ -128,26 +147,27 @@ class DeriveExamplesFromTextView(APIView):
             "lemmas_ignored": num_ignored_lemmas,
             "disambiguation": {
                 "num_disambiguated_lemmas": num_disambiguated_lemmas,
+                "num_ambiguous_decisions_made": num_ambiguous_decisions_made,
+                "lemmas_decision_made": lemmas_decision_made,
                 "num_skipped_repeats": num_skipped_repeats,
                 "disambiguated_lemmas": disambiguated_lemmas,
                 "total_time_in_disambiguator": total_time_in_disambiguator,
                 "avg_time_in_disambiguator": total_time_in_disambiguator
                 / num_disambiguated_lemmas,
+                "lemmas_and_decision_times": lemmas_and_decision_times,
             },
             "time_in_db": time_in_db,
             "total_skip_lookup_time": total_skip_lookup_time,
         }
 
-    def _do_derivation_from_file(self, user, source, in_memory_uploaded_file) -> int:
+    def _do_derivation_from_file(self, user, source, in_memory_uploaded_file):
         all_bytes = in_memory_uploaded_file.read()
         text = all_bytes.decode("utf-8")
 
         return self._do_derivation_from_text(user, source, text)
 
+    @cprofile_function_calls
     def post(self, request, *args, **kwargs):
-
-        self.lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
-        self.example_deriver = ExampleDeriver()
 
         user = request.user
         derivation_result = {}
@@ -156,7 +176,7 @@ class DeriveExamplesFromTextView(APIView):
         if "txt_file" in request.FILES:
             serializer = self.txt_file_serializer_class(data=request.data)
             if not serializer.is_valid():
-                return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+                return JsonResponse(serializer.errors, status.HTTP_400_BAD_REQUEST)
             derivation_result = self._do_derivation_from_file(
                 user,
                 serializer.validated_data["source"],
@@ -167,7 +187,9 @@ class DeriveExamplesFromTextView(APIView):
         elif "text" in request.data:
             serializer = self.text_serializer_class(data=request.data)
             if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return JsonResponse(
+                    serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                )
 
             derivation_result = self._do_derivation_from_text(
                 user,
@@ -177,17 +199,17 @@ class DeriveExamplesFromTextView(APIView):
 
         # neither; error
         else:
-            return Response(
+            return JsonResponse(
                 {"detail": "텍스트 혹은 .txt 파일이 제공되지 않았습니다."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if not DEBUG:
-            return Response(
+            return JsonResponse(
                 {
                     "detail": f"{derivation_result['lemmas_written']}개의 예문이 추가되었습니다."
                 },
                 status.HTTP_201_CREATED,
             )
         else:
-            return Response(derivation_result, status=status.HTTP_201_CREATED)
+            return JsonResponse(data=derivation_result, status=status.HTTP_201_CREATED)

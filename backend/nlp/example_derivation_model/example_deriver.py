@@ -55,7 +55,7 @@ class ExampleDeriver:
     def generate_examples_in_text(self, text):
 
         input_texts = self._get_split_texts(text)
-        print(input_texts)
+        # print(input_texts)
 
         # running number regardless of split input texts' boundaries
         eojeol_num = 0
