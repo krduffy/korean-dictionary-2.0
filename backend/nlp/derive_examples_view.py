@@ -8,6 +8,7 @@ from words.models import KoreanWord
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.example_deriver import ExampleDeriver
 from nlp.models import DerivedExampleText, DerivedExampleLemma
+from silk.profiling.profiler import silk_profile
 
 from shared.cprofile_function_calls import cprofile_function_calls
 
@@ -166,7 +167,7 @@ class DeriveExamplesFromTextView(APIView):
 
         return self._do_derivation_from_text(user, source, text)
 
-    @cprofile_function_calls
+    @silk_profile(name="POST_DERIVE_EXAMPLES")
     def post(self, request, *args, **kwargs):
 
         user = request.user

@@ -8,7 +8,7 @@ class KoreanWord(models.Model):
 
     # This word and its origin.
     # For example, word can be 단어 while origin is 單語
-    word = models.CharField(max_length=100, null=False)
+    word = models.CharField(max_length=100, null=False, db_index=True)
     origin = models.CharField(max_length=100, null=True)
 
     # Called word_unit in dictionary JSON files.
@@ -17,6 +17,9 @@ class KoreanWord(models.Model):
     word_type = models.CharField(max_length=3, null=True)
 
     history_info = models.JSONField(null=True, default=None)
+
+    class Meta:
+        indexes = [models.Index(fields=["word"], name="index_korean_word_word")]
 
     def __str__(self):
         return f"{self.word} ({self.target_code})"
@@ -56,6 +59,23 @@ class Sense(models.Model):
 
     def __str__(self):
         return f"{self.definition[:20]} ({self.target_code})"
+
+
+# This is separated from the rest of additional_info for faster queries
+class SenseExample(models.Model):
+    related_sense = models.ForeignKey(
+        Sense, on_delete=models.CASCADE, related_name="examples", null=False
+    )
+
+    example = models.CharField(null=False)
+    source = models.CharField(null=True)
+
+    # Usually for when the example is dialect
+    # and it is rewritten in standard korean
+    translation = models.CharField(null=True)
+
+    origin = models.CharField(null=True)
+    region = models.CharField(null=True)
 
 
 class HanjaCharacter(models.Model):

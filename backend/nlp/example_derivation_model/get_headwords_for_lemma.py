@@ -1,17 +1,14 @@
-from words.models import KoreanWord
-from nlp.example_derivation_model.target_lemma_taggers import tag_first_curly_with_tgt
+from typing import Tuple
+from words.models import KoreanWord, Sense, SenseExample
 from nlp.example_derivation_model.configuration import (
     NUM_REQUIRED_EXAMPLES,
     MAX_EXAMPLES_ON_SENSE,
 )
 
+from django.db.models import Count, Prefetch
 
-def get_headwords_for_lemma(lemma: str):
 
-    lemma_data = KoreanWord.objects.prefetch_related("senses").filter(
-        word__iexact=lemma
-    )
-
+def _format_lemma_data_into_object(lemma_data):
     # Each lemma has multiple headwords;
     # Each headword has known_senses
     # Each known sense has definition and list of known usages
@@ -22,37 +19,20 @@ def get_headwords_for_lemma(lemma: str):
     for headword in lemma_data:
         has_any_headword = True
 
-        headword_senses = headword.senses.all()
-
         known_senses = []
 
-        for sense in headword_senses:
+        for sense in headword.senses.all():
 
-            example_usages = []
-            example_info = sense.additional_info.get("example_info", None)
+            example_info = sense.examples.all()
 
             # This sense does not count !
-            if example_info is None or len(example_info) < NUM_REQUIRED_EXAMPLES:
+            if len(example_info) < NUM_REQUIRED_EXAMPLES:
                 continue
 
-            example_usages = []
-            for example_item in example_info:
-                if len(example_usages) >= MAX_EXAMPLES_ON_SENSE:
-                    break
-
-                try:
-                    example_usages.append(
-                        tag_first_curly_with_tgt(example_item["example"])
-                    )
-                # error for if { } not in example
-                except ValueError:
-                    pass
-
-            # Just in case there are so many examples with improperly formatted/
-            # absent curly braces that the num of total examples is brought below
-            # required num from the number of exceptions above (unlikely)
-            if len(example_usages) < NUM_REQUIRED_EXAMPLES:
-                continue
+            example_usages = [
+                example_item.example
+                for example_item in example_info[:MAX_EXAMPLES_ON_SENSE]
+            ]
 
             known_senses.append(
                 {
@@ -67,3 +47,23 @@ def get_headwords_for_lemma(lemma: str):
             )
 
     return headword_data, has_any_headword
+
+
+def get_headwords_for_lemma(lemma: str):
+
+    lemma_data = (
+        # has to be word__exact to use index
+        KoreanWord.objects.filter(word__exact=lemma)
+        .prefetch_related(
+            Prefetch(
+                "senses",
+                queryset=Sense.objects.annotate(example_count=Count("examples"))
+                .filter(example_count__gte=NUM_REQUIRED_EXAMPLES)
+                .only("examples"),
+            ),
+            Prefetch("senses__examples", queryset=SenseExample.objects.only("example")),
+        )
+        .only("target_code")
+    )
+
+    return _format_lemma_data_into_object(lemma_data)

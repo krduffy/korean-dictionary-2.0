@@ -1,5 +1,11 @@
 # Number of examples a sense must have to be considered a candidate for its
-# associated headword
+# associated headword. In the dataset, examples are a proxy for frequency;
+# ie, if a word has a lot of examples of its usage it is probably because
+# it is used a lot. Setting num required examples even to 1 eliminates a huge
+# number of senses, so I do it to prevent the embedder from having to waste time
+# on very unlikely headwords. It can also prevent embeddings from needing to happen
+# at all because if there is only one headword found after this condition is applied
+# then it defaults to just returning that only headword
 NUM_REQUIRED_EXAMPLES = 1
 
 MAX_EXAMPLES_ON_SENSE = 5

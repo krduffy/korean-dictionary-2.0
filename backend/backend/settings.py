@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "silk",
     "users.apps.UsersConfig",
     "words.apps.WordsConfig",
     "nlp.apps.NlpConfig",
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework_simplejwt.token_blacklist",
 ]
+
+SILKY_PYTHON_PROFILER = True
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -47,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "silk.middleware.SilkyMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -135,7 +139,7 @@ REST_FRAMEWORK = {
 
 # TOKENS
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(hours=6),
 }
 

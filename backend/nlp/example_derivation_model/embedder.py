@@ -70,8 +70,10 @@ class Embedder:
 
     def _get_scoped_input_indices(self, input_ids) -> Tuple[int, int]:
         try:
-            tgt_start_index = (input_ids == self.tgt_start_id).nonzero().item() + 1
-            tgt_end_index = (input_ids == self.tgt_end_id).nonzero().item()
+            tgt_start_index = (input_ids == self.tgt_start_id).nonzero()[0][
+                0
+            ].item() + 1
+            tgt_end_index = (input_ids == self.tgt_end_id).nonzero()[0][0].item()
         except (IndexError, ValueError):
             raise ValueError("[TGT] and [/TGT] not present in tgt marked text")
 

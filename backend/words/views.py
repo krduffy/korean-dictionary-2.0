@@ -13,6 +13,7 @@ from words.serializers import (
     HanjaCharacterPopupViewSerializer,
     KoreanWordInHanjaExamplesViewSerializer,
 )
+from silk.profiling.profiler import silk_profile
 from words.queryset_operations import (
     get_korean_search_queryset_with_search_params,
     filter_hanja_search_with_search_params,
@@ -33,6 +34,7 @@ class KoreanWordSearchResultsView(RedirectingListAPIView):
 
     serializer_class = KoreanWordSearchResultSerializer
 
+    @silk_profile(name="GET_KOREAN_SEARCH_RESULTS")
     def get(self, request, *args, **kwargs):
 
         query_params = self.request.query_params
