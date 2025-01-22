@@ -17,6 +17,7 @@ export type BaseKoreanWordType = {
   word: string;
   origin: string;
   user_data: UserDataType | null;
+  result_ranking: 0 | 1 | 2 | 3;
 };
 
 export interface KoreanSearchResultType extends BaseKoreanWordType {

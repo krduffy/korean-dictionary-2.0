@@ -11,6 +11,7 @@ import { KoreanWordKnownStudiedTogglers } from "../shared/known-studied/KnownStu
 import { memo } from "react";
 import { KoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { SimplifiedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
+import { ResultRankingStars } from "../shared/ResultRankingStars";
 
 export const KoreanSearchResult = memo(
   ({ result }: { result: KoreanSearchResultType }) => {
@@ -53,6 +54,7 @@ const KoreanSearchResultTopInfo = ({
           >
             <DetailViewLinkStyler>{result.word}</DetailViewLinkStyler>
           </PanelSpecificDispatcher>
+          <ResultRankingStars numStars={result.result_ranking} />
         </div>
         {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
           <div className="self-center text-[130%]">
