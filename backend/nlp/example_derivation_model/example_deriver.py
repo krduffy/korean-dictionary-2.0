@@ -110,10 +110,6 @@ class ExampleDeriver:
         reached: List[int],
         lemmas: List[str],
     ) -> bool:
-        """Mutates `returned` to have skipped lemmas filled in with the lemma's
-        final returned value. Returns a list of the remaining indices that are
-        still None."""
-
         done = True
 
         for i, lemma in enumerate(lemmas):
@@ -164,23 +160,16 @@ class ExampleDeriver:
 
         for i, lemma in enumerate(lemmas):
 
-            # ie if index_with_lemma is None
             if not needs_checking[i]:
                 continue
 
             headword_data = lemma_headword_data_dict.get(lemma, [])
 
-            # Only one headword common enough to have any examples. Skip kobert
-            # embeddings entirely
             if len(headword_data) == 1:
                 returned[i] = headword_data[0]["target_code"]
                 reached[i] = 3
                 needs_checking[i] = False
 
-            # Lemma has some headwords but none have enough examples, so it's
-            # unlikely that anything valuable can be gotten from running model
-            # Just return ambiguous result and let it be a lemma-bound example
-            # instead of a headword-bound example
             elif len(headword_data) == 0:
                 returned[i] = LEMMA_AMBIGUOUS
                 reached[i] = 3
