@@ -1,4 +1,5 @@
 import re
+from typing import List
 
 
 def tag_first_curly_with_tgt(example: str) -> str:
@@ -16,14 +17,20 @@ def tag_first_curly_with_tgt(example: str) -> str:
     raise ValueError("`example` does not have a substring enclosed in { }.")
 
 
-def tag_index_with_tgt(text: str, index_of_tgt: int) -> str:
+def tag_indices_with_tgt(text: str, indices_of_tgts: List[int]) -> List[str]:
 
     # TODO Will removing newlines impact results?
     individual_tokens = text.split()
 
-    with_replaced = [
-        "[TGT]" + token + "[/TGT]" if i == index_of_tgt else token
-        for i, token in enumerate(individual_tokens)
-    ]
+    returned_strings = []
 
-    return " ".join(with_replaced)
+    for index_of_tgt in indices_of_tgts:
+        with_replaced = " ".join(
+            [
+                "[TGT]" + token + "[/TGT]" if i == index_of_tgt else token
+                for i, token in enumerate(individual_tokens)
+            ]
+        )
+        returned_strings.append(with_replaced)
+
+    return returned_strings

@@ -15,7 +15,7 @@ def _get_similarity_of_tensors(t1: torch.Tensor, t2: torch.Tensor) -> float:
 
 def get_similarities_of_definitions(
     text_average_token_embedding: torch.Tensor,
-    definitions_average_token_embeddings: List[torch.Tensor],
+    definitions_average_token_embeddings: List[List[torch.Tensor]],
 ) -> List[float]:
     before_flattening = [
         [

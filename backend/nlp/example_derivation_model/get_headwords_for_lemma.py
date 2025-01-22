@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List
 from words.models import KoreanWord, Sense, SenseExample
 from nlp.example_derivation_model.configuration import (
     NUM_REQUIRED_EXAMPLES,
@@ -8,17 +8,14 @@ from nlp.example_derivation_model.configuration import (
 from django.db.models import Count, Prefetch
 
 
-def _format_lemma_data_into_object(lemma_data):
+def _format_lemma_data_into_dict(lemma_data):
     # Each lemma has multiple headwords;
     # Each headword has known_senses
     # Each known sense has definition and list of known usages
 
-    headword_data = []
-    has_any_headword = False
+    lemma_to_headwords_dict = {}
 
-    for headword in lemma_data:
-        has_any_headword = True
-
+    for headword in lemma_data.all():
         known_senses = []
 
         for sense in headword.senses.all():
@@ -42,28 +39,32 @@ def _format_lemma_data_into_object(lemma_data):
             )
 
         if len(known_senses) > 0:
-            headword_data.append(
+            if not lemma_to_headwords_dict.get(headword.word, None):
+                lemma_to_headwords_dict[headword.word] = []
+            lemma_to_headwords_dict[headword.word].append(
                 {"target_code": headword.target_code, "known_senses": known_senses}
             )
 
-    return headword_data, has_any_headword
+    return lemma_to_headwords_dict
 
 
-def get_headwords_for_lemma(lemma: str):
+def get_headwords_for_lemmas(lemmas: List[str]) -> dict:
 
     lemma_data = (
-        # has to be word__exact to use index
-        KoreanWord.objects.filter(word__exact=lemma)
+        KoreanWord.objects.filter(word__in=lemmas)
         .prefetch_related(
             Prefetch(
                 "senses",
                 queryset=Sense.objects.annotate(example_count=Count("examples"))
                 .filter(example_count__gte=NUM_REQUIRED_EXAMPLES)
-                .only("examples"),
+                .only("target_code", "referent_id", "examples", "definition"),
             ),
-            Prefetch("senses__examples", queryset=SenseExample.objects.only("example")),
+            Prefetch(
+                "senses__examples",
+                queryset=SenseExample.objects.only("id", "related_sense_id", "example"),
+            ),
         )
-        .only("target_code")
+        .only("target_code", "word")
     )
 
-    return _format_lemma_data_into_object(lemma_data)
+    return _format_lemma_data_into_dict(lemma_data)
