@@ -80,7 +80,7 @@ class HanjaCharacterSearchResultsView(RedirectingListAPIView):
     def get_queryset(self):
         query_params = self.request.query_params
 
-        queryset = HanjaCharacter.objects.all().prefetch_related("meaning_readings")
+        queryset = HanjaCharacter.objects.prefetch_related("meaning_readings")
 
         queryset = filter_hanja_search_with_search_params(queryset, query_params)
 
@@ -91,7 +91,7 @@ class HanjaCharacterSearchResultsView(RedirectingListAPIView):
 class KoreanWordDetailedView(RetrieveAPIView):
     """API view to view details for a Korean word from its pk."""
 
-    queryset = KoreanWord.objects.all()
+    queryset = KoreanWord.objects.prefetch_related("senses", "senses__examples")
     serializer_class = KoreanWordDetailedSerializer
 
 

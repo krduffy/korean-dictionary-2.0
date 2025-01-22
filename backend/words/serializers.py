@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from words.models import KoreanWord, Sense, HanjaCharacter, SenseExample
 from words.queryset_operations import get_ordered_hanja_example_queryset
+from nlp.models import DerivedExampleLemma
+from nlp.serializers import DerivedExampleLemmaInKoreanDetailSerializer
 
 
 # Mixings for getting user data.
@@ -65,18 +67,36 @@ class KoreanWordSearchResultSerializer(BaseKoreanWordSerializer):
 # Serializer for Korean words as they appear in detailed view screens.
 class KoreanWordDetailedSerializer(BaseKoreanWordSerializer):
     senses = serializers.SerializerMethodField()
+    derived_example_lemmas = serializers.SerializerMethodField()
 
     class Meta(BaseKoreanWordSerializer.Meta):
         fields = BaseKoreanWordSerializer.Meta.fields + [
             "word_type",
             "history_info",
             "senses",
+            "derived_example_lemmas",
         ]
 
     def get_senses(self, obj):
-        all_senses = obj.senses.all().order_by("order")
+        all_senses = obj.senses.order_by("order")
         sense_serializer = DetailedSenseSerializer(all_senses, many=True)
         return sense_serializer.data
+
+    def get_derived_example_lemmas(self, obj):
+        user = self.context["request"].user
+
+        if not user.is_authenticated:
+            return None
+
+        all_lemmas = (
+            DerivedExampleLemma.objects.filter(source_text__user_that_added=user)
+            .filter(word_ref__target_code=obj.target_code)
+            .select_related("source_text")
+        )
+
+        serializer = DerivedExampleLemmaInKoreanDetailSerializer(all_lemmas, many=True)
+
+        return serializer.data
 
 
 # Serializer for senses as they are listed under Korean word search results.
@@ -122,7 +142,7 @@ class DetailedSenseSerializer(serializers.ModelSerializer):
     # later but here I add it back into the additional_info field to keep
     # the processing of additional_info (ie in the frontend) all the same
     def get_additional_info(self, obj):
-        examples = obj.examples.all().order_by("pk")
+        examples = obj.examples
         example_serializer = SenseExampleSerializer(examples, many=True)
         example_info = example_serializer.data
 

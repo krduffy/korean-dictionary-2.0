@@ -59,7 +59,7 @@ def get_korean_search_queryset_with_search_params(query_params):
     search_term = query_params["search_term"]
     search_type = query_params.get("search_type", "word_exact")
 
-    queryset = KoreanWord.objects.all()
+    queryset = KoreanWord.objects
 
     if search_type == "word_exact":
         for character in search_term:
@@ -68,7 +68,7 @@ def get_korean_search_queryset_with_search_params(query_params):
             if is_hanja(character):
                 return queryset.filter(origin__exact=search_term)
 
-        queryset = KoreanWord.objects.filter(word__exact=search_term)
+        queryset = queryset.filter(word__exact=search_term)
     elif search_type == "word_regex":
         regized_search_term = "^" + search_term + "$"
 
@@ -85,10 +85,8 @@ def get_korean_search_queryset_with_search_params(query_params):
 
         return queryset.filter(word__iregex=regized_search_term)
     elif search_type == "definition_contains":
-        return (
-            queryset.all()
-            .prefetch_related("senses")
-            .filter(senses__definition__contains=search_term)
+        return queryset.prefetch_related("senses", "senses__definition").filter(
+            senses__definition__contains=search_term
         )
 
     # default
