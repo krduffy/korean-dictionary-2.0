@@ -47,7 +47,7 @@ class BaseKoreanWordSerializer(serializers.ModelSerializer, GetKoreanWordUserDat
 
     class Meta:
         model = KoreanWord
-        fields = ["target_code", "word", "origin", "user_data"]
+        fields = ["target_code", "word", "origin", "user_data", "result_ranking"]
         read_only_fields = ["__all__"]
 
 

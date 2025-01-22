@@ -18,6 +18,8 @@ class KoreanWord(models.Model):
 
     history_info = models.JSONField(null=True, default=None)
 
+    result_ranking = models.SmallIntegerField(null=False, default=0)
+
     class Meta:
         indexes = [models.Index(fields=["word"], name="index_korean_word_word")]
 

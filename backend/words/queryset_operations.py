@@ -14,7 +14,6 @@ from django.db.models.functions import Length, StrIndex
 
 from shared.string_utils import is_hanja
 from words.models import HanjaMeaningReading, KoreanWord
-from users.models import User
 
 
 def annotate_with_studied(initial_queryset, user):
@@ -93,33 +92,23 @@ def get_korean_search_queryset_with_search_params(query_params):
     return queryset
 
 
-def get_ordered_korean_search_results(
-    initial_queryset: QuerySet, user: User | None
-) -> QuerySet:
+def get_ordered_korean_search_results(initial_queryset: QuerySet) -> QuerySet:
     """
     Reorders a queryset of KoreanWords for listing in search results.
     The ordering is as follows:
-    1. All words that the user is currently studying are placed at the top of the list.
-    2. Following that, words are ordered by the total number of users who know each word.
-    3. If multiple words have the same number of users that know them, shorter words are prioritized.
-    4. For words of the same length, they are ordered in 가나다순 (alphabetical order).
-    5. As a final tiebreaker, words are sorted by their primary key.
+    1. The words are ordered by their `result_ranking`s.
+    2. If multiple words have the same result_rankings, shorter words are prioritized.
+    3. For words of the same length, they are ordered in 가나다순 (alphabetical order).
+    4. As a final tiebreaker, words are sorted by their primary key.
 
     Parameters:
       `queryset`: The queryset of words to reorder.
-      `user`: The user whose studied words will affect the ordering.
-                                If None, no specific user filtering will be applied.
 
     Returns: The reordered queryset.
     """
 
-    annotated_queryset = annotate_with_studied(
-        annotate_with_users_that_know(annotate_with_length(initial_queryset)), user
-    )
-
-    new_queryset = annotated_queryset.order_by(
-        "-studied",  # Words that the user is studying first
-        "-users_that_know_count",  # Then by the number of users who know the word
+    new_queryset = annotate_with_length(initial_queryset).order_by(
+        "-result_ranking",  # Result ranking first
         "length",  # Shorter words first
         "word",  # 가나다순 (alphabetical order)
         "pk",  # Tiebreaker by primary key
@@ -321,7 +310,8 @@ def get_ordered_hanja_example_queryset(initial_queryset, user):
     )
 
     new_queryset = annotated_queryset.order_by(
-        "-studied",  # Words that the user is studying first
+        "-result_ranking",  # Result ranking first
+        "-studied",  # Words that the user is studying second
         "-known",  # Then by words that the user knows
         "-users_that_know_count",  # Then by the number of users who know the word
         "length",  # Shorter words first

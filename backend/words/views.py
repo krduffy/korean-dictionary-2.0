@@ -51,7 +51,7 @@ class KoreanWordSearchResultsView(RedirectingListAPIView):
         queryset = get_korean_search_queryset_with_search_params(
             self.request.query_params
         )
-        return get_ordered_korean_search_results(queryset, self.request.user)
+        return get_ordered_korean_search_results(queryset)
 
 
 class HanjaCharacterSearchResultsView(RedirectingListAPIView):
