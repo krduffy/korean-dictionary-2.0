@@ -51,14 +51,16 @@ export const useStringWithNLP = ({
        even if it is a phrase that really consists of several words. */
     return (
       sentence
-        // split along { }, including the { } in relevant substrings so they can be marked as examples
-        .split(/({.*?})/g)
+        // split along tgt span (indicates where the example word is),
+        // including the tgt markers in relevant substrings so they can
+        // be marked as examples
+        .split(/(\[TGT\].*?\[\/TGT\])/g)
         .filter((substr) => substr.length > 0)
         .flatMap((substr) => {
-          if (substr.startsWith("{") && substr.endsWith("}"))
+          if (substr.startsWith("[TGT]") && substr.endsWith("[/TGT]"))
             return [
               {
-                token: substr.substring(1, substr.length - 1),
+                token: substr.substring(5, substr.length - 6),
                 type: "example",
               },
             ] as NLPToken[];

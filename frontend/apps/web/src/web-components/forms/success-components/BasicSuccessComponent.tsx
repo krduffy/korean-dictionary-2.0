@@ -5,10 +5,10 @@ export const BasicSuccessComponent = ({
   calledOnRender,
 }: {
   successString: string;
-  calledOnRender: () => void;
+  calledOnRender?: () => void;
 }) => {
   useEffect(() => {
-    calledOnRender();
+    calledOnRender?.();
   }, []);
 
   return (

@@ -35,6 +35,7 @@ export const LoginForm = () => {
       <FormResultInfoArea
         requestState={requestState}
         SuccessComponent={LoginSuccessComponent}
+        successComponentProps={{}}
       />
     </form>
   );

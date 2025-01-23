@@ -3,14 +3,16 @@ import { ComponentType } from "react";
 import { LoadingIndicator } from "../ui/LoadingIndicator";
 import { ErrorMessage } from "../text-formatters/messages/ErrorMessage";
 
-export const FormResultInfoArea = ({
+export const FormResultInfoArea = <SuccessComponentPropsType extends {}>({
   requestState,
   LoadingComponent = LoadingIndicator,
   SuccessComponent,
+  successComponentProps,
 }: {
   requestState: RequestStateType;
   LoadingComponent?: ComponentType;
-  SuccessComponent: ComponentType;
+  SuccessComponent: ComponentType<SuccessComponentPropsType>;
+  successComponentProps: SuccessComponentPropsType;
 }) => {
   const { progress, response } = requestState;
 
@@ -20,5 +22,5 @@ export const FormResultInfoArea = ({
 
   if (progress === "error") return <ErrorMessage error={response} />;
 
-  return <SuccessComponent />;
+  return <SuccessComponent {...successComponentProps} />;
 };
