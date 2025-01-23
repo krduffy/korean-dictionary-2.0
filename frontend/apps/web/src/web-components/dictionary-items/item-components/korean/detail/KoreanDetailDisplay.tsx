@@ -1,18 +1,13 @@
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
-import { memo, useEffect, useRef } from "react";
+import { memo, useRef } from "react";
 import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
-import { DetailedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
-import {
-  DetailedSenseDropdownState,
-  KoreanDetailInteractionData,
-} from "@repo/shared/types/views/interactionDataTypes";
-import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
+import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
-import { DetailedSenseView } from "./detailed-sense-components/DetailedSenseView";
-import { ErrorMessage } from "../../../../text-formatters/messages/ErrorMessage";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
+import { KoreanDetailUserExamples } from "./user-examples/KoreanDetailUserExamples";
+import { DetailedSensesArea } from "./ListedDetailedSenses";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -26,8 +21,13 @@ export const KoreanDetailDisplay = memo(
       <div>
         <KoreanDetailTopInfo data={data} />
 
-        <DetailedSenses
+        {data.user_examples && (
+          <KoreanDetailUserExamples userExamples={data.user_examples} />
+        )}
+
+        <DetailedSensesArea
           senses={data.senses}
+          sensesDroppedDown={interactionData.sensesDroppedDown}
           dropdownStates={interactionData.detailedSenseDropdowns}
         />
 
@@ -97,42 +97,4 @@ const WordAndOrigin = ({
       )}
     </div>
   );
-};
-
-const DetailedSenses = ({
-  senses,
-  dropdownStates,
-}: {
-  senses: DetailedSenseType[];
-  dropdownStates: DetailedSenseDropdownState[];
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-
-  useEffect(() => {
-    if (senses.length !== dropdownStates.length) {
-      panelDispatchStateChangeSelf({
-        type: "update_detailed_sense_dropdown_states_length",
-        newLength: senses.length,
-      });
-    }
-  }, []);
-
-  return senses.map((senseData, id) => {
-    if (dropdownStates[id] === undefined) {
-      return (
-        <ErrorMessage
-          key={senseData.target_code}
-          error="뜻풀이 데이터는 구조가 안 됩니다."
-        />
-      );
-    }
-    return (
-      <div key={senseData.target_code} className="mb-4">
-        <DetailedSenseView
-          senseData={senseData}
-          dropdownState={dropdownStates[id]}
-        />
-      </div>
-    );
-  });
 };

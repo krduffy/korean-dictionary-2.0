@@ -19,9 +19,20 @@ export type DetailedSenseDropdownState = {
   proverbInfoDroppedDown: boolean;
 };
 
+export type KoreanDetailUserExampleDropdownState = {
+  /* top level; other three are nested */
+  userExamplesDroppedDown: boolean;
+  /* sentences includes autoderived lemmas */
+  sentencesDroppedDown: boolean;
+  imagesDroppedDown: boolean;
+  videosDroppedDown: boolean;
+};
+
 export interface KoreanDetailInteractionData extends BaseInteractionData {
   historyDroppedDown: boolean;
+  sensesDroppedDown: boolean;
   detailedSenseDropdowns: DetailedSenseDropdownState[];
+  userExampleDropdowns: KoreanDetailUserExampleDropdownState;
 }
 
 export interface HanjaDetailInteractionData extends BaseInteractionData {

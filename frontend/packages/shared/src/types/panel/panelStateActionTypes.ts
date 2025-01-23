@@ -2,6 +2,7 @@ import {
   DetailedSenseDropdownState,
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
+  KoreanDetailUserExampleDropdownState,
 } from "../views/interactionDataTypes";
 import {
   HanjaSearchConfig,
@@ -107,6 +108,12 @@ export interface UpdateKoreanDetailInteractionDataAction {
   newValue: KoreanDetailInteractionData[keyof KoreanDetailInteractionData];
 }
 
+export interface UpdateKoreanDetailUserExampleInteractionDataAction {
+  type: "update_korean_detail_user_example_interaction_data";
+  key: keyof KoreanDetailUserExampleDropdownState;
+  newValue: boolean;
+}
+
 export interface UpdateDetailedSenseDropdownStatesLengthAction {
   type: "update_detailed_sense_dropdown_states_length";
   newLength: number;
@@ -132,4 +139,5 @@ export type PanelStateAction =
   | PushFindLemmaSuccessAction
   | UpdateHanjaDetailInteractionDataAction
   | UpdateKoreanDetailInteractionDataAction
-  | UpdateDetailedSenseDropdownStatesLengthAction;
+  | UpdateDetailedSenseDropdownStatesLengthAction
+  | UpdateKoreanDetailUserExampleInteractionDataAction;

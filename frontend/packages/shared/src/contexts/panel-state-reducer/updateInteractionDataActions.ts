@@ -7,13 +7,17 @@ import {
   DetailedSenseDropdownState,
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
+  KoreanDetailUserExampleDropdownState,
 } from "../../types/views/interactionDataTypes";
 import { getDefaultDetailedSenseDropdowns } from "../../utils/basicViews";
 
-const updateInteractionData = <T extends BaseInteractionData>(
+const updateInteractionData = <
+  InteractionDataType extends BaseInteractionData,
+  Key extends keyof InteractionDataType,
+>(
   state: PanelState,
-  key: keyof T,
-  newValue: T[keyof T]
+  key: Key,
+  newValue: InteractionDataType[Key]
 ) => {
   /* type guards */
 
@@ -46,11 +50,10 @@ const getWithUpdatedKoreanDetailedSenseDropdowns = (
         : currentSenseDropdownsObj
   );
 
-  return updateInteractionData<KoreanDetailInteractionData>(
-    state,
-    "detailedSenseDropdowns",
-    newDropdowns
-  );
+  return updateInteractionData<
+    KoreanDetailInteractionData,
+    "detailedSenseDropdowns"
+  >(state, "detailedSenseDropdowns", newDropdowns);
 };
 
 const updateDetailedSenseDropdownsLength = (
@@ -62,7 +65,10 @@ const updateDetailedSenseDropdownsLength = (
   const detailedSenseDropdowns =
     state.view.interactionData.detailedSenseDropdowns;
 
-  return updateInteractionData<KoreanDetailInteractionData>(
+  return updateInteractionData<
+    KoreanDetailInteractionData,
+    "detailedSenseDropdowns"
+  >(
     state,
     "detailedSenseDropdowns",
     Array(newLength)
@@ -73,13 +79,29 @@ const updateDetailedSenseDropdownsLength = (
   );
 };
 
+const updateUserExampleDropdownState = (
+  state: PanelState,
+  key: keyof KoreanDetailUserExampleDropdownState,
+  newValue: boolean
+) => {
+  if (state.view.type !== "korean_detail") return state;
+
+  return updateInteractionData<
+    KoreanDetailInteractionData,
+    "userExampleDropdowns"
+  >(state, "userExampleDropdowns", {
+    ...state.view.interactionData.userExampleDropdowns,
+    [key]: newValue,
+  });
+};
+
 export const updateInteractionDataIfApplicable = (
   state: PanelState,
   action: PanelStateAction
 ): PanelState | null => {
   switch (action.type) {
     case "update_scroll_distance":
-      return updateInteractionData<BaseInteractionData>(
+      return updateInteractionData<BaseInteractionData, "scrollDistance">(
         state,
         "scrollDistance",
         action.scrollDistance
@@ -94,17 +116,22 @@ export const updateInteractionDataIfApplicable = (
       );
 
     case "update_korean_detail_interaction_data":
-      return updateInteractionData(state, action.key, action.newValue);
+      return updateInteractionData<
+        KoreanDetailInteractionData,
+        typeof action.key
+      >(state, action.key, action.newValue);
 
     case "update_detailed_sense_dropdown_states_length":
       return updateDetailedSenseDropdownsLength(state, action.newLength);
 
+    case "update_korean_detail_user_example_interaction_data":
+      return updateUserExampleDropdownState(state, action.key, action.newValue);
+
     case "update_hanja_detail_interaction_data":
-      return updateInteractionData<HanjaDetailInteractionData>(
-        state,
-        action.key,
-        action.newValue
-      );
+      return updateInteractionData<
+        HanjaDetailInteractionData,
+        typeof action.key
+      >(state, action.key, action.newValue);
 
     default:
       return null;

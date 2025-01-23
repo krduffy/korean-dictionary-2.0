@@ -67,9 +67,16 @@ export const pushIfApplicable = (
           scrollDistance: 0,
           /* 30 is used tentatively as the max number of senses supported */
           historyDroppedDown: true,
+          sensesDroppedDown: true,
           detailedSenseDropdowns: Array(40).fill(
             getDefaultDetailedSenseDropdowns()
           ),
+          userExampleDropdowns: {
+            userExamplesDroppedDown: true,
+            imagesDroppedDown: true,
+            sentencesDroppedDown: true,
+            videosDroppedDown: true,
+          },
         },
       });
     case "push_hanja_detail":
