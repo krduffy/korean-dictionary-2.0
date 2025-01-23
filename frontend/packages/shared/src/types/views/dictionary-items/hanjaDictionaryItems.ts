@@ -10,10 +10,31 @@ export interface MeaningReadings {
   readings: string[];
 }
 
+export type HanjaResultRankingType =
+  | -1
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16;
+
 export interface BaseHanjaType {
   character: string;
   user_data: UserDataType | null;
   meaning_readings: MeaningReadings[];
+  result_ranking: HanjaResultRankingType;
 }
 
 export interface HanjaSearchResultType extends BaseHanjaType {
@@ -63,6 +84,9 @@ export function isBaseHanjaType(value: unknown): value is BaseHanjaType {
   return (
     isObject(value) &&
     isString(value.character) &&
+    isNumber(value.result_ranking) &&
+    value.result_ranking >= -1 &&
+    value.result_ranking <= 16 &&
     (value.user_data === null || isUserData(value.user_data)) &&
     isArrayOf(value.meaning_readings, isMeaningReadingsItem)
   );

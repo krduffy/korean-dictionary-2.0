@@ -1,10 +1,7 @@
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
-import {
-  DetailedKoreanType,
-  isDetailedKoreanType,
-} from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { isDetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { useKoreanDetailListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataFormatter";

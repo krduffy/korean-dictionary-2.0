@@ -6,6 +6,10 @@ import { Copier } from "../../../../ui/Copier";
 import { DetailedHanjaType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { MeaningReadingsDisplay } from "../MeaningReadingsDisplay";
 import { Href, Source } from "../../../../text-formatters/SpanStylers";
+import {
+  convertHanjaResultRankingIntoNumberOfStars,
+  ResultRankingStars,
+} from "../../shared/ResultRankingStars";
 
 export const HanjaDetailDisplayTopInfo = ({
   data,
@@ -25,7 +29,7 @@ export const HanjaDetailDisplayTopInfo = ({
 
   return (
     <div
-      className={`flex min-h-48 gap-2 ${belowCutoff ? "flex-col" : "flex-row"}`}
+      className={`flex min-h-48 gap-${belowCutoff ? "6" : "2"} ${belowCutoff ? "flex-col" : "flex-row"}`}
       ref={detailDisplayTopRef}
     >
       <div
@@ -69,6 +73,14 @@ const HanjaMainInfo = ({ data }: { data: DetailedHanjaType }) => {
           <h3 className="text-[150%] flex-1">
             <MeaningReadingsDisplay meaningReadings={data.meaning_readings} />
           </h3>
+          <div className="flex justify-center items-center">
+            <ResultRankingStars
+              numStars={convertHanjaResultRankingIntoNumberOfStars(
+                data.result_ranking
+              )}
+              widthAndHeightPx={32}
+            />
+          </div>
         </div>
         {data.user_data && (
           <HanjaCharacterKnownStudiedTogglers

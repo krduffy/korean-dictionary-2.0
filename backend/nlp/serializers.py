@@ -4,6 +4,7 @@ from nlp.models import DerivedExampleLemma
 
 class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
 
+    source_text_pk = serializers.IntegerField(source="source_text")
     source_text_preview = serializers.SerializerMethodField()
     source = serializers.SerializerMethodField()
 
@@ -13,7 +14,7 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
             "source_text_preview",
             "lemma",
             "source",
-            "source_text",
+            "source_text_pk",
             "eojeol_number_in_source_text",
         ]
         read_only_fields = ["__all__"]

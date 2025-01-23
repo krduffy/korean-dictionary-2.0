@@ -8,6 +8,10 @@ import {
   Href,
   Source,
 } from "../../../text-formatters/SpanStylers";
+import {
+  convertHanjaResultRankingIntoNumberOfStars,
+  ResultRankingStars,
+} from "../shared/ResultRankingStars";
 
 export const HanjaSearchResult = memo(
   ({ result }: { result: HanjaSearchResultType }) => {
@@ -46,6 +50,14 @@ const HanjaSearchResultTopInfo = ({
           </PanelSpecificDispatcher>
         </div>
         <MeaningReadingsDisplay meaningReadings={result.meaning_readings} />
+        <div className="flex justify-center items-center">
+          <ResultRankingStars
+            numStars={convertHanjaResultRankingIntoNumberOfStars(
+              result.result_ranking
+            )}
+            widthAndHeightPx={24}
+          />
+        </div>
       </div>
       <div className="flex flex-row gap-2">
         <div>{result.exam_level}</div>

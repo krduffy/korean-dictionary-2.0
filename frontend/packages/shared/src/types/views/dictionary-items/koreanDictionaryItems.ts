@@ -50,10 +50,19 @@ export type HistoryInfoType = {
   word_form: string;
 };
 
+export interface DerivedExampleLemmaType {
+  source_text_preview: string;
+  lemma: string;
+  source: string;
+  source_text_pk: number;
+  eojeol_number_in_source_text: number;
+}
+
 export interface DetailedKoreanType extends BaseKoreanWordType {
   word_type: string;
   history_info: HistoryInfoType | null;
   senses: DetailedSenseType[];
+  derived_example_lemmas: DerivedExampleLemmaType[];
 }
 
 /* Guards */
@@ -64,6 +73,9 @@ export function isBaseKoreanWordType(
   return (
     isObject(value) &&
     isNumber(value.target_code) &&
+    isNumber(value.result_ranking) &&
+    value.result_ranking >= 0 &&
+    value.result_ranking <= 3 &&
     isString(value.word) &&
     isString(value.origin) &&
     (value.user_data === null || isUserData(value.user_data))
@@ -91,6 +103,19 @@ export function isHistoryCenturyExampleType(
     (value.origin === undefined || isString(value.origin));
 
   return x;
+}
+
+export function isDerivedExampleLemmaType(
+  value: unknown
+): value is DerivedExampleLemmaType {
+  return (
+    isObject(value) &&
+    isString(value.source_text_preview) &&
+    isString(value.lemma) &&
+    isString(value.source) &&
+    isNumber(value.source_text_pk) &&
+    isNumber(value.eojeol_number_in_source_text)
+  );
 }
 
 export function isHistoryCenturyInfo(
@@ -131,13 +156,17 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
 export function isDetailedKoreanType(
   value: unknown
 ): value is DetailedKoreanType {
-  const x =
-    isObject(value) &&
-    isBaseKoreanWordType(value) &&
-    isString((value as DetailedKoreanType).word_type) &&
-    ((value as DetailedKoreanType).history_info === null ||
-      isHistoryInfoType((value as DetailedKoreanType).history_info)) &&
-    isArrayOf((value as DetailedKoreanType).senses, isDetailedSenseType);
+  const base = isObject(value) && isBaseKoreanWordType(value);
 
-  return x;
+  if (!base) return false;
+
+  const cast = value as DetailedKoreanType;
+
+  return (
+    isString(cast.word_type) &&
+    (cast.history_info === null || isHistoryInfoType(cast.history_info)) &&
+    isArrayOf(cast.senses, isDetailedSenseType) &&
+    (cast.derived_example_lemmas === null ||
+      isArrayOf(cast.derived_example_lemmas, isDerivedExampleLemmaType))
+  );
 }

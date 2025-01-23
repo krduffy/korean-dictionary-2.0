@@ -54,7 +54,6 @@ const KoreanSearchResultTopInfo = ({
           >
             <DetailViewLinkStyler>{result.word}</DetailViewLinkStyler>
           </PanelSpecificDispatcher>
-          <ResultRankingStars numStars={result.result_ranking} />
         </div>
         {result.origin /* gets rid of empty strings adding in padding from the gap */ && (
           <div className="self-center text-[130%]">
@@ -63,6 +62,12 @@ const KoreanSearchResultTopInfo = ({
             </SearchResultSideInfoStyler>
           </div>
         )}
+        <div className="flex justify-center items-center">
+          <ResultRankingStars
+            numStars={result.result_ranking}
+            widthAndHeightPx={24}
+          />
+        </div>
       </div>
       {/* for known studied togglers*/}
       {result.user_data && (

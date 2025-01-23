@@ -8,6 +8,7 @@ import {
   Href,
   Source,
 } from "../../../../text-formatters/SpanStylers";
+import { ResultRankingStars } from "../../shared/ResultRankingStars";
 
 export const HanjaExampleKoreanWord = ({
   result,
@@ -30,6 +31,12 @@ export const HanjaExampleKoreanWord = ({
             >
               <DetailViewLinkStyler>{result.word}</DetailViewLinkStyler>
             </PanelSpecificDispatcher>
+          </div>
+          <div className="flex justify-center items-center">
+            <ResultRankingStars
+              numStars={result.result_ranking}
+              widthAndHeightPx={24}
+            />
           </div>
         </div>
         {result.user_data && (

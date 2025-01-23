@@ -95,10 +95,10 @@ export function isExampleType(value: unknown): value is ExampleType {
   const x =
     isObject(value) &&
     isString(value.example) &&
-    (value.source === undefined || isString(value.source)) &&
-    (value.translation === undefined || isString(value.translation)) &&
-    (value.origin === undefined || isString(value.origin)) &&
-    (value.region === undefined || isString(value.region));
+    (value.source === null || isString(value.source)) &&
+    (value.translation === null || isString(value.translation)) &&
+    (value.origin === null || isString(value.origin)) &&
+    (value.region === null || isString(value.region));
 
   return x;
 }

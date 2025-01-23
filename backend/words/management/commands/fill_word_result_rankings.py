@@ -66,6 +66,12 @@ class Command(BaseCommand):
                     f"Saved {saved} words (cumulative {cumulative_saves})"
                 )
 
+        if to_save:
+            saved = KoreanWord.objects.bulk_update(to_save, fields=["result_ranking"])
+            to_save = []
+            cumulative_saves += saved
+            self.stdout.write(f"Saved {saved} words (cumulative {cumulative_saves})")
+
         self.stdout.write(self.style.SUCCESS("finished updating all words"))
         self.stdout.write(
             f"Stats for word rankings:\n"

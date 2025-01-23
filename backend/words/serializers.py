@@ -196,7 +196,7 @@ class BaseHanjaCharacterSerializer(
 
     class Meta:
         model = HanjaCharacter
-        fields = ["character", "user_data", "meaning_readings"]
+        fields = ["character", "user_data", "meaning_readings", "result_ranking"]
         read_only_fields = ["__all__"]
 
     def get_meaning_readings(self, obj):
