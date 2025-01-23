@@ -13,6 +13,8 @@ from words.serializers import (
     HanjaCharacterPopupViewSerializer,
     KoreanWordInHanjaExamplesViewSerializer,
 )
+from users.models import User, UserImage, UserExampleSentence, UserVideoExample
+from nlp.models import DerivedExampleLemma, DerivedExampleText
 from silk.profiling.profiler import silk_profile
 from words.queryset_operations import (
     get_korean_search_queryset_with_search_params,
@@ -21,6 +23,7 @@ from words.queryset_operations import (
     get_ordered_hanja_search_results,
     get_ordered_hanja_example_queryset,
 )
+from django.db.models import Prefetch
 
 
 class KoreanWordSearchResultsView(RedirectingListAPIView):
@@ -91,8 +94,35 @@ class HanjaCharacterSearchResultsView(RedirectingListAPIView):
 class KoreanWordDetailedView(RetrieveAPIView):
     """API view to view details for a Korean word from its pk."""
 
-    queryset = KoreanWord.objects.prefetch_related("senses", "senses__examples")
     serializer_class = KoreanWordDetailedSerializer
+
+    def get_queryset(self):
+        base_queryset = KoreanWord.objects.prefetch_related(
+            "senses", "senses__examples"
+        )
+
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return base_queryset
+
+        word_ref = self.kwargs["pk"]
+
+        images = UserImage.objects.filter(user_ref=user, word_ref=word_ref)
+        sentences = UserExampleSentence.objects.filter(user_ref=user, word_ref=word_ref)
+        videos = UserVideoExample.objects.filter(user_ref=user, word_ref=word_ref)
+        lemmas = (
+            DerivedExampleLemma.objects.filter(source_text__user_ref=user)
+            .filter(word_ref=word_ref)
+            .select_related("source_text")
+        )
+
+        return base_queryset.prefetch_related(
+            Prefetch("user_images", queryset=images),
+            Prefetch("user_sentences", queryset=sentences),
+            Prefetch("user_videos", queryset=videos),
+            Prefetch("derived_example_lemmas", queryset=lemmas),
+        )
 
 
 class HanjaCharacterDetailedView(RetrieveAPIView):

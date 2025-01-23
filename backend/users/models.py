@@ -38,7 +38,7 @@ class UserImage(models.Model):
     )
 
     image_accompanying_text = models.CharField(null=True)
-    image = models.ImageField(upload_to=get_image_path, null=False)
+    image_url = models.ImageField(upload_to=get_image_path, null=False)
 
     source = models.CharField(max_length=1000, null=False)
 

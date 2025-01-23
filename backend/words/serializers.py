@@ -4,6 +4,11 @@ from words.models import KoreanWord, Sense, HanjaCharacter, SenseExample
 from words.queryset_operations import get_ordered_hanja_example_queryset
 from nlp.models import DerivedExampleLemma
 from nlp.serializers import DerivedExampleLemmaInKoreanDetailSerializer
+from users.serializers import (
+    UserExampleSentenceSerializer,
+    UserVideoExampleSerializer,
+    UserImageSerializer,
+)
 
 
 # Mixings for getting user data.
@@ -67,14 +72,14 @@ class KoreanWordSearchResultSerializer(BaseKoreanWordSerializer):
 # Serializer for Korean words as they appear in detailed view screens.
 class KoreanWordDetailedSerializer(BaseKoreanWordSerializer):
     senses = serializers.SerializerMethodField()
-    derived_example_lemmas = serializers.SerializerMethodField()
+    user_examples = serializers.SerializerMethodField()
 
     class Meta(BaseKoreanWordSerializer.Meta):
         fields = BaseKoreanWordSerializer.Meta.fields + [
             "word_type",
             "history_info",
             "senses",
-            "derived_example_lemmas",
+            "user_examples",
         ]
 
     def get_senses(self, obj):
@@ -82,21 +87,26 @@ class KoreanWordDetailedSerializer(BaseKoreanWordSerializer):
         sense_serializer = DetailedSenseSerializer(all_senses, many=True)
         return sense_serializer.data
 
-    def get_derived_example_lemmas(self, obj):
-        user = self.context["request"].user
-
-        if not user.is_authenticated:
+    def get_user_examples(self, obj):
+        if not self.context["request"].user.is_authenticated:
             return None
 
-        all_lemmas = (
-            DerivedExampleLemma.objects.filter(source_text__user_that_added=user)
-            .filter(word_ref__target_code=obj.target_code)
-            .select_related("source_text")
-        )
+        serialized_items = {
+            "user_example_sentences": UserExampleSentenceSerializer(
+                obj.user_sentences.all(), many=True
+            ).data,
+            "user_video_examples": UserVideoExampleSerializer(
+                obj.user_videos.all(), many=True
+            ).data,
+            "user_image_examples": UserImageSerializer(
+                obj.user_images.all(), many=True
+            ).data,
+            "derived_example_lemmas": DerivedExampleLemmaInKoreanDetailSerializer(
+                obj.derived_example_lemmas.all(), many=True
+            ).data,
+        }
 
-        serializer = DerivedExampleLemmaInKoreanDetailSerializer(all_lemmas, many=True)
-
-        return serializer.data
+        return serialized_items
 
 
 # Serializer for senses as they are listed under Korean word search results.

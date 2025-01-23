@@ -4,9 +4,9 @@ from nlp.models import DerivedExampleLemma
 
 class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
 
-    source_text_pk = serializers.IntegerField(source="source_text")
+    source_text_pk = serializers.IntegerField(source="source_text.pk")
     source_text_preview = serializers.SerializerMethodField()
-    source = serializers.SerializerMethodField()
+    source = serializers.CharField(source="source_text.source")
 
     class Meta:
         model = DerivedExampleLemma
@@ -49,6 +49,3 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
             + ending_target_span
             + context_after
         )
-
-    def get_source(self, obj):
-        return obj.source_text.source

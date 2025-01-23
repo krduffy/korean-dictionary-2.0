@@ -20,3 +20,11 @@ export function isNumber(value: unknown): value is number {
 export function isBoolean(value: unknown): value is boolean {
   return typeof value === "boolean";
 }
+
+export function isTypeOrNull(
+  value: unknown,
+  verifier: (value: unknown) => boolean
+): boolean {
+  if (value === null) return true;
+  return verifier(value);
+}

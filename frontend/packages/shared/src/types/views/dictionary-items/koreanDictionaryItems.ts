@@ -1,4 +1,10 @@
-import { isArrayOf, isNumber, isObject, isString } from "../../guardUtils";
+import {
+  isArrayOf,
+  isNumber,
+  isObject,
+  isString,
+  isTypeOrNull,
+} from "../../guardUtils";
 import {
   DetailedSenseType,
   isDetailedSenseType,
@@ -58,11 +64,39 @@ export interface DerivedExampleLemmaType {
   eojeol_number_in_source_text: number;
 }
 
+interface BaseExampleType {
+  id: number;
+  /*word_ref: number;*/
+  source: string;
+}
+
+export interface UserImageExampleType extends BaseExampleType {
+  image_url: string;
+  image_accompanying_text?: string;
+}
+
+export interface UserVideoExampleType extends BaseExampleType {
+  video_url: string;
+  time?: number;
+  video_text?: string;
+}
+
+export interface UserExampleSentenceType extends BaseExampleType {
+  sentence: string;
+}
+
+export type UserExamplesType = {
+  user_example_sentences: UserExampleSentenceType[] | null;
+  user_video_examples: UserVideoExampleType[] | null;
+  user_image_examples: UserImageExampleType[] | null;
+  derived_example_lemmas: DerivedExampleLemmaType[] | null;
+};
+
 export interface DetailedKoreanType extends BaseKoreanWordType {
   word_type: string;
   history_info: HistoryInfoType | null;
   senses: DetailedSenseType[];
-  derived_example_lemmas: DerivedExampleLemmaType[];
+  user_examples: UserExamplesType | null;
 }
 
 /* Guards */
@@ -105,19 +139,6 @@ export function isHistoryCenturyExampleType(
   return x;
 }
 
-export function isDerivedExampleLemmaType(
-  value: unknown
-): value is DerivedExampleLemmaType {
-  return (
-    isObject(value) &&
-    isString(value.source_text_preview) &&
-    isString(value.lemma) &&
-    isString(value.source) &&
-    isNumber(value.source_text_pk) &&
-    isNumber(value.eojeol_number_in_source_text)
-  );
-}
-
 export function isHistoryCenturyInfo(
   value: unknown
 ): value is HistoryCenturyInfoType {
@@ -140,7 +161,9 @@ export function isHistorySenseInfoItem(
 }
 
 export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
-  const x =
+  if (value === null) return true;
+
+  return (
     isObject(value) &&
     isString(value.desc) &&
     isString(value.word_form) &&
@@ -148,9 +171,74 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
     Array.isArray(value.history_sense_info) &&
     value.history_sense_info.length === 1 &&
     isHistorySenseInfoItem(value.history_sense_info[0]) &&
-    (value.remark === undefined || isString(value.remark));
+    (value.remark === undefined || isString(value.remark))
+  );
+}
 
-  return x;
+function isBaseExampleType(value: unknown): value is BaseExampleType {
+  return isObject(value) && isNumber(value.id) && isString(value.source);
+}
+
+export function isUserImageExampleType(
+  value: unknown
+): value is UserImageExampleType {
+  if (!isBaseExampleType(value)) return false;
+
+  const cast = value as UserImageExampleType;
+
+  return (
+    isString(cast.image_url) &&
+    isTypeOrNull(cast.image_accompanying_text, isString)
+  );
+}
+
+export function isUserVideoExampleType(
+  value: unknown
+): value is UserVideoExampleType {
+  if (!isBaseExampleType(value)) return false;
+
+  const cast = value as UserVideoExampleType;
+
+  return (
+    isString(cast.video_url) &&
+    isTypeOrNull(cast.video_text, isString) &&
+    isTypeOrNull(cast.time, isNumber)
+  );
+}
+
+export function isUserExampleSentenceType(
+  value: unknown
+): value is UserExampleSentenceType {
+  if (!isBaseExampleType(value)) return false;
+
+  const cast = value as UserExampleSentenceType;
+
+  return isString(cast.sentence);
+}
+
+export function isDerivedExampleLemmaType(
+  value: unknown
+): value is DerivedExampleLemmaType {
+  return (
+    isObject(value) &&
+    isString(value.source_text_preview) &&
+    isString(value.lemma) &&
+    isString(value.source) &&
+    isNumber(value.source_text_pk) &&
+    isNumber(value.eojeol_number_in_source_text)
+  );
+}
+
+export function isUserExamplesType(value: unknown): value is UserExamplesType {
+  if (value === null) return true;
+
+  return (
+    isObject(value) &&
+    isArrayOf(value.derived_example_lemmas, isDerivedExampleLemmaType) &&
+    isArrayOf(value.user_example_sentences, isUserExampleSentenceType) &&
+    isArrayOf(value.user_image_examples, isUserImageExampleType) &&
+    isArrayOf(value.user_video_examples, isUserVideoExampleType)
+  );
 }
 
 export function isDetailedKoreanType(
@@ -164,9 +252,8 @@ export function isDetailedKoreanType(
 
   return (
     isString(cast.word_type) &&
-    (cast.history_info === null || isHistoryInfoType(cast.history_info)) &&
+    isHistoryInfoType(cast.history_info) &&
     isArrayOf(cast.senses, isDetailedSenseType) &&
-    (cast.derived_example_lemmas === null ||
-      isArrayOf(cast.derived_example_lemmas, isDerivedExampleLemmaType))
+    isUserExamplesType(cast.user_examples)
   );
 }

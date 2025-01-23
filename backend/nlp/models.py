@@ -10,7 +10,7 @@ class SkippedLemma(models.Model):
 class DerivedExampleText(models.Model):
     text = models.TextField()
     source = models.CharField()
-    user_that_added = models.ForeignKey(
+    user_ref = models.ForeignKey(
         to=User, related_name="derived_example_texts", on_delete=models.CASCADE
     )
 
@@ -23,6 +23,11 @@ class DerivedExampleLemma(models.Model):
     )
 
     lemma = models.CharField()
-    word_ref = models.ForeignKey(to=KoreanWord, null=True, on_delete=models.CASCADE)
+    word_ref = models.ForeignKey(
+        to=KoreanWord,
+        related_name="derived_example_lemmas",
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     eojeol_number_in_source_text = models.IntegerField()
