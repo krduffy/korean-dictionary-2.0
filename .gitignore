@@ -5,3 +5,4 @@ frontend/packages/shared/src/hooks/hanzi-writer/hanzi-writer-data/*
 __pycache__
 known-issues.txt
 notes.txt
+backend/user_note_images

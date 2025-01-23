@@ -2,11 +2,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework import serializers
 
 from words.models import HanjaCharacter, KoreanWord
 from users.serializers import FullUserSerializer
+from users.models import UserVideoExample, UserExampleSentence, UserImage
 
 
 class RetrieveUserView(GenericAPIView):
@@ -83,3 +84,48 @@ class UpdateKnownOrStudiedView(GenericAPIView):
             },
             status=HTTP_200_OK,
         )
+
+
+class BaseExampleValidator(serializers.ModelSerializer):
+
+    class Meta:
+        fields = "__all__"
+        read_only_fields = ["id"]
+
+    def to_internal_value(self, data):
+        user_pk = self.context["request"].user.pk
+        data["user_ref"] = user_pk
+        return super().to_internal_value(data)
+
+
+class AddVideoExampleViewValidator(BaseExampleValidator):
+    class Meta(BaseExampleValidator.Meta):
+        model = UserVideoExample
+
+
+class AddExampleSentenceViewValidator(BaseExampleValidator):
+    class Meta(BaseExampleValidator.Meta):
+        model = UserExampleSentence
+
+
+class AddImageExampleViewValidator(BaseExampleValidator):
+    class Meta(BaseExampleValidator.Meta):
+        model = UserImage
+
+
+class AddVideoExampleView(CreateAPIView):
+    queryset = UserVideoExample.objects
+    serializer_class = AddVideoExampleViewValidator
+    permission_classes = (IsAuthenticated,)
+
+
+class AddExampleSentenceView(CreateAPIView):
+    queryset = UserExampleSentence.objects
+    serializer_class = AddExampleSentenceViewValidator
+    permission_classes = (IsAuthenticated,)
+
+
+class AddImageExampleView(CreateAPIView):
+    queryset = UserImage
+    serializer_class = AddImageExampleViewValidator
+    permission_classes = (IsAuthenticated,)
