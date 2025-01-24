@@ -12,6 +12,7 @@ import { memo } from "react";
 import { KoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { SimplifiedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { ResultRankingStars } from "../shared/ResultRankingStars";
+import { SenseCategoriesAndDefinition } from "./SenseCategoriesAndDefinition";
 
 export const KoreanSearchResult = memo(
   ({ result }: { result: KoreanSearchResultType }) => {
@@ -101,27 +102,12 @@ const KoreanSearchResultSource = ({ word }: { word: string }) => {
 const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
   return (
     <div>
-      <span>{data.order}. </span>
-      {data.category && (
-        <span className="text-[color:--accent-3]">{data.category} </span>
-      )}
-      {data.type && (
-        <span className="text-[color:--accent-4]">{data.type} </span>
-      )}
-      {data.pos && <span className="text-[color:--accent-5]">{data.pos} </span>}
-      <StringWithNLPAndHanja string={data.definition} />
-      {data.region_info && (
-        <span>
-          {" ("}
-          {data.region_info.map((region, id, regionArray) => (
-            <span key={id}>
-              {region.region}
-              {id + 1 < regionArray.length && ", "}
-            </span>
-          ))}
-          {")."}
-        </span>
-      )}
+      <SenseCategoriesAndDefinition
+        definition={data.definition}
+        type={data.type}
+        pos={data.pos}
+        category={data.category}
+      />
     </div>
   );
 };

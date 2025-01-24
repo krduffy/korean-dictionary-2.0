@@ -1,13 +1,19 @@
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { memo, useRef } from "react";
-import { DetailedKoreanType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
-import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
+import {
+  DetailedKoreanType,
+  UserExamplesType,
+} from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import {
+  KoreanDetailInteractionData,
+  KoreanDetailUserExampleDropdownState,
+} from "@repo/shared/types/views/interactionDataTypes";
 import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { KoreanDetailUserExamples } from "./user-examples/KoreanDetailUserExamples";
-import { DetailedSensesArea } from "./ListedDetailedSenses";
+import { DetailedSensesArea } from "./DetailedSensesArea";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -18,12 +24,13 @@ export const KoreanDetailDisplay = memo(
     interactionData: KoreanDetailInteractionData;
   }) => {
     return (
-      <div>
+      <div className="flex flex-col gap-4" aria-label="korean-detail-display">
         <KoreanDetailTopInfo data={data} />
 
-        {data.user_examples && (
-          <KoreanDetailUserExamples userExamples={data.user_examples} />
-        )}
+        <UserExamplesIfPresent
+          userExamples={data.user_examples}
+          userExampleDropdowns={interactionData.userExampleDropdowns}
+        />
 
         <DetailedSensesArea
           senses={data.senses}
@@ -41,6 +48,34 @@ export const KoreanDetailDisplay = memo(
     );
   }
 );
+
+const UserExamplesIfPresent = ({
+  userExamples,
+  userExampleDropdowns,
+}: {
+  userExamples: UserExamplesType | null;
+  userExampleDropdowns: KoreanDetailUserExampleDropdownState;
+}) => {
+  return (
+    userExamples !== null &&
+    (
+      [
+        "derived_example_lemmas",
+        "user_example_sentences",
+        "user_image_examples",
+        "user_video_examples",
+      ] as const
+    ).some(
+      (key) =>
+        Array.isArray(userExamples?.[key]) && userExamples[key].length > 0
+    ) && (
+      <KoreanDetailUserExamples
+        userExampleDropdowns={userExampleDropdowns}
+        userExamples={userExamples}
+      />
+    )
+  );
+};
 
 const KoreanDetailTopInfo = ({ data }: { data: DetailedKoreanType }) => {
   const ref = useRef<HTMLDivElement | null>(null);

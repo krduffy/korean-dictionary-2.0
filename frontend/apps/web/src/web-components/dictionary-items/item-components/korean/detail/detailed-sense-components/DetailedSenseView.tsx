@@ -18,10 +18,11 @@ import {
 } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
 import { DetailedSenseDropdownState } from "@repo/shared/types/views/interactionDataTypes";
 import {
-  DetailViewBaseDefaultHideableDropdownNoTruncation,
+  BasicNestedHideableDropdownNoTruncation,
   HideableDropdownNoTruncation,
 } from "../../../shared/ReusedFormatters";
 import { Href, Source } from "../../../../../text-formatters/SpanStylers";
+import { SenseCategoriesAndDefinition } from "../../SenseCategoriesAndDefinition";
 
 export const DetailedSenseView = ({
   senseData,
@@ -136,29 +137,14 @@ const SenseMainInfo = ({
 }) => {
   return (
     <div>
-      {category && (
-        <span className="text-[color:--accent-3]">「{category}」 </span>
-      )}
-      {type && <span className="text-[color:--accent-4]">「{type}」 </span>}
-      {pos && <span className="text-[color:--accent-5]">「{pos}」 </span>}
-      {patternInfo?.map((pattern, id) => (
-        <span key={id} className="text-[color:--accent-6]">
-          ≪{pattern.pattern}≫{" "}
-        </span>
-      ))}
-      <StringWithNLPAndHanja string={definition} />
-      {regionInfo && (
-        <span>
-          {" ("}
-          {regionInfo.map((region, id, regionArray) => (
-            <span key={id}>
-              {region.region}
-              {id + 1 < regionArray.length && ", "}
-            </span>
-          ))}
-          {")."}
-        </span>
-      )}
+      <SenseCategoriesAndDefinition
+        definition={definition}
+        type={type}
+        pos={pos}
+        category={category}
+        patternInfo={patternInfo}
+        regionInfo={regionInfo}
+      />
       <br />
       <SourceForSenseNumber targetCode={targetCode} />
     </div>
@@ -254,7 +240,7 @@ const NonExampleInfoAdditionalInfo = ({
       {additionalInfoItems.map(
         ({ name, title, getComponent }, id) =>
           additionalInfoData[`${name}_info`] && (
-            <DetailViewBaseDefaultHideableDropdownNoTruncation
+            <BasicNestedHideableDropdownNoTruncation
               key={title}
               droppedDown={dropdownState[`${name}InfoDroppedDown`]}
               onDropdownStateToggle={getOnDropdownStateToggleFunction(
@@ -267,7 +253,7 @@ const NonExampleInfoAdditionalInfo = ({
                 // @ts-ignore
                 getComponent(additionalInfoData[`${name}_info`])
               }
-            </DetailViewBaseDefaultHideableDropdownNoTruncation>
+            </BasicNestedHideableDropdownNoTruncation>
           )
       )}
     </div>

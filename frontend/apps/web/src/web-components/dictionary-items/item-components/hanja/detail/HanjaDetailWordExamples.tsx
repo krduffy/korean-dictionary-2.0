@@ -1,5 +1,5 @@
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
+import { TopLevelHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
 import { HanjaExamplesView } from "../../../api-fetchers/HanjaExamplesView";
 
 export const HanjaDetailWordExamples = ({
@@ -22,12 +22,12 @@ export const HanjaDetailWordExamples = ({
   };
 
   return (
-    <DetailViewBaseDefaultHideableDropdownNoTruncation
+    <TopLevelHideableDropdownNoTruncation
       title="용례 단어"
       droppedDown={droppedDown}
       onDropdownStateToggle={handleDropdownStateToggle}
     >
       <HanjaExamplesView character={character} pageNum={pageNum} />
-    </DetailViewBaseDefaultHideableDropdownNoTruncation>
+    </TopLevelHideableDropdownNoTruncation>
   );
 };

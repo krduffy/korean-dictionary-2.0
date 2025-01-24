@@ -1,5 +1,5 @@
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { DetailViewBaseDefaultHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
+import { TopLevelHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
 import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 import { Href, Source } from "../../../../text-formatters/SpanStylers";
 
@@ -23,7 +23,7 @@ export const HanjaDetailExplanation = ({
   };
 
   return (
-    <DetailViewBaseDefaultHideableDropdownNoTruncation
+    <TopLevelHideableDropdownNoTruncation
       title="설명"
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
@@ -31,7 +31,7 @@ export const HanjaDetailExplanation = ({
       <StringWithNLPAndHanja string={explanation} />
       <div className="h-1" />
       <HanjaExplanationSource character={character} />
-    </DetailViewBaseDefaultHideableDropdownNoTruncation>
+    </TopLevelHideableDropdownNoTruncation>
   );
 };
 

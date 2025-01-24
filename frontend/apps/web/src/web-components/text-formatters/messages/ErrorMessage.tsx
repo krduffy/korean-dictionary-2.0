@@ -8,7 +8,7 @@ export const ErrorMessage = ({
   error: APIResponseType | string;
 }) => {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center" aria-label="error-wrapper">
       <section
         style={{ border: "1px var(--error-border) solid" }}
         className="bg-[color:--error-background] rounded-lg p-2 px-4"

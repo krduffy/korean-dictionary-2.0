@@ -10,6 +10,61 @@ export type HideableDropdownNoTruncationClasses = {
   childrenStyles: React.CSSProperties;
 };
 
+export const TopLevelHideableDropdownNoTruncation = ({
+  title,
+  droppedDown,
+  onDropdownStateToggle,
+  children,
+}: {
+  title: ReactNode;
+  droppedDown: boolean;
+  onDropdownStateToggle: (droppedDown: boolean) => void;
+  children: ReactNode;
+}) => {
+  return (
+    <HideableDropdownNoTruncation
+      title={title}
+      droppedDown={droppedDown}
+      onDropdownStateToggle={onDropdownStateToggle}
+      classes={{
+        topBarClassName: "py-4 bg-[color:--accent-8]",
+        titleClassName: "text-[130%]",
+        childrenClassName: "p-4",
+      }}
+    >
+      {children}
+    </HideableDropdownNoTruncation>
+  );
+};
+
+/* dropdown within a top level dropdown */
+export const BasicNestedHideableDropdownNoTruncation = ({
+  title,
+  droppedDown,
+  onDropdownStateToggle,
+  children,
+}: {
+  title: ReactNode;
+  droppedDown: boolean;
+  onDropdownStateToggle: (droppedDown: boolean) => void;
+  children: ReactNode;
+}) => {
+  return (
+    <HideableDropdownNoTruncation
+      title={title}
+      droppedDown={droppedDown}
+      onDropdownStateToggle={onDropdownStateToggle}
+      classes={{
+        topBarClassName: "py-2 bg-[color:--understated-accent-not-hovering]",
+        titleClassName: "text-[130%]",
+        childrenClassName: "p-4 bg-[color:--background-quaternary]",
+      }}
+    >
+      {children}
+    </HideableDropdownNoTruncation>
+  );
+};
+
 export const HideableDropdownNoTruncation = ({
   title,
   disableDropdown = false,
@@ -60,32 +115,5 @@ export const HideableDropdownNoTruncation = ({
         </div>
       )}
     </div>
-  );
-};
-
-export const DetailViewBaseDefaultHideableDropdownNoTruncation = ({
-  title,
-  droppedDown,
-  onDropdownStateToggle,
-  children,
-}: {
-  title: ReactNode;
-  droppedDown: boolean;
-  onDropdownStateToggle: (droppedDown: boolean) => void;
-  children: ReactNode;
-}) => {
-  return (
-    <HideableDropdownNoTruncation
-      title={title}
-      droppedDown={droppedDown}
-      onDropdownStateToggle={onDropdownStateToggle}
-      classes={{
-        topBarClassName: "py-2 bg-[color:--understated-accent-not-hovering]",
-        titleClassName: "text-[130%]",
-        childrenClassName: "p-2 bg-[color:--background-quaternary]",
-      }}
-    >
-      {children}
-    </HideableDropdownNoTruncation>
   );
 };
