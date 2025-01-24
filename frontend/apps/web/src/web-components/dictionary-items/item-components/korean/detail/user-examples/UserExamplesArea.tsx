@@ -4,7 +4,7 @@ import { TopLevelHideableDropdownNoTruncation } from "../../../shared/ReusedForm
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { UserSentencesAndDerivedLemmasArea } from "./UserSentencesAndDerivedLemmasArea";
 
-export const KoreanDetailUserExamples = ({
+export const UserExamplesArea = ({
   userExampleDropdowns,
   userExamples,
 }: {

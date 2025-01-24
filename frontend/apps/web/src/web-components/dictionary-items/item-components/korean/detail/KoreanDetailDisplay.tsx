@@ -12,7 +12,7 @@ import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/Known
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
-import { KoreanDetailUserExamples } from "./user-examples/KoreanDetailUserExamples";
+import { UserExamplesArea } from "./user-examples/UserExamplesArea";
 import { DetailedSensesArea } from "./DetailedSensesArea";
 
 export const KoreanDetailDisplay = memo(
@@ -27,7 +27,7 @@ export const KoreanDetailDisplay = memo(
       <div className="flex flex-col gap-4" aria-label="korean-detail-display">
         <KoreanDetailTopInfo data={data} />
 
-        <UserExamplesIfPresent
+        <UserExamplesAreaIfPresent
           userExamples={data.user_examples}
           userExampleDropdowns={interactionData.userExampleDropdowns}
         />
@@ -49,7 +49,7 @@ export const KoreanDetailDisplay = memo(
   }
 );
 
-const UserExamplesIfPresent = ({
+const UserExamplesAreaIfPresent = ({
   userExamples,
   userExampleDropdowns,
 }: {
@@ -69,7 +69,7 @@ const UserExamplesIfPresent = ({
       (key) =>
         Array.isArray(userExamples?.[key]) && userExamples[key].length > 0
     ) && (
-      <KoreanDetailUserExamples
+      <UserExamplesArea
         userExampleDropdowns={userExampleDropdowns}
         userExamples={userExamples}
       />
