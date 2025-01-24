@@ -3,6 +3,7 @@ import { KoreanDetailUserExampleDropdownState } from "@repo/shared/types/views/i
 import { TopLevelHideableDropdownNoTruncation } from "../../../shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { UserSentencesAndDerivedLemmasArea } from "./UserSentencesAndDerivedLemmasArea";
+import { UserVideoExamplesArea } from "./UserVideosArea";
 
 export const UserExamplesArea = ({
   userExampleDropdowns,
@@ -33,6 +34,12 @@ export const UserExamplesArea = ({
           droppedDown={userExampleDropdowns.sentencesDroppedDown}
           allDerivedExampleLemmasData={userExamples.derived_example_lemmas}
           allUserExampleSentencesData={userExamples.user_example_sentences}
+        />
+      )}
+      {userExamples.user_video_examples && (
+        <UserVideoExamplesArea
+          droppedDown={userExampleDropdowns.videosDroppedDown}
+          allUserVideoExamplesData={userExamples.user_video_examples}
         />
       )}
     </TopLevelHideableDropdownNoTruncation>

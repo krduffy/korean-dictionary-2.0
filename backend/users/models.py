@@ -66,13 +66,15 @@ class UserVideoExample(models.Model):
         KoreanWord, on_delete=models.CASCADE, related_name="user_videos", null=False
     )
 
-    # url of the video
-    video_url = models.URLField(null=False)
+    # (youtube) video id for the video
+    video_id = models.CharField(null=False)
 
-    # time in the video at which the relevant clip starts
-    time = models.IntegerField(null=True)
+    # time in the video at which the relevant clip starts and ends
+    start = models.IntegerField(null=False)
+    end = models.IntegerField(null=False)
 
     # accompanying text shown along with the video
+    # can add context, notes, ...
     video_text = models.CharField(null=True)
 
     source = models.CharField(max_length=1000, null=False)

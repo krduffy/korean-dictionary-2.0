@@ -23,4 +23,4 @@ class UserExampleSentenceSerializer(serializers.ModelSerializer):
 class UserVideoExampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserVideoExample
-        fields = ["id", "video_url", "video_text", "time", "source"]
+        fields = ["id", "video_id", "video_text", "start", "end", "source"]

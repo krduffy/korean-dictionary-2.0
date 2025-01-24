@@ -76,8 +76,9 @@ export interface UserImageExampleType extends BaseExampleType {
 }
 
 export interface UserVideoExampleType extends BaseExampleType {
-  video_url: string;
-  time?: number;
+  video_id: string;
+  start: number;
+  end: number;
   video_text?: string;
 }
 
@@ -200,9 +201,10 @@ export function isUserVideoExampleType(
   const cast = value as UserVideoExampleType;
 
   return (
-    isString(cast.video_url) &&
+    isString(cast.video_id) &&
     isTypeOrNull(cast.video_text, isString) &&
-    isTypeOrNull(cast.time, isNumber)
+    isNumber(cast.start) &&
+    isNumber(cast.end)
   );
 }
 
