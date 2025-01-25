@@ -27,21 +27,26 @@ export const UserSentencesAndDerivedLemmasArea = ({
     });
   };
 
+  const hasUserExampleSentences =
+    allUserExampleSentencesData && allUserExampleSentencesData.length > 0;
+  const hasDerivedLemmaExamples =
+    allDerivedExampleLemmasData && allDerivedExampleLemmasData.length > 0;
+
   return (
     <BasicNestedHideableDropdownNoTruncation
       title="예문"
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >
-      {allUserExampleSentencesData && (
+      {hasUserExampleSentences && (
         <UserExampleSentencesArea
           allUserExampleSentencesData={allUserExampleSentencesData}
         />
       )}
-      {allUserExampleSentencesData && allDerivedExampleLemmasData && (
+      {hasUserExampleSentences && hasDerivedLemmaExamples && (
         <LineBreakArea marginSize={32} />
       )}
-      {allDerivedExampleLemmasData && (
+      {hasDerivedLemmaExamples && (
         <DerivedLemmaExamplesArea
           allDerivedExampleLemmasData={allDerivedExampleLemmasData}
         />

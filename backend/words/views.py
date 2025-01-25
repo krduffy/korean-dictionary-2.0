@@ -13,8 +13,12 @@ from words.serializers import (
     HanjaCharacterPopupViewSerializer,
     KoreanWordInHanjaExamplesViewSerializer,
 )
-from users.models import User, UserImage, UserExampleSentence, UserVideoExample
-from nlp.models import DerivedExampleLemma, DerivedExampleText
+from user_examples.models import (
+    DerivedExampleLemma,
+    UserImage,
+    UserExampleSentence,
+    UserVideoExample,
+)
 from silk.profiling.profiler import silk_profile
 from words.queryset_operations import (
     get_korean_search_queryset_with_search_params,

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "words.apps.WordsConfig",
     "nlp.apps.NlpConfig",
+    "user_examples.apps.UserExamplesConfig",
     #'ratelimit',
     "corsheaders",
     "django_extensions",

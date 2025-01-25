@@ -25,6 +25,7 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("dictionary/", include("words.urls")),
     path("nlp/", include("nlp.urls")),
+    path("user_examples/", include("user_examples.urls")),
 ]
 
 if settings.DEBUG:

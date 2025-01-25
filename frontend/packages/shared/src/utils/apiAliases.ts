@@ -17,8 +17,8 @@ const endpoints = {
   detail_hanja: "dictionary/hanja/detail",
   popup_hanja: "dictionary/hanja/popup",
   examples_hanja: "dictionary/hanja/examples",
-  find_lemma: "nlp/find_lemma/",
-  derive_examples_from_text: "nlp/derive_examples_from_text/",
+  find_lemma: "nlp/analyze/get_lemma",
+  derive_examples_from_text: "nlp/analyze/derive_lemma_examples",
 } as const;
 
 export type ApiEndpoint = keyof typeof endpoints;

@@ -2,12 +2,11 @@ from rest_framework import serializers
 
 from words.models import KoreanWord, Sense, HanjaCharacter, SenseExample
 from words.queryset_operations import get_ordered_hanja_example_queryset
-from nlp.models import DerivedExampleLemma
-from nlp.serializers import DerivedExampleLemmaInKoreanDetailSerializer
-from users.serializers import (
+from user_examples.serializers import (
+    DerivedExampleLemmaInKoreanDetailSerializer,
     UserExampleSentenceSerializer,
-    UserVideoExampleSerializer,
     UserImageSerializer,
+    UserVideoExampleSerializer,
 )
 
 

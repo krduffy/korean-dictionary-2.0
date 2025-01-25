@@ -9,9 +9,6 @@ from users.auth_views import (
 from users.views import (
     RetrieveUserView,
     UpdateKnownOrStudiedView,
-    AddExampleSentenceView,
-    AddImageExampleView,
-    AddVideoExampleView,
 )
 
 urlpatterns = [
@@ -26,7 +23,4 @@ urlpatterns = [
         UpdateKnownOrStudiedView.as_view(),
         name="update_known_studied",
     ),
-    path("add/video", AddVideoExampleView.as_view(), name="add_video"),
-    path("add/sentence", AddExampleSentenceView.as_view(), name="add_sentence"),
-    path("add/image", AddImageExampleView.as_view(), name="add_image"),
 ]

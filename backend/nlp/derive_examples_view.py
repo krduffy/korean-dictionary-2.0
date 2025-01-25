@@ -7,7 +7,7 @@ from words.models import KoreanWord
 
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.example_deriver import ExampleDeriver
-from nlp.models import DerivedExampleText, DerivedExampleLemma
+from user_examples.models import DerivedExampleText, DerivedExampleLemma
 
 from backend.settings import DEBUG
 from nlp.example_derivation_model.types import (
@@ -139,7 +139,7 @@ class DeriveExamplesFromTextView(APIView):
 
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
-            return JsonResponse(serializer.errors, status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # file uploaded?
         if serializer.validated_data.get("txt_file"):

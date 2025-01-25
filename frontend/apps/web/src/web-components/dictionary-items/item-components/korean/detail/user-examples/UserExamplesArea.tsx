@@ -4,7 +4,6 @@ import { TopLevelHideableDropdownNoTruncation } from "../../../shared/ReusedForm
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { UserSentencesAndDerivedLemmasArea } from "./UserSentencesAndDerivedLemmasArea";
 import { UserVideoExamplesArea } from "./UserVideosArea";
-import { isArrayOfAtLeastLengthOne } from "@repo/shared/types/guardUtils";
 
 export const UserExamplesArea = ({
   userExampleDropdowns,

@@ -1,6 +1,52 @@
 from rest_framework import serializers
 from backend.settings import BASE_URL
-from nlp.models import DerivedExampleLemma
+from user_examples.models import (
+    UserImage,
+    UserExampleSentence,
+    UserVideoExample,
+    DerivedExampleLemma,
+)
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserImage
+        fields = ["id", "image_accompanying_text", "image_url", "source"]
+
+    def get_image_url(self, obj):
+        # copied from code serializer for lemma deriving text
+        # for user image, both fields cannot be None
+        """Gets a single image url from the model object. If there is an uploaded
+        image (`image` column; has server's origin) then it returns only that.
+        If there is a remote image url then it returns that. If neither exists,
+        it returns None."""
+
+        nonremote_image_url = obj.nonremote_image_url
+        if nonremote_image_url:
+            # Is ImageField
+            return BASE_URL + nonremote_image_url.url
+
+        remote_image_url = obj.remote_image_url
+        if remote_image_url:
+            # Is CharField
+            return remote_image_url
+
+        # keeping it like this for development; this is not caught anywhere
+        raise Exception("Image has neither nonremote nor remote image url")
+
+
+class UserExampleSentenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserExampleSentence
+        fields = ["id", "sentence", "source"]
+
+
+class UserVideoExampleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserVideoExample
+        fields = ["id", "video_id", "video_text", "start", "end", "source"]
 
 
 class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
@@ -36,12 +82,15 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
         ending_index = central_eojeol_num + tokens_around_central_shown + 1
 
         context_before = "..." if starting_index > 0 else ""
+        starting_index = max(starting_index, 0)
         context_before += " ".join(tokenized[starting_index:central_eojeol_num])
         if len(context_before) > 0:
             context_before += " "
 
+        context_after_final = "..." if ending_index < len(tokenized) else ""
+        ending_index = min(ending_index, len(tokenized))
         context_after = " ".join(tokenized[central_eojeol_num + 1 : ending_index])
-        context_after += "..." if ending_index < len(tokenized) else ""
+        context_after += context_after_final
 
         ending_target_span = "[/TGT]" if len(context_after) == 0 else "[/TGT] "
 
