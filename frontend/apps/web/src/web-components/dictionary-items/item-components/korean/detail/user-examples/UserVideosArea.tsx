@@ -38,7 +38,10 @@ const ListedUserVideoExamples = ({
   allUserVideoExamplesData: UserVideoExampleType[];
 }) => {
   return (
-    <ul className="flex flex-col gap-4" aria-label="user-video-examples-list">
+    <ul
+      className="w-full flex flex-col gap-4"
+      aria-label="user-video-examples-list"
+    >
       {allUserVideoExamplesData.map((userVideoExampleData, index) => (
         <UserVideoExample
           key={index}
@@ -55,12 +58,14 @@ const UserVideoExample = ({
   userVideoExampleData: UserVideoExampleType;
 }) => {
   return (
-    <article>
+    <article className="w-full flex flex-row justify-between items-center">
+      <button></button>
       <UserVideoExampleIframe
         videoId={userVideoExampleData.video_id}
         start={userVideoExampleData.start}
         end={userVideoExampleData.end}
       />
+      <button></button>
     </article>
   );
 };
@@ -74,7 +79,9 @@ const UserVideoExampleIframe = ({
   start: number;
   end: number;
 }) => {
-  const src = `https://youtube.com/embed/${videoId}?start=${start}&end=${end}`;
+  const src = `https://youtube.com/embed/${videoId}?start=${start}&end=${end}&hl=ko`;
 
-  return <iframe className="w-full aspect-video" src={src}></iframe>;
+  return (
+    <iframe className="max-w-screen-sm w-full aspect-video" src={src}></iframe>
+  );
 };

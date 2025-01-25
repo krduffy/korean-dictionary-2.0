@@ -43,7 +43,18 @@ const DerivedExampleLemma = ({
   derivedExampleLemmaData: DerivedExampleLemmaType;
 }) => {
   return (
-    <article className="mb-2 flex flex-row" aria-label="derived-example-lemma">
+    <article
+      className="mb-2 flex flex-row gap-4"
+      aria-label="derived-example-lemma"
+    >
+      {derivedExampleLemmaData.image_url && (
+        <div className="flex items-center justify-center">
+          <img
+            className="aspect-square min-w-16"
+            src={derivedExampleLemmaData.image_url}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <DerivedExampleLemmaSourceTextPreviewArea
           sourceTextPreview={derivedExampleLemmaData.source_text_preview}

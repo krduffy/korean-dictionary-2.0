@@ -6,3 +6,4 @@ __pycache__
 known-issues.txt
 notes.txt
 backend/user_note_images
+pokeapi-js-service-worker.js

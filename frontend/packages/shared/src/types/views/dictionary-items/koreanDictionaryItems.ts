@@ -62,6 +62,7 @@ export interface DerivedExampleLemmaType {
   source: string;
   source_text_pk: number;
   eojeol_number_in_source_text: number;
+  image_url?: string;
 }
 
 interface BaseExampleType {
