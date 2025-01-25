@@ -1,10 +1,6 @@
 from django.db import models
 from words.models import KoreanWord
-from users.models import User
-
-
-class SkippedLemma(models.Model):
-    lemma = models.TextField(unique=True, primary_key=True)
+from users.models import User, get_image_path
 
 
 class DerivedExampleText(models.Model):
@@ -13,6 +9,9 @@ class DerivedExampleText(models.Model):
     user_ref = models.ForeignKey(
         to=User, related_name="derived_example_texts", on_delete=models.CASCADE
     )
+
+    nonremote_image_url = models.ImageField(null=True, upload_to=get_image_path)
+    remote_image_url = models.URLField(null=True)
 
 
 class DerivedExampleLemma(models.Model):

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from backend.settings import BASE_URL
 from nlp.models import DerivedExampleLemma
 
 
@@ -7,6 +8,7 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
     source_text_pk = serializers.IntegerField(source="source_text.pk")
     source_text_preview = serializers.SerializerMethodField()
     source = serializers.CharField(source="source_text.source")
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = DerivedExampleLemma
@@ -16,6 +18,7 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
             "source",
             "source_text_pk",
             "eojeol_number_in_source_text",
+            "image_url",
         ]
         read_only_fields = ["__all__"]
 
@@ -49,3 +52,21 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
             + ending_target_span
             + context_after
         )
+
+    def get_image_url(self, obj):
+        """Gets a single image url from the model object. If there is an uploaded
+        image (`image` column; has server's origin) then it returns only that.
+        If there is a remote image url then it returns that. If neither exists,
+        it returns None."""
+
+        nonremote_image_url = obj.source_text.nonremote_image_url
+        if nonremote_image_url:
+            # Is ImageField
+            return BASE_URL + nonremote_image_url.url
+
+        remote_image_url = obj.source_text.remote_image_url
+        if remote_image_url:
+            # Is CharField
+            return remote_image_url
+
+        return None

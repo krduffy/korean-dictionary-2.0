@@ -96,7 +96,7 @@ class ExampleDeriver:
                         yield from self._run_batch(input_text, batch)
                         batch.clear()
 
-                    eojeol_num += 1
+                eojeol_num += 1
 
             # have to run any remaining
             if len(batch) > 0:
@@ -208,11 +208,18 @@ class ExampleDeriver:
             text, relevant_indices, relevant_headwords
         )
 
-        for i, relevant_index in enumerate(relevant_indices):
-            text_index = indices.index(relevant_index)
-            returned[text_index] = all_pks[i]
-            reached[text_index] = 4
-            needs_checking[text_index] = False
+        def generate_list(list):
+            for val in list:
+                yield val
+
+        all_pks_generator = generate_list(all_pks)
+
+        for i in range(len(needs_checking)):
+            if not needs_checking[i]:
+                continue
+            returned[i] = all_pks_generator.__next__()
+            reached[i] = 4
+            needs_checking[i] = False
 
         return True
 

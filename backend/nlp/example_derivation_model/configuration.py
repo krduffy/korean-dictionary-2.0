@@ -14,11 +14,11 @@ SUBTEXT_TARGET_CHARACTER_LENGTH = 50
 
 USE_CUDA = True
 
-DEFINITION_WEIGHT = 0.25
-EXAMPLE_WEIGHT = 0.75
+DEFINITION_WEIGHT = 0.2
+EXAMPLE_WEIGHT = 0.8
 
 ACCEPTANCE_MIN_SCORE = 0.3
-ACCEPTANCE_MIN_DELTA = 0.1
+ACCEPTANCE_MIN_DELTA = 0.05
 
 LEMMA_BATCH_SIZE = 50
 
@@ -27,6 +27,6 @@ def average(nums):
     return sum(nums) / len(nums)
 
 
-single_senses_examples_similarity_flattener = average
+single_senses_examples_similarity_flattener = max
 all_senses_examples_similarity_flattener = max
 single_senses_definitions_similarity_flattener = average

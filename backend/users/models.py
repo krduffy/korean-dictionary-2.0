@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.forms import ValidationError
 
 from words.models import KoreanWord, HanjaCharacter
 
@@ -29,6 +30,16 @@ def get_image_path(instance, filename):
 
 
 class UserImage(models.Model):
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(remote_image_url__isnull=False)
+                | models.Q(nonremote_image_url__isnull=False),
+                name="at_least_one_image_url",
+            )
+        ]
+
     id = models.BigAutoField(primary_key=True)
     user_ref = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="added_images", null=False
@@ -38,7 +49,9 @@ class UserImage(models.Model):
     )
 
     image_accompanying_text = models.CharField(null=True)
-    image_url = models.ImageField(upload_to=get_image_path, null=False)
+
+    nonremote_image_url = models.ImageField(upload_to=get_image_path, null=True)
+    remote_image_url = models.URLField(null=True)
 
     source = models.CharField(max_length=1000, null=False)
 

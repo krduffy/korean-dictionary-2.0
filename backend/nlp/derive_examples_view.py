@@ -8,12 +8,8 @@ from words.models import KoreanWord
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.example_deriver import ExampleDeriver
 from nlp.models import DerivedExampleText, DerivedExampleLemma
-from silk.profiling.profiler import silk_profile
-
-from shared.cprofile_function_calls import cprofile_function_calls
 
 from backend.settings import DEBUG
-from time import perf_counter
 from nlp.example_derivation_model.types import (
     LEMMA_IGNORED,
     LEMMA_AMBIGUOUS,
@@ -22,31 +18,50 @@ from nlp.example_derivation_model.types import (
 )
 
 
-class DeriveExamplesFromTextValidator(serializers.Serializer):
-    text = serializers.CharField(required=True, max_length=2000)
+class DeriveExamplesViewValidator(serializers.Serializer):
+    text = serializers.CharField(required=False, max_length=2000)
+    txt_file = serializers.FileField(required=False)
     source = serializers.CharField(required=True, max_length=100)
+    nonremote_image_url = serializers.ImageField(required=False)
+    remote_image_url = serializers.URLField(required=False)
 
+    def validate(self, data):
+        if not data.get("text") and not data.get("txt_file"):
+            raise serializers.ValidationError("Text or a text file must be uploaded.")
+        if data.get("text") and data.get("txt_file"):
+            raise serializers.ValidationError(
+                "Text and a text file cannot both be uplaoded."
+            )
 
-class DeriveExamplesFromFileValidator(serializers.Serializer):
-    txt_file = serializers.FileField(required=True)
-    source = serializers.CharField(required=True, max_length=100)
+        if data.get("remote_image_url") and data.get("nonremote_image_url"):
+            raise serializers.ValidationError(
+                "A remote and nonremote image url cannot both be provided."
+            )
+        return data
 
 
 class DeriveExamplesFromTextView(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    text_serializer_class = DeriveExamplesFromTextValidator
-    txt_file_serializer_class = DeriveExamplesFromFileValidator
+    serializer_class = DeriveExamplesViewValidator
 
     SAVE_BATCH_SIZE = 512
 
     lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
     example_deriver = ExampleDeriver()
 
-    def _do_derivation_from_text(self, user, source, text):
+    def _do_derivation_from_text(
+        self, user, source, text, nonremote_image_url, remote_image_url
+    ):
 
-        new_det = DerivedExampleText(text=text, source=source, user_that_added=user)
+        new_det = DerivedExampleText(
+            text=text,
+            source=source,
+            user_ref=user,
+            nonremote_image_url=nonremote_image_url,
+            remote_image_url=remote_image_url,
+        )
         new_det.save()
 
         to_add = []
@@ -101,11 +116,20 @@ class DeriveExamplesFromTextView(APIView):
             "num_already_disambiguated": num_already_disambiguated,
         }
 
-    def _do_derivation_from_file(self, user, source, in_memory_uploaded_file):
+    def _do_derivation_from_file(
+        self,
+        user,
+        source,
+        nonremote_image_url,
+        remote_image_url,
+        in_memory_uploaded_file,
+    ):
         all_bytes = in_memory_uploaded_file.read()
         text = all_bytes.decode("utf-8")
 
-        return self._do_derivation_from_text(user, source, text)
+        return self._do_derivation_from_text(
+            user, source, text, nonremote_image_url, remote_image_url
+        )
 
     # @silk_profile(name="POST_DERIVE_EXAMPLES")
     def post(self, request, *args, **kwargs):
@@ -113,37 +137,25 @@ class DeriveExamplesFromTextView(APIView):
         user = request.user
         derivation_result = {}
 
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
+            return JsonResponse(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
         # file uploaded?
-        if "txt_file" in request.FILES:
-            serializer = self.txt_file_serializer_class(data=request.data)
-            if not serializer.is_valid():
-                return JsonResponse(serializer.errors, status.HTTP_400_BAD_REQUEST)
-            derivation_result = self._do_derivation_from_file(
-                user,
-                serializer.validated_data["source"],
-                serializer.validated_data["txt_file"],
-            )
+        if serializer.validated_data.get("txt_file"):
+            derivation_function = self._do_derivation_from_file
+            text_argument = serializer.validated_data["txt_file"]
+        elif serializer.validated_data.get("text"):
+            derivation_function = self._do_derivation_from_text
+            text_argument = serializer.validated_data["text"]
 
-        # text uploaded?
-        elif "text" in request.data:
-            serializer = self.text_serializer_class(data=request.data)
-            if not serializer.is_valid():
-                return JsonResponse(
-                    serializer.errors, status=status.HTTP_400_BAD_REQUEST
-                )
-
-            derivation_result = self._do_derivation_from_text(
-                user,
-                serializer.validated_data["source"],
-                serializer.validated_data["text"],
-            )
-
-        # neither; error
-        else:
-            return JsonResponse(
-                {"detail": "텍스트 혹은 .txt 파일이 제공되지 않았습니다."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        derivation_result = derivation_function(
+            user,
+            serializer.validated_data["source"],
+            serializer.validated_data.get("nonremote_image_url", None),
+            serializer.validated_data.get("remote_image_url", None),
+            text_argument,
+        )
 
         if not DEBUG:
             return JsonResponse(

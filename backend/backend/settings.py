@@ -19,6 +19,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
+BASE_URL = "https://localhost:8000/"
 
 # Application definition
 

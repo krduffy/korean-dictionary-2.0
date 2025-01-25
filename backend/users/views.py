@@ -94,8 +94,9 @@ class BaseExampleValidator(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         user_pk = self.context["request"].user.pk
-        data["user_ref"] = user_pk
-        return super().to_internal_value(data)
+        copied_data = data.copy()
+        copied_data["user_ref"] = user_pk
+        return super().to_internal_value(copied_data)
 
 
 class AddVideoExampleViewValidator(BaseExampleValidator):
@@ -111,6 +112,17 @@ class AddExampleSentenceViewValidator(BaseExampleValidator):
 class AddImageExampleViewValidator(BaseExampleValidator):
     class Meta(BaseExampleValidator.Meta):
         model = UserImage
+
+    def validate(self, data):
+        if not data.get("remote_image_url") and not data.get("nonremote_image_url"):
+            raise serializers.ValidationError(
+                "A remote or nonremote image url must be provided."
+            )
+        if data.get("remote_image_url") and data.get("nonremote_image_url"):
+            raise serializers.ValidationError(
+                "A remote and nonremote image url cannot both be provided."
+            )
+        return data
 
 
 class AddVideoExampleView(CreateAPIView):
