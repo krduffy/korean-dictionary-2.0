@@ -1,4 +1,4 @@
-from words.tests.fixtures.db_data_mixin import DbDataMixin
+from dictionary_test_fixtures.db_data_mixin import DbDataMixin
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework.status import HTTP_200_OK
@@ -45,9 +45,9 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
             user_model_field = None
             if korean_or_hanja == "korean":
                 user_model_field = (
-                    user.known_words
+                    user.known_headwords
                     if known_or_studied == "known"
-                    else user.studied_words
+                    else user.studied_headwords
                 )
             elif korean_or_hanja == "hanja":
                 user_model_field = (
@@ -63,8 +63,8 @@ class KnownUnknownTests(DbDataMixin, APITestCase):
         if len(counts) != 4:
             self.fail("The length of counts must be 4")
 
-        self.assertEqual(self.regular_user.known_words.count(), counts[0])
-        self.assertEqual(self.regular_user.studied_words.count(), counts[1])
+        self.assertEqual(self.regular_user.known_headwords.count(), counts[0])
+        self.assertEqual(self.regular_user.studied_headwords.count(), counts[1])
         self.assertEqual(self.regular_user.known_hanja.count(), counts[2])
         self.assertEqual(self.regular_user.studied_hanja.count(), counts[3])
 

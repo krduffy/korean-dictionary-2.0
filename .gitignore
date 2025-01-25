@@ -1,6 +1,7 @@
 venv/*
 backend/backend/.env
-backend/words/management/dictionary_data/*
+backend/korean/management/dictionary_data/*
+backend/hanja/management/dictionary_data/*
 frontend/packages/shared/src/hooks/hanzi-writer/hanzi-writer-data/*
 __pycache__
 known-issues.txt

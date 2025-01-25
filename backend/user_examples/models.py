@@ -1,5 +1,5 @@
 from django.db import models
-from words.models import KoreanWord
+from korean.models import KoreanHeadword
 from users.models import User, get_image_path
 
 
@@ -19,7 +19,7 @@ class UserImage(models.Model):
         User, on_delete=models.CASCADE, related_name="added_images", null=False
     )
     word_ref = models.ForeignKey(
-        KoreanWord, on_delete=models.CASCADE, related_name="user_images", null=False
+        KoreanHeadword, on_delete=models.CASCADE, related_name="user_images", null=False
     )
 
     image_accompanying_text = models.CharField(null=True)
@@ -36,7 +36,10 @@ class UserExampleSentence(models.Model):
         User, on_delete=models.CASCADE, related_name="added_sentences", null=False
     )
     word_ref = models.ForeignKey(
-        KoreanWord, on_delete=models.CASCADE, related_name="user_sentences", null=False
+        KoreanHeadword,
+        on_delete=models.CASCADE,
+        related_name="user_sentences",
+        null=False,
     )
 
     sentence = models.CharField(max_length=1000, null=False)
@@ -50,7 +53,7 @@ class UserVideoExample(models.Model):
         User, on_delete=models.CASCADE, related_name="added_videos", null=False
     )
     word_ref = models.ForeignKey(
-        KoreanWord, on_delete=models.CASCADE, related_name="user_videos", null=False
+        KoreanHeadword, on_delete=models.CASCADE, related_name="user_videos", null=False
     )
 
     # (youtube) video id for the video
@@ -88,7 +91,7 @@ class DerivedExampleLemma(models.Model):
 
     lemma = models.CharField()
     word_ref = models.ForeignKey(
-        to=KoreanWord,
+        to=KoreanHeadword,
         related_name="derived_example_lemmas",
         null=True,
         on_delete=models.CASCADE,

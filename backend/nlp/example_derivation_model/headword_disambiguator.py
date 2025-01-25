@@ -1,7 +1,10 @@
 from typing import List
 
 import torch
-from nlp.example_derivation_model.types import LEMMA_AMBIGUOUS, KnownHeadwordInformation
+from nlp.example_derivation_model.types import (
+    LEMMA_AMBIGUOUS,
+    KnownKoreanHeadwordInformation,
+)
 from nlp.example_derivation_model.target_lemma_taggers import tag_indices_with_tgt
 from nlp.example_derivation_model.embedder import Embedder
 from nlp.example_derivation_model.similarity_calculator import (
@@ -16,7 +19,7 @@ from nlp.example_derivation_model.configuration import (
 )
 
 
-class HeadwordDisambiguator:
+class KoreanHeadwordDisambiguator:
 
     def __init__(self):
         self.embedder = Embedder()
@@ -25,7 +28,7 @@ class HeadwordDisambiguator:
         self,
         text: str,
         indices: List[int],
-        headwords_for_lemmas: List[List[KnownHeadwordInformation]],
+        headwords_for_lemmas: List[List[KnownKoreanHeadwordInformation]],
     ) -> List[int]:
 
         all_definition_scores = self._get_scores_for_definitions_batch(
@@ -64,7 +67,9 @@ class HeadwordDisambiguator:
         return target_codes[scores[0][1]]
 
     def _get_scores_for_definitions_batch(
-        self, text: str, headwords_for_lemmas: List[List[KnownHeadwordInformation]]
+        self,
+        text: str,
+        headwords_for_lemmas: List[List[KnownKoreanHeadwordInformation]],
     ):
         # list of lists where a number in an inner list indicates the number
         # of definitions for the indexed lemma
@@ -121,7 +126,7 @@ class HeadwordDisambiguator:
         self,
         text: str,
         indices: List[int],
-        headwords_for_lemmas: List[List[KnownHeadwordInformation]],
+        headwords_for_lemmas: List[List[KnownKoreanHeadwordInformation]],
     ):
         # Getting embeddings for similarities of TGT in sense examples and the
         # input text

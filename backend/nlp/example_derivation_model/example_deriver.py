@@ -5,7 +5,9 @@ from nlp.example_derivation_model.types import (
     NO_KNOWN_HEADWORDS,
     LEMMA_ALREADY_DISAMBIGUATED,
 )
-from nlp.example_derivation_model.headword_disambiguator import HeadwordDisambiguator
+from nlp.example_derivation_model.headword_disambiguator import (
+    KoreanHeadwordDisambiguator,
+)
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.get_headwords_for_lemma import (
     get_headwords_for_lemmas,
@@ -21,7 +23,7 @@ class ExampleDeriver:
 
     def __init__(self):
         self.lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
-        self.headword_disambiguator = HeadwordDisambiguator()
+        self.headword_disambiguator = KoreanHeadwordDisambiguator()
         self.already_disambiguated_set = set()
         self.skipped_lemmas_set = skipped_lemmas_set
 

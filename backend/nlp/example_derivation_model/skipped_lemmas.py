@@ -5,6 +5,7 @@
 # legimitately multiple headwords that necessitate disambiguation
 # but from testing, the model will almost never pick the
 # nonproform/nondeterminer/otherwise less common meaning anyways
+# if there is an overwhelmingly more common meaning.
 # Completely refusing to do anything with them is better
 
 # I will continue to add to this. There will likely be 100+ when all is said

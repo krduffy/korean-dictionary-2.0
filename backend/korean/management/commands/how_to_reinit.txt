@@ -1,0 +1,5 @@
+1. read words
+2. correct additional info targets
+3. tag examples with tgt
+4. delete improper examples
+5. fill word result rankings

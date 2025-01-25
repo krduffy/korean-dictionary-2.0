@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, status
 from rest_framework.permissions import IsAuthenticated
 
-from words.models import KoreanWord
+from korean.models import KoreanHeadword
 
 from nlp.korean_lemmatizer import KoreanLemmatizer
 from nlp.example_derivation_model.example_deriver import ExampleDeriver
@@ -96,7 +96,7 @@ class DeriveExamplesFromTextView(APIView):
                     DerivedExampleLemma(
                         source_text=new_det,
                         lemma=derived_example["lemma"],
-                        word_ref=KoreanWord(pk=returned_pk),
+                        word_ref=KoreanHeadword(pk=returned_pk),
                         eojeol_number_in_source_text=derived_example["eojeol_num"],
                     )
                 )

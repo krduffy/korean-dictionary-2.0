@@ -14,5 +14,5 @@ class KnownSenseInformation:
 
 
 @dataclass(frozen=True)
-class KnownHeadwordInformation:
+class KnownKoreanHeadwordInformation:
     known_senses: List[KnownSenseInformation]

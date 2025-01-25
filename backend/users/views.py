@@ -5,7 +5,8 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.generics import GenericAPIView
 from rest_framework import serializers
 
-from words.models import HanjaCharacter, KoreanWord
+from hanja.models import HanjaCharacter
+from korean.models import KoreanHeadword
 from users.serializers import FullUserSerializer
 
 
@@ -51,13 +52,13 @@ class UpdateKnownOrStudiedView(GenericAPIView):
 
         # Select the appropriate model and user attribute based on `korean_or_hanja`
         Model, user_attr = (
-            (KoreanWord, "known_words")
+            (KoreanHeadword, "known_headwords")
             if korean_or_hanja == "korean"
             else (HanjaCharacter, "known_hanja")
         )
         if known_or_studied == "studied":
             user_attr = (
-                "studied_words" if korean_or_hanja == "korean" else "studied_hanja"
+                "studied_headwords" if korean_or_hanja == "korean" else "studied_hanja"
             )
 
         # Retrieve the word or character object

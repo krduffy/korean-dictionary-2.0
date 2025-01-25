@@ -1,5 +1,5 @@
 from typing import List
-from words.models import KoreanWord, Sense, SenseExample
+from korean.models import KoreanHeadword, Sense, SenseExample
 from nlp.example_derivation_model.configuration import (
     NUM_REQUIRED_EXAMPLES,
     MAX_EXAMPLES_ON_SENSE,
@@ -51,7 +51,7 @@ def _format_lemma_data_into_dict(lemma_data):
 def get_headwords_for_lemmas(lemmas: List[str]) -> dict:
 
     lemma_data = (
-        KoreanWord.objects.filter(word__in=lemmas)
+        KoreanHeadword.objects.filter(word__in=lemmas)
         .prefetch_related(
             Prefetch(
                 "senses",
