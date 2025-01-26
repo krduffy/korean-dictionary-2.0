@@ -6,7 +6,14 @@ import { API_PAGE_SIZE } from "@repo/shared/constants";
 import { isNumber } from "@repo/shared/types/guardUtils";
 import { JsonDataType } from "@repo/shared/types/apiCallTypes";
 
-export const NoResultsMessage = ({ searchTerm }: { searchTerm: string }) => {
+export const NoResultsMessage = ({
+  searchTerm,
+}: {
+  searchTerm: string | undefined;
+}) => {
+  if (searchTerm === undefined)
+    return <div className="no-results-indicator">결과가 없습니다.</div>;
+
   const searchTermHasBatchim = hasBatchim(searchTerm);
   const topicMarker =
     searchTermHasBatchim === true

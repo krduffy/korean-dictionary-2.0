@@ -1,5 +1,5 @@
-import { KoreanWordInHanjaExamplesType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
+import { KoreanHeadwordInHanjaExamplesType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { KoreanHeadwordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
@@ -10,10 +10,10 @@ import {
 } from "../../../../text-formatters/SpanStylers";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 
-export const HanjaExampleKoreanWord = ({
+export const HanjaExampleKoreanHeadword = ({
   result,
 }: {
-  result: KoreanWordInHanjaExamplesType;
+  result: KoreanHeadwordInHanjaExamplesType;
 }) => {
   return (
     <>
@@ -40,7 +40,7 @@ export const HanjaExampleKoreanWord = ({
           </div>
         </div>
         {result.user_data && (
-          <KoreanWordKnownStudiedTogglers
+          <KoreanHeadwordKnownStudiedTogglers
             pk={result.target_code}
             isKnown={result.user_data.is_known}
             isStudied={result.user_data.is_studied}
@@ -53,13 +53,13 @@ export const HanjaExampleKoreanWord = ({
 
         <br />
 
-        <HanjaExampleKoreanWordSource origin={result.origin} />
+        <HanjaExampleKoreanHeadwordSource origin={result.origin} />
       </div>
     </>
   );
 };
 
-const HanjaExampleKoreanWordSource = ({ origin }: { origin: string }) => {
+const HanjaExampleKoreanHeadwordSource = ({ origin }: { origin: string }) => {
   return (
     <footer>
       <Source>

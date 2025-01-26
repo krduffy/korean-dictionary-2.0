@@ -1,12 +1,15 @@
 from rest_framework.generics import RetrieveAPIView
 
-from hanja.get_queryset import get_ordered_hanja_example_queryset
+from hanja.get_queryset import (
+    get_hanja_search_queryset_with_search_params,
+    get_ordered_hanja_example_queryset,
+)
 from korean.models import KoreanHeadword
 from korean.headword_serializers import (
     KoreanHeadwordAsExampleSerializer,
 )
 from hanja.validators import HanjaSearchParamValidator
-from shared.api_utils import RedirectingListAPIView
+from shared.api_utils import RedirectingListAPIView, QueryParamValidationMixin
 from hanja.models import HanjaCharacter
 from hanja.serializers import (
     HanjaCharacterDetailedSerializer,
@@ -15,7 +18,9 @@ from hanja.serializers import (
 )
 
 
-class HanjaCharacterSearchResultsView(RedirectingListAPIView):
+class HanjaCharacterSearchResultsView(
+    QueryParamValidationMixin, RedirectingListAPIView
+):
     """
     API view to return a list of Hanja characters from a search term.
 
@@ -30,8 +35,7 @@ class HanjaCharacterSearchResultsView(RedirectingListAPIView):
 
     def get_queryset(self):
         query_params = self.request.validated_query_params
-
-        return
+        return get_hanja_search_queryset_with_search_params(query_params)
 
 
 class HanjaCharacterDetailedView(RetrieveAPIView):
@@ -49,7 +53,5 @@ class HanjaCharacterExamplesView(RedirectingListAPIView):
 
     def get_queryset(self):
         hanja_char = self.kwargs["pk"]
-        initial_queryset = KoreanHeadword.objects.all().filter(
-            origin__contains=hanja_char
-        )
+        initial_queryset = KoreanHeadword.objects.filter(origin__contains=hanja_char)
         return get_ordered_hanja_example_queryset(initial_queryset, self.request.user)

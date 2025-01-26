@@ -19,11 +19,27 @@ const endpoints = {
   examples_hanja: "dictionary/hanja/examples",
   find_lemma: "nlp/analyze/get_lemma",
   derive_examples_from_text: "nlp/analyze/derive_lemma_examples",
+  get_derived_example_lemmas_search:
+    "user_examples/get/derived_example_lemmas/search",
+  get_derived_example_lemmas_from_text: "get/derived_example_lemmas/from_text",
 } as const;
 
 export type ApiEndpoint = keyof typeof endpoints;
 
-type QueryParams = SearchConfig;
+export type GetDerivedExampleLemmasSearchQueryParams = {
+  page: number;
+  headword_pk: number;
+  lemma: string;
+};
+
+export interface HanjaExamplesSearchConfig {
+  page: number;
+}
+
+type QueryParams =
+  | SearchConfig
+  | GetDerivedExampleLemmasSearchQueryParams
+  | HanjaExamplesSearchConfig;
 
 interface GetEndpointArgs {
   endpoint: ApiEndpoint;

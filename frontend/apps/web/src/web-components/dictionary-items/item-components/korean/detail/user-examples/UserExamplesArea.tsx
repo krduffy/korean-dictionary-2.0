@@ -34,7 +34,6 @@ export const UserExamplesArea = ({
           userExamples.derived_example_lemmas.length > 0)) && (
         <UserSentencesAndDerivedLemmasArea
           droppedDown={userExampleDropdowns.sentencesDroppedDown}
-          allDerivedExampleLemmasData={userExamples.derived_example_lemmas}
           allUserExampleSentencesData={userExamples.user_example_sentences}
         />
       )}

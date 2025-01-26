@@ -7,10 +7,7 @@ export interface BaseSearchConfig {
   page: number;
 }
 
-export type SearchConfig =
-  | KoreanSearchConfig
-  | HanjaSearchConfig
-  | HanjaExamplesSearchConfig;
+export type SearchConfig = KoreanSearchConfig | HanjaSearchConfig;
 
 export type SearchConfigDictionary = "korean" | "hanja";
 
@@ -65,8 +62,4 @@ export interface HanjaSearchConfig extends BaseSearchConfig {
   strokes?: StrokeNumberConfig;
   grade_level?: GradeLevelConfig;
   exam_level?: ExamLevelConfig;
-}
-
-export interface HanjaExamplesSearchConfig {
-  page: number;
 }

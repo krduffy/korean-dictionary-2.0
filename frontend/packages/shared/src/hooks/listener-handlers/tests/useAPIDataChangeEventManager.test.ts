@@ -58,7 +58,7 @@ describe("APIDataChangeEventManager", () => {
   });
 
   it("only notifies applicable listener when more than one listener is subscribed", () => {
-    const onNotificationToKoreanWord = jest.fn();
+    const onNotificationToKoreanHeadword = jest.fn();
     const onNotificationToHanjaChar = jest.fn();
 
     const { result } = renderHook(() => useAPIDataChangeManager());
@@ -67,7 +67,7 @@ describe("APIDataChangeEventManager", () => {
     act(() =>
       result.current.subscribe(1, {
         eventType: "knownChanged",
-        onNotification: onNotificationToKoreanWord,
+        onNotification: onNotificationToKoreanHeadword,
       })
     );
     act(() =>
@@ -84,7 +84,7 @@ describe("APIDataChangeEventManager", () => {
       })
     );
 
-    expect(onNotificationToKoreanWord).not.toHaveBeenCalled();
+    expect(onNotificationToKoreanHeadword).not.toHaveBeenCalled();
     expect(onNotificationToHanjaChar).toHaveBeenCalledTimes(1);
     expect(onNotificationToHanjaChar).toHaveBeenCalledWith(true);
 
@@ -95,8 +95,8 @@ describe("APIDataChangeEventManager", () => {
       })
     );
 
-    expect(onNotificationToKoreanWord).toHaveBeenCalledTimes(1);
-    expect(onNotificationToKoreanWord).toHaveBeenCalledWith(false);
+    expect(onNotificationToKoreanHeadword).toHaveBeenCalledTimes(1);
+    expect(onNotificationToKoreanHeadword).toHaveBeenCalledWith(false);
     // still only 1 time for hanja char from prev emission
     expect(onNotificationToHanjaChar).toHaveBeenCalledTimes(1);
   });

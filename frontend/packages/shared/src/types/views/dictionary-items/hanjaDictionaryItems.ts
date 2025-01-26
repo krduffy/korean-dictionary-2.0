@@ -1,7 +1,7 @@
 import { isArrayOf, isNumber, isObject, isString } from "../../guardUtils";
 import {
-  BaseKoreanWordType,
-  isBaseKoreanWordType,
+  BaseKoreanHeadwordType,
+  isBaseKoreanHeadwordType,
 } from "./koreanDictionaryItems";
 import { isUserData, UserDataType } from "./sharedTypes";
 
@@ -54,10 +54,10 @@ export interface DetailedHanjaType extends BaseHanjaType {
   radical_source: "namuwiki" | "makemeahanzi";
 }
 
-export type KoreanWordInHanjaPopupType = BaseKoreanWordType;
+export type KoreanHeadwordInHanjaPopupType = BaseKoreanHeadwordType;
 
 export interface HanjaPopupType extends BaseHanjaType {
-  word_results: KoreanWordInHanjaPopupType[];
+  word_results: KoreanHeadwordInHanjaPopupType[];
 }
 
 export type SenseInKoreanExampleType = {
@@ -65,7 +65,8 @@ export type SenseInKoreanExampleType = {
   definition: string;
 };
 
-export interface KoreanWordInHanjaExamplesType extends BaseKoreanWordType {
+export interface KoreanHeadwordInHanjaExamplesType
+  extends BaseKoreanHeadwordType {
   first_sense: SenseInKoreanExampleType;
 }
 
@@ -105,17 +106,17 @@ export function isHanjaSearchResultType(
   );
 }
 
-export function isKoreanWordInHanjaPopupType(
+export function isKoreanHeadwordInHanjaPopupType(
   value: unknown
-): value is KoreanWordInHanjaPopupType {
-  return isBaseKoreanWordType(value);
+): value is KoreanHeadwordInHanjaPopupType {
+  return isBaseKoreanHeadwordType(value);
 }
 
 export function isHanjaPopupDataType(value: unknown): value is HanjaPopupType {
   return (
     isObject(value) &&
     isBaseHanjaType(value) &&
-    isArrayOf(value.word_results, isKoreanWordInHanjaPopupType)
+    isArrayOf(value.word_results, isKoreanHeadwordInHanjaPopupType)
   );
 }
 
@@ -144,13 +145,13 @@ export function isSenseInKoreanExampleType(
   );
 }
 
-export function isHanjaExampleKoreanWordType(
+export function isHanjaExampleKoreanHeadwordType(
   value: unknown
-): value is KoreanWordInHanjaExamplesType {
+): value is KoreanHeadwordInHanjaExamplesType {
   return (
-    isBaseKoreanWordType(value) &&
+    isBaseKoreanHeadwordType(value) &&
     isSenseInKoreanExampleType(
-      (value as KoreanWordInHanjaExamplesType).first_sense
+      (value as KoreanHeadwordInHanjaExamplesType).first_sense
     )
   );
 }

@@ -15,7 +15,7 @@ from django.db.models import Q
 
 class ValidateGetDerivedExampleLemmasViewQueryParameters(serializers.Serializer):
     lemma = serializers.CharField(required=False)
-    word_pk = serializers.IntegerField(required=False)
+    headword_pk = serializers.IntegerField(required=False)
 
 
 class GetDerivedExampleLemmasSearchView(
@@ -27,7 +27,7 @@ class GetDerivedExampleLemmasSearchView(
     Query paramaters:
       `page` (int): The page number to view.
       `lemma` (str): A lemma whose headwords should be returned.
-      `word_pk` (int): A pk whose word's derived examples should be returned.
+      `headword_pk` (int): A pk whose word's derived examples should be returned.
     """
 
     validation_class = ValidateGetDerivedExampleLemmasViewQueryParameters
@@ -38,16 +38,16 @@ class GetDerivedExampleLemmasSearchView(
         user = self.request.user
 
         lemma = self.request.validated_query_params.get("lemma")
-        word_pk = self.request.validated_query_params.get("word_pk")
+        headword_pk = self.request.validated_query_params.get("headword_pk")
         source_text_pk = self.request.validated_query_params.get("source_text_pk")
 
         derived_example_lemmas = DerivedExampleLemma.objects.select_related(
             "source_text"
         ).filter(source_text__user_ref=user.pk)
 
-        if word_pk:
+        if headword_pk:
             derived_example_lemmas = derived_example_lemmas.filter(
-                headword_ref__pk=word_pk
+                headword_ref__pk=headword_pk
             )
 
         if source_text_pk:

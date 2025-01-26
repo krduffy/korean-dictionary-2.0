@@ -18,7 +18,7 @@ export type UserDataType = {
   is_studied: boolean;
 };
 
-export type BaseKoreanWordType = {
+export type BaseKoreanHeadwordType = {
   target_code: number;
   word: string;
   origin: string;
@@ -26,7 +26,7 @@ export type BaseKoreanWordType = {
   result_ranking: 0 | 1 | 2 | 3;
 };
 
-export interface KoreanSearchResultType extends BaseKoreanWordType {
+export interface KoreanSearchResultType extends BaseKoreanHeadwordType {
   word_type: string;
   senses: SimplifiedSenseType[];
 }
@@ -56,7 +56,7 @@ export type HistoryInfoType = {
   word_form: string;
 };
 
-export interface DerivedExampleLemmaType {
+export interface HeadwordDerivedExampleSearchResultType {
   source_text_preview: string;
   lemma: string;
   source: string;
@@ -91,10 +91,10 @@ export type UserExamplesType = {
   user_example_sentences: UserExampleSentenceType[] | null;
   user_video_examples: UserVideoExampleType[] | null;
   user_image_examples: UserImageExampleType[] | null;
-  derived_example_lemmas: DerivedExampleLemmaType[] | null;
+  derived_example_lemmas: HeadwordDerivedExampleSearchResultType[] | null;
 };
 
-export interface DetailedKoreanType extends BaseKoreanWordType {
+export interface DetailedKoreanType extends BaseKoreanHeadwordType {
   word_type: string;
   history_info: HistoryInfoType | null;
   senses: DetailedSenseType[];
@@ -103,9 +103,9 @@ export interface DetailedKoreanType extends BaseKoreanWordType {
 
 /* Guards */
 
-export function isBaseKoreanWordType(
+export function isBaseKoreanHeadwordType(
   value: unknown
-): value is BaseKoreanWordType {
+): value is BaseKoreanHeadwordType {
   return (
     isObject(value) &&
     isNumber(value.target_code) &&
@@ -123,7 +123,7 @@ export function isKoreanSearchResultType(
 ): value is KoreanSearchResultType {
   return (
     isObject(value) &&
-    isBaseKoreanWordType(value) &&
+    isBaseKoreanHeadwordType(value) &&
     isString((value as KoreanSearchResultType).word_type) &&
     isArrayOf((value as KoreanSearchResultType).senses, isSimplifiedSenseType)
   );
@@ -219,9 +219,9 @@ export function isUserExampleSentenceType(
   return isString(cast.sentence);
 }
 
-export function isDerivedExampleLemmaType(
+export function isHeadwordDerivedExampleSearchResultType(
   value: unknown
-): value is DerivedExampleLemmaType {
+): value is HeadwordDerivedExampleSearchResultType {
   return (
     isObject(value) &&
     isString(value.source_text_preview) &&
@@ -237,7 +237,6 @@ export function isUserExamplesType(value: unknown): value is UserExamplesType {
 
   return (
     isObject(value) &&
-    isArrayOf(value.derived_example_lemmas, isDerivedExampleLemmaType) &&
     isArrayOf(value.user_example_sentences, isUserExampleSentenceType) &&
     isArrayOf(value.user_image_examples, isUserImageExampleType) &&
     isArrayOf(value.user_video_examples, isUserVideoExampleType)
@@ -247,7 +246,7 @@ export function isUserExamplesType(value: unknown): value is UserExamplesType {
 export function isDetailedKoreanType(
   value: unknown
 ): value is DetailedKoreanType {
-  const base = isObject(value) && isBaseKoreanWordType(value);
+  const base = isObject(value) && isBaseKoreanHeadwordType(value);
 
   if (!base) return false;
 

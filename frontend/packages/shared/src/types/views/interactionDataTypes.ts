@@ -22,7 +22,6 @@ export type DetailedSenseDropdownState = {
 export type KoreanDetailUserExampleDropdownState = {
   /* top level; other three are nested */
   userExamplesDroppedDown: boolean;
-  /* sentences includes autoderived lemmas */
   sentencesDroppedDown: boolean;
   imagesDroppedDown: boolean;
   videosDroppedDown: boolean;
@@ -31,6 +30,8 @@ export type KoreanDetailUserExampleDropdownState = {
 export interface KoreanDetailInteractionData extends BaseInteractionData {
   historyDroppedDown: boolean;
   sensesDroppedDown: boolean;
+  derivedLemmasDroppedDown: boolean;
+  derivedLemmasPageNum: number;
   detailedSenseDropdowns: DetailedSenseDropdownState[];
   userExampleDropdowns: KoreanDetailUserExampleDropdownState;
 }

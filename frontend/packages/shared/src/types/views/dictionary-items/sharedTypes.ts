@@ -3,12 +3,14 @@ import {
   BaseHanjaType,
   DetailedHanjaType,
   HanjaSearchResultType,
-  KoreanWordInHanjaExamplesType,
+  isBaseHanjaType,
+  KoreanHeadwordInHanjaExamplesType,
 } from "./hanjaDictionaryItems";
 import {
-  BaseKoreanWordType,
+  BaseKoreanHeadwordType,
+  HeadwordDerivedExampleSearchResultType,
   DetailedKoreanType,
-  isBaseKoreanWordType,
+  isBaseKoreanHeadwordType,
   KoreanSearchResultType,
 } from "./koreanDictionaryItems";
 
@@ -19,13 +21,14 @@ export type UserDataType = {
 
 export const getPkField = <T extends DictionaryItemType>(
   dictionaryItem: T
-): BaseKoreanWordType["target_code"] | BaseHanjaType["character"] => {
-  if (isBaseKoreanWordType(dictionaryItem)) return dictionaryItem.target_code;
+): BaseKoreanHeadwordType["target_code"] | BaseHanjaType["character"] => {
+  if (isBaseKoreanHeadwordType(dictionaryItem))
+    return dictionaryItem.target_code;
   return dictionaryItem.character;
 };
 
 export type ValidPkFieldType =
-  | BaseKoreanWordType["target_code"]
+  | BaseKoreanHeadwordType["target_code"]
   | BaseHanjaType["character"];
 
 export type DictionaryItemType = DetailItemType | SearchResultType;
@@ -33,7 +36,7 @@ export type DetailItemType = DetailedKoreanType | DetailedHanjaType;
 export type SearchResultType =
   | KoreanSearchResultType
   | HanjaSearchResultType
-  | KoreanWordInHanjaExamplesType;
+  | KoreanHeadwordInHanjaExamplesType;
 
 /* Guards */
 

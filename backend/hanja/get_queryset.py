@@ -19,7 +19,7 @@ from shared.string_utils import is_hanja
 from hanja.models import HanjaCharacter, HanjaMeaningReading
 
 
-def get_korean_search_queryset_with_search_params(query_params):
+def get_hanja_search_queryset_with_search_params(query_params):
 
     queryset = HanjaCharacter.objects.prefetch_related("meaning_readings")
     queryset = filter_hanja_search_with_search_params(queryset, query_params)

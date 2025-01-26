@@ -8,12 +8,13 @@ import {
   KoreanDetailInteractionData,
   KoreanDetailUserExampleDropdownState,
 } from "@repo/shared/types/views/interactionDataTypes";
-import { KoreanWordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
+import { KoreanHeadwordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { KoreanHistoryInfoSection } from "./KoreanHistoryInfo";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { UserExamplesArea } from "./user-examples/UserExamplesArea";
 import { DetailedSensesArea } from "./DetailedSensesArea";
+import { DerivedLemmaExamplesArea } from "./user-examples/DerivedLemmaExamplesArea";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -44,10 +45,34 @@ export const KoreanDetailDisplay = memo(
             dropdownState={interactionData.historyDroppedDown}
           />
         )}
+
+        <DerivedLemmaExamplesAreaIfPresent
+          droppedDown={interactionData.derivedLemmasDroppedDown}
+          headwordPk={data.target_code}
+          pageNum={interactionData.derivedLemmasPageNum}
+        />
       </div>
     );
   }
 );
+
+const DerivedLemmaExamplesAreaIfPresent = ({
+  droppedDown,
+  headwordPk,
+  pageNum,
+}: {
+  droppedDown: boolean;
+  headwordPk: number;
+  pageNum: number;
+}) => {
+  return (
+    <DerivedLemmaExamplesArea
+      droppedDown={droppedDown}
+      headwordPk={headwordPk}
+      pageNum={pageNum}
+    />
+  );
+};
 
 const UserExamplesAreaIfPresent = ({
   userExamples,
@@ -102,7 +127,7 @@ const KoreanDetailTopInfo = ({ data }: { data: DetailedKoreanType }) => {
       </div>
       {data.user_data && (
         <div>
-          <KoreanWordKnownStudiedTogglers
+          <KoreanHeadwordKnownStudiedTogglers
             pk={data.target_code}
             isKnown={data.user_data.is_known}
             isStudied={data.user_data.is_studied}

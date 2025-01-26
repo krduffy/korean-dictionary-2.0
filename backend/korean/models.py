@@ -31,6 +31,10 @@ class KoreanHeadword(models.Model):
     def first_five_senses(self):
         return self.senses.order_by("order")[:5]
 
+    @property
+    def all_senses(self):
+        return self.senses.order_by("order")
+
     def __str__(self):
         return f"{self.word} ({self.pk})"
 

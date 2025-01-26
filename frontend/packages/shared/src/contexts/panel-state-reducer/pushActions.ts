@@ -71,6 +71,8 @@ export const pushIfApplicable = (
           detailedSenseDropdowns: Array(40).fill(
             getDefaultDetailedSenseDropdowns()
           ),
+          derivedLemmasDroppedDown: true,
+          derivedLemmasPageNum: 1,
           userExampleDropdowns: {
             userExamplesDroppedDown: true,
             imagesDroppedDown: true,

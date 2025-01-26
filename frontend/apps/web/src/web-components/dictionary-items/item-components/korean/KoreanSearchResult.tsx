@@ -7,7 +7,7 @@ import {
   SearchResultSideInfoStyler,
   Source,
 } from "../.././../text-formatters/SpanStylers";
-import { KoreanWordKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
+import { KoreanHeadwordKnownStudiedTogglers } from "../shared/known-studied/KnownStudiedDisplayers";
 import { memo } from "react";
 import { KoreanSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { SimplifiedSenseType } from "@repo/shared/types/views/dictionary-items/senseDictionaryItems";
@@ -73,7 +73,7 @@ const KoreanSearchResultTopInfo = ({
       {/* for known studied togglers*/}
       {result.user_data && (
         <div className="self-center">
-          <KoreanWordKnownStudiedTogglers
+          <KoreanHeadwordKnownStudiedTogglers
             pk={result.target_code}
             isKnown={result.user_data.is_known}
             isStudied={result.user_data.is_studied}

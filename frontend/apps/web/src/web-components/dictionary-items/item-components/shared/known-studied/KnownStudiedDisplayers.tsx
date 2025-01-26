@@ -24,7 +24,7 @@ export const FunctionlessKnownStudiedDisplayers = ({
   );
 };
 
-export const KoreanWordKnownStudiedTogglers = ({
+export const KoreanHeadwordKnownStudiedTogglers = ({
   pk,
   isKnown,
   isStudied,

@@ -3,11 +3,11 @@ import { PageChanger } from "../api-result-formatters/paginated-results/PageChan
 import { ResultCountMessage } from "../api-result-formatters/paginated-results/ResultsMessages";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { isHanjaExampleKoreanWordType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { useHanjaExampleKoreanWordListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
+import { isHanjaExampleKoreanHeadwordType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { useHanjaExampleKoreanHeadwordListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
-import { HanjaExampleKoreanWord } from "../item-components/hanja/detail/HanjaExampleKoreanWord";
+import { HanjaExampleKoreanHeadword } from "../item-components/hanja/detail/HanjaExampleKoreanHeadword";
 
 export const HanjaExamplesView = ({
   character,
@@ -30,7 +30,7 @@ export const HanjaExamplesView = ({
     refetchDependencyArray: [url],
   });
 
-  useHanjaExampleKoreanWordListenerHandler({
+  useHanjaExampleKoreanHeadwordListenerHandler({
     url,
     response: requestState.response,
     refetch,
@@ -56,8 +56,8 @@ export const HanjaExamplesView = ({
       <PaginatedResultsFormatter
         requestState={requestState}
         searchTerm={character}
-        verifier={isHanjaExampleKoreanWordType}
-        ResultComponent={HanjaExampleKoreanWord}
+        verifier={isHanjaExampleKoreanHeadwordType}
+        ResultComponent={HanjaExampleKoreanHeadword}
       />
 
       <PageChanger

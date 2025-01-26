@@ -10,7 +10,7 @@ import {
 import { NoResultsMessage } from "./ResultsMessages";
 import { ErrorMessage } from "../../../text-formatters/messages/ErrorMessage";
 
-export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
+export const PaginatedResultsFormatter = <ResultType,>({
   requestState,
   searchTerm,
   verifier,
@@ -18,7 +18,7 @@ export const PaginatedResultsFormatter = <ResultType extends SearchResultType>({
   LoadingComponent = DefaultSkeleton,
 }: {
   requestState: RequestStateType;
-  searchTerm: string;
+  searchTerm?: string;
   verifier: (result: unknown) => result is ResultType;
   ResultComponent: ComponentType<{ result: ResultType }>;
   LoadingComponent?: ComponentType;

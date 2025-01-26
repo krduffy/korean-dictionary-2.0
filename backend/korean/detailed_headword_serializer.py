@@ -1,7 +1,6 @@
 from korean.headword_serializers import BaseKoreanHeadwordSerializer
 from korean.sense_serializers import DetailedSenseSerializer
 from user_examples.serializers import (
-    DerivedExampleLemmaSearchResultSerializer,
     UserExampleSentenceSerializer,
     UserImageSerializer,
     UserVideoExampleSerializer,
@@ -13,7 +12,7 @@ from rest_framework import serializers
 
 
 class KoreanHeadwordDetailedSerializer(BaseKoreanHeadwordSerializer):
-    senses = DetailedSenseSerializer(many=True)
+    senses = DetailedSenseSerializer(source="all_senses", many=True)
     user_examples = serializers.SerializerMethodField()
 
     class Meta(BaseKoreanHeadwordSerializer.Meta):
@@ -37,9 +36,6 @@ class KoreanHeadwordDetailedSerializer(BaseKoreanHeadwordSerializer):
             ).data,
             "user_image_examples": UserImageSerializer(
                 obj.user_images.all(), many=True
-            ).data,
-            "derived_example_lemmas": DerivedExampleLemmaSearchResultSerializer(
-                obj.derived_example_lemmas.all(), many=True
             ).data,
         }
 

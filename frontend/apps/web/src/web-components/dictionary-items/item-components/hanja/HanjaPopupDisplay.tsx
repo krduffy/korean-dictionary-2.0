@@ -1,6 +1,6 @@
 import {
   HanjaPopupType,
-  KoreanWordInHanjaPopupType,
+  KoreanHeadwordInHanjaPopupType,
   MeaningReadings,
 } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { UserDataType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
@@ -35,7 +35,7 @@ const HanjaPopupTopInfo = ({ data }: { data: HanjaPopupType }) => {
 const HanjaPopupBottomInfo = ({
   wordResults,
 }: {
-  wordResults: KoreanWordInHanjaPopupType[];
+  wordResults: KoreanHeadwordInHanjaPopupType[];
 }) => {
   return (
     <section
@@ -107,7 +107,7 @@ const HanjaPopupWordGridNoWords = () => {
 const HanjaPopupWordGrid = ({
   wordData,
 }: {
-  wordData: KoreanWordInHanjaPopupType[];
+  wordData: KoreanHeadwordInHanjaPopupType[];
 }) => {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-2 auto-rows-min w-full">
@@ -121,7 +121,7 @@ const HanjaPopupWordGrid = ({
 const HanjaPopupWordGridSingleWord = ({
   data,
 }: {
-  data: KoreanWordInHanjaPopupType;
+  data: KoreanHeadwordInHanjaPopupType;
 }) => {
   return (
     <article className="flex flex-row gap-2 text-nowrap justify-center items-center">
