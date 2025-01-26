@@ -3,6 +3,7 @@ import { UseCallAPIReturns } from "../../types/apiCallTypes";
 import { useFetchProps } from "../api/useFetchProps";
 import { getEndpoint } from "../../utils/apiAliases";
 import { useGlobalFunctionsContext } from "../../contexts/GlobalFunctionsContextProvider";
+import { useLoginStatusContext } from "../../contexts/LoginStatusContextProvider";
 
 export const useNavBar = ({
   useCallAPIInstance,
@@ -10,6 +11,7 @@ export const useNavBar = ({
   useCallAPIInstance: UseCallAPIReturns;
 }) => {
   const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
+  const { setLoggedInAs } = useLoginStatusContext();
 
   useEffect(() => {
     const listenerData = {
@@ -28,5 +30,14 @@ export const useNavBar = ({
     useCallAPIInstance: useCallAPIInstance,
   });
 
-  return { requestState };
+  useEffect(() => {
+    if (
+      requestState.progress === "success" &&
+      requestState.response?.username
+    ) {
+      setLoggedInAs(String(requestState.response.username));
+    } else {
+      setLoggedInAs(null);
+    }
+  }, [requestState]);
 };

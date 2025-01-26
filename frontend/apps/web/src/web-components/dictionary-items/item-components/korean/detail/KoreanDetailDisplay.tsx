@@ -15,6 +15,7 @@ import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserv
 import { UserExamplesArea } from "./user-examples/UserExamplesArea";
 import { DetailedSensesArea } from "./DetailedSensesArea";
 import { DerivedLemmaExamplesArea } from "./user-examples/DerivedLemmaExamplesArea";
+import { useLoginStatusContext } from "@repo/shared/contexts/LoginStatusContextProvider";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -65,6 +66,10 @@ const DerivedLemmaExamplesAreaIfPresent = ({
   headwordPk: number;
   pageNum: number;
 }) => {
+  const { loggedInAs } = useLoginStatusContext();
+
+  if (loggedInAs === null) return;
+
   return (
     <DerivedLemmaExamplesArea
       droppedDown={droppedDown}

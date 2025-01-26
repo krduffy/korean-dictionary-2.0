@@ -5,11 +5,14 @@ import { useNavBar } from "@repo/shared/hooks/auth/useNavBar";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { LoginButton } from "./navbar-buttons/LoginButton";
 import { ToDictionaryPageButton } from "./navbar-buttons/ToDictionaryPageButton";
+import { useLoginStatusContext } from "@repo/shared/contexts/LoginStatusContextProvider";
 
 export const NavBar = memo(() => {
-  const { requestState } = useNavBar({
+  useNavBar({
     useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
   });
+
+  const { loggedInAs } = useLoginStatusContext();
 
   return (
     <div className="h-full w-full flex flex-row justify-between items-center p-1 bg-[color:--navbar-background]">
@@ -18,10 +21,8 @@ export const NavBar = memo(() => {
       </div>
       <div className="flex flex-row gap-4 h-[80%]">
         <div className="h-[70%]">
-          {requestState.response?.username ? (
-            <LoggedInUserButton
-              username={String(requestState.response.username)}
-            />
+          {loggedInAs !== null ? (
+            <LoggedInUserButton username={loggedInAs} />
           ) : (
             <LoginButton />
           )}

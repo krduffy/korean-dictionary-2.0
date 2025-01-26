@@ -4,6 +4,7 @@ import { NotificationContextProvider } from "@repo/shared/contexts/NotificationC
 import { PersistentDictionaryPageStateContextProvider } from "@repo/shared/contexts/PersistentDictionaryPageStateContext";
 import { GlobalFunctionsContextProvider } from "@repo/shared/contexts/GlobalFunctionsContextProvider";
 import { Page } from "./web-components/pages/Page";
+import { LoginStatusContextProvider } from "@repo/shared/contexts/LoginStatusContextProvider";
 
 export const App = () => {
   return (
@@ -11,9 +12,11 @@ export const App = () => {
       <GlobalFunctionsContextProvider>
         <CachingContextProvider cacheCapacity={16}>
           <PersistentDictionaryPageStateContextProvider>
-            <NotificationContextProvider>
-              <Page />
-            </NotificationContextProvider>
+            <LoginStatusContextProvider>
+              <NotificationContextProvider>
+                <Page />
+              </NotificationContextProvider>
+            </LoginStatusContextProvider>
           </PersistentDictionaryPageStateContextProvider>
         </CachingContextProvider>
       </GlobalFunctionsContextProvider>
