@@ -7,8 +7,8 @@ from korean.get_queryset import (
 )
 from shared.api_utils import RedirectingListAPIView, QueryParamValidationMixin
 from korean.models import KoreanHeadword
-from korean.serializers import (
-    KoreanHeadwordDetailedSerializer,
+from korean.detailed_headword_serializer import KoreanHeadwordDetailedSerializer
+from korean.headword_serializers import (
     KoreanHeadwordSearchResultSerializer,
 )
 from user_examples.models import (
@@ -56,14 +56,18 @@ class KoreanHeadwordDetailedView(RetrieveAPIView):
         if not user.is_authenticated:
             return base_queryset
 
-        word_ref = self.kwargs["pk"]
+        headword_ref = self.kwargs["pk"]
 
-        images = UserImage.objects.filter(user_ref=user, word_ref=word_ref)
-        sentences = UserExampleSentence.objects.filter(user_ref=user, word_ref=word_ref)
-        videos = UserVideoExample.objects.filter(user_ref=user, word_ref=word_ref)
+        images = UserImage.objects.filter(user_ref=user, headword_ref=headword_ref)
+        sentences = UserExampleSentence.objects.filter(
+            user_ref=user, headword_ref=headword_ref
+        )
+        videos = UserVideoExample.objects.filter(
+            user_ref=user, headword_ref=headword_ref
+        )
         lemmas = (
             DerivedExampleLemma.objects.filter(source_text__user_ref=user)
-            .filter(word_ref=word_ref)
+            .filter(headword_ref=headword_ref)
             .select_related("source_text")
         )
 

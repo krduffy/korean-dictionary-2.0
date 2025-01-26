@@ -135,19 +135,19 @@ def get_as_sense(channel_item):
     channel_item = recursively_clean_channelitem(channel_item)
 
     # make new word if this sense's referent does not yet exist
-    word_ref_target_code: int = channel_item["group_code"]
+    headword_ref_target_code: int = channel_item["group_code"]
     wordinfo = channel_item["wordinfo"]
 
     senseinfo = channel_item["senseinfo"]
     history_info = senseinfo.get("history_info", None)
 
-    ret: int = add_word(wordinfo, word_ref_target_code, history_info)
+    ret: int = add_word(wordinfo, headword_ref_target_code, history_info)
     if ret == -1:
         return
 
     sense_target_code: int = channel_item["target_code"]
-    word_ref: KoreanHeadword = KoreanHeadword.objects.get(
-        target_code=word_ref_target_code
+    headword_ref: KoreanHeadword = KoreanHeadword.objects.get(
+        target_code=headword_ref_target_code
     )
 
     sense_def = senseinfo["definition"]
@@ -195,7 +195,7 @@ def get_as_sense(channel_item):
 
     new_sense = Sense(
         target_code=sense_target_code,
-        word_ref=word_ref,
+        headword_ref=headword_ref,
         definition=sense_def,
         type=sense_type,
         order=sense_order,

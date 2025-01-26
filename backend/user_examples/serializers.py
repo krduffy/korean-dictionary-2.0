@@ -1,8 +1,9 @@
 from rest_framework import serializers
+from korean.headword_serializers import KoreanHeadwordAsExampleSerializer
 from backend.settings import BASE_URL
 from user_examples.models import (
-    UserImage,
     UserExampleSentence,
+    UserImage,
     UserVideoExample,
     DerivedExampleLemma,
 )
@@ -49,58 +50,32 @@ class UserVideoExampleSerializer(serializers.ModelSerializer):
         fields = ["id", "video_id", "video_text", "start", "end", "source"]
 
 
-class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
-
-    source_text_pk = serializers.IntegerField(source="source_text.pk")
-    source_text_preview = serializers.SerializerMethodField()
-    source = serializers.CharField(source="source_text.source")
-    image_url = serializers.SerializerMethodField()
+class BaseDerivedExampleLemmaSerializer(serializers.ModelSerializer):
+    source_text_preview = serializers.CharField()
 
     class Meta:
         model = DerivedExampleLemma
         fields = [
             "source_text_preview",
             "lemma",
-            "source",
-            "source_text_pk",
             "eojeol_number_in_source_text",
-            "image_url",
         ]
         read_only_fields = ["__all__"]
 
-    def get_source_text_preview(self, obj):
-        """Gets a preview of the source text, showing the portion
-        of the text in which this lemma appears"""
-        full_text = obj.source_text.text
 
-        tokenized = full_text.split()
+class DerivedExampleLemmaSearchResultSerializer(BaseDerivedExampleLemmaSerializer):
 
-        central_eojeol_num = obj.eojeol_number_in_source_text
-        tokens_around_central_shown = 10
+    source_text_pk = serializers.IntegerField(source="source_text.pk")
+    source = serializers.CharField(source="source_text.source")
+    image_url = serializers.SerializerMethodField()
 
-        starting_index = central_eojeol_num - tokens_around_central_shown
-        ending_index = central_eojeol_num + tokens_around_central_shown + 1
-
-        context_before = "..." if starting_index > 0 else ""
-        starting_index = max(starting_index, 0)
-        context_before += " ".join(tokenized[starting_index:central_eojeol_num])
-        if len(context_before) > 0:
-            context_before += " "
-
-        context_after_final = "..." if ending_index < len(tokenized) else ""
-        ending_index = min(ending_index, len(tokenized))
-        context_after = " ".join(tokenized[central_eojeol_num + 1 : ending_index])
-        context_after += context_after_final
-
-        ending_target_span = "[/TGT]" if len(context_after) == 0 else "[/TGT] "
-
-        return (
-            context_before
-            + "[TGT]"
-            + tokenized[central_eojeol_num]
-            + ending_target_span
-            + context_after
-        )
+    class Meta:
+        model = DerivedExampleLemma
+        fields = BaseDerivedExampleLemmaSerializer.Meta.fields + [
+            "source",
+            "source_text_pk",
+            "image_url",
+        ]
 
     def get_image_url(self, obj):
         """Gets a single image url from the model object. If there is an uploaded
@@ -119,3 +94,12 @@ class DerivedExampleLemmaInKoreanDetailSerializer(serializers.ModelSerializer):
             return remote_image_url
 
         return None
+
+
+class DerivedExampleLemmaInSourceTextPageSerializer(BaseDerivedExampleLemmaSerializer):
+
+    headword_ref = KoreanHeadwordAsExampleSerializer()
+
+    class Meta:
+        model = DerivedExampleLemma
+        fields = BaseDerivedExampleLemmaSerializer.Meta.fields + ["headword_ref"]

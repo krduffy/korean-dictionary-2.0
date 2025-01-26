@@ -57,11 +57,11 @@ def get_headwords_for_lemmas(lemmas: List[str]) -> dict:
                 "senses",
                 queryset=Sense.objects.annotate(example_count=Count("examples"))
                 .filter(example_count__gte=NUM_REQUIRED_EXAMPLES)
-                .only("target_code", "referent_id", "examples", "definition"),
+                .only("target_code", "headword_ref_id", "examples", "definition"),
             ),
             Prefetch(
                 "senses__examples",
-                queryset=SenseExample.objects.only("id", "related_sense_id", "example"),
+                queryset=SenseExample.objects.only("id", "sense_ref_id", "example"),
             ),
         )
         .only("target_code", "word")

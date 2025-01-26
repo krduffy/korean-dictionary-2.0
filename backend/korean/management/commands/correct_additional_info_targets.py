@@ -23,7 +23,7 @@ class Command(BaseCommand):
         senses_to_update = []
         cumulative_saved = 0
 
-        for sense in Sense.objects.prefetch_related("additional_info").all():
+        for sense in Sense.objects.all():
 
             changed = False
 
@@ -39,7 +39,7 @@ class Command(BaseCommand):
                     try:
                         relinfo["link_target_code"] = Sense.objects.get(
                             target_code=relinfo["link_target_code"]
-                        ).referent.pk
+                        ).headword_ref.pk
                     except Sense.DoesNotExist:
                         relinfo.pop("link_target_code", None)
                     relinfo.pop("link", None)
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                     try:
                         provinfo["link_target_code"] = Sense.objects.get(
                             target_code=provinfo["link_target_code"]
-                        ).referent.pk
+                        ).headword_ref.pk
                     except Sense.DoesNotExist:
                         provinfo.pop("link_target_code", None)
                     provinfo.pop("link", None)

@@ -1,0 +1,110 @@
+from rest_framework.permissions import IsAuthenticated
+from shared.api_utils import (
+    RedirectingListAPIView,
+    QueryParamValidationMixin,
+    get_users_object_or_404,
+)
+from rest_framework import serializers
+from user_examples.models import DerivedExampleLemma, DerivedExampleText
+from user_examples.serializers import (
+    DerivedExampleLemmaSearchResultSerializer,
+    DerivedExampleLemmaInSourceTextPageSerializer,
+)
+from django.db.models import Q
+
+
+class ValidateGetDerivedExampleLemmasViewQueryParameters(serializers.Serializer):
+    lemma = serializers.CharField(required=False)
+    word_pk = serializers.IntegerField(required=False)
+
+
+class GetDerivedExampleLemmasSearchView(
+    QueryParamValidationMixin, RedirectingListAPIView
+):
+    """
+    Returns a list of the user's derived example lemmas.
+
+    Query paramaters:
+      `page` (int): The page number to view.
+      `lemma` (str): A lemma whose headwords should be returned.
+      `word_pk` (int): A pk whose word's derived examples should be returned.
+    """
+
+    validation_class = ValidateGetDerivedExampleLemmasViewQueryParameters
+    serializer_class = DerivedExampleLemmaSearchResultSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+
+        lemma = self.request.validated_query_params.get("lemma")
+        word_pk = self.request.validated_query_params.get("word_pk")
+        source_text_pk = self.request.validated_query_params.get("source_text_pk")
+
+        derived_example_lemmas = DerivedExampleLemma.objects.select_related(
+            "source_text"
+        ).filter(source_text__user_ref=user.pk)
+
+        if word_pk:
+            derived_example_lemmas = derived_example_lemmas.filter(
+                headword_ref__pk=word_pk
+            )
+
+        if source_text_pk:
+            derived_example_lemmas = derived_example_lemmas.filter(
+                source_text__pk=source_text_pk
+            )
+
+        if lemma:
+            derived_example_lemmas = derived_example_lemmas.filter(
+                headword_ref__word__exact=lemma
+            )
+
+        return derived_example_lemmas.order_by("pk")
+
+
+class ValidateGetDerivedExampleLemmasViewQueryParameters(serializers.Serializer):
+    only_unknown = serializers.BooleanField(required=False, default=False)
+
+
+class GetDerivedExampleLemmasFromTextView(
+    QueryParamValidationMixin, RedirectingListAPIView
+):
+    """
+    Returns a list of the user's derived example lemmas from a specific text.
+
+    Kwargs:
+      `pk` (int): The pk of the source text from which lemmas should be returned.
+
+    Query parameters:
+      `only_unknown` (bool): Whether only words not in the known list are returned.
+    """
+
+    validation_class = ValidateGetDerivedExampleLemmasViewQueryParameters
+    serializer_class = DerivedExampleLemmaInSourceTextPageSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        source_text_pk = self.kwargs["pk"]
+
+        source_text = get_users_object_or_404(
+            DerivedExampleText, user, pk=source_text_pk
+        )
+
+        only_unknown = self.request.validated_query_params.get("only_unknown")
+
+        queryset = source_text.derived_example_lemmas.select_related(
+            "headword_ref"
+        ).prefetch_related("headword_ref__senses")
+
+        if not only_unknown:
+            return queryset.all()
+
+        user_known_headword_pks = user.known_headwords.values_list("pk", flat=True)
+
+        queryset = queryset.annotate(
+            is_known_by_user=Q(headword_ref__pk__in=user_known_headword_pks)
+        ).filter(is_known_by_user=False)
+
+        return queryset

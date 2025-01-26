@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from korean.serializers import (
+from korean.headword_serializers import (
     KoreanHeadwordInHanjaCharacterPopupViewSerializer,
 )
 from hanja.models import HanjaCharacter

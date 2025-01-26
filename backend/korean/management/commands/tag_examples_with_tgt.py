@@ -14,12 +14,6 @@ def tag_curly_with_tgt(example: str) -> str:
     return replaced
 
 
-def has_proper_tags(example: str) -> bool:
-    pattern = r".*\[TGT\].+\[/TGT\]"
-    found_match = re.match(pattern, example) is not None
-    return found_match
-
-
 class Command(BaseCommand):
 
     @no_translations
@@ -44,7 +38,7 @@ class Command(BaseCommand):
 
                         examples_to_create.append(
                             SenseExample(
-                                related_sense=sense,
+                                sense_ref=sense,
                                 example=new_example_text,
                                 source=example.get("source"),
                                 translation=example.get("translation"),
@@ -89,16 +83,6 @@ class Command(BaseCommand):
                     )
                     self.stdout.write(f"Updated {updated} senses in bulk.")
 
-                self.stdout.write(
-                    "These pks have improper formatting and need manual edits"
-                )
-
-                improperly_formatted = []
-                for sense_example in SenseExample.objects.all():
-                    if not has_proper_tags(sense_example.example):
-                        improperly_formatted.append(sense_example.pk)
-
-                self.stdout.write(str(improperly_formatted))
         except CommandError as e:
             self.stdout.write(self.style.ERROR(f"Error occurred: {e}"))
         else:

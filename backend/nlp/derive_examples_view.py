@@ -96,7 +96,7 @@ class DeriveExamplesFromTextView(APIView):
                     DerivedExampleLemma(
                         source_text=new_det,
                         lemma=derived_example["lemma"],
-                        word_ref=KoreanHeadword(pk=returned_pk),
+                        headword_ref=KoreanHeadword(pk=returned_pk),
                         eojeol_number_in_source_text=derived_example["eojeol_num"],
                     )
                 )

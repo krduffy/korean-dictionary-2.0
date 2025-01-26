@@ -30,25 +30,33 @@ class ReadOnlyAdmin(admin.ModelAdmin):
 @admin.register(UserImage)
 class UserImageAdmin(ReadOnlyAdmin):
     readonly_fields = [field.name for field in UserImage._meta.get_fields()]
-    list_display = ("id", "user_ref", "word_ref", "source")
+    list_display = ("id", "user_ref", "headword_ref", "source")
 
 
 @admin.register(UserExampleSentence)
 class UserExampleSentenceAdmin(ReadOnlyAdmin):
     readonly_fields = [field.name for field in UserExampleSentence._meta.get_fields()]
-    list_display = ("id", "user_ref", "word_ref", "sentence", "source")
+    list_display = ("id", "user_ref", "headword_ref", "sentence", "source")
 
 
 @admin.register(UserVideoExample)
 class UserVideoExampleAdmin(ReadOnlyAdmin):
     readonly_fields = [field.name for field in UserVideoExample._meta.get_fields()]
-    list_display = ("id", "user_ref", "word_ref", "video_id", "start", "end", "source")
+    list_display = (
+        "id",
+        "user_ref",
+        "headword_ref",
+        "video_id",
+        "start",
+        "end",
+        "source",
+    )
 
 
 class LemmaInline(admin.TabularInline):
     model = DerivedExampleLemma
     extra = 0
-    readonly_fields = ("lemma", "word_ref", "eojeol_number_in_source_text")
+    readonly_fields = ("lemma", "headword_ref", "eojeol_number_in_source_text")
 
 
 @admin.register(DerivedExampleText)

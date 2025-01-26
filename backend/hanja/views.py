@@ -2,7 +2,9 @@ from rest_framework.generics import RetrieveAPIView
 
 from hanja.get_queryset import get_ordered_hanja_example_queryset
 from korean.models import KoreanHeadword
-from korean.serializers import KoreanHeadwordInHanjaExamplesViewSerializer
+from korean.headword_serializers import (
+    KoreanHeadwordAsExampleSerializer,
+)
 from hanja.validators import HanjaSearchParamValidator
 from shared.api_utils import RedirectingListAPIView
 from hanja.models import HanjaCharacter
@@ -43,7 +45,7 @@ class HanjaCharacterPopupView(RetrieveAPIView):
 
 
 class HanjaCharacterExamplesView(RedirectingListAPIView):
-    serializer_class = KoreanHeadwordInHanjaExamplesViewSerializer
+    serializer_class = KoreanHeadwordAsExampleSerializer
 
     def get_queryset(self):
         hanja_char = self.kwargs["pk"]

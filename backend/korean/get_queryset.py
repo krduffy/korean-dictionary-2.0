@@ -37,9 +37,7 @@ def get_korean_search_queryset_with_search_params(query_params):
 
         return queryset.filter(word__iregex=regized_search_term)
     elif search_type == "definition_contains":
-        return queryset.prefetch_related("senses", "senses__definition").filter(
-            senses__definition__contains=search_term
-        )
+        return queryset.filter(senses__definition__contains=search_term)
 
     # default
     return queryset

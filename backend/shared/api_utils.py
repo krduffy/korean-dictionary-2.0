@@ -16,7 +16,7 @@ def get_users_object_or_404(model, user, **kwargs):
     exists if the object's `user_ref` is not `user`"""
     model_object = get_object_or_404(model, **kwargs)
     if model_object.user_ref != user:
-        Http404("Object not found.")
+        raise Http404("Object not found.")
     return model_object
 
 

@@ -23,6 +23,14 @@ class KoreanHeadword(models.Model):
     class Meta:
         indexes = [models.Index(fields=["word"], name="index_korean_word_word")]
 
+    @property
+    def first_sense(self):
+        return self.senses.order_by("order").first()
+
+    @property
+    def first_five_senses(self):
+        return self.senses.order_by("order")[:5]
+
     def __str__(self):
         return f"{self.word} ({self.pk})"
 
@@ -32,8 +40,8 @@ class Sense(models.Model):
     # because of links that are encoded in the dictionary data json files
     target_code = models.IntegerField(primary_key=True)
 
-    # The word that this sense refers to.
-    word_ref = models.ForeignKey(
+    # The headword that this sense refers to.
+    headword_ref = models.ForeignKey(
         KoreanHeadword, on_delete=models.CASCADE, related_name="senses", null=False
     )
 
