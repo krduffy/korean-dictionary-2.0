@@ -40,18 +40,18 @@ export const KoreanDetailDisplay = memo(
           dropdownStates={interactionData.detailedSenseDropdowns}
         />
 
+        <DerivedLemmaExamplesAreaIfPresent
+          droppedDown={interactionData.derivedLemmasDroppedDown}
+          headwordPk={data.target_code}
+          pageNum={interactionData.derivedLemmasPageNum}
+        />
+
         {data.history_info && (
           <KoreanHistoryInfoSection
             historyInfo={data.history_info}
             dropdownState={interactionData.historyDroppedDown}
           />
         )}
-
-        <DerivedLemmaExamplesAreaIfPresent
-          droppedDown={interactionData.derivedLemmasDroppedDown}
-          headwordPk={data.target_code}
-          pageNum={interactionData.derivedLemmasPageNum}
-        />
       </div>
     );
   }

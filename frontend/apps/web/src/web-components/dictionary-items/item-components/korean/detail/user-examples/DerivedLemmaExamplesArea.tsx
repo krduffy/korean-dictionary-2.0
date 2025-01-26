@@ -26,7 +26,7 @@ export const DerivedLemmaExamplesArea = ({
 
   return (
     <TopLevelHideableDropdownNoTruncation
-      title="레마"
+      title="추가한 맥락에서의 예문"
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >

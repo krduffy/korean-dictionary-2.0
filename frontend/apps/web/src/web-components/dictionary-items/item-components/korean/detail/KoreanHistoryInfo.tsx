@@ -9,7 +9,10 @@ import {
 } from "../../../../text-formatters/SpanStylers";
 import { NonModernKoreanText } from "../../../../text-formatters/Fonts";
 import { ExampleStringWithHanja } from "../../shared/formatted-string/FormattedString";
-import { HideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
+import {
+  HideableDropdownNoTruncation,
+  TopLevelHideableDropdownNoTruncation,
+} from "../../shared/ReusedFormatters";
 
 export const KoreanHistoryInfoSection = ({
   historyInfo,
@@ -29,13 +32,8 @@ export const KoreanHistoryInfoSection = ({
   };
 
   return (
-    <HideableDropdownNoTruncation
+    <TopLevelHideableDropdownNoTruncation
       title="역사 정보"
-      classes={{
-        topBarClassName: "py-4 bg-[color:--understated-accent-not-hovering]",
-        titleClassName: "text-[130%]",
-        childrenClassName: "pt-4",
-      }}
       droppedDown={dropdownState}
       onDropdownStateToggle={toggleHistoryVisible}
     >
@@ -67,7 +65,7 @@ export const KoreanHistoryInfoSection = ({
       <footer className="p-4">
         <Source>출처: 우리말샘</Source>
       </footer>
-    </HideableDropdownNoTruncation>
+    </TopLevelHideableDropdownNoTruncation>
   );
 };
 

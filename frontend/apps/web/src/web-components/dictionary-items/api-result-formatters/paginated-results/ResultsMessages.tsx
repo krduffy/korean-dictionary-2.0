@@ -12,7 +12,11 @@ export const NoResultsMessage = ({
   searchTerm: string | undefined;
 }) => {
   if (searchTerm === undefined)
-    return <div className="no-results-indicator">결과가 없습니다.</div>;
+    return (
+      <div className="min-h-8 pb-8 w-full flex justify-center items-center">
+        결과가 없습니다.
+      </div>
+    );
 
   const searchTermHasBatchim = hasBatchim(searchTerm);
   const topicMarker =
@@ -23,7 +27,7 @@ export const NoResultsMessage = ({
         : "";
 
   return (
-    <div className="no-results-indicator">
+    <div className="min-h-8 pb-8 w-full flex justify-center items-center">
       검색어 {'"'}
       {searchTerm}
       {'"'}
