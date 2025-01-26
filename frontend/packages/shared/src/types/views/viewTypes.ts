@@ -5,6 +5,7 @@ import {
   KoreanSearchView,
 } from "./koreanViewTypes";
 import { PanelHomepageView } from "./panelHomepageViewTypes";
+import { DerivedExampleTextDetailView } from "./userExampleViewTypes";
 
 export type View =
   | PanelHomepageView
@@ -12,4 +13,5 @@ export type View =
   | HanjaSearchView
   | KoreanDetailView
   | HanjaDetailView
-  | FindLemmaView;
+  | FindLemmaView
+  | DerivedExampleTextDetailView;

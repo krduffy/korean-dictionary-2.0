@@ -4,11 +4,12 @@ from shared.api_utils import (
     QueryParamValidationMixin,
     get_users_object_or_404,
 )
-from rest_framework import serializers
+from rest_framework import serializers, generics
 from user_examples.models import DerivedExampleLemma, DerivedExampleText
 from user_examples.serializers import (
     DerivedExampleLemmaSearchResultSerializer,
     DerivedExampleLemmaInSourceTextPageSerializer,
+    DerivedExampleTextSerializer,
 )
 from django.db.models import Q
 
@@ -108,3 +109,19 @@ class GetDerivedExampleLemmasFromTextView(
         ).filter(is_known_by_user=False)
 
         return queryset
+
+
+class GetDerivedExampleTextView(generics.RetrieveAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = DerivedExampleTextSerializer
+
+    def get_object(self):
+        user = self.request.user
+        source_text_pk = self.kwargs["pk"]
+
+        source_text = get_users_object_or_404(
+            DerivedExampleText, user, pk=source_text_pk
+        )
+
+        return source_text

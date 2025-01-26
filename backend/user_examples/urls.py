@@ -7,6 +7,7 @@ from user_examples.post_views import (
 from user_examples.get_views import (
     GetDerivedExampleLemmasSearchView,
     GetDerivedExampleLemmasFromTextView,
+    GetDerivedExampleTextView,
 )
 
 urlpatterns = [
@@ -25,5 +26,10 @@ urlpatterns = [
         "get/derived_example_lemmas/from_text/<pk>",
         GetDerivedExampleLemmasFromTextView.as_view(),
         name="get_derived_example_lemmas_from_text",
+    ),
+    path(
+        "get/derived_example_text/<pk>",
+        GetDerivedExampleTextView.as_view(),
+        name="get_derived_example_text",
     ),
 ]

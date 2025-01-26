@@ -1,4 +1,5 @@
 from django.db import models
+from backend.settings import BASE_URL
 from korean.models import KoreanHeadword
 from users.models import User, get_image_path
 
@@ -70,7 +71,6 @@ class UserVideoExample(models.Model):
     source = models.CharField(max_length=1000, null=False)
 
 
-# Create your models here.
 class DerivedExampleText(models.Model):
     text = models.TextField()
     source = models.CharField()
@@ -80,6 +80,20 @@ class DerivedExampleText(models.Model):
 
     nonremote_image_url = models.ImageField(null=True, upload_to=get_image_path)
     remote_image_url = models.URLField(null=True)
+
+    @property
+    def image_url(self):
+        nonremote_image_url = self.nonremote_image_url
+        if nonremote_image_url:
+            # Is ImageField
+            return BASE_URL + nonremote_image_url.url
+
+        remote_image_url = self.remote_image_url
+        if remote_image_url:
+            # Is CharField
+            return remote_image_url
+
+        return None
 
 
 class DerivedExampleLemma(models.Model):
@@ -98,6 +112,20 @@ class DerivedExampleLemma(models.Model):
     )
 
     eojeol_number_in_source_text = models.IntegerField()
+
+    @property
+    def image_url(self):
+        nonremote_image_url = self.source_text.nonremote_image_url
+        if nonremote_image_url:
+            # Is ImageField
+            return BASE_URL + nonremote_image_url.url
+
+        remote_image_url = self.source_text.remote_image_url
+        if remote_image_url:
+            # Is CharField
+            return remote_image_url
+
+        return None
 
     @property
     def source_text_preview(self) -> str:

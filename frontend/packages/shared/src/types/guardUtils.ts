@@ -23,6 +23,7 @@ export function isBoolean(value: unknown): value is boolean {
 
 export function isTypeOrNull(
   value: unknown,
+  // eslint-disable-next-line no-unused-vars
   verifier: (value: unknown) => boolean
 ): boolean {
   if (value === null) return true;

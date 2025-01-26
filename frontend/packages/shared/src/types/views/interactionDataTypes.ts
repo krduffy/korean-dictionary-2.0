@@ -10,6 +10,11 @@ export type KoreanSearchInteractionData = BaseInteractionData;
 export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;
 
+export interface DerivedExampleTextInteractionData extends BaseInteractionData {
+  headwordSearchPanelOnlyUnknownSet: boolean;
+  headwordSearchPanelPageNum: number;
+}
+
 export type DetailedSenseDropdownState = {
   additionalInfoBoxDroppedDown: boolean;
   exampleInfoDroppedDown: boolean;

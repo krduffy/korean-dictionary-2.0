@@ -6,6 +6,7 @@ from user_examples.models import (
     UserImage,
     UserVideoExample,
     DerivedExampleLemma,
+    DerivedExampleText,
 )
 
 
@@ -67,7 +68,6 @@ class DerivedExampleLemmaSearchResultSerializer(BaseDerivedExampleLemmaSerialize
 
     source_text_pk = serializers.IntegerField(source="source_text.pk")
     source = serializers.CharField(source="source_text.source")
-    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = DerivedExampleLemma
@@ -77,24 +77,6 @@ class DerivedExampleLemmaSearchResultSerializer(BaseDerivedExampleLemmaSerialize
             "image_url",
         ]
 
-    def get_image_url(self, obj):
-        """Gets a single image url from the model object. If there is an uploaded
-        image (`image` column; has server's origin) then it returns only that.
-        If there is a remote image url then it returns that. If neither exists,
-        it returns None."""
-
-        nonremote_image_url = obj.source_text.nonremote_image_url
-        if nonremote_image_url:
-            # Is ImageField
-            return BASE_URL + nonremote_image_url.url
-
-        remote_image_url = obj.source_text.remote_image_url
-        if remote_image_url:
-            # Is CharField
-            return remote_image_url
-
-        return None
-
 
 class DerivedExampleLemmaInSourceTextPageSerializer(BaseDerivedExampleLemmaSerializer):
 
@@ -103,3 +85,12 @@ class DerivedExampleLemmaInSourceTextPageSerializer(BaseDerivedExampleLemmaSeria
     class Meta:
         model = DerivedExampleLemma
         fields = BaseDerivedExampleLemmaSerializer.Meta.fields + ["headword_ref"]
+
+
+class DerivedExampleTextSerializer(serializers.ModelSerializer):
+    image_url = serializers.CharField()
+
+    class Meta:
+        model = DerivedExampleText
+        fields = ["text", "source", "image_url"]
+        read_only_fields = ["__all__"]

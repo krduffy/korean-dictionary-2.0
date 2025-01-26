@@ -3,6 +3,7 @@ import { ExampleStringWithNLPAndHanja } from "../../shared/formatted-string/Form
 import { Sparkles, TextSearch } from "lucide-react";
 import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
 import { Source } from "../../../../text-formatters/SpanStylers";
+import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
 
 export const HeadwordDerivedExampleSearchResult = ({
   result,
@@ -19,6 +20,12 @@ export const HeadwordDerivedExampleSearchResult = ({
           <img className="aspect-square min-w-16" src={result.image_url} />
         </div>
       )}
+      {/* TODO make this a button that directs to a more detailed view of the
+          entire text; will need to take in the rest of the pk etc from the
+         HeadwordDerivedExampleSearchResultand make a new view */}
+      <GoToDerivedExampleTextDetailViewButton
+        sourceTextPk={result.source_text_pk}
+      />
       <div className="flex flex-col gap-2">
         <DerivedExampleLemmaSourceTextPreviewArea
           sourceTextPreview={result.source_text_preview}
@@ -37,12 +44,6 @@ const DerivedExampleLemmaSourceTextPreviewArea = ({
   return (
     <div className="flex flex-row items-center justify-center gap-2">
       <ExampleStringWithNLPAndHanja string={sourceTextPreview} />
-      {/* TODO make this a button that directs to a more detailed view of the
-          entire text; will need to take in the rest of the pk etc from the
-         HeadwordDerivedExampleSearchResultand make a new view */}
-      <div className="flex items-center justify-center">
-        <TextSearch />
-      </div>
     </div>
   );
 };
@@ -63,5 +64,24 @@ const DerivedExampleLemmaSourceFooter = ({ source }: { source: string }) => {
         {source}
       </div>
     </Source>
+  );
+};
+
+const GoToDerivedExampleTextDetailViewButton = ({
+  sourceTextPk,
+}: {
+  sourceTextPk: number;
+}) => {
+  return (
+    <button className="flex items-center justify-center">
+      <PanelSpecificDispatcher
+        panelStateAction={{
+          type: "push_lemma_derived_text_detail",
+          sourceTextPk: sourceTextPk,
+        }}
+      >
+        <TextSearch />
+      </PanelSpecificDispatcher>
+    </button>
   );
 };

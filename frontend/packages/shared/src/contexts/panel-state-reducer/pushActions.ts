@@ -106,6 +106,19 @@ export const pushIfApplicable = (
           scrollDistance: 0,
         },
       });
+    case "push_lemma_derived_text_detail":
+      return pushView(state, {
+        ...state.view,
+        type: "lemma_derived_text_detail",
+        data: {
+          source_text_pk: action.sourceTextPk,
+        },
+        interactionData: {
+          scrollDistance: 0,
+          headwordSearchPanelPageNum: 1,
+          headwordSearchPanelOnlyUnknownSet: true,
+        },
+      });
 
     default:
       return null;

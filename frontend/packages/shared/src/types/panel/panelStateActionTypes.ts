@@ -119,6 +119,11 @@ export interface UpdateDetailedSenseDropdownStatesLengthAction {
   newLength: number;
 }
 
+export interface PushDerivedExampleTextDetailAction {
+  type: "push_lemma_derived_text_detail";
+  sourceTextPk: number;
+}
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -140,4 +145,5 @@ export type PanelStateAction =
   | UpdateHanjaDetailInteractionDataAction
   | UpdateKoreanDetailInteractionDataAction
   | UpdateDetailedSenseDropdownStatesLengthAction
-  | UpdateKoreanDetailUserExampleInteractionDataAction;
+  | UpdateKoreanDetailUserExampleInteractionDataAction
+  | PushDerivedExampleTextDetailAction;
