@@ -4,7 +4,7 @@ import {
   DetailedHanjaType,
   HanjaSearchResultType,
   isBaseHanjaType,
-  KoreanHeadwordInHanjaExamplesType,
+  KoreanHeadwordInExampleType,
 } from "./hanjaDictionaryItems";
 import {
   BaseKoreanHeadwordType,
@@ -36,7 +36,7 @@ export type DetailItemType = DetailedKoreanType | DetailedHanjaType;
 export type SearchResultType =
   | KoreanSearchResultType
   | HanjaSearchResultType
-  | KoreanHeadwordInHanjaExamplesType;
+  | KoreanHeadwordInExampleType;
 
 /* Guards */
 

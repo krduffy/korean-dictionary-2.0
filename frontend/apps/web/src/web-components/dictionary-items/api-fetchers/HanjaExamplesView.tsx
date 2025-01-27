@@ -3,7 +3,7 @@ import { PageChanger } from "../api-result-formatters/paginated-results/PageChan
 import { ResultCountMessage } from "../api-result-formatters/paginated-results/ResultsMessages";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { isHanjaExampleKoreanHeadwordType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { isKoreanHeadwordInExampleType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { useHanjaExampleKoreanHeadwordListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
@@ -56,7 +56,7 @@ export const HanjaExamplesView = ({
       <PaginatedResultsFormatter
         requestState={requestState}
         searchTerm={character}
-        verifier={isHanjaExampleKoreanHeadwordType}
+        verifier={isKoreanHeadwordInExampleType}
         ResultComponent={HanjaExampleKoreanHeadword}
       />
 

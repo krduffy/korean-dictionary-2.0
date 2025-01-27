@@ -1,4 +1,5 @@
 import {
+  DerivedExampleTextInteractionData,
   DetailedSenseDropdownState,
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
@@ -124,6 +125,14 @@ export interface PushDerivedExampleTextDetailAction {
   sourceTextPk: number;
 }
 
+type UpdateDerivedExampleTextInteractionDataAction = {
+  [K in keyof DerivedExampleTextInteractionData]: {
+    type: "update_derived_example_text_interaction_data";
+    key: K;
+    newValue: DerivedExampleTextInteractionData[K];
+  };
+}[keyof DerivedExampleTextInteractionData];
+
 export type PanelStateAction =
   | MakeVisibleAction
   | MakeInvisibleAction
@@ -146,4 +155,5 @@ export type PanelStateAction =
   | UpdateKoreanDetailInteractionDataAction
   | UpdateDetailedSenseDropdownStatesLengthAction
   | UpdateKoreanDetailUserExampleInteractionDataAction
-  | PushDerivedExampleTextDetailAction;
+  | PushDerivedExampleTextDetailAction
+  | UpdateDerivedExampleTextInteractionDataAction;

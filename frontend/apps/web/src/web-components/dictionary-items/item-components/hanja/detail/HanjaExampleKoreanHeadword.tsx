@@ -1,4 +1,4 @@
-import { KoreanHeadwordInHanjaExamplesType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
+import { KoreanHeadwordInExampleType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { KoreanHeadwordKnownStudiedTogglers } from "../../shared/known-studied/KnownStudiedDisplayers";
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { StringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
@@ -13,7 +13,7 @@ import { ResultRankingStars } from "../../shared/ResultRankingStars";
 export const HanjaExampleKoreanHeadword = ({
   result,
 }: {
-  result: KoreanHeadwordInHanjaExamplesType;
+  result: KoreanHeadwordInExampleType;
 }) => {
   return (
     <>

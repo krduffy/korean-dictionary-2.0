@@ -38,10 +38,16 @@ export interface HanjaExamplesSearchConfig {
   page: number;
 }
 
+export interface HanjaExamplesFromTextSearchConfig {
+  only_unknown: boolean;
+  page: number;
+}
+
 type QueryParams =
   | SearchConfig
   | GetDerivedExampleLemmasSearchQueryParams
-  | HanjaExamplesSearchConfig;
+  | HanjaExamplesSearchConfig
+  | HanjaExamplesFromTextSearchConfig;
 
 interface GetEndpointArgs {
   endpoint: ApiEndpoint;

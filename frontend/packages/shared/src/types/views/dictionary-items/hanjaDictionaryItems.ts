@@ -60,16 +60,6 @@ export interface HanjaPopupType extends BaseHanjaType {
   word_results: KoreanHeadwordInHanjaPopupType[];
 }
 
-export type SenseInKoreanExampleType = {
-  target_code: number;
-  definition: string;
-};
-
-export interface KoreanHeadwordInHanjaExamplesType
-  extends BaseKoreanHeadwordType {
-  first_sense: SenseInKoreanExampleType;
-}
-
 /* Guards */
 export function isMeaningReadingsItem(
   value: unknown
@@ -134,24 +124,5 @@ export function isDetailedHanjaType(
     isString(value.radical) &&
     (value.radical_source === "makemeahanzi" ||
       value.radical_source === "namuwiki")
-  );
-}
-
-export function isSenseInKoreanExampleType(
-  value: unknown
-): value is SenseInKoreanExampleType {
-  return (
-    isObject(value) && isNumber(value.target_code) && isString(value.definition)
-  );
-}
-
-export function isHanjaExampleKoreanHeadwordType(
-  value: unknown
-): value is KoreanHeadwordInHanjaExamplesType {
-  return (
-    isBaseKoreanHeadwordType(value) &&
-    isSenseInKoreanExampleType(
-      (value as KoreanHeadwordInHanjaExamplesType).first_sense
-    )
   );
 }

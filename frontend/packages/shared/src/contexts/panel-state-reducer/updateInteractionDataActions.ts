@@ -4,6 +4,7 @@ import { View } from "../../types/views/viewTypes";
 import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 import {
   BaseInteractionData,
+  DerivedExampleTextInteractionData,
   DetailedSenseDropdownState,
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
@@ -130,6 +131,12 @@ export const updateInteractionDataIfApplicable = (
     case "update_hanja_detail_interaction_data":
       return updateInteractionData<
         HanjaDetailInteractionData,
+        typeof action.key
+      >(state, action.key, action.newValue);
+
+    case "update_derived_example_text_interaction_data":
+      return updateInteractionData<
+        DerivedExampleTextInteractionData,
         typeof action.key
       >(state, action.key, action.newValue);
 

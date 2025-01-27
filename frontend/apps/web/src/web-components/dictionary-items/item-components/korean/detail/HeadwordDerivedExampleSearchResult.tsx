@@ -1,4 +1,4 @@
-import { HeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { HeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { ExampleStringWithNLPAndHanja } from "../../shared/formatted-string/FormattedString";
 import { Sparkles, TextSearch } from "lucide-react";
 import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
@@ -56,10 +56,7 @@ const DerivedExampleLemmaSourceFooter = ({ source }: { source: string }) => {
       <div className="flex flex-row">
         <span>출처: </span>
         <div className="flex items-center justify-center px-2">
-          <Sparkles
-            size={fontSizeSettings.relativeFontSize * 16}
-            className="text-[color:--]"
-          />
+          <Sparkles size={fontSizeSettings.relativeFontSize * 16} />
         </div>
         {source}
       </div>

@@ -57,7 +57,6 @@ class BaseDerivedExampleLemmaSerializer(serializers.ModelSerializer):
     class Meta:
         model = DerivedExampleLemma
         fields = [
-            "source_text_preview",
             "lemma",
             "eojeol_number_in_source_text",
         ]
@@ -72,6 +71,7 @@ class DerivedExampleLemmaSearchResultSerializer(BaseDerivedExampleLemmaSerialize
     class Meta:
         model = DerivedExampleLemma
         fields = BaseDerivedExampleLemmaSerializer.Meta.fields + [
+            "source_text_preview",
             "source",
             "source_text_pk",
             "image_url",
@@ -92,5 +92,5 @@ class DerivedExampleTextSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DerivedExampleText
-        fields = ["text", "source", "image_url"]
+        fields = ["id", "text", "source", "image_url"]
         read_only_fields = ["__all__"]

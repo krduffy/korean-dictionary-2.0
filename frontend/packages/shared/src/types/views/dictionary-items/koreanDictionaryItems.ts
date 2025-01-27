@@ -1,10 +1,4 @@
-import {
-  isArrayOf,
-  isNumber,
-  isObject,
-  isString,
-  isTypeOrNull,
-} from "../../guardUtils";
+import { isArrayOf, isNumber, isObject, isString } from "../../guardUtils";
 import {
   DetailedSenseType,
   isDetailedSenseType,
@@ -12,6 +6,14 @@ import {
   SimplifiedSenseType,
 } from "./senseDictionaryItems";
 import { isUserData } from "./sharedTypes";
+import {
+  isUserExampleSentenceType,
+  isUserImageExampleType,
+  isUserVideoExampleType,
+  UserExampleSentenceType,
+  UserImageExampleType,
+  UserVideoExampleType,
+} from "./userExampleItems";
 
 export type UserDataType = {
   is_known: boolean;
@@ -56,42 +58,10 @@ export type HistoryInfoType = {
   word_form: string;
 };
 
-export interface HeadwordDerivedExampleSearchResultType {
-  source_text_preview: string;
-  lemma: string;
-  source: string;
-  source_text_pk: number;
-  eojeol_number_in_source_text: number;
-  image_url?: string;
-}
-
-interface BaseExampleType {
-  id: number;
-  /*word_ref: number;*/
-  source: string;
-}
-
-export interface UserImageExampleType extends BaseExampleType {
-  image_url: string;
-  image_accompanying_text?: string;
-}
-
-export interface UserVideoExampleType extends BaseExampleType {
-  video_id: string;
-  start: number;
-  end: number;
-  video_text?: string;
-}
-
-export interface UserExampleSentenceType extends BaseExampleType {
-  sentence: string;
-}
-
 export type UserExamplesType = {
   user_example_sentences: UserExampleSentenceType[] | null;
   user_video_examples: UserVideoExampleType[] | null;
   user_image_examples: UserImageExampleType[] | null;
-  derived_example_lemmas: HeadwordDerivedExampleSearchResultType[] | null;
 };
 
 export interface DetailedKoreanType extends BaseKoreanHeadwordType {
@@ -99,6 +69,15 @@ export interface DetailedKoreanType extends BaseKoreanHeadwordType {
   history_info: HistoryInfoType | null;
   senses: DetailedSenseType[];
   user_examples: UserExamplesType | null;
+}
+
+export type SenseInKoreanExampleType = {
+  target_code: number;
+  definition: string;
+};
+
+export interface KoreanHeadwordInExampleType extends BaseKoreanHeadwordType {
+  first_sense: SenseInKoreanExampleType;
 }
 
 /* Guards */
@@ -126,6 +105,25 @@ export function isKoreanSearchResultType(
     isBaseKoreanHeadwordType(value) &&
     isString((value as KoreanSearchResultType).word_type) &&
     isArrayOf((value as KoreanSearchResultType).senses, isSimplifiedSenseType)
+  );
+}
+
+export function isSenseInKoreanExampleType(
+  value: unknown
+): value is SenseInKoreanExampleType {
+  return (
+    isObject(value) && isNumber(value.target_code) && isString(value.definition)
+  );
+}
+
+export function isKoreanHeadwordInExampleType(
+  value: unknown
+): value is KoreanHeadwordInExampleType {
+  return (
+    isBaseKoreanHeadwordType(value) &&
+    isSenseInKoreanExampleType(
+      (value as KoreanHeadwordInExampleType).first_sense
+    )
   );
 }
 
@@ -174,61 +172,6 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
     value.history_sense_info.length === 1 &&
     isHistorySenseInfoItem(value.history_sense_info[0]) &&
     (value.remark === undefined || isString(value.remark))
-  );
-}
-
-function isBaseExampleType(value: unknown): value is BaseExampleType {
-  return isObject(value) && isNumber(value.id) && isString(value.source);
-}
-
-export function isUserImageExampleType(
-  value: unknown
-): value is UserImageExampleType {
-  if (!isBaseExampleType(value)) return false;
-
-  const cast = value as UserImageExampleType;
-
-  return (
-    isString(cast.image_url) &&
-    isTypeOrNull(cast.image_accompanying_text, isString)
-  );
-}
-
-export function isUserVideoExampleType(
-  value: unknown
-): value is UserVideoExampleType {
-  if (!isBaseExampleType(value)) return false;
-
-  const cast = value as UserVideoExampleType;
-
-  return (
-    isString(cast.video_id) &&
-    isTypeOrNull(cast.video_text, isString) &&
-    isNumber(cast.start) &&
-    isNumber(cast.end)
-  );
-}
-
-export function isUserExampleSentenceType(
-  value: unknown
-): value is UserExampleSentenceType {
-  if (!isBaseExampleType(value)) return false;
-
-  const cast = value as UserExampleSentenceType;
-
-  return isString(cast.sentence);
-}
-
-export function isHeadwordDerivedExampleSearchResultType(
-  value: unknown
-): value is HeadwordDerivedExampleSearchResultType {
-  return (
-    isObject(value) &&
-    isString(value.source_text_preview) &&
-    isString(value.lemma) &&
-    isString(value.source) &&
-    isNumber(value.source_text_pk) &&
-    isNumber(value.eojeol_number_in_source_text)
   );
 }
 

@@ -5,8 +5,8 @@ import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { ResultCountMessage } from "../api-result-formatters/paginated-results/ResultsMessages";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { PageChanger } from "../api-result-formatters/paginated-results/PageChanger";
-import { isHeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { HeadwordDerivedExampleSearchResult } from "../item-components/korean/detail/HeadwordDerivedExampleSearchResult";
+import { isHeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 
 export const HeadwordDerivedExamplesView = ({
   headwordPk,

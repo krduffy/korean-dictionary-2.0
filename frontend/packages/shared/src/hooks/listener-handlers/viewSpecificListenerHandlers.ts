@@ -1,18 +1,17 @@
 import { APIResponseType } from "../../types/apiCallTypes";
 import {
-  HeadwordDerivedExampleSearchResultType,
-  isHeadwordDerivedExampleSearchResultType,
   isDetailedKoreanType,
+  isKoreanHeadwordInExampleType,
   isKoreanSearchResultType,
+  KoreanHeadwordInExampleType,
   KoreanSearchResultType,
 } from "../../types/views/dictionary-items/koreanDictionaryItems";
 import {
   HanjaSearchResultType,
   isDetailedHanjaType,
-  isHanjaExampleKoreanHeadwordType,
   isHanjaSearchResultType,
-  KoreanHeadwordInHanjaExamplesType,
 } from "../../types/views/dictionary-items/hanjaDictionaryItems";
+
 import { useSearchResultListListenerHandler } from "./useSearchResultListListenerHandler";
 import { useDictionaryItemListenerHandler } from "./useDictionaryItemListenerHandler";
 import { useGeneralPanelReloadListenerHandler } from "./useGeneralPanelReloadListenerHandler";
@@ -103,10 +102,10 @@ export const useHanjaExampleKoreanHeadwordListenerHandler = ({
   refetch: () => void;
 }) => {
   useGeneralPanelReloadListenerHandler({ refetch });
-  useSearchResultListListenerHandler<KoreanHeadwordInHanjaExamplesType>({
+  useSearchResultListListenerHandler<KoreanHeadwordInExampleType>({
     url,
     response,
     refetch,
-    typeVerifier: isHanjaExampleKoreanHeadwordType,
+    typeVerifier: isKoreanHeadwordInExampleType,
   });
 };
