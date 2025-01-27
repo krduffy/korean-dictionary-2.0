@@ -4,7 +4,7 @@ import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataFormatter";
 import { isDerivedExampleTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
-import { DerivedExampleTextDisplay } from "../item-components/user-examples/DerivedExampleTextDisplay";
+import { DerivedExampleTextDisplay } from "../item-components/user-examples/derived-example-text/DerivedExampleTextDisplay";
 
 export const DerivedExampleTextDetailView = ({
   sourceTextPk,

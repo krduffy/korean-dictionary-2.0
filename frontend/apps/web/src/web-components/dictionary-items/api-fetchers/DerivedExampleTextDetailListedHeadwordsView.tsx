@@ -6,7 +6,7 @@ import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsCo
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { isDerivedExampleTextHeadwordFromTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
-import { DerivedExampleTextHeadwordFromText } from "../item-components/user-examples/DerivedExampleTextHeadwordFromText";
+import { DerivedExampleTextHeadwordFromText } from "../item-components/user-examples/derived-example-text/DerivedExampleTextHeadwordFromText";
 
 export const DerivedExampleTextDetailListedHeadwordsView = ({
   sourceTextPk,

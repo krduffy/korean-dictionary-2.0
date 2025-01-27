@@ -1,8 +1,8 @@
 import { DerivedExampleTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { DerivedExampleTextInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { Sparkles } from "lucide-react";
-import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
-import { DerivedExampleTextDetailListedHeadwordsView } from "../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
+import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
+import { DerivedExampleTextDetailListedHeadwordsView } from "../../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
 import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
 
 export const DerivedExampleTextDisplay = ({
