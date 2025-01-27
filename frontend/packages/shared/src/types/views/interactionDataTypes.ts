@@ -13,6 +13,7 @@ export type HanjaSearchInteractionData = BaseInteractionData;
 export interface DerivedExampleTextInteractionData extends BaseInteractionData {
   headwordSearchPanelOnlyUnknownSet: boolean;
   headwordSearchPanelPageNum: number;
+  highlightEojeolNumOnLoad: number | null;
 }
 
 export type DetailedSenseDropdownState = {

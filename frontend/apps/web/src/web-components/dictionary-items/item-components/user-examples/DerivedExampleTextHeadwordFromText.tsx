@@ -1,5 +1,6 @@
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { DerivedExampleTextHeadwordFromTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
+import { useHighlightEojeol } from "./useHighlightEojeol";
 import React from "react";
 
 export const DerivedExampleTextHeadwordFromText = ({
@@ -7,32 +8,11 @@ export const DerivedExampleTextHeadwordFromText = ({
 }: {
   result: DerivedExampleTextHeadwordFromTextType;
 }) => {
-  const { whichPanelAmI } = usePanelFunctionsContext();
+  const highlightEojeol = useHighlightEojeol();
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    const sourceTextContainer = document.querySelector(
-      `.${whichPanelAmI}-derived-example-text-source-text`
-    );
-
-    if (!sourceTextContainer) return;
-
-    const eojeolSpan = sourceTextContainer.querySelector(
-      `.eojeol-num-${result.eojeol_number_in_source_text}`
-    );
-
-    if (!eojeolSpan) return;
-
-    eojeolSpan.scrollIntoView({
-      behavior: "smooth",
-    });
-
-    eojeolSpan.classList.add("animate-eojeol-highlight");
-    setTimeout(
-      () => eojeolSpan.classList.remove("animate-eojeol-highlight"),
-      5000
-    );
+    highlightEojeol(result.eojeol_number_in_source_text);
   };
 
   return (

@@ -123,6 +123,7 @@ export interface UpdateDetailedSenseDropdownStatesLengthAction {
 export interface PushDerivedExampleTextDetailAction {
   type: "push_lemma_derived_text_detail";
   sourceTextPk: number;
+  highlightEojeolNumOnLoad: number | null;
 }
 
 type UpdateDerivedExampleTextInteractionDataAction = {

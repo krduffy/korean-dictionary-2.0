@@ -117,6 +117,7 @@ export const pushIfApplicable = (
           scrollDistance: 0,
           headwordSearchPanelPageNum: 1,
           headwordSearchPanelOnlyUnknownSet: true,
+          highlightEojeolNumOnLoad: action.highlightEojeolNumOnLoad,
         },
       });
 

@@ -20,11 +20,9 @@ export const HeadwordDerivedExampleSearchResult = ({
           <img className="aspect-square min-w-16" src={result.image_url} />
         </div>
       )}
-      {/* TODO make this a button that directs to a more detailed view of the
-          entire text; will need to take in the rest of the pk etc from the
-         HeadwordDerivedExampleSearchResultand make a new view */}
       <GoToDerivedExampleTextDetailViewButton
         sourceTextPk={result.source_text_pk}
+        eojeolNumberInSourceText={result.eojeol_number_in_source_text}
       />
       <div className="flex flex-col gap-2">
         <DerivedExampleLemmaSourceTextPreviewArea
@@ -66,8 +64,10 @@ const DerivedExampleLemmaSourceFooter = ({ source }: { source: string }) => {
 
 const GoToDerivedExampleTextDetailViewButton = ({
   sourceTextPk,
+  eojeolNumberInSourceText,
 }: {
   sourceTextPk: number;
+  eojeolNumberInSourceText: number;
 }) => {
   return (
     <button className="flex items-center justify-center">
@@ -75,6 +75,7 @@ const GoToDerivedExampleTextDetailViewButton = ({
         panelStateAction={{
           type: "push_lemma_derived_text_detail",
           sourceTextPk: sourceTextPk,
+          highlightEojeolNumOnLoad: eojeolNumberInSourceText,
         }}
       >
         <TextSearch />

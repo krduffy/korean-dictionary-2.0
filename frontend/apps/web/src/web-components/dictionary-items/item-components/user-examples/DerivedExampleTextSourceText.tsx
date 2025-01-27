@@ -2,9 +2,30 @@
 
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import "./eojeol-highlight.css";
+import { useHighlightEojeol } from "./useHighlightEojeol";
+import { useEffect } from "react";
 
-export const DerivedExampleTextSourceText = ({ text }: { text: string }) => {
-  const { whichPanelAmI } = usePanelFunctionsContext();
+export const DerivedExampleTextSourceText = ({
+  text,
+  highlightEojeolNumOnLoad,
+}: {
+  text: string;
+  highlightEojeolNumOnLoad: number | null;
+}) => {
+  const { whichPanelAmI, panelDispatchStateChangeSelf } =
+    usePanelFunctionsContext();
+  const highlightEojeol = useHighlightEojeol();
+
+  useEffect(() => {
+    if (highlightEojeolNumOnLoad !== null) {
+      highlightEojeol(highlightEojeolNumOnLoad);
+      panelDispatchStateChangeSelf({
+        type: "update_derived_example_text_interaction_data",
+        key: "highlightEojeolNumOnLoad",
+        newValue: null,
+      });
+    }
+  }, [highlightEojeolNumOnLoad]);
 
   let eojeol_num = 0;
 

@@ -3,7 +3,6 @@ import { DerivedExampleTextInteractionData } from "@repo/shared/types/views/inte
 import { Sparkles } from "lucide-react";
 import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
 import { DerivedExampleTextDetailListedHeadwordsView } from "../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
-import { StringWithHanja } from "../shared/formatted-string/StringWithHanja";
 import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
 
 export const DerivedExampleTextDisplay = ({
@@ -18,6 +17,7 @@ export const DerivedExampleTextDisplay = ({
       <DerivedExampleTextDisplayMainContent
         text={data.text}
         source={data.source}
+        highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
       />
 
       <div className="w-full sm:flex-grow-0 sm:flex-shrink sm:min-w-24 sm:max-w-[50%]">
@@ -81,9 +81,11 @@ const ContainedHeadwordsSection = ({
 const DerivedExampleTextDisplayMainContent = ({
   text,
   source,
+  highlightEojeolNumOnLoad,
 }: {
   text: string;
   source: string;
+  highlightEojeolNumOnLoad: number | null;
 }) => {
   const { fontSizeSettings } = useSettingsContext();
 
@@ -93,7 +95,10 @@ const DerivedExampleTextDisplayMainContent = ({
         <Sparkles size={fontSizeSettings.relativeFontSize * 32} />
         {source}
       </h2>
-      <DerivedExampleTextSourceText text={text} />
+      <DerivedExampleTextSourceText
+        text={text}
+        highlightEojeolNumOnLoad={highlightEojeolNumOnLoad}
+      />
     </section>
   );
 };
