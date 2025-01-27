@@ -1,6 +1,5 @@
 import { PanelSpecificDispatcher } from "../../../pages/dictionary-page/PanelSpecificDispatcher";
 import { StringWithHanja } from "../shared/formatted-string/StringWithHanja";
-import { StringWithNLPAndHanja } from "../shared/formatted-string/FormattedString";
 import {
   DetailViewLinkStyler,
   Href,

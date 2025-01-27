@@ -22,6 +22,8 @@ export const PersistentDictionaryPageStateContext = createContext<
  * on the other panel (functions end in `Other`).
  */
 export interface PanelFunctionsType {
+  /** The panel that is a descendant of the context provider. */
+  whichPanelAmI: "left" | "right";
   /** Dispatches a state change in the calling panel. */
   panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
   /** Dispatches a state change in other panel. */
@@ -97,6 +99,7 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
     <PersistentDictionaryPageStateContext.Provider
       value={{
         leftPanelData: {
+          whichPanelAmI: "left",
           state: leftState,
           panelDispatchStateChangeSelf: leftDispatch,
           panelDispatchStateChangeOther: rightDispatch,
@@ -106,6 +109,7 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
           panelEmitOther: rightEmit,
         },
         rightPanelData: {
+          whichPanelAmI: "right",
           state: rightState,
           panelDispatchStateChangeSelf: rightDispatch,
           panelDispatchStateChangeOther: leftDispatch,

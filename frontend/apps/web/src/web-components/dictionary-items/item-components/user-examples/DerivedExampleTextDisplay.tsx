@@ -1,9 +1,10 @@
 import { DerivedExampleTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { DerivedExampleTextInteractionData } from "@repo/shared/types/views/interactionDataTypes";
-import { Source } from "../../../text-formatters/SpanStylers";
 import { Sparkles } from "lucide-react";
 import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
 import { DerivedExampleTextDetailListedHeadwordsView } from "../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
+import { StringWithHanja } from "../shared/formatted-string/StringWithHanja";
+import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
 
 export const DerivedExampleTextDisplay = ({
   data,
@@ -13,14 +14,13 @@ export const DerivedExampleTextDisplay = ({
   interactionData: DerivedExampleTextInteractionData;
 }) => {
   return (
-    <div className="flex flex-row gap-4 justify-between">
-      <div className="max-w-[70%]">
-        <DerivedExampleTextDisplayMainContent
-          text={data.text}
-          source={data.source}
-        />
-      </div>
-      <div className="flex-grow-0 flex-shrink">
+    <div className="flex flex-col sm:flex-row gap-4 justify-between">
+      <DerivedExampleTextDisplayMainContent
+        text={data.text}
+        source={data.source}
+      />
+
+      <div className="w-full sm:flex-grow-0 sm:flex-shrink sm:min-w-24 sm:max-w-[50%]">
         <DerivedExampleTextDisplaySideBar
           sourceTextPk={data.id}
           interactionData={interactionData}
@@ -42,27 +42,39 @@ const DerivedExampleTextDisplaySideBar = ({
 }) => {
   return (
     <aside
-      className="max-w-[50%] min-w-36 bg-[color:--background-secondary]"
+      className="w-full sm:p-4 rounded-lg bg-[color:--background-tertiary]
+      flex flex-col justify-center items-center"
       aria-label="derived-example-text-display-side-bar"
     >
-      <div className="flex flex-col justify-center items-center">
-        {imageUrl !== undefined && (
-          /* attempts to be max size, but stops if that would require more then
-             200% increase in size */
-          <img
-            className="w-full max-w-full max-h-[150%] aspect-auto object-contain"
-            src={imageUrl}
-          ></img>
-        )}
-        <div>
-          <DerivedExampleTextDetailListedHeadwordsView
-            sourceTextPk={sourceTextPk}
-            pageNum={interactionData.headwordSearchPanelPageNum}
-            onlyUnknown={interactionData.headwordSearchPanelOnlyUnknownSet}
-          />
-        </div>
-      </div>
+      {imageUrl !== undefined && (
+        <img className="min-h-16 max-h-64 object-fill" src={imageUrl}></img>
+      )}
+      <ContainedHeadwordsSection
+        sourceTextPk={sourceTextPk}
+        interactionData={interactionData}
+      />
     </aside>
+  );
+};
+
+const ContainedHeadwordsSection = ({
+  sourceTextPk,
+  interactionData,
+}: {
+  sourceTextPk: number;
+  interactionData: DerivedExampleTextInteractionData;
+}) => {
+  return (
+    <div>
+      <h3 className="text-[150%] text-[color:--accent-3] text-center p-4">
+        본문의 모르는 단어
+      </h3>
+      <DerivedExampleTextDetailListedHeadwordsView
+        sourceTextPk={sourceTextPk}
+        pageNum={interactionData.headwordSearchPanelPageNum}
+        onlyUnknown={interactionData.headwordSearchPanelOnlyUnknownSet}
+      />
+    </div>
   );
 };
 
@@ -81,7 +93,7 @@ const DerivedExampleTextDisplayMainContent = ({
         <Sparkles size={fontSizeSettings.relativeFontSize * 32} />
         {source}
       </h2>
-      <div className="whitespace-pre-line">{text}</div>
+      <DerivedExampleTextSourceText text={text} />
     </section>
   );
 };

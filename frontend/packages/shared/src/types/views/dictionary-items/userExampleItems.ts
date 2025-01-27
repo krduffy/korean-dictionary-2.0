@@ -12,8 +12,8 @@ export type DerivedExampleTextType = {
 };
 
 export interface DerivedExampleTextHeadwordFromTextType {
-  source_text_preview: string;
   lemma: string;
+  eojeol_number_in_source_text: number;
   headword_ref: KoreanHeadwordInExampleType;
 }
 

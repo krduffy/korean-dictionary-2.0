@@ -1,0 +1,9 @@
+@keyframes eojeol-highlight {
+  50% {
+    background-color: yellow;
+  }
+}
+
+.animate-eojeol-highlight {
+  animation: eojeol-highlight linear 1s 3 forwards;
+}

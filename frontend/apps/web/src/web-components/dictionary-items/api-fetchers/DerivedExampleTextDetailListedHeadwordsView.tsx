@@ -1,12 +1,8 @@
 import { getEndpoint } from "@repo/shared/utils/apiAliases";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
-import { HanjaSearchResult } from "../item-components/hanja/HanjaSearchResult";
 import { ResultCountMessage } from "../api-result-formatters/paginated-results/ResultsMessages";
 import { PageChanger } from "../api-result-formatters/paginated-results/PageChanger";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { HanjaSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
-import { isHanjaSearchResultType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
-import { useHanjaSearchResultListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { isDerivedExampleTextHeadwordFromTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
