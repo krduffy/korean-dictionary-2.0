@@ -8,7 +8,7 @@ export type DerivedExampleTextType = {
   id: number;
   text: string;
   source: string;
-  image_url?: string;
+  image_url: string | null;
 };
 
 export interface DerivedExampleTextHeadwordFromTextType {

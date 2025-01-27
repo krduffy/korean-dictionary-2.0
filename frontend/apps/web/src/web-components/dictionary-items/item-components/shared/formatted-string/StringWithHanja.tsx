@@ -18,7 +18,7 @@ export const StringWithHanja = memo(({ string }: { string: string }) => {
   };
 
   return (
-    <>
+    <span>
       {isolatedHanja.map((substring, id) => {
         if (isSingleHanja(substring)) {
           return <HanjaWithPopupBox key={id} character={substring} />;
@@ -26,7 +26,7 @@ export const StringWithHanja = memo(({ string }: { string: string }) => {
           return <span key={id}>{substring}</span>;
         }
       })}
-    </>
+    </span>
   );
 });
 

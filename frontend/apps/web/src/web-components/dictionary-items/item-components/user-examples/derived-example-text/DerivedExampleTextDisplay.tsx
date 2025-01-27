@@ -4,6 +4,8 @@ import { Sparkles } from "lucide-react";
 import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
 import { DerivedExampleTextDetailListedHeadwordsView } from "../../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
 import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
+import { useRef } from "react";
+import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 
 export const DerivedExampleTextDisplay = ({
   data,
@@ -12,15 +14,23 @@ export const DerivedExampleTextDisplay = ({
   data: DerivedExampleTextType;
   interactionData: DerivedExampleTextInteractionData;
 }) => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const { belowCutoff } = useWidthObserver({ ref: divRef, cutoff: 500 });
+
   return (
-    <div className="flex flex-col sm:flex-row gap-4 justify-between">
+    <div
+      className={`flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`}
+      ref={divRef}
+    >
       <DerivedExampleTextDisplayMainContent
         text={data.text}
         source={data.source}
         highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
       />
 
-      <div className="w-full sm:flex-grow-0 sm:flex-shrink sm:min-w-24 sm:max-w-[50%]">
+      <div
+        className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-24 max-w-[40%]"}`}
+      >
         <DerivedExampleTextDisplaySideBar
           sourceTextPk={data.id}
           interactionData={interactionData}
@@ -38,15 +48,15 @@ const DerivedExampleTextDisplaySideBar = ({
 }: {
   sourceTextPk: number;
   interactionData: DerivedExampleTextInteractionData;
-  imageUrl: string | undefined;
+  imageUrl: string | null;
 }) => {
   return (
     <aside
-      className="w-full sm:p-4 rounded-lg bg-[color:--background-tertiary]
+      className="w-full p-4 rounded-lg bg-[color:--background-tertiary]
       flex flex-col justify-center items-center"
       aria-label="derived-example-text-display-side-bar"
     >
-      {imageUrl !== undefined && (
+      {imageUrl !== null && (
         <img className="min-h-16 max-h-64 object-fill" src={imageUrl}></img>
       )}
       <ContainedHeadwordsSection
@@ -65,7 +75,7 @@ const ContainedHeadwordsSection = ({
   interactionData: DerivedExampleTextInteractionData;
 }) => {
   return (
-    <div>
+    <div className="w-full">
       <h3 className="text-[150%] text-[color:--accent-3] text-center p-4">
         본문의 모르는 단어
       </h3>
