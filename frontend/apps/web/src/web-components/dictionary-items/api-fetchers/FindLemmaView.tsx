@@ -47,7 +47,7 @@ export const FindLemmaView = ({
         type: "push_korean_search",
         searchConfig: {
           page: 1,
-          search_term: word,
+          search_term: found,
           search_type: "word_exact",
         },
         overwriteCurrentView: true,
