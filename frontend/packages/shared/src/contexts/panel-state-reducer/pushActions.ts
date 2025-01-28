@@ -29,13 +29,49 @@ const pushView = (state: PanelState, newView: View): PanelState => {
   };
 };
 
+/* completely removes the current view and puts a new one in its place */
+const overwriteCurrentView = (state: PanelState, newView: View): PanelState => {
+  const trimmedViews = state.historyData.views.slice(
+    0,
+    state.historyData.pointer
+  );
+
+  return {
+    ...state,
+    view: newView,
+    historyData: {
+      ...state.historyData,
+      views: trimmedViews.concat([newView]),
+    },
+  };
+};
+
+const getKoreanDetailBaseInteractionData = () => ({
+  scrollDistance: 0,
+  /* 30 is used tentatively as the max number of senses supported */
+  historyDroppedDown: true,
+  sensesDroppedDown: true,
+  detailedSenseDropdowns: Array(40).fill(getDefaultDetailedSenseDropdowns()),
+  derivedLemmasDroppedDown: true,
+  derivedLemmasPageNum: 1,
+  userExampleDropdowns: {
+    userExamplesDroppedDown: true,
+    imagesDroppedDown: true,
+    sentencesDroppedDown: true,
+    videosDroppedDown: true,
+  },
+});
+
 export const pushIfApplicable = (
   state: PanelState,
   action: PanelStateAction
 ): PanelState | null => {
+  // @ts-ignore
+  const func = action.overwriteCurrentView ? overwriteCurrentView : pushView;
+
   switch (action.type) {
     case "push_korean_search":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "korean_search",
         data: {
@@ -47,7 +83,7 @@ export const pushIfApplicable = (
         },
       });
     case "push_hanja_search":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "hanja_search",
         data: {
@@ -59,30 +95,14 @@ export const pushIfApplicable = (
         },
       });
     case "push_korean_detail":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "korean_detail",
         data: { target_code: action.target_code },
-        interactionData: {
-          scrollDistance: 0,
-          /* 30 is used tentatively as the max number of senses supported */
-          historyDroppedDown: true,
-          sensesDroppedDown: true,
-          detailedSenseDropdowns: Array(40).fill(
-            getDefaultDetailedSenseDropdowns()
-          ),
-          derivedLemmasDroppedDown: true,
-          derivedLemmasPageNum: 1,
-          userExampleDropdowns: {
-            userExamplesDroppedDown: true,
-            imagesDroppedDown: true,
-            sentencesDroppedDown: true,
-            videosDroppedDown: true,
-          },
-        },
+        interactionData: getKoreanDetailBaseInteractionData(),
       });
     case "push_hanja_detail":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "hanja_detail",
         data: { character: action.character },
@@ -94,7 +114,7 @@ export const pushIfApplicable = (
         },
       });
     case "push_find_lemma":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "find_lemma",
         data: {
@@ -107,7 +127,7 @@ export const pushIfApplicable = (
         },
       });
     case "push_lemma_derived_text_detail":
-      return pushView(state, {
+      return func(state, {
         ...state.view,
         type: "lemma_derived_text_detail",
         data: {
@@ -120,7 +140,18 @@ export const pushIfApplicable = (
           highlightEojeolNumOnLoad: action.highlightEojeolNumOnLoad,
         },
       });
-
+    case "push_derived_example_text_eojeol_num_lemmas":
+      return func(state, {
+        type: "lemma_derived_text_eojeol_num_lemmas",
+        data: {
+          source_text_pk: action.sourceTextPk,
+          eojeol_num: action.eojeolNum,
+          page: 1,
+        },
+        interactionData: {
+          scrollDistance: 0,
+        },
+      });
     default:
       return null;
   }

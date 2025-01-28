@@ -3,7 +3,7 @@ import { NoResponseError, WrongFormatError } from "./ErrorMessageTemplates";
 import { LoadingIndicator } from "../../ui/LoadingIndicator";
 import { ErrorMessage } from "../../text-formatters/messages/ErrorMessage";
 
-export const FindLemmaFormatter = ({
+export const ReplacedViewFormatter = ({
   requestState,
 }: {
   requestState: RequestStateType;

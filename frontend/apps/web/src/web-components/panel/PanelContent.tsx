@@ -9,6 +9,7 @@ import { useScrollSaveAndRestoration } from "./useRestoreScroll";
 import { LineBreakArea } from "../ui/LineBreakArea";
 import { PanelHomepage } from "./PanelHomepage";
 import { DerivedExampleTextDetailView } from "../dictionary-items/api-fetchers/DerivedExampleTextDetailView";
+import { DerivedExampleTextEojeolNumLemmasView } from "../dictionary-items/api-fetchers/DerivedExampleTextEojeolNumLemmasView";
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({
@@ -91,6 +92,10 @@ const ViewContent = ({ view }: { view: View }) => {
         interactionData={view.interactionData}
       />
     );
+  }
+
+  if (view.type === "lemma_derived_text_eojeol_num_lemmas") {
+    return <DerivedExampleTextEojeolNumLemmasView data={view.data} />;
   }
 
   return <div>Unknown view.</div>;

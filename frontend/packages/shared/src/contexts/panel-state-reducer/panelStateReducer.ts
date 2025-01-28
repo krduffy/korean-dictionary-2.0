@@ -4,7 +4,6 @@ import { updateConfigIfApplicable } from "./updateConfigActions";
 import { updateHistoryPointerIfApplicable } from "./historyNavigationActions";
 import { updatePageIfApplicable } from "./updatePageAction";
 import { updateInteractionDataIfApplicable } from "./updateInteractionDataActions";
-import { overwriteIfApplicable } from "./overwriteActions";
 import { PanelState } from "../../types/panel/panelTypes";
 import { View } from "../../types/views/viewTypes";
 import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
@@ -70,10 +69,6 @@ export function panelStateReducer(
     action
   );
   if (updatedInteractionData !== null) return updatedInteractionData;
-
-  /* Overwriting */
-  const overwrote = overwriteIfApplicable(state, action);
-  if (overwrote !== null) return overwrote;
 
   throw new Error("Unknown panel state action type");
 }

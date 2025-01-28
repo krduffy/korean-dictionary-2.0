@@ -9,6 +9,8 @@ export type PanelHomepageInteractionData = BaseInteractionData;
 export type KoreanSearchInteractionData = BaseInteractionData;
 export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;
+export type DerivedExampleTextEojeolNumLemmasInteractionData =
+  BaseInteractionData;
 
 export interface DerivedExampleTextInteractionData extends BaseInteractionData {
   headwordSearchPanelOnlyUnknownSet: boolean;

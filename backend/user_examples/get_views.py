@@ -12,6 +12,9 @@ from user_examples.serializers import (
     DerivedExampleTextSerializer,
 )
 from django.db.models import Q
+from korean.headword_serializers import KoreanHeadwordSearchResultSerializer
+from korean.detailed_headword_serializer import KoreanHeadwordDetailedSerializer
+from korean.models import KoreanHeadword
 
 
 class ValidateGetDerivedExampleLemmasViewQueryParameters(serializers.Serializer):
@@ -109,6 +112,32 @@ class GetDerivedExampleLemmasFromTextView(
         ).filter(is_known_by_user=False)
 
         return queryset
+
+
+class GetDerivedExampleLemmasFromTextAtEojeolNumView(RedirectingListAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = KoreanHeadwordSearchResultSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        user = self.request.user
+        source_text_pk = self.kwargs["source_text_pk"]
+
+        source_text = get_users_object_or_404(
+            DerivedExampleText, user, pk=source_text_pk
+        )
+
+        eojeol_num = self.kwargs["eojeol_num"]
+
+        headword_pks = source_text.derived_example_lemmas.filter(
+            eojeol_number_in_source_text=eojeol_num
+        ).values_list("headword_ref__target_code")
+
+        headwords = KoreanHeadword.objects.filter(
+            target_code__in=headword_pks
+        ).order_by("target_code")
+
+        return headwords
 
 
 class GetDerivedExampleTextView(generics.RetrieveAPIView):

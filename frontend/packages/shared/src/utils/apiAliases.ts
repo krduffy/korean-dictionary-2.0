@@ -21,9 +21,12 @@ const endpoints = {
   derive_examples_from_text: "nlp/analyze/derive_lemma_examples",
   get_derived_example_lemmas_search:
     "user_examples/get/derived_example_lemmas/search",
+  get_derived_example_text: "user_examples/get/derived_example_text",
+  // these 2 have same one but the second one takes 2 pks
   get_derived_example_lemmas_from_text:
     "user_examples/get/derived_example_lemmas/from_text",
-  get_derived_example_text: "user_examples/get/derived_example_text",
+  get_derived_example_lemmas_from_text_at_eojeol_num:
+    "user_examples/get/derived_example_lemmas/from_text",
 } as const;
 
 export type ApiEndpoint = keyof typeof endpoints;
@@ -51,17 +54,25 @@ type QueryParams =
 
 interface GetEndpointArgs {
   endpoint: ApiEndpoint;
-  pk?: number | string;
+  pk?: number | string | (number | string)[];
   queryParams?: QueryParams;
 }
 
 export const getEndpoint = ({ endpoint, pk, queryParams }: GetEndpointArgs) => {
   let baseUrl;
 
+  let pkString = "";
+
   if (pk === undefined) {
     baseUrl = API_URL + endpoints[endpoint];
   } else {
-    baseUrl = API_URL + endpoints[endpoint] + `/${pk}`;
+    if (Array.isArray(pk)) {
+      pkString = "/" + pk.join("/");
+    } else {
+      pkString = `/${pk}`;
+    }
+
+    baseUrl = API_URL + endpoints[endpoint] + pkString;
   }
 
   if (queryParams === undefined) return baseUrl;

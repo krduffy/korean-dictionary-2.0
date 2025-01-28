@@ -20,7 +20,7 @@ export const DerivedExampleTextDisplay = ({
   const { belowCutoff } = useWidthObserver({ ref: divRef, cutoff: 500 });
 
   return (
-    <DerivedExampleTextContextProvider>
+    <DerivedExampleTextContextProvider sourceTextPk={data.id}>
       <div
         className={`flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`}
         ref={divRef}

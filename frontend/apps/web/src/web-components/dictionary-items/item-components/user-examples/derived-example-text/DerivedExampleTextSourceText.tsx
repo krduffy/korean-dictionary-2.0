@@ -2,24 +2,34 @@
 
 import "./eojeol-highlight.css";
 import { useDerivedExampleTextContext } from "./DerivedExampleTextContext";
+import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
 
 export const DerivedExampleTextSourceText = ({ text }: { text: string }) => {
-  const { sourceTextRef } = useDerivedExampleTextContext();
+  const { sourceTextPk, sourceTextRef } = useDerivedExampleTextContext();
 
-  let eojeol_num = 0;
+  let eojeolNum = 0;
 
   const tokens = text
     .split(/([^\s\r\n]+|[\s\r\n]+)/)
     .filter((substr) => substr.length > 0)
-    .map((substr, id) =>
-      substr.match(/[\s\r\n]+/) ? (
-        <span key={id}>{substr}</span>
-      ) : (
-        <span key={id} className={`eojeol-num-${eojeol_num++}`}>
-          {substr}
-        </span>
-      )
-    );
+    .map((substr, id) => {
+      if (!substr.match(/[\s\r\n]+/)) {
+        const thisEojeolNum = eojeolNum++;
+
+        return (
+          <PanelSpecificDispatcher
+            panelStateAction={{
+              type: "push_derived_example_text_eojeol_num_lemmas",
+              sourceTextPk: sourceTextPk,
+              eojeolNum: thisEojeolNum,
+            }}
+            key={id}
+          >
+            <span className={`eojeol-num-${thisEojeolNum}`}>{substr}</span>
+          </PanelSpecificDispatcher>
+        );
+      } else return <span key={id}>{substr}</span>;
+    });
 
   return (
     <div ref={sourceTextRef} className="whitespace-pre-line">

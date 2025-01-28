@@ -5,13 +5,17 @@ import {
   KoreanSearchView,
 } from "./koreanViewTypes";
 import { PanelHomepageView } from "./panelHomepageViewTypes";
-import { DerivedExampleTextDetailView } from "./userExampleViewTypes";
+import {
+  DerivedExampleTextDetailView,
+  DerivedExampleTextEojeolNumLemmasView,
+} from "./userExampleViewTypes";
 
 export type View =
   | PanelHomepageView
   | KoreanSearchView
-  | HanjaSearchView
   | KoreanDetailView
+  | HanjaSearchView
   | HanjaDetailView
   | FindLemmaView
-  | DerivedExampleTextDetailView;
+  | DerivedExampleTextDetailView
+  | DerivedExampleTextEojeolNumLemmasView;

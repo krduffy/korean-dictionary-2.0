@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useRef } from "react";
 type DerivedExampleTextContextType = {
   sourceTextRef: React.MutableRefObject<HTMLDivElement | null>;
   highlightEojeol: (eojeolNumber: number) => void;
+  sourceTextPk: number;
 };
 
 const DerivedExampleTextContext = createContext<
@@ -11,8 +12,10 @@ const DerivedExampleTextContext = createContext<
 
 export const DerivedExampleTextContextProvider = ({
   children,
+  sourceTextPk,
 }: {
   children: ReactNode;
+  sourceTextPk: number;
 }) => {
   const sourceTextRef = useRef<HTMLDivElement | null>(null);
 
@@ -42,6 +45,7 @@ export const DerivedExampleTextContextProvider = ({
       value={{
         sourceTextRef: sourceTextRef,
         highlightEojeol: highlightEojeol,
+        sourceTextPk: sourceTextPk,
       }}
     >
       {children}

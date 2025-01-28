@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
 import { hasBatchim } from "@repo/shared/utils/koreanLangUtils";
 import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
-import { FindLemmaFormatter } from "../api-result-formatters/FindLemmaFormatter";
+import { ReplacedViewFormatter } from "../api-result-formatters/ReplacedViewFormatter";
 import { Footnote } from "../../text-formatters/SpanStylers";
 import { SimpleNotification } from "../../pages/notifications/SimpleNotification";
 
@@ -44,13 +44,18 @@ export const FindLemmaView = ({
 
       sendNotification(<FoundWordNotification word={found} />, 4000);
       panelDispatchStateChangeSelf({
-        type: "push_find_lemma_success",
-        word: found,
+        type: "push_korean_search",
+        searchConfig: {
+          page: 1,
+          search_term: word,
+          search_type: "word_exact",
+        },
+        overwriteCurrentView: true,
       });
     }
   }, [requestState]);
 
-  return <FindLemmaFormatter requestState={requestState} />;
+  return <ReplacedViewFormatter requestState={requestState} />;
 };
 
 const FoundWordNotification = ({ word }: { word: string }) => {
