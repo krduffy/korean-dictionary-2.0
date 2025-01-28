@@ -20,15 +20,15 @@ from nlp.example_derivation_model.types import (
 
 class DeriveExamplesViewValidator(serializers.Serializer):
     text = serializers.CharField(required=False, max_length=2000)
-    txt_file = serializers.FileField(required=False)
+    text_file = serializers.FileField(required=False)
     source = serializers.CharField(required=True, max_length=100)
     nonremote_image_url = serializers.ImageField(required=False)
     remote_image_url = serializers.URLField(required=False)
 
     def validate(self, data):
-        if not data.get("text") and not data.get("txt_file"):
+        if not data.get("text") and not data.get("text_file"):
             raise serializers.ValidationError("Text or a text file must be uploaded.")
-        if data.get("text") and data.get("txt_file"):
+        if data.get("text") and data.get("text_file"):
             raise serializers.ValidationError(
                 "Text and a text file cannot both be uplaoded."
             )
@@ -52,7 +52,7 @@ class DeriveExamplesFromTextView(APIView):
     example_deriver = ExampleDeriver()
 
     def _do_derivation_from_text(
-        self, user, source, text, nonremote_image_url, remote_image_url
+        self, text, source, user, nonremote_image_url, remote_image_url
     ):
 
         new_det = DerivedExampleText(
@@ -116,21 +116,6 @@ class DeriveExamplesFromTextView(APIView):
             "num_already_disambiguated": num_already_disambiguated,
         }
 
-    def _do_derivation_from_file(
-        self,
-        user,
-        source,
-        nonremote_image_url,
-        remote_image_url,
-        in_memory_uploaded_file,
-    ):
-        all_bytes = in_memory_uploaded_file.read()
-        text = all_bytes.decode("utf-8")
-
-        return self._do_derivation_from_text(
-            user, source, text, nonremote_image_url, remote_image_url
-        )
-
     # @silk_profile(name="POST_DERIVE_EXAMPLES")
     def post(self, request, *args, **kwargs):
 
@@ -141,20 +126,30 @@ class DeriveExamplesFromTextView(APIView):
         if not serializer.is_valid():
             return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # file uploaded?
-        if serializer.validated_data.get("txt_file"):
-            derivation_function = self._do_derivation_from_file
-            text_argument = serializer.validated_data["txt_file"]
-        elif serializer.validated_data.get("text"):
-            derivation_function = self._do_derivation_from_text
-            text_argument = serializer.validated_data["text"]
+        text = None
 
-        derivation_result = derivation_function(
-            user,
-            serializer.validated_data["source"],
-            serializer.validated_data.get("nonremote_image_url", None),
-            serializer.validated_data.get("remote_image_url", None),
-            text_argument,
+        # file uploaded?
+        if serializer.validated_data.get("text_file"):
+            text_file = serializer.validated_data["text_file"]
+            all_bytes = text_file.read()
+            text = all_bytes.decode("utf-8")
+        elif serializer.validated_data.get("text"):
+            text = serializer.validated_data["text"]
+
+        if text is None:
+            return JsonResponse(
+                {"detail": "text unexpectedly none"},
+                status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            )
+
+        derivation_result = self._do_derivation_from_text(
+            text=text,
+            source=serializer.validated_data["source"],
+            user=user,
+            nonremote_image_url=serializer.validated_data.get(
+                "nonremote_image_url",
+            ),
+            remote_image_url=serializer.validated_data.get("remote_image_url"),
         )
 
         if not DEBUG:
