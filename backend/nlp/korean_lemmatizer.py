@@ -76,9 +76,19 @@ class KoreanLemmatizer:
             # 어근/명사에다 접미사 붙임.
             # xsa => 형용사일 경우 (무모(하다)); xsv => 동사 (안녕(하다))
             elif pos.startswith("XSA") or pos.startswith("XSV"):
-                lemmas[-1] = (
-                    f"{lemmas[-1]}{self._get_first_morph_from_potentially_combined(morph)}{"다" if self.attach_다_to_verbs else ""}"
-                )
+                # HANDLE
+                try:
+                    lemmas[-1] = (
+                        f"{lemmas[-1]}{self._get_first_morph_from_potentially_combined(morph)}{"다" if self.attach_다_to_verbs else ""}"
+                    )
+                except IndexError:
+                    # This does not happen under normal circumstances. It should
+                    # never be true that it thinks there is a connective morph
+                    # without there having been a preceding morph (probably 용언)
+                    # but it has done it before on nonstandard words/names (pokemon
+                    # 던지미 with -던 at start). In such cases, just ignore this
+                    # and add nothing to the lemmas list
+                    pass
 
             else:
                 lemmas.append(morph.surface)
