@@ -1,11 +1,11 @@
 import { DerivedExampleTextHeadwordFromTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
-import { useHighlightEojeol } from "./useHighlightEojeol";
 import React from "react";
 import { ResultRankingStars } from "../../shared/ResultRankingStars";
 import { StringWithHanja } from "../../shared/formatted-string/StringWithHanja";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
 import { DetailViewLinkStyler } from "../../../../text-formatters/SpanStylers";
 import { SenseInKoreanExampleType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { useDerivedExampleTextContext } from "./DerivedExampleTextContext";
 
 export const DerivedExampleTextHeadwordFromText = ({
   result,
@@ -78,7 +78,7 @@ const FindHeadwordInTextButton = ({
 }: {
   eojeolNumberInSourceText: number;
 }) => {
-  const highlightEojeol = useHighlightEojeol();
+  const { highlightEojeol } = useDerivedExampleTextContext();
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

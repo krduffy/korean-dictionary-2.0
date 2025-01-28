@@ -17,7 +17,7 @@ export const HeadwordDerivedExampleSearchResult = ({
     >
       {result.image_url && (
         <div className="flex items-center justify-center">
-          <img className="aspect-square min-w-16" src={result.image_url} />
+          <img className="min-w-16 object-fill" src={result.image_url} />
         </div>
       )}
       <GoToDerivedExampleTextDetailViewButton

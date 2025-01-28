@@ -6,6 +6,8 @@ import { DerivedExampleTextDetailListedHeadwordsView } from "../../../api-fetche
 import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
 import { useRef } from "react";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
+import { DerivedExampleTextContextProvider } from "./DerivedExampleTextContext";
+import { useDerivedExampleTextDisplayMainContent } from "./useDerivedExampleTextDisplayMainContent";
 
 export const DerivedExampleTextDisplay = ({
   data,
@@ -18,26 +20,28 @@ export const DerivedExampleTextDisplay = ({
   const { belowCutoff } = useWidthObserver({ ref: divRef, cutoff: 500 });
 
   return (
-    <div
-      className={`flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`}
-      ref={divRef}
-    >
-      <DerivedExampleTextDisplayMainContent
-        text={data.text}
-        source={data.source}
-        highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
-      />
-
+    <DerivedExampleTextContextProvider>
       <div
-        className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-24 max-w-[40%]"}`}
+        className={`flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`}
+        ref={divRef}
       >
-        <DerivedExampleTextDisplaySideBar
-          sourceTextPk={data.id}
-          interactionData={interactionData}
-          imageUrl={data.image_url}
+        <DerivedExampleTextDisplayMainContent
+          text={data.text}
+          source={data.source}
+          highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
         />
+
+        <div
+          className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-24 max-w-[40%]"}`}
+        >
+          <DerivedExampleTextDisplaySideBar
+            sourceTextPk={data.id}
+            interactionData={interactionData}
+            imageUrl={data.image_url}
+          />
+        </div>
       </div>
-    </div>
+    </DerivedExampleTextContextProvider>
   );
 };
 
@@ -99,16 +103,17 @@ const DerivedExampleTextDisplayMainContent = ({
 }) => {
   const { fontSizeSettings } = useSettingsContext();
 
+  useDerivedExampleTextDisplayMainContent({
+    highlightEojeolNumOnLoad: highlightEojeolNumOnLoad,
+  });
+
   return (
     <section aria-label="derived-example-text-display-main-content">
       <h2 className="flex flex-row gap-2 items-center text-[200%] pb-8">
         <Sparkles size={fontSizeSettings.relativeFontSize * 32} />
         {source}
       </h2>
-      <DerivedExampleTextSourceText
-        text={text}
-        highlightEojeolNumOnLoad={highlightEojeolNumOnLoad}
-      />
+      <DerivedExampleTextSourceText text={text} />
     </section>
   );
 };
