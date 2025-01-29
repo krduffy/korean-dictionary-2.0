@@ -7,56 +7,53 @@ import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-re
 import { PageChanger } from "../api-result-formatters/paginated-results/PageChanger";
 import { HeadwordDerivedExampleSearchResult } from "../item-components/korean/detail/HeadwordDerivedExampleSearchResult";
 import { isHeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
+import { memo } from "react";
 
-export const HeadwordDerivedExamplesView = ({
-  headwordPk,
-  pageNum,
-}: {
-  headwordPk: number;
-  pageNum: number;
-}) => {
-  const url = getEndpoint({
-    endpoint: "get_derived_example_lemmas_search",
-    queryParams: {
-      headword_pk: headwordPk,
-      page: pageNum,
-    },
-  });
-
-  const { requestState } = useFetchProps({
-    url: url,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    refetchDependencyArray: [url],
-  });
-
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-
-  const handlePageChange = (newPage: number) => {
-    panelDispatchStateChangeSelf({
-      type: "update_korean_detail_interaction_data",
-      key: "derivedLemmasPageNum",
-      newValue: newPage,
+export const HeadwordDerivedExamplesView = memo(
+  ({ headwordPk, pageNum }: { headwordPk: number; pageNum: number }) => {
+    const url = getEndpoint({
+      endpoint: "get_derived_example_lemmas_search",
+      queryParams: {
+        headword_pk: headwordPk,
+        page: pageNum,
+      },
     });
-  };
 
-  return (
-    <>
-      <ResultCountMessage
-        pageNum={pageNum}
-        responseCount={requestState?.response?.count}
-      />
+    const { requestState } = useFetchProps({
+      url: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+      refetchDependencyArray: [url],
+    });
 
-      <PaginatedResultsFormatter
-        requestState={requestState}
-        verifier={isHeadwordDerivedExampleSearchResultType}
-        ResultComponent={HeadwordDerivedExampleSearchResult}
-      />
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-      <PageChanger
-        pageNum={pageNum}
-        setPageNum={handlePageChange}
-        responseCount={requestState?.response?.count}
-      />
-    </>
-  );
-};
+    const handlePageChange = (newPage: number) => {
+      panelDispatchStateChangeSelf({
+        type: "update_korean_detail_interaction_data",
+        key: "derivedLemmasPageNum",
+        newValue: newPage,
+      });
+    };
+
+    return (
+      <>
+        <ResultCountMessage
+          pageNum={pageNum}
+          responseCount={requestState?.response?.count}
+        />
+
+        <PaginatedResultsFormatter
+          requestState={requestState}
+          verifier={isHeadwordDerivedExampleSearchResultType}
+          ResultComponent={HeadwordDerivedExampleSearchResult}
+        />
+
+        <PageChanger
+          pageNum={pageNum}
+          setPageNum={handlePageChange}
+          responseCount={requestState?.response?.count}
+        />
+      </>
+    );
+  }
+);

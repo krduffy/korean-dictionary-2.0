@@ -9,57 +9,54 @@ import { isHanjaSearchResultType } from "@repo/shared/types/views/dictionary-ite
 import { useHanjaSearchResultListenerHandler } from "@repo/shared/hooks/listener-handlers/viewSpecificListenerHandlers";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
+import { memo } from "react";
 
-type HanjaSearchData = {
-  searchConfig: HanjaSearchConfig;
-};
+export const HanjaSearchView = memo(
+  ({ searchConfig }: { searchConfig: HanjaSearchConfig }) => {
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-export const HanjaSearchView: React.FC<HanjaSearchData> = ({
-  searchConfig,
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+    const url = getEndpoint({
+      endpoint: "search_hanja",
+      queryParams: searchConfig,
+    });
 
-  const url = getEndpoint({
-    endpoint: "search_hanja",
-    queryParams: searchConfig,
-  });
+    const { requestState, refetch } = useFetchProps({
+      url: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+      refetchDependencyArray: [url],
+    });
 
-  const { requestState, refetch } = useFetchProps({
-    url: url,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    refetchDependencyArray: [url],
-  });
+    useHanjaSearchResultListenerHandler({
+      url,
+      response: requestState.response,
+      refetch,
+    });
 
-  useHanjaSearchResultListenerHandler({
-    url,
-    response: requestState.response,
-    refetch,
-  });
+    return (
+      <>
+        <ResultCountMessage
+          pageNum={searchConfig.page}
+          responseCount={requestState?.response?.count}
+        />
 
-  return (
-    <>
-      <ResultCountMessage
-        pageNum={searchConfig.page}
-        responseCount={requestState?.response?.count}
-      />
+        <PaginatedResultsFormatter
+          requestState={requestState}
+          searchTerm={searchConfig.search_term}
+          verifier={isHanjaSearchResultType}
+          ResultComponent={HanjaSearchResult}
+        />
 
-      <PaginatedResultsFormatter
-        requestState={requestState}
-        searchTerm={searchConfig.search_term}
-        verifier={isHanjaSearchResultType}
-        ResultComponent={HanjaSearchResult}
-      />
-
-      <PageChanger
-        pageNum={searchConfig.page}
-        setPageNum={(newPage: number) =>
-          panelDispatchStateChangeSelf({
-            type: "update_page",
-            newPage: newPage,
-          })
-        }
-        responseCount={requestState?.response?.count}
-      />
-    </>
-  );
-};
+        <PageChanger
+          pageNum={searchConfig.page}
+          setPageNum={(newPage: number) =>
+            panelDispatchStateChangeSelf({
+              type: "update_page",
+              newPage: newPage,
+            })
+          }
+          responseCount={requestState?.response?.count}
+        />
+      </>
+    );
+  }
+);

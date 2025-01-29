@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { useDebouncedScrollUpdate } from "./useDebouncedScrollUpdate";
+import { useThrottledScrollUpdate } from "./useThrottledScrollUpdate";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const useScrollSaveAndRestoration = ({
@@ -13,7 +13,7 @@ export const useScrollSaveAndRestoration = ({
 }) => {
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-  const { onScroll } = useDebouncedScrollUpdate({
+  const { onScroll } = useThrottledScrollUpdate({
     panelDispatchStateChangeSelf,
   });
 

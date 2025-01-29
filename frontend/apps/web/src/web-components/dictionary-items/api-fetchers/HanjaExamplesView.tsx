@@ -8,63 +8,60 @@ import { useHanjaExampleKoreanHeadwordListenerHandler } from "@repo/shared/hooks
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
 import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
 import { HanjaExampleKoreanHeadword } from "../item-components/hanja/detail/HanjaExampleKoreanHeadword";
+import { memo } from "react";
 
-export const HanjaExamplesView = ({
-  character,
-  pageNum,
-}: {
-  character: string;
-  pageNum: number;
-}) => {
-  const url = getEndpoint({
-    endpoint: "examples_hanja",
-    pk: character,
-    queryParams: {
-      page: pageNum,
-    },
-  });
-
-  const { requestState, refetch } = useFetchProps({
-    url: url,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    refetchDependencyArray: [url],
-  });
-
-  useHanjaExampleKoreanHeadwordListenerHandler({
-    url,
-    response: requestState.response,
-    refetch,
-  });
-
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-
-  const handlePageChange = (newPage: number) => {
-    panelDispatchStateChangeSelf({
-      type: "update_hanja_detail_interaction_data",
-      key: "exampleWordsPageNum",
-      newValue: newPage,
+export const HanjaExamplesView = memo(
+  ({ character, pageNum }: { character: string; pageNum: number }) => {
+    const url = getEndpoint({
+      endpoint: "examples_hanja",
+      pk: character,
+      queryParams: {
+        page: pageNum,
+      },
     });
-  };
 
-  return (
-    <>
-      <ResultCountMessage
-        pageNum={pageNum}
-        responseCount={requestState?.response?.count}
-      />
+    const { requestState, refetch } = useFetchProps({
+      url: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+      refetchDependencyArray: [url],
+    });
 
-      <PaginatedResultsFormatter
-        requestState={requestState}
-        searchTerm={character}
-        verifier={isKoreanHeadwordInExampleType}
-        ResultComponent={HanjaExampleKoreanHeadword}
-      />
+    useHanjaExampleKoreanHeadwordListenerHandler({
+      url,
+      response: requestState.response,
+      refetch,
+    });
 
-      <PageChanger
-        pageNum={pageNum}
-        setPageNum={handlePageChange}
-        responseCount={requestState?.response?.count}
-      />
-    </>
-  );
-};
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+
+    const handlePageChange = (newPage: number) => {
+      panelDispatchStateChangeSelf({
+        type: "update_hanja_detail_interaction_data",
+        key: "exampleWordsPageNum",
+        newValue: newPage,
+      });
+    };
+
+    return (
+      <>
+        <ResultCountMessage
+          pageNum={pageNum}
+          responseCount={requestState?.response?.count}
+        />
+
+        <PaginatedResultsFormatter
+          requestState={requestState}
+          searchTerm={character}
+          verifier={isKoreanHeadwordInExampleType}
+          ResultComponent={HanjaExampleKoreanHeadword}
+        />
+
+        <PageChanger
+          pageNum={pageNum}
+          setPageNum={handlePageChange}
+          responseCount={requestState?.response?.count}
+        />
+      </>
+    );
+  }
+);

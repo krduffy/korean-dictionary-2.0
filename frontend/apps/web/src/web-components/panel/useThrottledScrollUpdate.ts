@@ -4,7 +4,7 @@ import { useRef } from "react";
 /* exact number subject to change */
 export const SCROLL_UPDATE_DEBOUNCE_TIME_MS = 500;
 
-export const useDebouncedScrollUpdate = ({
+export const useThrottledScrollUpdate = ({
   panelDispatchStateChangeSelf,
 }: {
   panelDispatchStateChangeSelf: (value: PanelStateAction) => void;
@@ -13,7 +13,7 @@ export const useDebouncedScrollUpdate = ({
   const queuedScrollUpdateDistance = useRef<number | null>(null);
 
   const dispatchUpdateScrollStateChange = (newScrollDistance: number) => {
-    console.log("updating");
+    console.log("dispatching updating for scroll");
     panelDispatchStateChangeSelf({
       type: "update_scroll_distance",
       scrollDistance: newScrollDistance,

@@ -1,5 +1,6 @@
 import { KnownStudiedIcon } from "./KnownStudiedIcon";
 import { KnownStudiedToggler } from "./KnownStudiedToggler";
+import { memo } from "react";
 
 export const FunctionlessKnownStudiedDisplayers = ({
   known,
@@ -24,32 +25,34 @@ export const FunctionlessKnownStudiedDisplayers = ({
   );
 };
 
-export const KoreanHeadwordKnownStudiedTogglers = ({
-  pk,
-  isKnown,
-  isStudied,
-}: {
-  pk: number;
-  isKnown: boolean;
-  isStudied: boolean;
-}) => {
-  return (
-    <div className="flex gap-2 h-full">
-      <KnownStudiedToggler
-        pk={pk}
-        knownOrStudied="known"
-        koreanOrHanja="korean"
-        isToggled={isKnown}
-      />
-      <KnownStudiedToggler
-        pk={pk}
-        knownOrStudied="studied"
-        koreanOrHanja="korean"
-        isToggled={isStudied}
-      />
-    </div>
-  );
-};
+export const KoreanHeadwordKnownStudiedTogglers = memo(
+  ({
+    pk,
+    isKnown,
+    isStudied,
+  }: {
+    pk: number;
+    isKnown: boolean;
+    isStudied: boolean;
+  }) => {
+    return (
+      <div className="flex gap-2 h-full">
+        <KnownStudiedToggler
+          pk={pk}
+          knownOrStudied="known"
+          koreanOrHanja="korean"
+          isToggled={isKnown}
+        />
+        <KnownStudiedToggler
+          pk={pk}
+          knownOrStudied="studied"
+          koreanOrHanja="korean"
+          isToggled={isStudied}
+        />
+      </div>
+    );
+  }
+);
 
 export const HanjaCharacterKnownStudiedTogglers = ({
   pk,

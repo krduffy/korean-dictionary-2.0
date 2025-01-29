@@ -1,4 +1,3 @@
-import { StringWithNLPAndHanja } from "../../../shared/formatted-string/FormattedString";
 import { ExampleInfoSection } from "./ExampleInfoSection";
 import { TruncatorDropdown } from "../../../../../ui/TruncatorDropdown";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
@@ -23,87 +22,90 @@ import {
 } from "../../../shared/ReusedFormatters";
 import { Href, Source } from "../../../../../text-formatters/SpanStylers";
 import { SenseCategoriesAndDefinition } from "../../SenseCategoriesAndDefinition";
+import { memo } from "react";
 
-export const DetailedSenseView = ({
-  senseData,
-  dropdownState,
-}: {
-  senseData: DetailedSenseType;
-  dropdownState: DetailedSenseDropdownState;
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+export const DetailedSenseView = memo(
+  ({
+    senseData,
+    dropdownState,
+  }: {
+    senseData: DetailedSenseType;
+    dropdownState: DetailedSenseDropdownState;
+  }) => {
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-  const getOnDropdownStateToggleFunction = (order: number) => {
-    return (dropdownKey: keyof DetailedSenseDropdownState) => {
-      return (isExpanded: boolean) => {
-        panelDispatchStateChangeSelf({
-          type: "update_korean_detail_dropdown_toggle",
-          senseNumber: order - 1,
-          dropdownKey: dropdownKey,
-          newIsDroppedDown: isExpanded,
-        });
+    const getOnDropdownStateToggleFunction = (order: number) => {
+      return (dropdownKey: keyof DetailedSenseDropdownState) => {
+        return (isExpanded: boolean) => {
+          panelDispatchStateChangeSelf({
+            type: "update_korean_detail_dropdown_toggle",
+            senseNumber: order - 1,
+            dropdownKey: dropdownKey,
+            newIsDroppedDown: isExpanded,
+          });
+        };
       };
     };
-  };
 
-  const title = (
-    <div className="flex flex-row gap-1 py-1 pr-8">
-      <div>{senseData.order}.</div>
+    const title = (
+      <div className="flex flex-row gap-1 py-1 pr-8">
+        <div>{senseData.order}.</div>
 
-      <div className="flex-1">
-        <SenseMainInfo
-          targetCode={senseData.target_code}
-          definition={senseData.definition}
-          type={senseData.type}
-          pos={senseData.pos}
-          category={senseData.category}
-          patternInfo={senseData.additional_info.pattern_info}
-          regionInfo={senseData.additional_info.region_info}
-        />
+        <div className="flex-1">
+          <SenseMainInfo
+            targetCode={senseData.target_code}
+            definition={senseData.definition}
+            type={senseData.type}
+            pos={senseData.pos}
+            category={senseData.category}
+            patternInfo={senseData.additional_info.pattern_info}
+            regionInfo={senseData.additional_info.region_info}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
 
-  const hasAdditionalInfo = [
-    senseData.additional_info.example_info,
-    senseData.additional_info.grammar_info,
-    senseData.additional_info.norm_info,
-    senseData.additional_info.proverb_info,
-    senseData.additional_info.relation_info,
-  ].some((info) => info !== undefined);
+    const hasAdditionalInfo = [
+      senseData.additional_info.example_info,
+      senseData.additional_info.grammar_info,
+      senseData.additional_info.norm_info,
+      senseData.additional_info.proverb_info,
+      senseData.additional_info.relation_info,
+    ].some((info) => info !== undefined);
 
-  return (
-    <HideableDropdownNoTruncation
-      /* if there is no additional info then the dropdown is disabled
+    return (
+      <HideableDropdownNoTruncation
+        /* if there is no additional info then the dropdown is disabled
          to prevent droppable div with just padding */
-      disableDropdown={!hasAdditionalInfo}
-      droppedDown={
-        dropdownState.additionalInfoBoxDroppedDown && hasAdditionalInfo
-      }
-      classes={{
-        topBarClassName: "bg-[color:--neutral-color-not-hovering] py-2",
-        childrenClassName: "bg-[color:--background-tertiary]",
-        titleClassName: "w-full",
-      }}
-      onDropdownStateToggle={getOnDropdownStateToggleFunction(senseData.order)(
-        "additionalInfoBoxDroppedDown"
-      )}
-      title={title}
-    >
-      <div className="p-4">
-        <SenseAdditionalInfo
-          getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction(
-            senseData.order
-          )}
-          dropdownState={dropdownState}
-          additionalInfoData={senseData.additional_info}
-        />
-        <br />
-        <SourceForSenseNumber targetCode={senseData.target_code} />
-      </div>
-    </HideableDropdownNoTruncation>
-  );
-};
+        disableDropdown={!hasAdditionalInfo}
+        droppedDown={
+          dropdownState.additionalInfoBoxDroppedDown && hasAdditionalInfo
+        }
+        classes={{
+          topBarClassName: "bg-[color:--neutral-color-not-hovering] py-2",
+          childrenClassName: "bg-[color:--background-tertiary]",
+          titleClassName: "w-full",
+        }}
+        onDropdownStateToggle={getOnDropdownStateToggleFunction(
+          senseData.order
+        )("additionalInfoBoxDroppedDown")}
+        title={title}
+      >
+        <div className="p-4">
+          <SenseAdditionalInfo
+            getOnDropdownStateToggleFunction={getOnDropdownStateToggleFunction(
+              senseData.order
+            )}
+            dropdownState={dropdownState}
+            additionalInfoData={senseData.additional_info}
+          />
+          <br />
+          <SourceForSenseNumber targetCode={senseData.target_code} />
+        </div>
+      </HideableDropdownNoTruncation>
+    );
+  }
+);
 
 const SourceForSenseNumber = ({ targetCode }: { targetCode: number }) => (
   <footer>

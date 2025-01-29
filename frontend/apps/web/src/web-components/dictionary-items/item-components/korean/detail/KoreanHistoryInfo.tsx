@@ -9,65 +9,65 @@ import {
 } from "../../../../text-formatters/SpanStylers";
 import { NonModernKoreanText } from "../../../../text-formatters/Fonts";
 import { ExampleStringWithHanja } from "../../shared/formatted-string/FormattedString";
-import {
-  HideableDropdownNoTruncation,
-  TopLevelHideableDropdownNoTruncation,
-} from "../../shared/ReusedFormatters";
+import { TopLevelHideableDropdownNoTruncation } from "../../shared/ReusedFormatters";
+import { memo } from "react";
 
-export const KoreanHistoryInfoSection = ({
-  historyInfo,
-  dropdownState,
-}: {
-  historyInfo: HistoryInfoType;
-  dropdownState: boolean;
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+export const KoreanHistoryInfoSection = memo(
+  ({
+    historyInfo,
+    dropdownState,
+  }: {
+    historyInfo: HistoryInfoType;
+    dropdownState: boolean;
+  }) => {
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-  const toggleHistoryVisible = (newVisible: boolean) => {
-    panelDispatchStateChangeSelf({
-      type: "update_korean_detail_interaction_data",
-      key: "historyDroppedDown",
-      newValue: newVisible,
-    });
-  };
+    const toggleHistoryVisible = (newVisible: boolean) => {
+      panelDispatchStateChangeSelf({
+        type: "update_korean_detail_interaction_data",
+        key: "historyDroppedDown",
+        newValue: newVisible,
+      });
+    };
 
-  return (
-    <TopLevelHideableDropdownNoTruncation
-      title="역사 정보"
-      droppedDown={dropdownState}
-      onDropdownStateToggle={toggleHistoryVisible}
-    >
-      <div className="p-4 flex flex-col gap-4">
-        <HistoryOverviewData historyInfo={historyInfo} />
+    return (
+      <TopLevelHideableDropdownNoTruncation
+        title="역사 정보"
+        droppedDown={dropdownState}
+        onDropdownStateToggle={toggleHistoryVisible}
+      >
+        <div className="p-4 flex flex-col gap-4">
+          <HistoryOverviewData historyInfo={historyInfo} />
 
-        {historyInfo.history_sense_info.length > 0 && (
-          <div>
-            <div
-              className="border-2 border-[color:--accent-border-color] 
+          {historyInfo.history_sense_info.length > 0 && (
+            <div>
+              <div
+                className="border-2 border-[color:--accent-border-color] 
             rounded-t-xl text-center bg-[color:--understated-accent-not-hovering] 
             text-[130%] py-1"
-            >
-              세기별 용례
-            </div>
-            <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]">
-              <CenturyTable
-                /* data from korean lang institute is strangely formatted
+              >
+                세기별 용례
+              </div>
+              <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]">
+                <CenturyTable
+                  /* data from korean lang institute is strangely formatted
                  history sense info has length 1 and the only item is object with
                  history_century_info as the only key */
-                historyCenturiesInfo={
-                  historyInfo.history_sense_info[0].history_century_info
-                }
-              />
+                  historyCenturiesInfo={
+                    historyInfo.history_sense_info[0].history_century_info
+                  }
+                />
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-      <footer className="p-4">
-        <Source>출처: 우리말샘</Source>
-      </footer>
-    </TopLevelHideableDropdownNoTruncation>
-  );
-};
+          )}
+        </div>
+        <footer className="p-4">
+          <Source>출처: 우리말샘</Source>
+        </footer>
+      </TopLevelHideableDropdownNoTruncation>
+    );
+  }
+);
 
 const HistoryOverviewData = ({
   historyInfo,

@@ -5,51 +5,48 @@ import { SearchIcon } from "lucide-react";
 import { useSettingsContext } from "../../../../web-contexts/SettingsContext";
 import { SearchBarConfig } from "@repo/shared/types/views/searchConfigTypes";
 import { PanelStateAction } from "@repo/shared/types/panel/panelStateActionTypes";
+import { memo } from "react";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
-interface SearchBarAreaArgs {
-  searchConfig: SearchBarConfig;
-  panelDispatchStateChangeSelf: React.Dispatch<PanelStateAction>;
-}
+export const SearchBarArea = memo(
+  ({ searchConfig }: { searchConfig: SearchBarConfig }) => {
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+    const { keyboardConversionSettings } = useSettingsContext();
+    const {
+      submitSearch,
+      updateKoreanSearchConfig,
+      updateHanjaSearchConfig,
+      updateSearchTerm,
+      switchDictionary,
+      deleteSearchConfigItemByKey,
+    } = useSearchBarArea({
+      searchConfig: searchConfig,
+      panelDispatchStateChangeSelf: panelDispatchStateChangeSelf,
+      doConversion: keyboardConversionSettings.doConversion,
+    });
 
-export const SearchBarArea = ({
-  searchConfig,
-  panelDispatchStateChangeSelf,
-}: SearchBarAreaArgs) => {
-  const { keyboardConversionSettings } = useSettingsContext();
-  const {
-    submitSearch,
-    updateKoreanSearchConfig,
-    updateHanjaSearchConfig,
-    updateSearchTerm,
-    switchDictionary,
-    deleteSearchConfigItemByKey,
-  } = useSearchBarArea({
-    searchConfig: searchConfig,
-    panelDispatchStateChangeSelf: panelDispatchStateChangeSelf,
-    doConversion: keyboardConversionSettings.doConversion,
-  });
-
-  return (
-    <div className="flex flex-row items-center pr-3 h-full w-full rounded-full bg-[color:--background-quaternary]">
-      <div className="h-full flex flex-1">
-        <SearchBar
-          searchTerm={searchConfig.config.search_term}
-          updateSearchTerm={updateSearchTerm}
-          submitSearch={submitSearch}
-        />
+    return (
+      <div className="flex flex-row items-center pr-3 h-full w-full rounded-full bg-[color:--background-quaternary]">
+        <div className="h-full flex flex-1">
+          <SearchBar
+            searchTerm={searchConfig.config.search_term}
+            updateSearchTerm={updateSearchTerm}
+            submitSearch={submitSearch}
+          />
+        </div>
+        <div className="w-6 px-1">
+          <SearchSettingsButton
+            searchConfig={searchConfig}
+            updateKoreanSearchConfig={updateKoreanSearchConfig}
+            updateHanjaSearchConfig={updateHanjaSearchConfig}
+            switchDictionary={switchDictionary}
+            deleteSearchConfigItemByKey={deleteSearchConfigItemByKey}
+          />
+        </div>
       </div>
-      <div className="w-6 px-1">
-        <SearchSettingsButton
-          searchConfig={searchConfig}
-          updateKoreanSearchConfig={updateKoreanSearchConfig}
-          updateHanjaSearchConfig={updateHanjaSearchConfig}
-          switchDictionary={switchDictionary}
-          deleteSearchConfigItemByKey={deleteSearchConfigItemByKey}
-        />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 const SearchBar = ({
   searchTerm,

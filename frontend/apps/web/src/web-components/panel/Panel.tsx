@@ -17,13 +17,10 @@ export const Panel = memo((panelData: PersistentPanelData) => {
         backdrop-blur-[12px] overflow-hidden"
       >
         {/* area for search bar and history navigation + closing panel */}
-        <PanelTopBar
-          state={panelData.state}
-          panelDispatchStateChangeSelf={panelData.panelDispatchStateChangeSelf}
-        />
+        <PanelTopBar state={panelData.state} />
         <PanelContent
-          view={panelData.state.view}
-          scrollDistance={panelData.state.view.interactionData.scrollDistance}
+          view={panelData.state.viewAndScrollDistance.view}
+          scrollDistance={panelData.state.viewAndScrollDistance.scrollDistance}
           historyPointer={panelData.state.historyData.pointer}
         />
       </div>

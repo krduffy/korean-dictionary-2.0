@@ -1,8 +1,6 @@
 import { isBoolean, isObject } from "../guardUtils";
 
-export interface BaseInteractionData {
-  scrollDistance: number;
-}
+export interface BaseInteractionData {}
 
 /* currently nothing except for the scroll distance */
 export type PanelHomepageInteractionData = BaseInteractionData;

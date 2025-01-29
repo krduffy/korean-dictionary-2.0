@@ -40,16 +40,17 @@ const getWithUpdatedKoreanDetailedSenseDropdowns = (
   dropdownKey: keyof DetailedSenseDropdownState,
   newIsDroppedDown: boolean
 ): PanelState => {
-  if (state.view.type != "korean_detail") {
+  if (state.viewAndScrollDistance.view.type != "korean_detail") {
     return state;
   }
 
-  const newDropdowns = state.view.interactionData.detailedSenseDropdowns.map(
-    (currentSenseDropdownsObj, index) =>
-      index === senseNumber
-        ? { ...currentSenseDropdownsObj, [dropdownKey]: newIsDroppedDown }
-        : currentSenseDropdownsObj
-  );
+  const newDropdowns =
+    state.viewAndScrollDistance.view.interactionData.detailedSenseDropdowns.map(
+      (currentSenseDropdownsObj, index) =>
+        index === senseNumber
+          ? { ...currentSenseDropdownsObj, [dropdownKey]: newIsDroppedDown }
+          : currentSenseDropdownsObj
+    );
 
   return updateInteractionData<
     KoreanDetailInteractionData,
@@ -61,10 +62,10 @@ const updateDetailedSenseDropdownsLength = (
   state: PanelState,
   newLength: number
 ) => {
-  if (state.view.type !== "korean_detail") return state;
+  if (state.viewAndScrollDistance.view.type !== "korean_detail") return state;
 
   const detailedSenseDropdowns =
-    state.view.interactionData.detailedSenseDropdowns;
+    state.viewAndScrollDistance.view.interactionData.detailedSenseDropdowns;
 
   return updateInteractionData<
     KoreanDetailInteractionData,
@@ -85,15 +86,40 @@ const updateUserExampleDropdownState = (
   key: keyof KoreanDetailUserExampleDropdownState,
   newValue: boolean
 ) => {
-  if (state.view.type !== "korean_detail") return state;
+  if (state.viewAndScrollDistance.view.type !== "korean_detail") return state;
 
   return updateInteractionData<
     KoreanDetailInteractionData,
     "userExampleDropdowns"
   >(state, "userExampleDropdowns", {
-    ...state.view.interactionData.userExampleDropdowns,
+    ...state.viewAndScrollDistance.view.interactionData.userExampleDropdowns,
     [key]: newValue,
   });
+};
+
+const updateScrollDistance = (
+  state: PanelState,
+  scrollDistance: number
+): PanelState => {
+  return {
+    ...state,
+    viewAndScrollDistance: {
+      view: state.viewAndScrollDistance.view,
+      scrollDistance: scrollDistance,
+    },
+    historyData: {
+      ...state.historyData,
+      viewsAndScrollDistances: state.historyData.viewsAndScrollDistances.map(
+        (item, id) =>
+          id === state.historyData.pointer
+            ? {
+                ...item,
+                scrollDistance: scrollDistance,
+              }
+            : item
+      ),
+    },
+  };
 };
 
 export const updateInteractionDataIfApplicable = (
@@ -102,11 +128,7 @@ export const updateInteractionDataIfApplicable = (
 ): PanelState | null => {
   switch (action.type) {
     case "update_scroll_distance":
-      return updateInteractionData<BaseInteractionData, "scrollDistance">(
-        state,
-        "scrollDistance",
-        action.scrollDistance
-      );
+      return updateScrollDistance(state, action.scrollDistance);
 
     case "update_korean_detail_dropdown_toggle":
       return getWithUpdatedKoreanDetailedSenseDropdowns(

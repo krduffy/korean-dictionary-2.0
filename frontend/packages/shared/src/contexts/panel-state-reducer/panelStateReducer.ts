@@ -4,7 +4,10 @@ import { updateConfigIfApplicable } from "./updateConfigActions";
 import { updateHistoryPointerIfApplicable } from "./historyNavigationActions";
 import { updatePageIfApplicable } from "./updatePageAction";
 import { updateInteractionDataIfApplicable } from "./updateInteractionDataActions";
-import { PanelState } from "../../types/panel/panelTypes";
+import {
+  PanelState,
+  ViewAndScrollDistance,
+} from "../../types/panel/panelTypes";
 import { View } from "../../types/views/viewTypes";
 import { PanelStateAction } from "../../types/panel/panelStateActionTypes";
 
@@ -15,23 +18,27 @@ export const updateViewAndHistory = (
   updateFn: (view: View) => Partial<View>
 ): PanelState => {
   const updatedView: View = {
-    ...state.view,
-    ...updateFn(state.view),
+    ...state.viewAndScrollDistance.view,
+    ...updateFn(state.viewAndScrollDistance.view),
   } as View;
 
   return {
     ...state,
-    view: updatedView,
+    viewAndScrollDistance: {
+      scrollDistance: state.viewAndScrollDistance.scrollDistance,
+      view: updatedView,
+    },
     historyData: {
       ...state.historyData,
-      views: state.historyData.views.map((view, id) =>
-        id === state.historyData.pointer
-          ? {
-              ...state.view,
-              ...updateFn(state.view),
-            }
-          : view
-      ) as View[],
+      viewsAndScrollDistances: state.historyData.viewsAndScrollDistances.map(
+        (viewAndScrollDistance, id) =>
+          id === state.historyData.pointer
+            ? {
+                scrollDistance: state.viewAndScrollDistance.scrollDistance,
+                view: updatedView,
+              }
+            : viewAndScrollDistance
+      ) as ViewAndScrollDistance[],
     },
   };
 };

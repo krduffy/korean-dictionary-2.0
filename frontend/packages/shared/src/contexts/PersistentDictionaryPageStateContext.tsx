@@ -65,7 +65,7 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
   } as const;
 
   const initialHistoryData: HistoryData = {
-    views: [initialPanelView],
+    viewsAndScrollDistances: [{ view: initialPanelView, scrollDistance: 0 }],
     pointer: 0,
     maxLength: 10,
   };
@@ -73,14 +73,14 @@ export const PersistentDictionaryPageStateContextProvider: React.FC<{
   const [leftState, leftDispatch] = useReducer(panelStateReducer, {
     visible: true,
     searchConfig: initialSearchConfig,
-    view: initialPanelView,
+    viewAndScrollDistance: { view: initialPanelView, scrollDistance: 0 },
     historyData: initialHistoryData,
   });
 
   const [rightState, rightDispatch] = useReducer(panelStateReducer, {
     visible: false,
     searchConfig: initialSearchConfig,
-    view: initialPanelView,
+    viewAndScrollDistance: { view: initialPanelView, scrollDistance: 0 },
     historyData: initialHistoryData,
   });
 

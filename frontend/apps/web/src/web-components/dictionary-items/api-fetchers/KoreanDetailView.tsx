@@ -6,34 +6,37 @@ import { useKoreanDetailListenerHandler } from "@repo/shared/hooks/listener-hand
 import { KoreanDetailInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataFormatter";
 import { KoreanDetailDisplay } from "../item-components/korean/detail/KoreanDetailDisplay";
+import { memo } from "react";
 
-export const KoreanDetailView = ({
-  target_code,
-  interactionData,
-}: {
-  target_code: number;
-  interactionData: KoreanDetailInteractionData;
-}) => {
-  const url = getEndpoint({ endpoint: "detail_korean", pk: target_code });
+export const KoreanDetailView = memo(
+  ({
+    target_code,
+    interactionData,
+  }: {
+    target_code: number;
+    interactionData: KoreanDetailInteractionData;
+  }) => {
+    const url = getEndpoint({ endpoint: "detail_korean", pk: target_code });
 
-  const { requestState, refetch } = useFetchProps({
-    url: url,
-    useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-    refetchDependencyArray: [target_code],
-  });
+    const { requestState, refetch } = useFetchProps({
+      url: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
+      refetchDependencyArray: [target_code],
+    });
 
-  useKoreanDetailListenerHandler({
-    url: url,
-    response: requestState.response,
-    refetch: refetch,
-  });
+    useKoreanDetailListenerHandler({
+      url: url,
+      response: requestState.response,
+      refetch: refetch,
+    });
 
-  return (
-    <BasicAPIDataFormatter
-      requestState={requestState}
-      verifier={isDetailedKoreanType}
-      interactionData={interactionData}
-      DisplayComponent={KoreanDetailDisplay}
-    />
-  );
-};
+    return (
+      <BasicAPIDataFormatter
+        requestState={requestState}
+        verifier={isDetailedKoreanType}
+        interactionData={interactionData}
+        DisplayComponent={KoreanDetailDisplay}
+      />
+    );
+  }
+);

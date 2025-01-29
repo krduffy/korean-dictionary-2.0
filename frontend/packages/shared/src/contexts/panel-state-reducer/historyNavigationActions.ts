@@ -12,8 +12,10 @@ export const updateHistoryPointerIfApplicable = (
       }
       return {
         ...state,
-        view:
-          state.historyData.views[state.historyData.pointer - 1] ?? state.view,
+        viewAndScrollDistance:
+          state.historyData.viewsAndScrollDistances[
+            state.historyData.pointer - 1
+          ] ?? state.viewAndScrollDistance,
         historyData: {
           ...state.historyData,
           pointer: state.historyData.pointer - 1,
@@ -21,13 +23,18 @@ export const updateHistoryPointerIfApplicable = (
       };
 
     case "navigate_forward":
-      if (state.historyData.pointer >= state.historyData.views.length - 1) {
+      if (
+        state.historyData.pointer >=
+        state.historyData.viewsAndScrollDistances.length - 1
+      ) {
         return state;
       }
       return {
         ...state,
-        view:
-          state.historyData.views[state.historyData.pointer + 1] ?? state.view,
+        viewAndScrollDistance:
+          state.historyData.viewsAndScrollDistances[
+            state.historyData.pointer + 1
+          ] ?? state.viewAndScrollDistance,
         historyData: {
           ...state.historyData,
           pointer: state.historyData.pointer + 1,

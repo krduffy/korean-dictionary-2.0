@@ -6,40 +6,39 @@ import { KoreanSearchResult } from "../item-components/korean/KoreanSearchResult
 import { DerivedExampleTextEojeolNumLemmasData } from "@repo/shared/types/views/userExampleViewTypes";
 import { useDerivedExampleTextEojeolNumLemmasView } from "./useDerivedExampleTextEojeolNumLemmasView";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
+import { memo } from "react";
 
-export const DerivedExampleTextEojeolNumLemmasView = ({
-  data,
-}: {
-  data: DerivedExampleTextEojeolNumLemmasData;
-}) => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-  const { fakedRequestState } = useDerivedExampleTextEojeolNumLemmasView({
-    data: data,
-  });
+export const DerivedExampleTextEojeolNumLemmasView = memo(
+  ({ data }: { data: DerivedExampleTextEojeolNumLemmasData }) => {
+    const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
+    const { fakedRequestState } = useDerivedExampleTextEojeolNumLemmasView({
+      data: data,
+    });
 
-  return (
-    <>
-      <ResultCountMessage
-        pageNum={data.page}
-        responseCount={fakedRequestState?.response?.count}
-      />
+    return (
+      <>
+        <ResultCountMessage
+          pageNum={data.page}
+          responseCount={fakedRequestState?.response?.count}
+        />
 
-      <PaginatedResultsFormatter
-        requestState={fakedRequestState}
-        verifier={isKoreanSearchResultType}
-        ResultComponent={KoreanSearchResult}
-      />
+        <PaginatedResultsFormatter
+          requestState={fakedRequestState}
+          verifier={isKoreanSearchResultType}
+          ResultComponent={KoreanSearchResult}
+        />
 
-      <PageChanger
-        pageNum={data.page}
-        setPageNum={(newPage: number) =>
-          panelDispatchStateChangeSelf({
-            type: "update_page",
-            newPage: newPage,
-          })
-        }
-        responseCount={fakedRequestState?.response?.count}
-      />
-    </>
-  );
-};
+        <PageChanger
+          pageNum={data.page}
+          setPageNum={(newPage: number) =>
+            panelDispatchStateChangeSelf({
+              type: "update_page",
+              newPage: newPage,
+            })
+          }
+          responseCount={fakedRequestState?.response?.count}
+        />
+      </>
+    );
+  }
+);

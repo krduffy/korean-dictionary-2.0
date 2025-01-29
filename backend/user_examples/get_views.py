@@ -13,7 +13,6 @@ from user_examples.serializers import (
 )
 from django.db.models import Q
 from korean.headword_serializers import KoreanHeadwordSearchResultSerializer
-from korean.detailed_headword_serializer import KoreanHeadwordDetailedSerializer
 from korean.models import KoreanHeadword
 
 
@@ -107,9 +106,13 @@ class GetDerivedExampleLemmasFromTextView(
 
         user_known_headword_pks = user.known_headwords.values_list("pk", flat=True)
 
-        queryset = queryset.annotate(
-            is_known_by_user=Q(headword_ref__pk__in=user_known_headword_pks)
-        ).filter(is_known_by_user=False)
+        queryset = (
+            queryset.annotate(
+                is_known_by_user=Q(headword_ref__pk__in=user_known_headword_pks)
+            )
+            .filter(is_known_by_user=False)
+            .order_by("eojeol_number_in_source_text")
+        )
 
         return queryset
 

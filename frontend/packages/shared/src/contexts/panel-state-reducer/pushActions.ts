@@ -5,7 +5,7 @@ import { View } from "../../types/views/viewTypes";
 
 /* adds a new view to the end of history */
 const pushView = (state: PanelState, newView: View): PanelState => {
-  const trimmedViews = state.historyData.views.slice(
+  const trimmedViews = state.historyData.viewsAndScrollDistances.slice(
     0,
     state.historyData.pointer + 1
   );
@@ -13,15 +13,23 @@ const pushView = (state: PanelState, newView: View): PanelState => {
   // in views
   const cutFirst = trimmedViews.length >= state.historyData.maxLength;
   const baseViewArray = cutFirst
-    ? state.historyData.views.slice(1)
+    ? state.historyData.viewsAndScrollDistances.slice(1)
     : trimmedViews;
 
   return {
     ...state,
-    view: newView,
+    viewAndScrollDistance: {
+      view: newView,
+      scrollDistance: 0,
+    },
     historyData: {
       ...state.historyData,
-      views: baseViewArray.concat([newView]),
+      viewsAndScrollDistances: baseViewArray.concat([
+        {
+          view: newView,
+          scrollDistance: 0,
+        },
+      ]),
       pointer: cutFirst
         ? state.historyData.pointer
         : state.historyData.pointer + 1,
@@ -31,17 +39,22 @@ const pushView = (state: PanelState, newView: View): PanelState => {
 
 /* completely removes the current view and puts a new one in its place */
 const overwriteCurrentView = (state: PanelState, newView: View): PanelState => {
-  const trimmedViews = state.historyData.views.slice(
+  const trimmedViews = state.historyData.viewsAndScrollDistances.slice(
     0,
     state.historyData.pointer
   );
 
   return {
     ...state,
-    view: newView,
+    viewAndScrollDistance: { view: newView, scrollDistance: 0 },
     historyData: {
       ...state.historyData,
-      views: trimmedViews.concat([newView]),
+      viewsAndScrollDistances: trimmedViews.concat([
+        {
+          view: newView,
+          scrollDistance: 0,
+        },
+      ]),
     },
   };
 };
@@ -72,69 +85,55 @@ export const pushIfApplicable = (
   switch (action.type) {
     case "push_korean_search":
       return func(state, {
-        ...state.view,
         type: "korean_search",
         data: {
           ...action.searchConfig,
           page: 1,
         },
-        interactionData: {
-          scrollDistance: 0,
-        },
+        interactionData: {},
       });
     case "push_hanja_search":
       return func(state, {
-        ...state.view,
         type: "hanja_search",
         data: {
           ...action.searchConfig,
           page: 1,
         },
-        interactionData: {
-          scrollDistance: 0,
-        },
+        interactionData: {},
       });
     case "push_korean_detail":
       return func(state, {
-        ...state.view,
         type: "korean_detail",
         data: { target_code: action.target_code },
         interactionData: getKoreanDetailBaseInteractionData(),
       });
     case "push_hanja_detail":
       return func(state, {
-        ...state.view,
         type: "hanja_detail",
         data: { character: action.character },
         interactionData: {
           explanationDroppedDown: true,
           exampleWordsDroppedDown: true,
           exampleWordsPageNum: 1,
-          scrollDistance: 0,
         },
       });
     case "push_find_lemma":
       return func(state, {
-        ...state.view,
         type: "find_lemma",
         data: {
           word: action.word,
           sentence: action.sentence,
           index: action.index,
         },
-        interactionData: {
-          scrollDistance: 0,
-        },
+        interactionData: {},
       });
     case "push_lemma_derived_text_detail":
       return func(state, {
-        ...state.view,
         type: "lemma_derived_text_detail",
         data: {
           source_text_pk: action.sourceTextPk,
         },
         interactionData: {
-          scrollDistance: 0,
           headwordSearchPanelPageNum: 1,
           headwordSearchPanelOnlyUnknownSet: true,
           highlightEojeolNumOnLoad: action.highlightEojeolNumOnLoad,
@@ -148,9 +147,7 @@ export const pushIfApplicable = (
           eojeol_num: action.eojeolNum,
           page: 1,
         },
-        interactionData: {
-          scrollDistance: 0,
-        },
+        interactionData: {},
       });
     default:
       return null;

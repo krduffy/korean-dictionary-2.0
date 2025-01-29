@@ -1,5 +1,6 @@
 import { HanjaResultRankingType } from "@repo/shared/types/views/dictionary-items/hanjaDictionaryItems";
 import { Star } from "lucide-react";
+import { memo } from "react";
 
 export function convertHanjaResultRankingIntoNumberOfStars(
   resultRanking: HanjaResultRankingType
@@ -10,22 +11,24 @@ export function convertHanjaResultRankingIntoNumberOfStars(
   return 3;
 }
 
-export const ResultRankingStars = ({
-  numStars,
-  widthAndHeightPx,
-}: {
-  numStars: 0 | 1 | 2 | 3;
-  widthAndHeightPx: number;
-}) => {
-  return (
-    <div
-      style={{ width: `${widthAndHeightPx}px` }}
-      className="relative aspect-square"
-    >
-      <PositionedStars parentSize={widthAndHeightPx} numStars={numStars} />
-    </div>
-  );
-};
+export const ResultRankingStars = memo(
+  ({
+    numStars,
+    widthAndHeightPx,
+  }: {
+    numStars: 0 | 1 | 2 | 3;
+    widthAndHeightPx: number;
+  }) => {
+    return (
+      <div
+        style={{ width: `${widthAndHeightPx}px` }}
+        className="relative aspect-square"
+      >
+        <PositionedStars parentSize={widthAndHeightPx} numStars={numStars} />
+      </div>
+    );
+  }
+);
 
 const PositionedStars = ({
   numStars,

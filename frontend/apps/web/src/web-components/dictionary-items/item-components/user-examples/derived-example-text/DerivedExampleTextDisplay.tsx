@@ -4,7 +4,7 @@ import { Sparkles } from "lucide-react";
 import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
 import { DerivedExampleTextDetailListedHeadwordsView } from "../../../api-fetchers/DerivedExampleTextDetailListedHeadwordsView";
 import { DerivedExampleTextSourceText } from "./DerivedExampleTextSourceText";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { DerivedExampleTextContextProvider } from "./DerivedExampleTextContext";
 import { useDerivedExampleTextDisplayMainContent } from "./useDerivedExampleTextDisplayMainContent";
@@ -92,28 +92,30 @@ const ContainedHeadwordsSection = ({
   );
 };
 
-const DerivedExampleTextDisplayMainContent = ({
-  text,
-  source,
-  highlightEojeolNumOnLoad,
-}: {
-  text: string;
-  source: string;
-  highlightEojeolNumOnLoad: number | null;
-}) => {
-  const { fontSizeSettings } = useSettingsContext();
+const DerivedExampleTextDisplayMainContent = memo(
+  ({
+    text,
+    source,
+    highlightEojeolNumOnLoad,
+  }: {
+    text: string;
+    source: string;
+    highlightEojeolNumOnLoad: number | null;
+  }) => {
+    const { fontSizeSettings } = useSettingsContext();
 
-  useDerivedExampleTextDisplayMainContent({
-    highlightEojeolNumOnLoad: highlightEojeolNumOnLoad,
-  });
+    useDerivedExampleTextDisplayMainContent({
+      highlightEojeolNumOnLoad: highlightEojeolNumOnLoad,
+    });
 
-  return (
-    <section aria-label="derived-example-text-display-main-content">
-      <h2 className="flex flex-row gap-2 items-center text-[200%] pb-8">
-        <Sparkles size={fontSizeSettings.relativeFontSize * 32} />
-        {source}
-      </h2>
-      <DerivedExampleTextSourceText text={text} />
-    </section>
-  );
-};
+    return (
+      <section aria-label="derived-example-text-display-main-content">
+        <h2 className="flex flex-row gap-2 items-center text-[200%] pb-8">
+          <Sparkles size={fontSizeSettings.relativeFontSize * 32} />
+          {source}
+        </h2>
+        <DerivedExampleTextSourceText text={text} />
+      </section>
+    );
+  }
+);

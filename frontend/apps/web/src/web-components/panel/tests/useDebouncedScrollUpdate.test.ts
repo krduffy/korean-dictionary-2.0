@@ -6,7 +6,7 @@ import { renderHook, act } from "@testing-library/react";
 import {
   useDebouncedScrollUpdate,
   SCROLL_UPDATE_DEBOUNCE_TIME_MS,
-} from "../useDebouncedScrollUpdate";
+} from "../useThrottledScrollUpdate";
 
 describe("useDebouncedScrollUpdate", () => {
   const mockPanelDispatchStateChangeSelf = jest.fn();

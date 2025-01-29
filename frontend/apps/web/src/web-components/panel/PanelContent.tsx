@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { KoreanSearchView } from "../dictionary-items/api-fetchers/KoreanSearchView";
 import { HanjaSearchView } from "../dictionary-items/api-fetchers/HanjaSearchView";
 import { KoreanDetailView } from "../dictionary-items/api-fetchers/KoreanDetailView";
@@ -44,7 +44,7 @@ export const PanelContent = ({
   );
 };
 
-const ViewContent = ({ view }: { view: View }) => {
+const ViewContent = memo(({ view }: { view: View }) => {
   if (view.type === "korean_search") {
     return <KoreanSearchView searchConfig={view.data} />;
   }
@@ -99,4 +99,4 @@ const ViewContent = ({ view }: { view: View }) => {
   }
 
   return <div>Unknown view.</div>;
-};
+});

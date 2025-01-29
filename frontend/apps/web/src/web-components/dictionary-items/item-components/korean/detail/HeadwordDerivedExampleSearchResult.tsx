@@ -4,35 +4,34 @@ import { Sparkles, TextSearch } from "lucide-react";
 import { useSettingsContext } from "../../../../../web-contexts/SettingsContext";
 import { Source } from "../../../../text-formatters/SpanStylers";
 import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
+import { memo } from "react";
 
-export const HeadwordDerivedExampleSearchResult = ({
-  result,
-}: {
-  result: HeadwordDerivedExampleSearchResultType;
-}) => {
-  return (
-    <article
-      className="mb-2 flex flex-row gap-4"
-      aria-label="derived-example-lemma"
-    >
-      {result.image_url && (
-        <div className="flex items-center justify-center">
-          <img className="min-w-16 object-fill" src={result.image_url} />
-        </div>
-      )}
-      <GoToDerivedExampleTextDetailViewButton
-        sourceTextPk={result.source_text_pk}
-        eojeolNumberInSourceText={result.eojeol_number_in_source_text}
-      />
-      <div className="flex flex-col gap-2">
-        <DerivedExampleLemmaSourceTextPreviewArea
-          sourceTextPreview={result.source_text_preview}
+export const HeadwordDerivedExampleSearchResult = memo(
+  ({ result }: { result: HeadwordDerivedExampleSearchResultType }) => {
+    return (
+      <article
+        className="mb-2 flex flex-row gap-4"
+        aria-label="derived-example-lemma"
+      >
+        {result.image_url && (
+          <div className="flex items-center justify-center">
+            <img className="min-w-16 object-fill" src={result.image_url} />
+          </div>
+        )}
+        <GoToDerivedExampleTextDetailViewButton
+          sourceTextPk={result.source_text_pk}
+          eojeolNumberInSourceText={result.eojeol_number_in_source_text}
         />
-        <DerivedExampleLemmaSourceFooter source={result.source} />
-      </div>
-    </article>
-  );
-};
+        <div className="flex flex-col gap-2">
+          <DerivedExampleLemmaSourceTextPreviewArea
+            sourceTextPreview={result.source_text_preview}
+          />
+          <DerivedExampleLemmaSourceFooter source={result.source} />
+        </div>
+      </article>
+    );
+  }
+);
 
 const DerivedExampleLemmaSourceTextPreviewArea = ({
   sourceTextPreview,
