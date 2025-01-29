@@ -1,5 +1,6 @@
-import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { useLayoutEffect } from "react";
+import { useDebouncedScrollUpdate } from "./useDebouncedScrollUpdate";
+import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 
 export const useScrollSaveAndRestoration = ({
   mainContentRef,
@@ -12,13 +13,9 @@ export const useScrollSaveAndRestoration = ({
 }) => {
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
-  const onScroll: React.UIEventHandler<HTMLDivElement> = (uiHandler) => {
-    const newScrollDistance = uiHandler.currentTarget.scrollTop;
-    panelDispatchStateChangeSelf({
-      type: "update_scroll_distance",
-      scrollDistance: newScrollDistance,
-    });
-  };
+  const { onScroll } = useDebouncedScrollUpdate({
+    panelDispatchStateChangeSelf,
+  });
 
   const restoreScroll = () => {
     if (!mainContentRef.current) {
