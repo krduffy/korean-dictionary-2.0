@@ -46,10 +46,19 @@ const ListedDetailedSenses = ({
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
 
   useEffect(() => {
-    if (senses.length !== dropdownStates.length) {
+    /* In theory it should always be true that the senses' orders are in order
+       from 1 to (senses.length - 1) but I've seen (once) gaps where a number is 
+       missing. The highest sense order dictates the new length of the array
+       to prevent the dropdowns from breaking in any such other malformed case */
+    const highestSenseOrder: number = senses.reduce(
+      (highest, current) => Math.max(highest, current.order),
+      0
+    );
+
+    if (highestSenseOrder !== dropdownStates.length) {
       panelDispatchStateChangeSelf({
         type: "update_detailed_sense_dropdown_states_length",
-        newLength: senses.length,
+        newLength: highestSenseOrder,
       });
     }
   }, []);
@@ -57,7 +66,9 @@ const ListedDetailedSenses = ({
   return (
     <div className="flex flex-col gap-4" aria-label="detailed-senses-wrapper">
       {senses.map((senseData, id) => {
-        if (dropdownStates[id] === undefined) {
+        const dropdownStatesId = senseData.order - 1;
+
+        if (dropdownStates[dropdownStatesId] === undefined) {
           return (
             <ErrorMessage
               key={senseData.target_code}
@@ -69,7 +80,7 @@ const ListedDetailedSenses = ({
           <article key={id} aria-label="detailed-sense">
             <DetailedSenseView
               senseData={senseData}
-              dropdownState={dropdownStates[id]}
+              dropdownState={dropdownStates[dropdownStatesId]}
             />
           </article>
         );

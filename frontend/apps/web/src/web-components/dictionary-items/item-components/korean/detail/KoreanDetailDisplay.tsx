@@ -90,7 +90,6 @@ const UserExamplesAreaIfPresent = ({
     userExamples !== null &&
     (
       [
-        "derived_example_lemmas",
         "user_example_sentences",
         "user_image_examples",
         "user_video_examples",
