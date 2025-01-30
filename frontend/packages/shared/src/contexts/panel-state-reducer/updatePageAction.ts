@@ -5,8 +5,8 @@ import { updateViewAndHistory } from "./panelStateReducer";
 
 const getWithUpdatedPage = (state: PanelState, newPage: number): PanelState => {
   if (
-    state.view.type !== "hanja_search" &&
-    state.view.type !== "korean_search"
+    state.viewAndScrollDistance.view.type !== "hanja_search" &&
+    state.viewAndScrollDistance.view.type !== "korean_search"
   ) {
     return state;
   }
@@ -14,6 +14,7 @@ const getWithUpdatedPage = (state: PanelState, newPage: number): PanelState => {
   const updateFn = (currentView: View): Partial<View> => {
     return {
       data: {
+        // @ts-ignore
         ...currentView.data,
         page: newPage,
       },
