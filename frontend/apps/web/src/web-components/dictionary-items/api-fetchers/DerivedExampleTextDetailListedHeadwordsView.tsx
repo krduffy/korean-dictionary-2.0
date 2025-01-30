@@ -4,11 +4,14 @@ import { ResultCountMessage } from "../api-result-formatters/paginated-results/R
 import { PageChanger } from "../api-result-formatters/paginated-results/PageChanger";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { PaginatedResultsFormatter } from "../api-result-formatters/paginated-results/PaginatedResultsFormatter";
-import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
+import { useRedirectingPaginatedResults } from "@repo/shared/hooks/api/useRedirectingPaginatedResults";
 import { isDerivedExampleTextHeadwordFromTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { DerivedExampleTextHeadwordFromText } from "../item-components/user-examples/derived-example-text/DerivedExampleTextHeadwordFromText";
 
 import { memo } from "react";
+import { useFetchProps } from "@repo/shared/hooks/api/useFetchProps";
+import { useNotificationContext } from "@repo/shared/contexts/NotificationContextProvider";
+import { SimpleNotification } from "../../pages/notifications/SimpleNotification";
 
 export const DerivedExampleTextDetailListedHeadwordsView = memo(
   ({
@@ -31,12 +34,6 @@ export const DerivedExampleTextDetailListedHeadwordsView = memo(
       },
     });
 
-    const { requestState, refetch } = useFetchProps({
-      url: url,
-      useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
-      refetchDependencyArray: [url],
-    });
-
     const setPageNum = (newPage: number) => {
       panelDispatchStateChangeSelf({
         type: "update_derived_example_text_interaction_data",
@@ -44,6 +41,25 @@ export const DerivedExampleTextDetailListedHeadwordsView = memo(
         newValue: newPage,
       });
     };
+
+    const { sendNotification } = useNotificationContext();
+
+    const onRedirect = (newPageNum: number) => {
+      sendNotification(<SimpleNotification>redirect</SimpleNotification>, 5000);
+      setPageNum(newPageNum);
+    };
+
+    const { requestState } = useFetchProps({
+      url: url,
+      useCallAPIInstance: useCallAPIWeb({ cacheResults: false }),
+      refetchDependencyArray: [url],
+    });
+
+    useRedirectingPaginatedResults({
+      response: requestState.response,
+      requestedPage: pageNum,
+      onRedirect: onRedirect,
+    });
 
     return (
       <>

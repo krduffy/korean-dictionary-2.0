@@ -63,6 +63,15 @@ export interface UseCallAPIReturns {
 
 /* ======================= Guards ======================= */
 
+export function isGeneralPaginatedResultsResponse(
+  response: unknown
+): response is PaginatedResultsResponse<any> {
+  return isPaginatedResultsResponse<any>(
+    response,
+    (data: unknown): data is any => true
+  );
+}
+
 export function isPaginatedResultsResponse<T>(
   response: unknown,
   typeVerifier: (data: unknown) => data is T

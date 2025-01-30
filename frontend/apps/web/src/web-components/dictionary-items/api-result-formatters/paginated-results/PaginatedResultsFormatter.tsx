@@ -1,6 +1,5 @@
 import { API_PAGE_SIZE } from "@repo/shared/constants";
 import { RequestStateType } from "@repo/shared/types/apiCallTypes";
-import { SearchResultType } from "@repo/shared/types/views/dictionary-items/sharedTypes";
 import { ComponentType, ReactNode } from "react";
 import {
   NoResponseError,

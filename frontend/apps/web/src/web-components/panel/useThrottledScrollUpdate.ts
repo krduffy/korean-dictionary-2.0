@@ -13,7 +13,6 @@ export const useThrottledScrollUpdate = ({
   const queuedScrollUpdateDistance = useRef<number | null>(null);
 
   const dispatchUpdateScrollStateChange = (newScrollDistance: number) => {
-    console.log("dispatching updating for scroll");
     panelDispatchStateChangeSelf({
       type: "update_scroll_distance",
       scrollDistance: newScrollDistance,

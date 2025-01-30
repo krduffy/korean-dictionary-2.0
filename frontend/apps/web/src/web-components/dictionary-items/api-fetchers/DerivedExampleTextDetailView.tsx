@@ -6,6 +6,7 @@ import { BasicAPIDataFormatter } from "../api-result-formatters/BasicAPIDataForm
 import { isDerivedExampleTextType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { DerivedExampleTextDisplay } from "../item-components/user-examples/derived-example-text/DerivedExampleTextDisplay";
 import { memo } from "react";
+import { useGeneralPanelReloadListenerHandler } from "@repo/shared/hooks/listener-handlers/useGeneralPanelReloadListenerHandler";
 export const DerivedExampleTextDetailView = memo(
   ({
     sourceTextPk,
@@ -24,6 +25,8 @@ export const DerivedExampleTextDetailView = memo(
       useCallAPIInstance: useCallAPIWeb({ cacheResults: true }),
       refetchDependencyArray: [sourceTextPk],
     });
+
+    useGeneralPanelReloadListenerHandler({ refetch });
 
     return (
       <BasicAPIDataFormatter
