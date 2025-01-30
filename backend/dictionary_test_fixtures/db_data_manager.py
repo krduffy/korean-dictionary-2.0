@@ -12,7 +12,7 @@ class DbDataManager:
     @classmethod
     def load_json_fixture(cls, filename):
         """Loads test data from a JSON file"""
-        file_path = "words\\tests\\fixtures\\data\\" + filename
+        file_path = "dictionary_test_fixtures/data/" + filename
         with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
@@ -75,7 +75,7 @@ class DbDataManager:
 
             for sense_data in word_data["senses"]:
                 Sense.objects.create(
-                    referent=word,
+                    headword_ref=word,
                     target_code=sense_data["target_code"],
                     definition=sense_data["definition"],
                     type=sense_data["type"],

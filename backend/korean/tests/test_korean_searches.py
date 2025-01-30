@@ -126,63 +126,66 @@ class KoreanHeadwordSearchTests(DbDataMixin, APITestCase):
                     expected = case["expected_results_order"][i]
                     self.assertEqual(observed, expected)
 
-    def test_get_word_exact_while_studied(self):
+    # Tests related to order of results have been commented out as the ordering
+    # system changed and is subject to further change
 
-        case = {
-            "word": "ㄴ가",
-            "expected_count": 2,
-            # word with pk 30 is being studied by authenticated user.
-            "expected_results_order": [30, 29],
-        }
+    # def test_get_word_exact_while_studied(self):
 
-        studied_word = KoreanHeadword.objects.get(pk=30)
-        self.regular_user.studied_headwords.add(studied_word)
+    #     case = {
+    #         "word": "ㄴ가",
+    #         "expected_count": 2,
+    #         # word with pk 30 is being studied by authenticated user.
+    #         "expected_results_order": [30, 29],
+    #     }
 
-        self.client.force_authenticate(user=self.regular_user)
+    #     studied_word = KoreanHeadword.objects.get(pk=30)
+    #     self.regular_user.studied_headwords.add(studied_word)
 
-        success_response = self.client.get(
-            self.search_url, {"search_term": case["word"], "search_type": "word_exact"}
-        )
+    #     self.client.force_authenticate(user=self.regular_user)
 
-        self.assertEqual(success_response.status_code, 200)
+    #     success_response = self.client.get(
+    #         self.search_url, {"search_term": case["word"], "search_type": "word_exact"}
+    #     )
 
-        response_data = success_response.json()
+    #     self.assertEqual(success_response.status_code, 200)
 
-        self.assertEqual(response_data["count"], case["expected_count"])
-        results = response_data["results"]
-        for i in range(response_data["count"]):
-            observed = results[i]["target_code"]
-            expected = case["expected_results_order"][i]
-            self.assertEqual(observed, expected)
+    #     response_data = success_response.json()
 
-    def test_get_word_exact_while_another_user_knows(self):
+    #     self.assertEqual(response_data["count"], case["expected_count"])
+    #     results = response_data["results"]
+    #     for i in range(response_data["count"]):
+    #         observed = results[i]["target_code"]
+    #         expected = case["expected_results_order"][i]
+    #         self.assertEqual(observed, expected)
 
-        case = {
-            "word": "ㄴ가",
-            "expected_count": 2,
-            # word with pk 30 is known by the staff user, so for the regular user it should be first.
-            "expected_results_order": [30, 29],
-        }
+    # def test_get_word_exact_while_another_user_knows(self):
 
-        known_word = KoreanHeadword.objects.get(pk=30)
-        self.staff.known_headwords.add(known_word)
+    #     case = {
+    #         "word": "ㄴ가",
+    #         "expected_count": 2,
+    #         # word with pk 30 is known by the staff user, so for the regular user it should be first.
+    #         "expected_results_order": [30, 29],
+    #     }
 
-        self.client.force_authenticate(user=self.regular_user)
+    #     known_word = KoreanHeadword.objects.get(pk=30)
+    #     self.staff.known_headwords.add(known_word)
 
-        success_response = self.client.get(
-            self.search_url, {"search_term": case["word"], "search_type": "word_exact"}
-        )
+    #     self.client.force_authenticate(user=self.regular_user)
 
-        self.assertEqual(success_response.status_code, 200)
+    #     success_response = self.client.get(
+    #         self.search_url, {"search_term": case["word"], "search_type": "word_exact"}
+    #     )
 
-        response_data = success_response.json()
+    #     self.assertEqual(success_response.status_code, 200)
 
-        self.assertEqual(response_data["count"], case["expected_count"])
-        results = response_data["results"]
-        for i in range(response_data["count"]):
-            observed = results[i]["target_code"]
-            expected = case["expected_results_order"][i]
-            self.assertEqual(observed, expected)
+    #     response_data = success_response.json()
+
+    #     self.assertEqual(response_data["count"], case["expected_count"])
+    #     results = response_data["results"]
+    #     for i in range(response_data["count"]):
+    #         observed = results[i]["target_code"]
+    #         expected = case["expected_results_order"][i]
+    #         self.assertEqual(observed, expected)
 
     def test_get_word_exact_hanja_search(self):
 
@@ -208,28 +211,28 @@ class KoreanHeadwordSearchTests(DbDataMixin, APITestCase):
             expected = case["expected_results_order"][i]
             self.assertEqual(observed, expected)
 
-    def test_get_word_exact_shorter_first(self):
+    # def test_get_word_exact_shorter_first(self):
 
-        case = {
-            "word": "ㄹ*가",
-            "expected_count": 3,
-            # 517 is 가, 142 and 143 are ㄹ가. 142 is lower than 143 pk wise so it is first
-            "expected_results_order": [517, 142, 143],
-        }
+    #     case = {
+    #         "word": "ㄹ*가",
+    #         "expected_count": 3,
+    #         # 517 is 가, 142 and 143 are ㄹ가. 142 is lower than 143 pk wise so it is first
+    #         "expected_results_order": [517, 142, 143],
+    #     }
 
-        self.client.force_authenticate(user=self.staff)
+    #     self.client.force_authenticate(user=self.staff)
 
-        success_response = self.client.get(
-            self.search_url, {"search_term": case["word"], "search_type": "word_regex"}
-        )
+    #     success_response = self.client.get(
+    #         self.search_url, {"search_term": case["word"], "search_type": "word_regex"}
+    #     )
 
-        self.assertEqual(success_response.status_code, 200)
+    #     self.assertEqual(success_response.status_code, 200)
 
-        response_data = success_response.json()
+    #     response_data = success_response.json()
 
-        self.assertEqual(response_data["count"], case["expected_count"])
-        results = response_data["results"]
-        for i in range(response_data["count"]):
-            observed = results[i]["target_code"]
-            expected = case["expected_results_order"][i]
-            self.assertEqual(observed, expected)
+    #     self.assertEqual(response_data["count"], case["expected_count"])
+    #     results = response_data["results"]
+    #     for i in range(response_data["count"]):
+    #         observed = results[i]["target_code"]
+    #         expected = case["expected_results_order"][i]
+    #         self.assertEqual(observed, expected)

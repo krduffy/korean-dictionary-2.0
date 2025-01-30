@@ -33,6 +33,7 @@ describe("useCallAPI", () => {
     retrieve: jest.fn(),
     clear: jest.fn(),
     setItemListenerArgs: jest.fn(),
+    keepOnlyUrlsWithOneOfSubstrings: jest.fn(),
   };
 
   const mockedOnCaughtError = jest.fn();

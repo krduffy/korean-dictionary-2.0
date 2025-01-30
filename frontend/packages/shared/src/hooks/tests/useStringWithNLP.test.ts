@@ -5,6 +5,7 @@
 import { renderHook } from "@testing-library/react";
 import { useStringWithNLP } from "../useStringWithNLP";
 import { NLPTokenType } from "../../types/koreanLangTypes";
+import { describe, test, expect } from "@jest/globals";
 
 const getReturnedToken = (token: string, type: NLPTokenType) => {
   return { token: token, type: type };
@@ -60,8 +61,8 @@ const string2Expected = [
   ],
 ];
 
-// examples with { }
-const string3 = "문을 {부수는} 거로 하자.";
+// examples with tgt markers
+const string3 = "문을 [TGT]부수는[/TGT] 거로 하자.";
 const string3Expected = [
   [
     "문을 부수는 거로 하자.",
@@ -78,7 +79,7 @@ const string3Expected = [
   ],
 ];
 
-// examples embedded, but no { }
+// examples embedded, but no tgt
 const string4 = "문을 부수는 거로 하자.";
 const string4Expected = [
   [
@@ -97,7 +98,7 @@ const string4Expected = [
 ];
 
 // example with more than one word as part of the example
-const string5 = "{이장님 이름}. 안 보여.";
+const string5 = "[TGT]이장님 이름[/TGT]. 안 보여.";
 const string5Expected = [
   [
     "이장님 이름.",

@@ -45,7 +45,12 @@ export const DerivedExampleTextDetailListedHeadwordsView = memo(
     const { sendNotification } = useNotificationContext();
 
     const onRedirect = (newPageNum: number) => {
-      sendNotification(<SimpleNotification>redirect</SimpleNotification>, 5000);
+      sendNotification(
+        <SimpleNotification>
+          {newPageNum}째 페이지로 옮겼습니다.
+        </SimpleNotification>,
+        5000
+      );
       setPageNum(newPageNum);
     };
 

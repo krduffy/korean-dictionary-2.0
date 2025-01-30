@@ -41,7 +41,7 @@ def filter_hanja_search_with_search_params(initial_queryset, query_params):
     if radical_filter:
         queryset = queryset.filter(radical=radical_filter)
     if stroke_filter:
-        relop, stroke_count = stroke_filter.relop, stroke_filter.value
+        relop, stroke_count = stroke_filter["relop"], stroke_filter["value"]
         if relop == "gt":
             queryset = queryset.filter(strokes__gt=stroke_count)
         elif relop == "gte":
@@ -57,7 +57,10 @@ def filter_hanja_search_with_search_params(initial_queryset, query_params):
     if grade_level_filter:
         queryset = queryset.filter(grade_level=grade_level_filter)
     if result_ranking_filter:
-        relop, result_ranking = result_ranking_filter.relop, result_ranking_filter.value
+        relop, result_ranking = (
+            result_ranking_filter["relop"],
+            result_ranking_filter["value"],
+        )
         if relop == "gt":
             queryset = queryset.filter(result_ranking__gt=result_ranking)
         elif relop == "gte":

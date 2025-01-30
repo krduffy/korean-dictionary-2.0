@@ -32,7 +32,7 @@ export const useStringWithNLP = ({
    * Extracts tokens from a sentence, where a token is a substring of `sentence` that may or may
    * not be a word. A word is a string of hangul characters. It is always true that the concatenation
    * of all of the tokens extracted === the original sentence. If `embedExamples` is true, any strings
-   * within one sentence surrounded by { } will be treated as a single non-word token.
+   * within one sentence surrounded by [TGT] [/TGT] will be treated as a single non-word token.
    *
    * @param sentence The sentence from which to extract words.
    * @param embedExamples Whether the sentence should be considered to have examples.
@@ -82,8 +82,10 @@ export const useStringWithNLP = ({
     embedExamples: boolean
   ): [string, NLPToken[]][] => {
     return getSentences(string).map((sentence) => [
-      // getting rid of { }; replacing with whatever is inside
-      embedExamples ? sentence.replaceAll(/{(.*)}/g, "$1") : sentence,
+      // getting rid of tgt markers; replacing with whatever is inside
+      embedExamples
+        ? sentence.replaceAll(/\[TGT\](.*)\[\/TGT\]/g, "$1")
+        : sentence,
       getTokens(sentence, embedExamples),
     ]);
   };

@@ -18,7 +18,15 @@ describe("usePanelHistory", () => {
       },
       /* not important */
       interactionData: {
-        scrollDistance: 0,
+        derivedLemmasDroppedDown: true,
+        derivedLemmasPageNum: 1,
+        userExampleDropdowns: {
+          imagesDroppedDown: true,
+          sentencesDroppedDown: true,
+          userExamplesDroppedDown: true,
+          videosDroppedDown: true,
+        },
+        sensesDroppedDown: true,
         detailedSenseDropdowns: [
           {
             additionalInfoBoxDroppedDown: true,

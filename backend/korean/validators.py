@@ -10,8 +10,8 @@ class KoreanSearchParamValidator(serializers.Serializer):
     )
 
     def validate_search_type(self, value):
-        user = self.context.get("user")
-        if value == "word_regex" and not user.is_staff:
+        user = self.context["request"].user
+        if value == "word_regex" and (not user or not user.is_staff):
             raise serializers.ValidationError(
                 "Search type 'word_regex' is not allowed."
             )

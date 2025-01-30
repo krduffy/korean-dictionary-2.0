@@ -4,11 +4,11 @@
 
 import { renderHook, act } from "@testing-library/react";
 import {
-  useDebouncedScrollUpdate,
+  useThrottledScrollUpdate,
   SCROLL_UPDATE_DEBOUNCE_TIME_MS,
 } from "../useThrottledScrollUpdate";
 
-describe("useDebouncedScrollUpdate", () => {
+describe("useThrottledScrollUpdate", () => {
   const mockPanelDispatchStateChangeSelf = jest.fn();
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe("useDebouncedScrollUpdate", () => {
 
   it("should dispatch scroll state change immediately if not debounced", () => {
     const { result } = renderHook(() =>
-      useDebouncedScrollUpdate({
+      useThrottledScrollUpdate({
         panelDispatchStateChangeSelf: mockPanelDispatchStateChangeSelf,
       })
     );
@@ -40,7 +40,7 @@ describe("useDebouncedScrollUpdate", () => {
 
   it("should debounce scroll state changes and queue subsequent updates", () => {
     const { result } = renderHook(() =>
-      useDebouncedScrollUpdate({
+      useThrottledScrollUpdate({
         panelDispatchStateChangeSelf: mockPanelDispatchStateChangeSelf,
       })
     );
@@ -79,7 +79,7 @@ describe("useDebouncedScrollUpdate", () => {
 
   it("should not dispatch if no subsequent scroll updates occur", () => {
     const { result } = renderHook(() =>
-      useDebouncedScrollUpdate({
+      useThrottledScrollUpdate({
         panelDispatchStateChangeSelf: mockPanelDispatchStateChangeSelf,
       })
     );
@@ -105,7 +105,7 @@ describe("useDebouncedScrollUpdate", () => {
 
   it("should queue only the most recent scroll update during the debounce period", () => {
     const { result } = renderHook(() =>
-      useDebouncedScrollUpdate({
+      useThrottledScrollUpdate({
         panelDispatchStateChangeSelf: mockPanelDispatchStateChangeSelf,
       })
     );

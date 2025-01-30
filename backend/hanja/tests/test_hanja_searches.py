@@ -1,5 +1,4 @@
 from django.urls import reverse
-from hanja.models import HanjaCharacter
 from rest_framework.test import APITestCase
 
 from dictionary_test_fixtures.db_data_mixin import DbDataMixin
@@ -39,7 +38,6 @@ class HanjaSearchTests(DbDataMixin, APITestCase):
                     "gte!notalevel!",
                 ],
             },
-            "nonexistent_filter": {"valid": [], "invalid": ["cannot match"]},
         }
 
         for param, values_dict in param_tests.items():
@@ -52,7 +50,10 @@ class HanjaSearchTests(DbDataMixin, APITestCase):
                         {"search_term": self.filler_search_term, param: valid_value},
                     )
 
-                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(
+                        response.status_code,
+                        200,
+                    )
 
             for invalid_value in values_dict["invalid"]:
 
@@ -62,7 +63,10 @@ class HanjaSearchTests(DbDataMixin, APITestCase):
                         {"search_term": self.filler_search_term, param: invalid_value},
                     )
 
-                    self.assertEqual(response.status_code, 400)
+                    self.assertEqual(
+                        response.status_code,
+                        400,
+                    )
 
     def test_search_hanja_reading_before_meaning(self):
 

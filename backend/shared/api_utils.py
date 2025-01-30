@@ -32,7 +32,9 @@ class QueryParamValidationMixin:
     def get(self, request, *args, **kwargs):
         query_params = self.request.query_params
 
-        serializer = self.validation_class(data=query_params)
+        serializer = self.validation_class(
+            data=query_params, context={"request": self.request}
+        )
         serializer.is_valid(raise_exception=True)
 
         self.request.validated_query_params = serializer.validated_data

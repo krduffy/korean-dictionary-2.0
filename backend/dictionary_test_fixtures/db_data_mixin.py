@@ -1,4 +1,4 @@
-from db_data_mixin import DbDataManager
+from dictionary_test_fixtures.db_data_manager import DbDataManager
 
 
 class DbDataMixin:

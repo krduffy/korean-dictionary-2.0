@@ -1,7 +1,7 @@
-from dictionary_test_fixtures.db_data_mixin import DbDataMixin
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework.status import HTTP_200_OK
+from dictionary_test_fixtures.db_data_mixin import DbDataMixin
 
 
 class KnownUnknownTests(DbDataMixin, APITestCase):
