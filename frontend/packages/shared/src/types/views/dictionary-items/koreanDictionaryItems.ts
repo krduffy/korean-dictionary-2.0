@@ -51,11 +51,12 @@ export type HistorySenseInfoItem = {
 
 export type HistoryInfoType = {
   desc: string;
-  allomorph: string;
-  // no idea why this is an array in the base data
-  history_sense_info: [HistorySenseInfoItem];
+  allomorph?: string;
+  /* History sense info is almost always length 1. I have only found '사랑'
+     with a length of two otherwise */
+  history_sense_info: HistorySenseInfoItem[];
   remark?: string;
-  word_form: string;
+  word_form?: string;
 };
 
 export type UserExamplesType = {
@@ -166,11 +167,9 @@ export function isHistoryInfoType(value: unknown): value is HistoryInfoType {
   return (
     isObject(value) &&
     isString(value.desc) &&
-    isString(value.word_form) &&
-    isString(value.allomorph) &&
-    Array.isArray(value.history_sense_info) &&
-    value.history_sense_info.length === 1 &&
-    isHistorySenseInfoItem(value.history_sense_info[0]) &&
+    (value.word_form === undefined || isString(value.word_form)) &&
+    (value.allomorph === undefined || isString(value.allomorph)) &&
+    isArrayOf(value.history_sense_info, isHistorySenseInfoItem) &&
     (value.remark === undefined || isString(value.remark))
   );
 }

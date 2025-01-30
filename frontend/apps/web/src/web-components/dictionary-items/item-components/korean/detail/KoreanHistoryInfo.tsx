@@ -1,6 +1,7 @@
 import {
   HistoryCenturyInfoType,
   HistoryInfoType,
+  HistorySenseInfoItem,
 } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import {
@@ -39,27 +40,12 @@ export const KoreanHistoryInfoSection = memo(
         <div className="p-4 flex flex-col gap-4">
           <HistoryOverviewData historyInfo={historyInfo} />
 
-          {historyInfo.history_sense_info.length > 0 && (
-            <div>
-              <div
-                className="border-2 border-[color:--accent-border-color] 
-            rounded-t-xl text-center bg-[color:--understated-accent-not-hovering] 
-            text-[130%] py-1"
-              >
-                세기별 용례
-              </div>
-              <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]">
-                <CenturyTable
-                  /* data from korean lang institute is strangely formatted
-                 history sense info has length 1 and the only item is object with
-                 history_century_info as the only key */
-                  historyCenturiesInfo={
-                    historyInfo.history_sense_info[0].history_century_info
-                  }
-                />
-              </div>
-            </div>
-          )}
+          {historyInfo.history_sense_info.map((historySenseInfoItem, id) => (
+            <HistorySenseInfoItemDisplay
+              historySenseInfoItem={historySenseInfoItem}
+              key={id}
+            />
+          ))}
         </div>
         <footer className="p-4">
           <Source>출처: 우리말샘</Source>
@@ -69,16 +55,45 @@ export const KoreanHistoryInfoSection = memo(
   }
 );
 
+const HistorySenseInfoItemDisplay = ({
+  historySenseInfoItem,
+}: {
+  historySenseInfoItem: HistorySenseInfoItem;
+}) => {
+  return (
+    <div>
+      <div
+        className="border-2 border-[color:--accent-border-color] 
+            rounded-t-xl text-center bg-[color:--understated-accent-not-hovering] 
+            text-[130%] py-1"
+      >
+        세기별 용례
+      </div>
+      <div className="rounded-b-xl border-x-2 border-b-2 border-[color:--accent-border-color]">
+        <CenturyTable
+          historyCenturiesInfo={historySenseInfoItem.history_century_info}
+        />
+      </div>
+    </div>
+  );
+};
+
 const HistoryOverviewData = ({
   historyInfo,
 }: {
   historyInfo: HistoryInfoType;
 }) => {
-  const rowData = [
-    { name: "이형태", data: historyInfo.allomorph },
-    { name: "변화", data: historyInfo.word_form },
-    { name: "설명", data: historyInfo.desc },
-  ];
+  const rowData = [];
+
+  if (historyInfo.allomorph) {
+    rowData.push({ name: "이형태", data: historyInfo.allomorph });
+  }
+
+  if (historyInfo.word_form) {
+    rowData.push({ name: "변화", data: historyInfo.word_form });
+  }
+
+  rowData.push({ name: "설명", data: historyInfo.desc });
 
   return (
     <div className="flex flex-col gap-2">
