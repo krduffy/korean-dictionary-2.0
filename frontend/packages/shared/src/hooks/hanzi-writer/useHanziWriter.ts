@@ -15,9 +15,33 @@ export const useHanziWriter = ({
   const hanziWriterRef = useRef<HanziWriter | null>(null);
   const [numStrokes, setNumStrokes] = useState<number | null>(null);
 
-  useEffect(() => {
-    /* ref.current is intentionally checked before and after import */
+  const [forceReload, setForceReload] = useState<number>(0);
 
+  useEffect(() => {
+    /* `character` cannot be a direct dependency of the effect that fetches
+       the data and populates `ref`. In the case of navigation from one hanja
+       detail page to another for another character, if there is a cache hit
+       on the data for the second character then the data loads so quickly
+       that the outer display component never unmounts and so neither does
+       the hanzi writer. As a result, the `hanziWriterRef.current` is still
+       truthy and the character in the writer window will not change. This 
+       effect is just a way to indirectly make sure that if the character is
+       changed then the hanzi writer is starting with a blank `ref` and a null
+       `hanziWriterRef.current`. Having this logic as a cleanup function in
+       the effect below also doesn't work because it would not be called
+       (it never unmounts) */
+    const refElements = ref.current?.getElementsByTagName("*");
+    if (refElements) {
+      for (const element of refElements) {
+        element.remove();
+      }
+    }
+    hanziWriterRef.current = null;
+
+    setForceReload((prev) => prev + 1);
+  }, [character]);
+
+  useEffect(() => {
     const doLoad = async () => {
       import(`./hanzi-writer-data/${character}.json`)
         .then((data) => {
@@ -43,7 +67,7 @@ export const useHanziWriter = ({
     };
 
     doLoad();
-  }, [ref, character]);
+  }, [ref, forceReload]);
 
   /* need to change the size of the writer to update when the size of the divref changes */
   useEffect(() => {
