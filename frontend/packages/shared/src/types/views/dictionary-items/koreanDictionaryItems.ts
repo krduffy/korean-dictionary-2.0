@@ -34,7 +34,7 @@ export interface KoreanSearchResultType extends BaseKoreanHeadwordType {
 }
 
 export type HistoryCenturyExampleType = {
-  source: string;
+  source?: string;
   example: string;
   origin?: string;
 };
@@ -133,7 +133,7 @@ export function isHistoryCenturyExampleType(
 ): value is HistoryCenturyExampleType {
   const x =
     isObject(value) &&
-    isString(value.source) &&
+    (value.source === undefined || isString(value.source)) &&
     isString(value.example) &&
     (value.origin === undefined || isString(value.origin));
 

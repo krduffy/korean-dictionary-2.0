@@ -217,7 +217,7 @@ const CenturyRowData = ({
                 <ExampleStringWithHanja string={example.example} />
               </NonModernKoreanText>
 
-              <Source>출처: {example.source}</Source>
+              {example.source && <Source>출처: {example.source}</Source>}
             </li>
           ))}
         </ul>

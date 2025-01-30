@@ -25,7 +25,8 @@ export const useRedirectingPaginatedResults = ({
   useEffect(() => {
     if (!isGeneralPaginatedResultsResponse(response)) return;
 
-    const maxPage = Math.ceil(response.count / API_PAGE_SIZE);
+    let maxPage = Math.ceil(response.count / API_PAGE_SIZE);
+    if (maxPage === 0) maxPage = 1;
 
     if (requestedPage > maxPage) onRedirect(maxPage);
     if (requestedPage < 0) onRedirect(0);
