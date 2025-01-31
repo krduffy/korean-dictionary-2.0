@@ -9,6 +9,7 @@ export const CloseButton = ({
 }) => {
   return (
     <button
+      aria-label="close-button"
       className="absolute top-1 right-1"
       onClick={onClick}
       title={title || "닫기"}

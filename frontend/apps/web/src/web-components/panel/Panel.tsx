@@ -8,6 +8,7 @@ export const Panel = memo((panelData: PersistentPanelData) => {
   return (
     <PanelFunctionsContextProvider panelData={panelData}>
       <div
+        aria-label={`${panelData.whichPanelAmI}-panel`}
         className="
         flex flex-col h-full p-4 rounded-2xl 
         bg-[color:--background-secondary] 

@@ -7,7 +7,7 @@ import { memo } from "react";
 
 export const PanelTopBar = ({ state }: { state: PanelState }) => {
   return (
-    <div className="flex flex-row h-12 mb-4 gap-4">
+    <div aria-label="panel-top-bar" className="flex flex-row h-12 mb-4 gap-4">
       <div className="flex-1">
         <SearchBarArea searchConfig={state.searchConfig} />
       </div>

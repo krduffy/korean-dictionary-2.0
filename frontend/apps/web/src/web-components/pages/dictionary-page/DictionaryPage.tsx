@@ -42,7 +42,10 @@ export const DictionaryPage = () => {
           <div className="h-full w-full">{leftPanel}</div>
         ) : (
           <div className="h-full w-full flex items-center justify-center p-4">
-            <PanelToggler onAdd={makeLeftVisible} />
+            <SetPanelVisibleButton
+              forWhichPanel="left"
+              onAdd={makeLeftVisible}
+            />
           </div>
         )}
       </PageWithNavBar>
@@ -55,10 +58,16 @@ export const DictionaryPage = () => {
       <PageWithNavBar>
         <div className="h-full grid grid-cols-2 p-4">
           <div className="col-span-1 flex items-center justify-center">
-            <PanelToggler onAdd={makeLeftVisible} />
+            <SetPanelVisibleButton
+              forWhichPanel="left"
+              onAdd={makeLeftVisible}
+            />
           </div>
           <div className="col-span-1 flex items-center justify-center">
-            <PanelToggler onAdd={makeRightVisible} />
+            <SetPanelVisibleButton
+              forWhichPanel="right"
+              onAdd={makeRightVisible}
+            />
           </div>
         </div>
       </PageWithNavBar>
@@ -75,7 +84,10 @@ export const DictionaryPage = () => {
             {leftPanel}
           </div>
           <div className="col-start-10 col-end-11 flex items-center justify-center">
-            <PanelToggler onAdd={makeRightVisible} />
+            <SetPanelVisibleButton
+              forWhichPanel="right"
+              onAdd={makeRightVisible}
+            />
           </div>
         </div>
       </PageWithNavBar>
@@ -88,7 +100,10 @@ export const DictionaryPage = () => {
       <PageWithNavBar>
         <div className="h-full grid grid-cols-10 p-4">
           <div className="col-start-1 col-end-2 flex items-center justify-center">
-            <PanelToggler onAdd={makeLeftVisible} />
+            <SetPanelVisibleButton
+              forWhichPanel="left"
+              onAdd={makeLeftVisible}
+            />
           </div>
           <div className="col-start-2 col-end-10 h-full overflow-hidden">
             {/* RIGHT PANEL */}
@@ -117,9 +132,16 @@ export const DictionaryPage = () => {
   );
 };
 
-const PanelToggler = ({ onAdd }: { onAdd: () => void }) => {
+const SetPanelVisibleButton = ({
+  forWhichPanel,
+  onAdd,
+}: {
+  forWhichPanel: "left" | "right";
+  onAdd: () => void;
+}) => {
   return (
     <button
+      data-testid={`make-${forWhichPanel}-panel-visible-button`}
       onClick={onAdd}
       title="새로운 사전창을 열기"
       className="w-12 h-12 rounded-full bg-[color:--button-color] flex 
