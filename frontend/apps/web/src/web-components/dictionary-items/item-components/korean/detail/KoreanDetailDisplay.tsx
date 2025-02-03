@@ -16,6 +16,7 @@ import { UserExamplesArea } from "./user-examples/UserExamplesArea";
 import { DetailedSensesArea } from "./DetailedSensesArea";
 import { DerivedLemmaExamplesArea } from "./user-examples/DerivedLemmaExamplesArea";
 import { useLoginStatusContext } from "@repo/shared/contexts/LoginStatusContextProvider";
+import { EditUserExamplesViewButton } from "./user-examples/EditUserExamplesViewButton";
 
 export const KoreanDetailDisplay = memo(
   ({
@@ -25,11 +26,18 @@ export const KoreanDetailDisplay = memo(
     data: DetailedKoreanType;
     interactionData: KoreanDetailInteractionData;
   }) => {
+    const { loggedInAs } = useLoginStatusContext();
+
     return (
       <div className="flex flex-col gap-4" aria-label="korean-detail-display">
         <KoreanDetailTopInfo data={data} />
 
+        {loggedInAs !== null && (
+          <EditUserExamplesViewButton targetCode={data.target_code} />
+        )}
+
         <UserExamplesAreaIfPresent
+          targetCode={data.target_code}
           userExamples={data.user_examples}
           userExampleDropdowns={interactionData.userExampleDropdowns}
         />
@@ -40,11 +48,13 @@ export const KoreanDetailDisplay = memo(
           dropdownStates={interactionData.detailedSenseDropdowns}
         />
 
-        <DerivedLemmaExamplesAreaIfPresent
-          droppedDown={interactionData.derivedLemmasDroppedDown}
-          headwordPk={data.target_code}
-          pageNum={interactionData.derivedLemmasPageNum}
-        />
+        {loggedInAs !== null && (
+          <DerivedLemmaExamplesArea
+            droppedDown={interactionData.derivedLemmasDroppedDown}
+            headwordPk={data.target_code}
+            pageNum={interactionData.derivedLemmasPageNum}
+          />
+        )}
 
         {data.history_info && (
           <KoreanHistoryInfoSection
@@ -57,32 +67,12 @@ export const KoreanDetailDisplay = memo(
   }
 );
 
-const DerivedLemmaExamplesAreaIfPresent = ({
-  droppedDown,
-  headwordPk,
-  pageNum,
-}: {
-  droppedDown: boolean;
-  headwordPk: number;
-  pageNum: number;
-}) => {
-  const { loggedInAs } = useLoginStatusContext();
-
-  if (loggedInAs === null) return;
-
-  return (
-    <DerivedLemmaExamplesArea
-      droppedDown={droppedDown}
-      headwordPk={headwordPk}
-      pageNum={pageNum}
-    />
-  );
-};
-
 const UserExamplesAreaIfPresent = ({
+  targetCode,
   userExamples,
   userExampleDropdowns,
 }: {
+  targetCode: number;
   userExamples: UserExamplesType | null;
   userExampleDropdowns: KoreanDetailUserExampleDropdownState;
 }) => {
@@ -99,6 +89,7 @@ const UserExamplesAreaIfPresent = ({
         Array.isArray(userExamples?.[key]) && userExamples[key].length > 0
     ) && (
       <UserExamplesArea
+        targetCode={targetCode}
         userExampleDropdowns={userExampleDropdowns}
         userExamples={userExamples}
       />

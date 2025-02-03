@@ -1,4 +1,4 @@
-import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { BasicNestedHideableDropdownNoTruncation } from "../../../shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 

@@ -1,20 +1,8 @@
-import { UserExampleSentenceType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { UserExampleSentenceType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { ExampleStringWithNLPAndHanja } from "../../../shared/formatted-string/FormattedString";
 import { Source } from "../../../../../text-formatters/SpanStylers";
 
-export const UserExampleSentencesArea = ({
-  allUserExampleSentencesData,
-}: {
-  allUserExampleSentencesData: UserExampleSentenceType[];
-}) => {
-  return (
-    <ListedUserExampleSentences
-      allUserExampleSentencesData={allUserExampleSentencesData}
-    ></ListedUserExampleSentences>
-  );
-};
-
-const ListedUserExampleSentences = ({
+export const ListedUserExampleSentences = ({
   allUserExampleSentencesData,
 }: {
   allUserExampleSentencesData: UserExampleSentenceType[];

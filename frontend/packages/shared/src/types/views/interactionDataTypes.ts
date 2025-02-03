@@ -48,6 +48,9 @@ export interface HanjaDetailInteractionData extends BaseInteractionData {
   exampleWordsPageNum: number;
 }
 
+export interface KoreanUserExampleEditInteractionData
+  extends BaseInteractionData {}
+
 /* guards */
 
 export function isDetailedSenseDropdownState(

@@ -98,5 +98,9 @@ const ViewContent = memo(({ view }: { view: View }) => {
     return <DerivedExampleTextEojeolNumLemmasView data={view.data} />;
   }
 
+  if (view.type === "korean_user_example_edit_view") {
+    return <div>USER EDIT VIEW</div>;
+  }
+
   return <div>Unknown view.</div>;
 });

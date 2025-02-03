@@ -1,9 +1,9 @@
-import { UserExampleSentenceType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
+import { UserExampleSentenceType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { BasicNestedHideableDropdownNoTruncation } from "../../../shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { UserExampleSentencesArea } from "./UserExampleSentencesArea";
+import { ListedUserExampleSentences } from "./ListedUserExampleSentences";
 
-export const UserSentencesAndDerivedLemmasArea = ({
+export const UserSentencesArea = ({
   droppedDown,
   allUserExampleSentencesData,
 }: {
@@ -30,9 +30,9 @@ export const UserSentencesAndDerivedLemmasArea = ({
       onDropdownStateToggle={onDropdownStateToggle}
     >
       {hasUserExampleSentences && (
-        <UserExampleSentencesArea
+        <ListedUserExampleSentences
           allUserExampleSentencesData={allUserExampleSentencesData}
-        />
+        ></ListedUserExampleSentences>
       )}
     </BasicNestedHideableDropdownNoTruncation>
   );

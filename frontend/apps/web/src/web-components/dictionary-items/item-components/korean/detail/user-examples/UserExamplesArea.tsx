@@ -2,13 +2,14 @@ import { UserExamplesType } from "@repo/shared/types/views/dictionary-items/kore
 import { KoreanDetailUserExampleDropdownState } from "@repo/shared/types/views/interactionDataTypes";
 import { TopLevelHideableDropdownNoTruncation } from "../../../shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
-import { UserSentencesAndDerivedLemmasArea } from "./UserSentencesAndDerivedLemmasArea";
 import { UserVideoExamplesArea } from "./UserVideosArea";
 
 export const UserExamplesArea = ({
+  targetCode,
   userExampleDropdowns,
   userExamples,
 }: {
+  targetCode: number;
   userExampleDropdowns: KoreanDetailUserExampleDropdownState;
   userExamples: UserExamplesType;
 }) => {
@@ -28,15 +29,6 @@ export const UserExamplesArea = ({
       droppedDown={userExampleDropdowns.userExamplesDroppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >
-      {((Array.isArray(userExamples.user_example_sentences) &&
-        userExamples.user_example_sentences.length > 0) ||
-        (Array.isArray(userExamples.derived_example_lemmas) &&
-          userExamples.derived_example_lemmas.length > 0)) && (
-        <UserSentencesAndDerivedLemmasArea
-          droppedDown={userExampleDropdowns.sentencesDroppedDown}
-          allUserExampleSentencesData={userExamples.user_example_sentences}
-        />
-      )}
       {Array.isArray(userExamples.user_video_examples) &&
         userExamples.user_video_examples.length > 0 && (
           <UserVideoExamplesArea

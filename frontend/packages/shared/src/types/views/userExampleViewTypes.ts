@@ -1,6 +1,7 @@
 import {
   DerivedExampleTextEojeolNumLemmasInteractionData,
   DerivedExampleTextInteractionData,
+  KoreanUserExampleEditInteractionData,
 } from "./interactionDataTypes";
 
 export type DerivedExampleTextDetailData = {
@@ -23,4 +24,14 @@ export type DerivedExampleTextEojeolNumLemmasView = {
   type: "lemma_derived_text_eojeol_num_lemmas";
   data: DerivedExampleTextEojeolNumLemmasData;
   interactionData: DerivedExampleTextEojeolNumLemmasInteractionData;
+};
+
+export type KoreanUserExampleEditData = {
+  target_code: number;
+};
+
+export type KoreanUserExampleEditView = {
+  type: "korean_user_example_edit_view";
+  data: KoreanUserExampleEditData;
+  interactionData: KoreanUserExampleEditInteractionData;
 };

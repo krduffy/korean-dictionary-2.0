@@ -2,30 +2,19 @@ import {
   HanjaSearchConfig,
   KoreanSearchConfig,
 } from "../../views/searchConfigTypes";
-import {
-  DetailedKoreanType,
-  KoreanSearchResultType,
-} from "src/types/views/dictionary-items/koreanDictionaryItems";
 
 export type PushActionType =
   | PushKoreanSearchAction
-  | PushKoreanSearchActionAlreadyFetched
   | PushHanjaSearchAction
   | PushKoreanDetailAction
-  | PushKoreanDetailActionAlreadyFetched
   | PushHanjaDetailAction
   | PushFindLemmaAction
   | PushDerivedExampleTextDetailAction
-  | PushDerivedExampleTextEojeolNumLemmasAction;
+  | PushDerivedExampleTextEojeolNumLemmasAction
+  | PushKoreanUserExampleEditView;
 
 interface BasePushActionType {
   overwriteCurrentView?: boolean;
-}
-
-export interface PushKoreanSearchActionAlreadyFetched
-  extends BasePushActionType {
-  type: "push_korean_search_already_fetched";
-  searchResults: KoreanSearchResultType[];
 }
 
 export interface PushKoreanSearchAction extends BasePushActionType {
@@ -36,12 +25,6 @@ export interface PushKoreanSearchAction extends BasePushActionType {
 export interface PushHanjaSearchAction extends BasePushActionType {
   type: "push_hanja_search";
   searchConfig: HanjaSearchConfig;
-}
-
-export interface PushKoreanDetailActionAlreadyFetched
-  extends BasePushActionType {
-  type: "push_korean_detail_already_fetched";
-  data: DetailedKoreanType;
 }
 
 export interface PushKoreanDetailAction extends BasePushActionType {
@@ -72,4 +55,9 @@ export interface PushDerivedExampleTextEojeolNumLemmasAction
   type: "push_derived_example_text_eojeol_num_lemmas";
   sourceTextPk: number;
   eojeolNum: number;
+}
+
+export interface PushKoreanUserExampleEditView extends BasePushActionType {
+  type: "push_korean_user_example_edit";
+  target_code: number;
 }

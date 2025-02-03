@@ -149,6 +149,14 @@ export const pushIfApplicable = (
         },
         interactionData: {},
       });
+    case "push_korean_user_example_edit":
+      return func(state, {
+        type: "korean_user_example_edit_view",
+        data: {
+          target_code: action.target_code,
+        },
+        interactionData: {},
+      });
     default:
       return null;
   }
