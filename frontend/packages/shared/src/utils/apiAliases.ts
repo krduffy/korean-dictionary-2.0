@@ -52,6 +52,22 @@ type QueryParams =
   | HanjaExamplesSearchConfig
   | HanjaExamplesFromTextSearchConfig;
 
+export const getUserExampleEndpoint = ({
+  exampleType,
+  headwordTargetCode,
+  exampleItemPk,
+}: {
+  exampleType: "sentence" | "video" | "image";
+  headwordTargetCode: number;
+  exampleItemPk?: number;
+}) => {
+  const base = `${API_URL}user_examples/${headwordTargetCode}/${exampleType}`;
+
+  if (exampleItemPk === undefined) return base;
+
+  return base + `/${exampleItemPk}`;
+};
+
 interface GetEndpointArgs {
   endpoint: ApiEndpoint;
   pk?: number | string | (number | string)[];

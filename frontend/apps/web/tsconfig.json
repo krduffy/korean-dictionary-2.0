@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
+    "lib": ["ES2023"],
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",

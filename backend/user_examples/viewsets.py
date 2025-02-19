@@ -1,6 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import CreateAPIView
-from rest_framework import serializers
+from rest_framework import serializers, viewsets, mixins
 
 from user_examples.models import UserVideoExample, UserExampleSentence, UserImage
 
@@ -44,19 +43,40 @@ class AddImageExampleViewValidator(BaseExampleValidator):
         return data
 
 
-class AddVideoExampleView(CreateAPIView):
+class UserExampleViewset(
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        user = self.request.user
+        queryset = queryset.filter(user_ref=user)
+
+        target_code = self.kwargs["target_code"]
+        queryset = queryset.filter(headword_ref__target_code=target_code)
+
+        return queryset
+
+
+class VideoExampleViewset(UserExampleViewset):
     queryset = UserVideoExample.objects
     serializer_class = AddVideoExampleViewValidator
     permission_classes = (IsAuthenticated,)
 
 
-class AddExampleSentenceView(CreateAPIView):
+class ExampleSentenceViewset(UserExampleViewset):
     queryset = UserExampleSentence.objects
     serializer_class = AddExampleSentenceViewValidator
     permission_classes = (IsAuthenticated,)
 
 
-class AddImageExampleView(CreateAPIView):
-    queryset = UserImage
+class ImageExampleViewset(UserExampleViewset):
+    queryset = UserImage.objects
     serializer_class = AddImageExampleViewValidator
     permission_classes = (IsAuthenticated,)

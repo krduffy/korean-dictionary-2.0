@@ -10,6 +10,7 @@ import { LineBreakArea } from "../ui/LineBreakArea";
 import { PanelHomepage } from "./PanelHomepage";
 import { DerivedExampleTextDetailView } from "../dictionary-items/api-fetchers/DerivedExampleTextDetailView";
 import { DerivedExampleTextEojeolNumLemmasView } from "../dictionary-items/api-fetchers/DerivedExampleTextEojeolNumLemmasView";
+import { UserExamplesPageView } from "../dictionary-items/api-fetchers/user-examples/UserExamplesPageView";
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({
@@ -99,7 +100,7 @@ const ViewContent = memo(({ view }: { view: View }) => {
   }
 
   if (view.type === "korean_user_example_edit_view") {
-    return <div>USER EDIT VIEW</div>;
+    return <UserExamplesPageView headwordTargetCode={view.data.target_code} />;
   }
 
   return <div>Unknown view.</div>;

@@ -1,8 +1,8 @@
-from django.urls import path
-from user_examples.post_views import (
-    AddExampleSentenceView,
-    AddImageExampleView,
-    AddVideoExampleView,
+from django.urls import path, include
+from user_examples.viewsets import (
+    VideoExampleViewset,
+    ImageExampleViewset,
+    ExampleSentenceViewset,
 )
 from user_examples.get_views import (
     GetDerivedExampleLemmasSearchView,
@@ -10,14 +10,16 @@ from user_examples.get_views import (
     GetDerivedExampleLemmasFromTextAtEojeolNumView,
     GetDerivedExampleTextView,
 )
+from rest_framework.routers import DefaultRouter
+
+user_examples_router = DefaultRouter(trailing_slash=False)
+# viewsets
+user_examples_router.register("video", VideoExampleViewset, basename="video")
+user_examples_router.register("sentence", ExampleSentenceViewset, basename="sentence")
+user_examples_router.register("image", ImageExampleViewset, basename="image")
 
 urlpatterns = [
-    # Post requests; derive examples post view in nlp app because the logic is more
-    # involved
-    path("add/video", AddVideoExampleView.as_view(), name="add_video"),
-    path("add/sentence", AddExampleSentenceView.as_view(), name="add_sentence"),
-    path("add/image", AddImageExampleView.as_view(), name="add_image"),
-    # Get requests
+    path("<target_code>/", include(user_examples_router.urls)),
     path(
         "get/derived_example_lemmas/search",
         GetDerivedExampleLemmasSearchView.as_view(),
