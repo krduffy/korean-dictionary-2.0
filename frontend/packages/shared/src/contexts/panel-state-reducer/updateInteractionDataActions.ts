@@ -9,6 +9,7 @@ import {
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
   KoreanDetailUserExampleDropdownState,
+  KoreanUserExampleEditInteractionData,
 } from "../../types/views/interactionDataTypes";
 import { getDefaultDetailedSenseDropdowns } from "../../utils/basicViews";
 
@@ -159,6 +160,12 @@ export const updateInteractionDataIfApplicable = (
     case "update_derived_example_text_interaction_data":
       return updateInteractionData<
         DerivedExampleTextInteractionData,
+        typeof action.key
+      >(state, action.key, action.newValue);
+
+    case "update_korean_user_example_edit_interaction_data":
+      return updateInteractionData<
+        KoreanUserExampleEditInteractionData,
         typeof action.key
       >(state, action.key, action.newValue);
 

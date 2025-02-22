@@ -1,16 +1,13 @@
-import { HeadwordDerivedExampleSearchResultType } from "@repo/shared/types/views/dictionary-items/koreanDictionaryItems";
 import { TopLevelHideableDropdownNoTruncation } from "../../../shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { HeadwordDerivedExamplesView } from "../../../../../dictionary-items/api-fetchers/HeadwordDerivedExamplesView";
 
 export const DerivedLemmaExamplesArea = ({
   droppedDown,
-
   headwordPk,
   pageNum,
 }: {
   droppedDown: boolean;
-
   headwordPk: number;
   pageNum: number;
 }) => {

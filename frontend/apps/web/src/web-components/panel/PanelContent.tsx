@@ -100,7 +100,12 @@ const ViewContent = memo(({ view }: { view: View }) => {
   }
 
   if (view.type === "korean_user_example_edit_view") {
-    return <UserExamplesPageView headwordTargetCode={view.data.target_code} />;
+    return (
+      <UserExamplesPageView
+        headwordTargetCode={view.data.target_code}
+        interactionData={view.interactionData}
+      />
+    );
   }
 
   return <div>Unknown view.</div>;

@@ -14,8 +14,10 @@ import {
 
 export const VideoUserExamplesView = ({
   headwordTargetCode,
+  droppedDown,
 }: {
   headwordTargetCode: number;
+  droppedDown: boolean;
 }) => {
   const listUrl = getUserExampleEndpoint({
     exampleType: "video",
@@ -32,6 +34,8 @@ export const VideoUserExamplesView = ({
     <UserExamplesContextProvider<UserVideoExampleContextType>
       contextValue={{
         type: "video",
+        title: "추가한 영상",
+        droppedDown: droppedDown,
         ListedFormComponent: ListedVideoComponent,
         verifier: isUserVideoExampleType,
         emptyDataTypeTemplate: {

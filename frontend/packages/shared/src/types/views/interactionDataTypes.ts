@@ -49,7 +49,11 @@ export interface HanjaDetailInteractionData extends BaseInteractionData {
 }
 
 export interface KoreanUserExampleEditInteractionData
-  extends BaseInteractionData {}
+  extends BaseInteractionData {
+  videosDroppedDown: boolean;
+  sentencesDroppedDown: boolean;
+  imagesDroppedDown: boolean;
+}
 
 /* guards */
 

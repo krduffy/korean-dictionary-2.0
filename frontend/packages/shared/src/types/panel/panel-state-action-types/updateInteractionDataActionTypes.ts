@@ -4,6 +4,7 @@ import {
   HanjaDetailInteractionData,
   KoreanDetailInteractionData,
   KoreanDetailUserExampleDropdownState,
+  KoreanUserExampleEditInteractionData,
 } from "../../views/interactionDataTypes";
 
 export type UpdateInteractionDataActionType =
@@ -12,7 +13,8 @@ export type UpdateInteractionDataActionType =
   | UpdateKoreanDetailInteractionDataAction
   | UpdateDetailedSenseDropdownStatesLengthAction
   | UpdateKoreanDetailUserExampleInteractionDataAction
-  | UpdateDerivedExampleTextInteractionDataAction;
+  | UpdateDerivedExampleTextInteractionDataAction
+  | UpdateKoreanUserExampleEditInteractionData;
 
 export interface UpdateKoreanDetailedSenseDropdownsAction {
   type: "update_korean_detail_dropdown_toggle";
@@ -51,3 +53,9 @@ type UpdateDerivedExampleTextInteractionDataAction = {
     newValue: DerivedExampleTextInteractionData[K];
   };
 }[keyof DerivedExampleTextInteractionData];
+
+type UpdateKoreanUserExampleEditInteractionData = {
+  type: "update_korean_user_example_edit_interaction_data";
+  key: keyof KoreanUserExampleEditInteractionData;
+  newValue: boolean;
+};

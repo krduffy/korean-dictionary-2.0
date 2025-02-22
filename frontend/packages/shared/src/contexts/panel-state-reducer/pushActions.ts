@@ -155,7 +155,11 @@ export const pushIfApplicable = (
         data: {
           target_code: action.target_code,
         },
-        interactionData: {},
+        interactionData: {
+          imagesDroppedDown: true,
+          sentencesDroppedDown: true,
+          videosDroppedDown: true,
+        },
       });
     default:
       return null;
