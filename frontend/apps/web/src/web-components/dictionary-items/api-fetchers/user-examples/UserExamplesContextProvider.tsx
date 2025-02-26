@@ -6,6 +6,7 @@ import {
 import { ComponentType, createContext, ReactNode, useContext } from "react";
 
 interface UserExamplesContextType<DataType> {
+  headwordTargetCode: number;
   emptyDataTypeTemplate: Omit<DataType, "id">;
   title: string;
   droppedDown: boolean;

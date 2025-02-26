@@ -33,6 +33,7 @@ export const VideoUserExamplesView = ({
   return (
     <UserExamplesContextProvider<UserVideoExampleContextType>
       contextValue={{
+        headwordTargetCode: headwordTargetCode,
         type: "video",
         title: "추가한 영상",
         droppedDown: droppedDown,

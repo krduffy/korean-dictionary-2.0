@@ -4,7 +4,7 @@ import {
   UserVideoExampleType,
 } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useState } from "react";
-import { useUserExamplesContext } from "../../api-fetchers/user-examples/UserExamplesContextProvider";
+import { useSendDeleteOrUpdateRequest } from "./useSendDeleteOrUpdateRequest";
 
 export const useUserExamplesListAndForms = <
   DataType extends
@@ -16,10 +16,11 @@ export const useUserExamplesListAndForms = <
 }: {
   initialData: DataType[];
 }) => {
-  const { emptyDataTypeTemplate } = useUserExamplesContext();
-
   const [listOfDataItems, setListOfDataItems] =
     useState<Omit<DataType, "id">[]>(initialData);
+
+  const { addNewItem, saveItemByIndex, deleteItemByIndex } =
+    useSendDeleteOrUpdateRequest({ listOfDataItems, setListOfDataItems });
 
   const changeField = <Field extends keyof DataType>(
     index: number,
@@ -34,5 +35,11 @@ export const useUserExamplesListAndForms = <
     );
   };
 
-  return { listOfDataItems, changeField };
+  return {
+    listOfDataItems,
+    changeField,
+    addNewItem,
+    saveItemByIndex,
+    deleteItemByIndex,
+  };
 };

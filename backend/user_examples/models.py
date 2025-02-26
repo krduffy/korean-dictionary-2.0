@@ -66,7 +66,7 @@ class UserVideoExample(models.Model):
 
     # accompanying text shown along with the video
     # can add context, notes, ...
-    video_text = models.CharField(null=True)
+    video_text = models.CharField(blank=True, default="")
 
     source = models.CharField(max_length=1000, null=False)
 

@@ -52,6 +52,14 @@ class UserExampleViewset(
 ):
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer(self, *args, **kwargs):
+        if self.action == "create":
+            data = kwargs.get("data", {}).copy()
+            data["headword_ref"] = self.kwargs["target_code"]
+            kwargs["data"] = data
+
+        return super().get_serializer(*args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
