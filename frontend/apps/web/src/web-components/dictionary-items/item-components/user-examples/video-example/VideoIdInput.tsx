@@ -1,5 +1,6 @@
 import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useId } from "react";
+import { TextAreaInput } from "../TextAreaInput";
 
 export const VideoIdInput = ({
   videoId,
@@ -52,13 +53,12 @@ export const VideoIdInput = ({
   const id = useId();
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 items-center">
       <label htmlFor={id}>영상 아이디</label>
-      <textarea
+      <TextAreaInput
         id={id}
-        className="resize-none text-center"
         rows={1}
-        cols={11}
+        cols={15}
         value={videoId}
         onChange={onTextAreaChange}
       />

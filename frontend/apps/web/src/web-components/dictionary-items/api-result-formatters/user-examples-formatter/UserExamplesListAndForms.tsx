@@ -6,10 +6,14 @@ import {
 } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useUserExamplesContext } from "../../api-fetchers/user-examples/UserExamplesContextProvider";
 import { Button } from "../../../ui/Button";
-import { HideableDropdownNoTruncation } from "../../item-components/shared/ReusedFormatters";
+import {
+  HideableDropdownNoTruncation,
+  TopLevelHideableDropdownNoTruncation,
+} from "../../item-components/shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { KoreanUserExampleEditInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { ListedUserExample } from "./ListedUserExample";
+import { Plus } from "lucide-react";
 
 export const UserExamplesListAndForms = <
   DataType extends
@@ -56,7 +60,7 @@ export const UserExamplesListAndForms = <
       changeField(index, field, newValue);
 
   return (
-    <HideableDropdownNoTruncation
+    <TopLevelHideableDropdownNoTruncation
       title={title}
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
@@ -71,15 +75,26 @@ export const UserExamplesListAndForms = <
           deleteFunction={() => deleteItemByIndex(id)}
         />
       ))}
-      {<AddNewItemButton onClick={addNewItem} />}
-    </HideableDropdownNoTruncation>
+      {
+        <div className="w-full min-h-20 flex items-center justify-center">
+          <AddNewItemButton onClick={addNewItem} />
+        </div>
+      }
+    </TopLevelHideableDropdownNoTruncation>
   );
 };
 
 const AddNewItemButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Button type="button" onClick={onClick}>
-      new
-    </Button>
+    <button
+      className="rounded-full border-2 p-2
+                 bg-[color:--accent-button-color]
+                 hover:bg-[color:--accent-button-hover-color]
+                 border-[color:--border-color]
+                 text-[color:--accent-button-text-color]"
+      onClick={onClick}
+    >
+      <Plus />
+    </button>
   );
 };

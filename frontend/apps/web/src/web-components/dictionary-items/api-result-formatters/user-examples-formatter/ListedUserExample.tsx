@@ -5,7 +5,6 @@ import {
 } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useUserExamplesContext } from "../../api-fetchers/user-examples/UserExamplesContextProvider";
 import { ReactNode } from "react";
-import { Button } from "../../../ui/Button";
 
 export const ListedUserExample = <
   DataType extends
@@ -30,24 +29,14 @@ export const ListedUserExample = <
 
   return (
     <UserExampleStyleWrapper>
-      <div className="flex flex-row">
-        <div className="w-[80%]">
-          <ListedFormComponent
-            // @ts-ignore
-            data={dataItem}
-            // @ts-ignore
-            changeField={changeFieldFunction}
-          />
-        </div>
-        <div className="flex flex-col h-full w-[20%]">
-          <div className="flex items-center justify-center h-[50%]">
-            <SaveItemButton onClick={saveFunction} />
-          </div>
-          <div className="flex items-center justify-center h-[50%]">
-            <DeleteItemButton onClick={deleteFunction} />
-          </div>
-        </div>
-      </div>
+      <ListedFormComponent
+        // @ts-ignore
+        data={dataItem}
+        // @ts-ignore
+        changeField={changeFieldFunction}
+        saveFunction={saveFunction}
+        deleteFunction={deleteFunction}
+      />
     </UserExampleStyleWrapper>
   );
 };
@@ -60,21 +49,5 @@ const UserExampleStyleWrapper = ({ children }: { children: ReactNode }) => {
     >
       {children}
     </div>
-  );
-};
-
-const DeleteItemButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <Button type="button" onClick={onClick}>
-      <div>x</div>
-    </Button>
-  );
-};
-
-const SaveItemButton = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <Button type="button" onClick={onClick}>
-      <div>save</div>
-    </Button>
   );
 };

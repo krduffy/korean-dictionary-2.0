@@ -1,5 +1,7 @@
 import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
-import { useId } from "react";
+import { useId, useRef } from "react";
+import { NumberInput } from "../NumberInput";
+import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 
 export const VideoStartAndEndInputs = ({
   start,
@@ -13,12 +15,23 @@ export const VideoStartAndEndInputs = ({
     newValue: UserVideoExampleType[Field]
   ) => void;
 }) => {
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const { belowCutoff } = useWidthObserver({ ref: gridRef, cutoff: 400 });
+
+  /* if the area is too narrow then it is not a grid; it instead changes it to
+     flex-col which invalidates the classes on all the start and end labels + inputs */
+  const gridClass = belowCutoff
+    ? "flex flex-col gap-2 justify-center items-center"
+    : "grid place-items-center gap-2";
+  const startLabelClass = "row-start-1 row-span-1 col-start-1 col-span-1";
+  const startInputClass = "row-start-1 row-span-1 col-start-2 col-span-1";
+  const endLabelClass = "row-start-2 row-span-1 col-start-1 col-span-1";
+  const endInputClass = "row-start-2 row-span-1 col-start-2 col-span-1";
+
   return (
-    <div className="grid place-items-center gap-2">
-      <div className="row-start-1 row-span-1 col-start-1 col-span-1">
-        해당 부분 시작
-      </div>
-      <div className="row-start-1 row-span-1 col-start-2 col-span-1">
+    <div ref={gridRef} className={gridClass}>
+      <div className={startLabelClass}>해당 부분 시작</div>
+      <div className={startInputClass}>
         <HoursMinutesSecondsInput
           time={start}
           changeFieldApplied={(newValue: number) =>
@@ -27,10 +40,8 @@ export const VideoStartAndEndInputs = ({
         />
       </div>
 
-      <div className="row-start-2 row-span-1 col-start-1 col-span-1">
-        해당 부분 끝
-      </div>
-      <div className="row-start-2 row-span-1 col-start-2 col-span-1">
+      <div className={endLabelClass}>해당 부분 끝</div>
+      <div className={endInputClass}>
         <HoursMinutesSecondsInput
           time={end}
           changeFieldApplied={(newValue: number) =>
@@ -58,10 +69,8 @@ const HoursMinutesSecondsInput = ({
   const seconds = timeRemaining;
 
   const getOnChangeFunction =
-    (baseSeconds: number, scalar: number) => (newValue: number) => {
-      console.table([baseSeconds, scalar, newValue]);
+    (baseSeconds: number, scalar: number) => (newValue: number) =>
       changeFieldApplied(baseSeconds + scalar * newValue);
-    };
 
   return (
     <div className="flex flex-row gap-2">
@@ -109,15 +118,14 @@ const TimeInputLabelAndBox = ({
   const id = useId();
 
   return (
-    <div className="flex flex-row gap-1">
-      <input
+    <div className="flex flex-row gap-1 items-center">
+      <NumberInput
         id={id}
-        type="number"
         min={0}
         max={60}
         value={displayedValue}
         onChange={deleteNonnumericBeforeChange}
-      />{" "}
+      />
       <label htmlFor={id}>{label}</label>
     </div>
   );

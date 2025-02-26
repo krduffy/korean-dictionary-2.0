@@ -17,6 +17,8 @@ interface UserExamplesContextType<DataType> {
       field: Field,
       newValue: DataType[Field]
     ) => void;
+    saveFunction: () => void;
+    deleteFunction: () => void;
   }>;
 }
 
