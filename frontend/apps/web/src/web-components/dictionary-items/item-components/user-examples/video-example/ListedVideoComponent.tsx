@@ -3,10 +3,10 @@ import { UserVideoExampleIframe } from "./UserVideoExampleIframe";
 import { VideoIdInput } from "./VideoIdInput";
 import { VideoStartAndEndInputs } from "./VideoStartAndEndInputs";
 import { VideoTextInput } from "./VideoTextInput";
-import { VideoSourceInput } from "./VideoSourceInput";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { useRef } from "react";
 import { DeleteAndSaveButtons } from "../DeleteAndSaveButtons";
+import { SourceInput } from "../SourceInput";
 
 export const ListedVideoComponent = ({
   data,
@@ -66,7 +66,10 @@ const EditableFields = ({
   return (
     <div className="flex flex-col gap-4">
       <VideoIdInput videoId={data.video_id} changeField={changeField} />
-      <VideoSourceInput videoSource={data.source} changeField={changeField} />
+      <SourceInput
+        source={data.source}
+        onChange={(newSource: string) => changeField("source", newSource)}
+      />
       <VideoStartAndEndInputs
         start={data.start}
         end={data.end}

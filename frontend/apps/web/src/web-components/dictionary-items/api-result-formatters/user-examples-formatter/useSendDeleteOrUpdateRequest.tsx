@@ -131,13 +131,11 @@ export const useSendDeleteOrUpdateRequest = <
       exampleItemPk: itemToDelete.id,
     });
 
-    callAPI(deleteUrl, { method: "DELETE" }).then(
-      (response: APIResponseType) => {
-        if (requestState.progress === "success" && response) {
-          setListOfDataItems(listOfDataItems.splice(index, 1));
-        }
+    callAPI(deleteUrl, { method: "DELETE" }).then(() => {
+      if (requestState.progress === "success") {
+        setListOfDataItems(listOfDataItems.toSpliced(index, 1));
       }
-    );
+    });
   };
 
   return {

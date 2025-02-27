@@ -65,21 +65,23 @@ export const UserExamplesListAndForms = <
       droppedDown={droppedDown}
       onDropdownStateToggle={onDropdownStateToggle}
     >
-      {listOfDataItems.map((dataItem, id) => (
-        <ListedUserExample
-          key={id}
-          // @ts-ignore
-          dataItem={dataItem}
-          changeFieldFunction={getIndexAppliedChangeFieldFunc(id)}
-          saveFunction={() => saveItemByIndex(id)}
-          deleteFunction={() => deleteItemByIndex(id)}
-        />
-      ))}
-      {
-        <div className="w-full min-h-20 flex items-center justify-center">
-          <AddNewItemButton onClick={addNewItem} />
-        </div>
-      }
+      <div className="flex flex-col gap-6">
+        {listOfDataItems.map((dataItem, id) => (
+          <ListedUserExample
+            key={id}
+            // @ts-ignore
+            dataItem={dataItem}
+            changeFieldFunction={getIndexAppliedChangeFieldFunc(id)}
+            saveFunction={() => saveItemByIndex(id)}
+            deleteFunction={() => deleteItemByIndex(id)}
+          />
+        ))}
+        {
+          <div className="w-full min-h-20 flex items-center justify-center">
+            <AddNewItemButton onClick={addNewItem} />
+          </div>
+        }
+      </div>
     </TopLevelHideableDropdownNoTruncation>
   );
 };

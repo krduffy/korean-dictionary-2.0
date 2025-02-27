@@ -52,7 +52,13 @@ export const useCallAPI = ({
     configBody: BodyInit | undefined
   ): Promise<APIResponseType> => {
     const wasSuccessful = response.ok;
-    const jsonified = await response.json();
+
+    let jsonified;
+    try {
+      jsonified = await response.json();
+    } catch {
+      jsonified = null;
+    }
 
     /* Setting cache here */
     if (cacheResults) {
