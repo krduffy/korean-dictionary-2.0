@@ -33,20 +33,40 @@ export const useSendDeleteOrUpdateRequest = <
     useUserExamplesContext();
   const { callAPI, requestState } = useCallAPIWeb({ cacheResults: false });
 
+  const apiBusy = useRef<boolean>(false);
+  const onSuccess = useRef<((response: APIResponseType) => void) | undefined>(
+    undefined
+  );
+
   useEffect(() => {
     if (requestState.progress === "error") {
       sendNotification(<ErrorMessage error={requestState.response} />, 4000);
     } else if (requestState.progress === "success") {
-      sendNotification(<SuccessMessage message="성공했습니다." />, 4000);
+      sendNotification(<SuccessMessage message="" />, 4000);
+      onSuccess.current?.(requestState.response);
+      onSuccess.current = undefined;
+    }
+
+    if (requestState.progress === "loading") {
+      apiBusy.current = true;
+    } else {
+      setTimeout(() => {
+        apiBusy.current = false;
+      }, 4000);
     }
   }, [requestState]);
 
   const sendAPIBusyMessage = () => {
-    sendNotification(<SimpleNotification>cant send</SimpleNotification>, 2000);
+    sendNotification(
+      <SimpleNotification>
+        이전 수정이 아직 완료되지 않아 수정할 수 없습니다.
+      </SimpleNotification>,
+      2000
+    );
   };
 
   const addNewItem = async () => {
-    if (requestState.progress === "loading") {
+    if (apiBusy.current) {
       sendAPIBusyMessage();
       return;
     }
@@ -86,26 +106,27 @@ export const useSendDeleteOrUpdateRequest = <
           method: "PATCH",
         };
 
+    const formData = new FormData();
+    for (const [k, v] of Object.entries(itemToSave)) {
+      formData.append(k, v);
+    }
+
+    onSuccess.current = (response: APIResponseType) =>
+      setListOfDataItems(
+        // The api must return the data for the created object (that contains
+        // the id so the item can be deleted).
+        // @ts-ignore
+        listOfDataItems.with(index, response)
+      );
+
     callAPI(dataForOperation.url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
       method: dataForOperation.method,
-      body: JSON.stringify(itemToSave),
-    }).then((response: APIResponseType) => {
-      if (creatingNew && requestState.progress === "success" && response) {
-        setListOfDataItems(
-          listOfDataItems.with(index, {
-            ...itemToSave,
-            id: response.id,
-          })
-        );
-      }
+      body: formData,
     });
   };
 
   const deleteItemByIndex = async (index: number) => {
-    if (requestState.progress === "loading") {
+    if (apiBusy.current) {
       sendAPIBusyMessage();
       return;
     }
@@ -131,11 +152,11 @@ export const useSendDeleteOrUpdateRequest = <
       exampleItemPk: itemToDelete.id,
     });
 
-    callAPI(deleteUrl, { method: "DELETE" }).then(() => {
-      if (requestState.progress === "success") {
-        setListOfDataItems(listOfDataItems.toSpliced(index, 1));
-      }
-    });
+    onSuccess.current = () => {
+      setListOfDataItems(listOfDataItems.toSpliced(index, 1));
+    };
+
+    callAPI(deleteUrl, { method: "DELETE" });
   };
 
   return {

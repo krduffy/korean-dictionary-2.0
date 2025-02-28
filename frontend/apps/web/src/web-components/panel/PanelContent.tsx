@@ -102,6 +102,7 @@ const ViewContent = memo(({ view }: { view: View }) => {
   if (view.type === "korean_user_example_edit_view") {
     return (
       <UserExamplesPageView
+        headword={view.data.headword}
         headwordTargetCode={view.data.target_code}
         interactionData={view.interactionData}
       />

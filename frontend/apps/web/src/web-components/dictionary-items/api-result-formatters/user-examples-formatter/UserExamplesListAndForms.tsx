@@ -5,11 +5,7 @@ import {
   UserVideoExampleType,
 } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useUserExamplesContext } from "../../api-fetchers/user-examples/UserExamplesContextProvider";
-import { Button } from "../../../ui/Button";
-import {
-  HideableDropdownNoTruncation,
-  TopLevelHideableDropdownNoTruncation,
-} from "../../item-components/shared/ReusedFormatters";
+import { TopLevelHideableDropdownNoTruncation } from "../../item-components/shared/ReusedFormatters";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { KoreanUserExampleEditInteractionData } from "@repo/shared/types/views/interactionDataTypes";
 import { ListedUserExample } from "./ListedUserExample";

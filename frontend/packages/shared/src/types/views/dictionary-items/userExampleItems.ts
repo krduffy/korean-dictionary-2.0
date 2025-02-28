@@ -33,7 +33,8 @@ interface BaseExampleType {
 }
 
 export interface UserImageExampleType extends BaseExampleType {
-  image_url: string;
+  /** type of `File` is for when editing images (sending post or patch requests) */
+  image_url: string | File;
   image_accompanying_text?: string;
 }
 

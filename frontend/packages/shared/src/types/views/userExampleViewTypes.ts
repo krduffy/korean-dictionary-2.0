@@ -27,6 +27,7 @@ export type DerivedExampleTextEojeolNumLemmasView = {
 };
 
 export type KoreanUserExampleEditData = {
+  headword: string;
   target_code: number;
 };
 

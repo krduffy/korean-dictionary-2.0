@@ -7,6 +7,7 @@ import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserv
 import { useRef } from "react";
 import { DeleteAndSaveButtons } from "../DeleteAndSaveButtons";
 import { SourceInput } from "../SourceInput";
+import { AccompanyingTextInput } from "../AccompanyingTextInput";
 
 export const ListedVideoComponent = ({
   data,
@@ -75,9 +76,9 @@ const EditableFields = ({
         end={data.end}
         changeField={changeField}
       />
-      <VideoTextInput
-        videoText={data.video_text || ""}
-        changeField={changeField}
+      <AccompanyingTextInput
+        text={data.video_text || ""}
+        onChange={(newText: string) => changeField("video_text", newText)}
       />
     </div>
   );

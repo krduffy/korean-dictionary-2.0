@@ -33,7 +33,10 @@ export const KoreanDetailDisplay = memo(
         <KoreanDetailTopInfo data={data} />
 
         {loggedInAs !== null && (
-          <EditUserExamplesViewButton targetCode={data.target_code} />
+          <EditUserExamplesViewButton
+            headword={data.word}
+            targetCode={data.target_code}
+          />
         )}
 
         <UserExamplesAreaIfPresent

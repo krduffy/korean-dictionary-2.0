@@ -6,15 +6,6 @@ from users.models import User, get_image_path
 
 class UserImage(models.Model):
 
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                check=models.Q(remote_image_url__isnull=False)
-                | models.Q(nonremote_image_url__isnull=False),
-                name="at_least_one_image_url",
-            )
-        ]
-
     id = models.BigAutoField(primary_key=True)
     user_ref = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="added_images", null=False
@@ -23,11 +14,9 @@ class UserImage(models.Model):
         KoreanHeadword, on_delete=models.CASCADE, related_name="user_images", null=False
     )
 
-    image_accompanying_text = models.CharField(null=True)
+    image_accompanying_text = models.CharField(blank=True, default="")
 
-    nonremote_image_url = models.ImageField(upload_to=get_image_path, null=True)
-    remote_image_url = models.URLField(null=True)
-
+    image_url = models.ImageField(upload_to=get_image_path, null=False)
     source = models.CharField(max_length=1000, null=False)
 
 
@@ -78,22 +67,7 @@ class DerivedExampleText(models.Model):
         to=User, related_name="derived_example_texts", on_delete=models.CASCADE
     )
 
-    nonremote_image_url = models.ImageField(null=True, upload_to=get_image_path)
-    remote_image_url = models.URLField(null=True)
-
-    @property
-    def image_url(self):
-        nonremote_image_url = self.nonremote_image_url
-        if nonremote_image_url:
-            # Is ImageField
-            return BASE_URL + nonremote_image_url.url
-
-        remote_image_url = self.remote_image_url
-        if remote_image_url:
-            # Is CharField
-            return remote_image_url
-
-        return None
+    image_url = models.ImageField(null=True, upload_to=get_image_path)
 
 
 class DerivedExampleLemma(models.Model):
@@ -115,16 +89,9 @@ class DerivedExampleLemma(models.Model):
 
     @property
     def image_url(self):
-        nonremote_image_url = self.source_text.nonremote_image_url
-        if nonremote_image_url:
-            # Is ImageField
-            return BASE_URL + nonremote_image_url.url
-
-        remote_image_url = self.source_text.remote_image_url
-        if remote_image_url:
-            # Is CharField
-            return remote_image_url
-
+        image_url = self.source_text.image_url
+        if image_url:
+            return BASE_URL + image_url.url
         return None
 
     @property

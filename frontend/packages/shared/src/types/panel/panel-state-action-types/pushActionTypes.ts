@@ -59,5 +59,6 @@ export interface PushDerivedExampleTextEojeolNumLemmasAction
 
 export interface PushKoreanUserExampleEditView extends BasePushActionType {
   type: "push_korean_user_example_edit";
+  headword: string;
   target_code: number;
 }

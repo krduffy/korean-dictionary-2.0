@@ -153,6 +153,7 @@ export const pushIfApplicable = (
       return func(state, {
         type: "korean_user_example_edit_view",
         data: {
+          headword: action.headword,
           target_code: action.target_code,
         },
         interactionData: {
