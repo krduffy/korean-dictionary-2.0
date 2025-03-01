@@ -9,6 +9,7 @@ export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;
 export type DerivedExampleTextEojeolNumLemmasInteractionData =
   BaseInteractionData;
+export type ListedDerivedExampleTextsInteractionData = BaseInteractionData;
 
 export interface DerivedExampleTextInteractionData extends BaseInteractionData {
   headwordSearchPanelOnlyUnknownSet: boolean;

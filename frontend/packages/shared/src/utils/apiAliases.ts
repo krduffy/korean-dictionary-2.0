@@ -27,6 +27,7 @@ const endpoints = {
     "user_examples/get/derived_example_lemmas/from_text",
   get_derived_example_lemmas_from_text_at_eojeol_num:
     "user_examples/get/derived_example_lemmas/from_text",
+  derived_examples_texts: "user_examples/derived_examples/texts",
 } as const;
 
 export type ApiEndpoint = keyof typeof endpoints;
@@ -46,11 +47,17 @@ export interface HanjaExamplesFromTextSearchConfig {
   page: number;
 }
 
+export interface UserExamplesTextsSearchConfig {
+  search: string;
+  page: number;
+}
+
 type QueryParams =
   | SearchConfig
   | GetDerivedExampleLemmasSearchQueryParams
   | HanjaExamplesSearchConfig
-  | HanjaExamplesFromTextSearchConfig;
+  | HanjaExamplesFromTextSearchConfig
+  | UserExamplesTextsSearchConfig;
 
 export const getUserExampleEndpoint = ({
   exampleType,

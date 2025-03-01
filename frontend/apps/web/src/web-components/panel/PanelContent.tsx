@@ -11,6 +11,7 @@ import { PanelHomepage } from "./PanelHomepage";
 import { DerivedExampleTextDetailView } from "../dictionary-items/api-fetchers/DerivedExampleTextDetailView";
 import { DerivedExampleTextEojeolNumLemmasView } from "../dictionary-items/api-fetchers/DerivedExampleTextEojeolNumLemmasView";
 import { UserExamplesPageView } from "../dictionary-items/api-fetchers/user-examples/UserExamplesPageView";
+import { ListedDerivedExampleTextsView } from "../dictionary-items/api-fetchers/user-examples/ListedDerivedExampleTextsView";
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({
@@ -105,6 +106,15 @@ const ViewContent = memo(({ view }: { view: View }) => {
         headword={view.data.headword}
         headwordTargetCode={view.data.target_code}
         interactionData={view.interactionData}
+      />
+    );
+  }
+
+  if (view.type === "listed_derived_example_texts") {
+    return (
+      <ListedDerivedExampleTextsView
+        searchTerm={view.data.searchTerm}
+        page={view.data.searchPageNum}
       />
     );
   }

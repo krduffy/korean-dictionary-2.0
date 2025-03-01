@@ -1,7 +1,16 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers, viewsets, mixins
+from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
-from user_examples.models import UserVideoExample, UserExampleSentence, UserImage
+from user_examples.serializers import DerivedExampleTextSerializer
+from user_examples.models import (
+    UserVideoExample,
+    UserExampleSentence,
+    UserImage,
+    DerivedExampleText,
+    DerivedExampleLemma,
+)
 
 
 class BaseExampleValidator(serializers.ModelSerializer):
@@ -77,3 +86,28 @@ class ImageExampleViewset(UserExampleViewset):
     queryset = UserImage.objects
     serializer_class = AddImageExampleViewValidator
     permission_classes = (IsAuthenticated,)
+
+
+class DerivedExampleTextPagination(PageNumberPagination):
+    page_size = 10
+
+
+# create intentionally not here
+class DerivedExampleTextViewset(
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    pagination_class = DerivedExampleTextPagination
+    filter_backends = [filters.SearchFilter]
+    serializer_class = DerivedExampleTextSerializer
+    search_fields = ["source"]
+
+    def get_queryset(self):
+        queryset = DerivedExampleText.objects
+
+        user = self.request.user
+        queryset = queryset.filter(user_ref=user)
+
+        return queryset

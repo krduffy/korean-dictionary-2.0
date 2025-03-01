@@ -3,6 +3,7 @@ from user_examples.viewsets import (
     VideoExampleViewset,
     ImageExampleViewset,
     ExampleSentenceViewset,
+    DerivedExampleTextViewset,
 )
 from user_examples.get_views import (
     GetDerivedExampleLemmasSearchView,
@@ -18,8 +19,12 @@ user_examples_router.register("video", VideoExampleViewset, basename="video")
 user_examples_router.register("sentence", ExampleSentenceViewset, basename="sentence")
 user_examples_router.register("image", ImageExampleViewset, basename="image")
 
+derived_example_router = DefaultRouter(trailing_slash=False)
+derived_example_router.register("texts", DerivedExampleTextViewset, basename="text")
+
 urlpatterns = [
     path("<target_code>/", include(user_examples_router.urls)),
+    path("derived_examples/", include(derived_example_router.urls)),
     path(
         "get/derived_example_lemmas/search",
         GetDerivedExampleLemmasSearchView.as_view(),

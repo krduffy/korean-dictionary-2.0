@@ -9,6 +9,7 @@ import {
   DerivedExampleTextDetailView,
   DerivedExampleTextEojeolNumLemmasView,
   KoreanUserExampleEditView,
+  ListedDerivedExampleTextsView,
 } from "./userExampleViewTypes";
 
 export type View =
@@ -20,4 +21,5 @@ export type View =
   | HanjaDetailView
   | FindLemmaView
   | DerivedExampleTextDetailView
-  | DerivedExampleTextEojeolNumLemmasView;
+  | DerivedExampleTextEojeolNumLemmasView
+  | ListedDerivedExampleTextsView;

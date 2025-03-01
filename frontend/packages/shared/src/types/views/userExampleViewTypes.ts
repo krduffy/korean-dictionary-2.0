@@ -2,6 +2,7 @@ import {
   DerivedExampleTextEojeolNumLemmasInteractionData,
   DerivedExampleTextInteractionData,
   KoreanUserExampleEditInteractionData,
+  ListedDerivedExampleTextsInteractionData,
 } from "./interactionDataTypes";
 
 export type DerivedExampleTextDetailData = {
@@ -24,6 +25,17 @@ export type DerivedExampleTextEojeolNumLemmasView = {
   type: "lemma_derived_text_eojeol_num_lemmas";
   data: DerivedExampleTextEojeolNumLemmasData;
   interactionData: DerivedExampleTextEojeolNumLemmasInteractionData;
+};
+
+export type ListedDerivedExampleTextsData = {
+  searchTerm: string;
+  searchPageNum: number;
+};
+
+export type ListedDerivedExampleTextsView = {
+  type: "listed_derived_example_texts";
+  data: ListedDerivedExampleTextsData;
+  interactionData: ListedDerivedExampleTextsInteractionData;
 };
 
 export type KoreanUserExampleEditData = {

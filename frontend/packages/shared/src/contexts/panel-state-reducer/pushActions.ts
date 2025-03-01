@@ -162,6 +162,20 @@ export const pushIfApplicable = (
           videosDroppedDown: true,
         },
       });
+    case "push_homepage":
+      return func(state, {
+        type: "panel_homepage",
+        interactionData: {},
+      });
+    case "push_listed_derived_example_texts":
+      return func(state, {
+        type: "listed_derived_example_texts",
+        data: {
+          searchPageNum: 1,
+          searchTerm: "",
+        },
+        interactionData: {},
+      });
     default:
       return null;
   }

@@ -4,10 +4,14 @@ import { PanelState } from "@repo/shared/types/panel/panelTypes";
 import { CloseButton } from "../../ui/CloseButton";
 import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { memo } from "react";
+import { JumpToViewButtonArea } from "./JumpToViewButtonArea";
 
 export const PanelTopBar = ({ state }: { state: PanelState }) => {
   return (
     <div aria-label="panel-top-bar" className="flex flex-row h-12 mb-4 gap-4">
+      <div className="flex-none">
+        <JumpToViewButtonArea />
+      </div>
       <div className="flex-1">
         <SearchBarArea searchConfig={state.searchConfig} />
       </div>

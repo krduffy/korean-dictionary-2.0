@@ -11,7 +11,9 @@ export type PushActionType =
   | PushFindLemmaAction
   | PushDerivedExampleTextDetailAction
   | PushDerivedExampleTextEojeolNumLemmasAction
-  | PushKoreanUserExampleEditView;
+  | PushKoreanUserExampleEditView
+  | PushHomepageView
+  | PushListedDerivedExampleTexts;
 
 interface BasePushActionType {
   overwriteCurrentView?: boolean;
@@ -61,4 +63,12 @@ export interface PushKoreanUserExampleEditView extends BasePushActionType {
   type: "push_korean_user_example_edit";
   headword: string;
   target_code: number;
+}
+
+export interface PushHomepageView extends BasePushActionType {
+  type: "push_homepage";
+}
+
+export interface PushListedDerivedExampleTexts extends BasePushActionType {
+  type: "push_listed_derived_example_texts";
 }
