@@ -197,9 +197,9 @@ def get_ordered_hanja_example_queryset(initial_queryset, user):
     )
 
     new_queryset = annotated_queryset.order_by(
-        "-result_ranking",  # Result ranking first
-        "-studied",  # Words that the user is studying second
+        "-studied",  # Words that the user is studying first
         "-known",  # Then by words that the user knows
+        "-result_ranking",  # Then result ranking
         "-users_that_know_count",  # Then by the number of users who know the word
         "length",  # Shorter words first
         "word",  # 가나다순 (alphabetical order)
