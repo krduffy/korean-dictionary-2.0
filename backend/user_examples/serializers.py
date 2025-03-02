@@ -66,7 +66,7 @@ class DerivedExampleLemmaInSourceTextPageSerializer(BaseDerivedExampleLemmaSeria
 
 
 class DerivedExampleTextSerializer(serializers.ModelSerializer):
-    image_url = serializers.CharField()
+    image_url = serializers.CharField(source="base_appended_image_url")
 
     class Meta:
         model = DerivedExampleText

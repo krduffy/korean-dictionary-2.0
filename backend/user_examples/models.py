@@ -69,6 +69,13 @@ class DerivedExampleText(models.Model):
 
     image_url = models.ImageField(null=True, upload_to=get_image_path)
 
+    @property
+    def base_appended_image_url(self):
+        image_url = self.image_url
+        if image_url:
+            return BASE_URL + image_url.url
+        return None
+
 
 class DerivedExampleLemma(models.Model):
     source_text = models.ForeignKey(

@@ -3,6 +3,7 @@ from rest_framework import serializers, viewsets, mixins
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
+from shared.api_utils import RedirectingListAPIView
 from user_examples.serializers import DerivedExampleTextSerializer
 from user_examples.models import (
     UserVideoExample,
@@ -88,18 +89,15 @@ class ImageExampleViewset(UserExampleViewset):
     permission_classes = (IsAuthenticated,)
 
 
-class DerivedExampleTextPagination(PageNumberPagination):
-    page_size = 10
-
-
 # create intentionally not here
 class DerivedExampleTextViewset(
+    RedirectingListAPIView,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
-    pagination_class = DerivedExampleTextPagination
+    permission_classes = (IsAuthenticated,)
     filter_backends = [filters.SearchFilter]
     serializer_class = DerivedExampleTextSerializer
     search_fields = ["source"]
