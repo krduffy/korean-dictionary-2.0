@@ -113,8 +113,8 @@ const ViewContent = memo(({ view }: { view: View }) => {
   if (view.type === "listed_derived_example_texts") {
     return (
       <ListedDerivedExampleTextsView
-        searchTerm={view.data.searchTerm}
-        page={view.data.searchPageNum}
+        searchTerm={view.interactionData.searchTerm}
+        page={view.interactionData.searchPageNum}
       />
     );
   }

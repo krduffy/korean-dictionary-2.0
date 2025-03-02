@@ -9,17 +9,22 @@ import {
 import { NoResultsMessage } from "./ResultsMessages";
 import { ErrorMessage } from "../../../text-formatters/messages/ErrorMessage";
 
-export const PaginatedResultsFormatter = <ResultType,>({
+export const PaginatedResultsFormatter = <
+  ResultType,
+  AdditionallyPass extends Record<string, any>,
+>({
   requestState,
   searchTerm,
   verifier,
   ResultComponent,
+  additionallyPass = {} as AdditionallyPass,
   LoadingComponent = DefaultSkeleton,
 }: {
   requestState: RequestStateType;
   searchTerm?: string;
   verifier: (result: unknown) => result is ResultType;
-  ResultComponent: ComponentType<{ result: ResultType }>;
+  ResultComponent: ComponentType<{ result: ResultType } & AdditionallyPass>;
+  additionallyPass?: AdditionallyPass;
   LoadingComponent?: ComponentType;
 }): ReactNode => {
   const { progress, response } = requestState;
@@ -62,7 +67,7 @@ export const PaginatedResultsFormatter = <ResultType,>({
     <>
       {response.results.map((result, id) => (
         <SearchResultWrapper key={id}>
-          <ResultComponent result={result} />
+          <ResultComponent result={result} {...additionallyPass} />
         </SearchResultWrapper>
       ))}
     </>

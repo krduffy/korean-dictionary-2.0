@@ -9,7 +9,6 @@ export type FindLemmaInteractionData = BaseInteractionData;
 export type HanjaSearchInteractionData = BaseInteractionData;
 export type DerivedExampleTextEojeolNumLemmasInteractionData =
   BaseInteractionData;
-export type ListedDerivedExampleTextsInteractionData = BaseInteractionData;
 
 export interface DerivedExampleTextInteractionData extends BaseInteractionData {
   headwordSearchPanelOnlyUnknownSet: boolean;
@@ -54,6 +53,12 @@ export interface KoreanUserExampleEditInteractionData
   videosDroppedDown: boolean;
   sentencesDroppedDown: boolean;
   imagesDroppedDown: boolean;
+}
+
+export interface ListedDerivedExampleTextsInteractionData
+  extends BaseInteractionData {
+  searchTerm: string;
+  searchPageNum: number;
 }
 
 /* guards */

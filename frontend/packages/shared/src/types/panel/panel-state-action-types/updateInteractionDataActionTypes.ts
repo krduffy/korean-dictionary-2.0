@@ -5,6 +5,7 @@ import {
   KoreanDetailInteractionData,
   KoreanDetailUserExampleDropdownState,
   KoreanUserExampleEditInteractionData,
+  ListedDerivedExampleTextsInteractionData,
 } from "../../views/interactionDataTypes";
 
 export type UpdateInteractionDataActionType =
@@ -14,7 +15,8 @@ export type UpdateInteractionDataActionType =
   | UpdateDetailedSenseDropdownStatesLengthAction
   | UpdateKoreanDetailUserExampleInteractionDataAction
   | UpdateDerivedExampleTextInteractionDataAction
-  | UpdateKoreanUserExampleEditInteractionData;
+  | UpdateKoreanUserExampleEditInteractionData
+  | UpdateListedDerivedExampleTextsInteractionData;
 
 export interface UpdateKoreanDetailedSenseDropdownsAction {
   type: "update_korean_detail_dropdown_toggle";
@@ -59,3 +61,11 @@ type UpdateKoreanUserExampleEditInteractionData = {
   key: keyof KoreanUserExampleEditInteractionData;
   newValue: boolean;
 };
+
+type UpdateListedDerivedExampleTextsInteractionData = {
+  [K in keyof ListedDerivedExampleTextsInteractionData]: {
+    type: "update_listed_derived_example_texts_interaction_data";
+    key: K;
+    newValue: ListedDerivedExampleTextsInteractionData[K];
+  };
+}[keyof ListedDerivedExampleTextsInteractionData];

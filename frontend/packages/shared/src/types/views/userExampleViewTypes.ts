@@ -27,10 +27,7 @@ export type DerivedExampleTextEojeolNumLemmasView = {
   interactionData: DerivedExampleTextEojeolNumLemmasInteractionData;
 };
 
-export type ListedDerivedExampleTextsData = {
-  searchTerm: string;
-  searchPageNum: number;
-};
+export type ListedDerivedExampleTextsData = {};
 
 export type ListedDerivedExampleTextsView = {
   type: "listed_derived_example_texts";

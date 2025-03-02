@@ -170,11 +170,8 @@ export const pushIfApplicable = (
     case "push_listed_derived_example_texts":
       return func(state, {
         type: "listed_derived_example_texts",
-        data: {
-          searchPageNum: 1,
-          searchTerm: "",
-        },
-        interactionData: {},
+        data: {},
+        interactionData: { searchPageNum: 1, searchTerm: "" },
       });
     default:
       return null;

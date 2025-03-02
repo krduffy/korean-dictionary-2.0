@@ -33,10 +33,12 @@ export const KoreanDetailDisplay = memo(
         <KoreanDetailTopInfo data={data} />
 
         {loggedInAs !== null && (
-          <EditUserExamplesViewButton
-            headword={data.word}
-            targetCode={data.target_code}
-          />
+          <div className="flex justify-end">
+            <EditUserExamplesViewButton
+              headword={data.word}
+              targetCode={data.target_code}
+            />
+          </div>
         )}
 
         <UserExamplesAreaIfPresent
