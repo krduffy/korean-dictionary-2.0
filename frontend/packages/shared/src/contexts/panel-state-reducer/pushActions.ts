@@ -173,6 +173,12 @@ export const pushIfApplicable = (
         data: {},
         interactionData: { searchPageNum: 1, searchTerm: "" },
       });
+    case "push_add_derived_example_text":
+      return func(state, {
+        type: "add_derived_example_text",
+        data: {},
+        interactionData: {},
+      });
     default:
       return null;
   }

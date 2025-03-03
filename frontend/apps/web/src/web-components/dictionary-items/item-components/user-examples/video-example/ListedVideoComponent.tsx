@@ -6,7 +6,7 @@ import { VideoTextInput } from "./VideoTextInput";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { useRef } from "react";
 import { DeleteAndSaveButtons } from "../DeleteAndSaveButtons";
-import { SourceInput } from "../SourceInput";
+import { SourceInput } from "../../../../forms/input-components/SourceInput";
 import { AccompanyingTextInput } from "../AccompanyingTextInput";
 
 export const ListedVideoComponent = ({

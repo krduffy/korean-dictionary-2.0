@@ -1,6 +1,6 @@
-import { usePanelFunctionsContext } from "@repo/shared/contexts/PanelFunctionsContextProvider";
 import { DerivedExampleTextsSearchBar } from "./DerivedExampleTextsSearchBar";
 import { Plus } from "lucide-react";
+import { PanelSpecificDispatcher } from "../../../pages/dictionary-page/PanelSpecificDispatcher";
 
 export const DerivedExampleTextsTopBar = ({
   searchTerm,
@@ -28,10 +28,6 @@ export const DerivedExampleTextsTopBar = ({
 };
 
 const AddNewTextButton = () => {
-  const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
-
-  const onClick = () => {};
-
   return (
     <button
       className="aspect-square h-full rounded-full border-2 p-2
@@ -40,9 +36,14 @@ const AddNewTextButton = () => {
                  hover:bg-[color:--accent-button-hover-color]
                  border-[color:--border-color]
                  text-[color:--accent-button-text-color]"
-      onClick={onClick}
     >
-      <Plus />
+      <PanelSpecificDispatcher
+        panelStateAction={{
+          type: "push_add_derived_example_text",
+        }}
+      >
+        <Plus />
+      </PanelSpecificDispatcher>
     </button>
   );
 };

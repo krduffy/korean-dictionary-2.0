@@ -1,6 +1,6 @@
 import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useId } from "react";
-import { TextAreaInput } from "../TextAreaInput";
+import { TextAreaInput } from "../../../../forms/input-components/TextAreaInput";
 
 export const VideoTextInput = ({
   videoText,

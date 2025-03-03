@@ -3,6 +3,7 @@ import {
   DerivedExampleTextInteractionData,
   KoreanUserExampleEditInteractionData,
   ListedDerivedExampleTextsInteractionData,
+  AddDerivedExampleTextInteractionData,
 } from "./interactionDataTypes";
 
 export type DerivedExampleTextDetailData = {
@@ -33,6 +34,14 @@ export type ListedDerivedExampleTextsView = {
   type: "listed_derived_example_texts";
   data: ListedDerivedExampleTextsData;
   interactionData: ListedDerivedExampleTextsInteractionData;
+};
+
+export type AddDerivedExampleTextData = {};
+
+export type AddDerivedExampleTextView = {
+  type: "add_derived_example_text";
+  data: AddDerivedExampleTextData;
+  interactionData: AddDerivedExampleTextInteractionData;
 };
 
 export type KoreanUserExampleEditData = {

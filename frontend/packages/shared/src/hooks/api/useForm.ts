@@ -29,13 +29,15 @@ export const useForm = ({
 
   const { requestState, callAPI } = useCallAPIInstance;
 
-  const doPost = async () => {
+  const doPost = async (formDataToPost: JsonObjectType) => {
+    const formDataObject = new FormData();
+    for (const [k, v] of Object.entries(formDataToPost)) {
+      formDataObject.append(k, v as any);
+    }
+
     const config: RequestConfig = {
       method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: formDataObject,
       credentials: includeCredentials ? "include" : undefined,
     };
 
@@ -44,7 +46,7 @@ export const useForm = ({
 
   const postForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    doPost();
+    doPost(formData);
   };
 
   const updateField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,10 +58,34 @@ export const useForm = ({
     setFormData(newFormData);
   };
 
+  const setFieldDirectly = (key: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const deleteFieldThenPost = (
+    e: React.FormEvent<HTMLFormElement>,
+    key: string
+  ) => {
+    e.preventDefault();
+
+    const newFormData = {
+      ...formData,
+    };
+    delete newFormData[key];
+
+    setFormData(newFormData);
+    doPost(newFormData);
+  };
+
   return {
     requestState,
     formData,
     postForm,
     updateField,
+    setFieldDirectly,
+    deleteFieldThenPost,
   };
 };

@@ -2,10 +2,10 @@ import { UserImageExampleType } from "@repo/shared/types/views/dictionary-items/
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 import { useRef } from "react";
 import { DeleteAndSaveButtons } from "../DeleteAndSaveButtons";
-import { SourceInput } from "../SourceInput";
-import { ImageInput } from "./ImageInput";
+import { SourceInput } from "../../../../forms/input-components/SourceInput";
 import { AccompanyingTextInput } from "../AccompanyingTextInput";
-import { ImagePreview } from "./ImagePreview";
+import { ImagePreview } from "../../../../forms/input-components/ImagePreview";
+import { FileUploadField } from "../../../../forms/input-components/FileUploadField";
 
 export const ListedImageComponent = ({
   data,
@@ -60,7 +60,14 @@ const EditableFields = ({
         source={data.source}
         onChange={(newSource: string) => changeField("source", newSource)}
       />
-      <ImageInput changeField={changeField} />
+      <FileUploadField
+        label={"이미지"}
+        onChange={(newFile: File) => {
+          changeField("image_url", newFile);
+        }}
+        accept=".png, .jpg, .jpeg, .gif"
+        required={true}
+      />
       <AccompanyingTextInput
         text={data.image_accompanying_text || ""}
         onChange={(newText: string) =>

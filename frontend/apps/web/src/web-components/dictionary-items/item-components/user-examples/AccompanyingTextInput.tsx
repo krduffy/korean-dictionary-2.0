@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { TextAreaInput } from "./TextAreaInput";
+import { TextAreaInput } from "../../../forms/input-components/TextAreaInput";
 
 export const AccompanyingTextInput = ({
   text,

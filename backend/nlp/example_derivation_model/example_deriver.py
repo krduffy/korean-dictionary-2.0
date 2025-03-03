@@ -25,7 +25,8 @@ class ExampleDeriver:
         self.lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
         self.headword_disambiguator = KoreanHeadwordDisambiguator()
         self.already_disambiguated_set = set()
-        self.skipped_lemmas_set = skipped_lemmas_set
+        # deepcopy
+        self.skipped_lemmas_set = set(skipped_lemmas_set)
 
     def _get_split_texts(self, text: str) -> List[str]:
         """Splits a text into a number of smaller strings to be input into
@@ -74,9 +75,15 @@ class ExampleDeriver:
                 "eojeol_num": batch[i][2],
             }
 
-    def generate_examples_in_text(self, text):
+    def generate_examples_in_text(self, text, ignored_headwords: str):
 
         input_texts = self._get_split_texts(text)
+
+        ignored_headwords_list = ignored_headwords.strip().split(" ")
+        ignored_headwords_set = set(
+            [headword for headword in ignored_headwords_list if len(headword) > 0]
+        )
+        self.skipped_lemmas_set.update(ignored_headwords_set)
 
         # running number regardless of split input texts' boundaries
         eojeol_num = 0

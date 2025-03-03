@@ -6,6 +6,7 @@ import {
 } from "./koreanViewTypes";
 import { PanelHomepageView } from "./panelHomepageViewTypes";
 import {
+  AddDerivedExampleTextView,
   DerivedExampleTextDetailView,
   DerivedExampleTextEojeolNumLemmasView,
   KoreanUserExampleEditView,
@@ -22,4 +23,5 @@ export type View =
   | FindLemmaView
   | DerivedExampleTextDetailView
   | DerivedExampleTextEojeolNumLemmasView
-  | ListedDerivedExampleTextsView;
+  | ListedDerivedExampleTextsView
+  | AddDerivedExampleTextView;

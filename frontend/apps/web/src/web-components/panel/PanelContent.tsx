@@ -12,6 +12,7 @@ import { DerivedExampleTextDetailView } from "../dictionary-items/api-fetchers/D
 import { DerivedExampleTextEojeolNumLemmasView } from "../dictionary-items/api-fetchers/DerivedExampleTextEojeolNumLemmasView";
 import { UserExamplesPageView } from "../dictionary-items/api-fetchers/user-examples/UserExamplesPageView";
 import { ListedDerivedExampleTextsView } from "../dictionary-items/api-fetchers/user-examples/ListedDerivedExampleTextsView";
+import { DeriveExamplesForm } from "../forms/display/DeriveExamplesForm";
 /* a wrapper around PanelContent to add the updating of scroll distance 
    functionality */
 export const PanelContent = ({
@@ -117,6 +118,10 @@ const ViewContent = memo(({ view }: { view: View }) => {
         page={view.interactionData.searchPageNum}
       />
     );
+  }
+
+  if (view.type === "add_derived_example_text") {
+    return <DeriveExamplesForm />;
   }
 
   return <div>Unknown view.</div>;

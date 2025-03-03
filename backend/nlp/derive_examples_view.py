@@ -22,8 +22,18 @@ class DeriveExamplesViewValidator(serializers.Serializer):
     text = serializers.CharField(required=False, max_length=2000)
     text_file = serializers.FileField(required=False)
     source = serializers.CharField(required=True, max_length=100)
-    nonremote_image_url = serializers.ImageField(required=False)
-    remote_image_url = serializers.URLField(required=False)
+    ignored_headwords = serializers.CharField(required=False, default="")
+    image_url = serializers.ImageField(required=False)
+
+    def to_internal_value(self, data):
+        new_data = data.copy()
+
+        if "text_file" in data and data["text_file"] == "null":
+            new_data.pop("text_file")
+        if "image_url" in data and data["image_url"] == "null":
+            new_data.pop("image_url")
+
+        return super().to_internal_value(new_data)
 
     def validate(self, data):
         if not data.get("text") and not data.get("text_file"):
@@ -33,10 +43,6 @@ class DeriveExamplesViewValidator(serializers.Serializer):
                 "Text and a text file cannot both be uplaoded."
             )
 
-        if data.get("remote_image_url") and data.get("nonremote_image_url"):
-            raise serializers.ValidationError(
-                "A remote and nonremote image url cannot both be provided."
-            )
         return data
 
 
@@ -49,18 +55,15 @@ class DeriveExamplesFromTextView(APIView):
     SAVE_BATCH_SIZE = 512
 
     lemmatizer = KoreanLemmatizer(attach_다_to_verbs=True)
-    example_deriver = ExampleDeriver()
 
     def _do_derivation_from_text(
-        self, text, source, user, nonremote_image_url, remote_image_url
+        self, text, source, user, image_url, ignored_headwords
     ):
-
         new_det = DerivedExampleText(
             text=text,
             source=source,
             user_ref=user,
-            nonremote_image_url=nonremote_image_url,
-            remote_image_url=remote_image_url,
+            image_url=image_url,
         )
         new_det.save()
 
@@ -71,7 +74,11 @@ class DeriveExamplesFromTextView(APIView):
         num_no_known_headwords = 0
         num_already_disambiguated = 0
 
-        for derived_example in self.example_deriver.generate_examples_in_text(text):
+        example_deriver = ExampleDeriver()
+
+        for derived_example in example_deriver.generate_examples_in_text(
+            text, ignored_headwords
+        ):
 
             returned_pk = derived_example["headword_pk"]
 
@@ -146,10 +153,10 @@ class DeriveExamplesFromTextView(APIView):
             text=text,
             source=serializer.validated_data["source"],
             user=user,
-            nonremote_image_url=serializer.validated_data.get(
-                "nonremote_image_url",
+            image_url=serializer.validated_data.get(
+                "image_url",
             ),
-            remote_image_url=serializer.validated_data.get("remote_image_url"),
+            ignored_headwords=serializer.validated_data["ignored_headwords"],
         )
 
         if not DEBUG:

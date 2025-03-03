@@ -1,6 +1,6 @@
 import { UserExampleSentenceType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useId, useRef, useState } from "react";
-import { TextAreaInput } from "../TextAreaInput";
+import { TextAreaInput } from "../../../../forms/input-components/TextAreaInput";
 import { Info } from "lucide-react";
 import { PopupBox } from "../../../../ui/popup-box/PopupBox";
 

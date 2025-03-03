@@ -1,6 +1,6 @@
 import { UserVideoExampleType } from "@repo/shared/types/views/dictionary-items/userExampleItems";
 import { useId, useRef } from "react";
-import { NumberInput } from "../NumberInput";
+import { NumberInput } from "../../../../forms/input-components/NumberInput";
 import { useWidthObserver } from "../../../../../shared-web-hooks/useWidthObserver";
 
 export const VideoStartAndEndInputs = ({

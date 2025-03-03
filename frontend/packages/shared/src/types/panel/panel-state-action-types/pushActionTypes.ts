@@ -13,7 +13,8 @@ export type PushActionType =
   | PushDerivedExampleTextEojeolNumLemmasAction
   | PushKoreanUserExampleEditView
   | PushHomepageView
-  | PushListedDerivedExampleTexts;
+  | PushListedDerivedExampleTexts
+  | PushAddDerivedExampleText;
 
 interface BasePushActionType {
   overwriteCurrentView?: boolean;
@@ -71,4 +72,8 @@ export interface PushHomepageView extends BasePushActionType {
 
 export interface PushListedDerivedExampleTexts extends BasePushActionType {
   type: "push_listed_derived_example_texts";
+}
+
+export interface PushAddDerivedExampleText extends BasePushActionType {
+  type: "push_add_derived_example_text";
 }

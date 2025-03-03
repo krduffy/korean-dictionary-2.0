@@ -32,7 +32,7 @@ export const DerivedExampleTextDisplay = ({
         />
 
         <div
-          className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-24 max-w-[40%]"}`}
+          className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-[30%] max-w-[40%]"}`}
         >
           <DerivedExampleTextDisplaySideBar
             sourceTextPk={data.id}
