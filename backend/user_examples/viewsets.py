@@ -108,4 +108,6 @@ class DerivedExampleTextViewset(
         user = self.request.user
         queryset = queryset.filter(user_ref=user)
 
+        queryset = queryset.order_by("id")
+
         return queryset
