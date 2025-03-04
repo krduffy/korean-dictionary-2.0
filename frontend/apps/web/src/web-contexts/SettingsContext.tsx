@@ -1,5 +1,5 @@
 import { ReactNode, useContext, createContext } from "react";
-import { useKeyboardConversionSettings } from "./useKeyboardConversionSettings";
+import { useBooleanSetting } from "./useBooleanSetting";
 import { useFontSizeSettings } from "./useFontSizeSettings";
 
 export type FontSizeSettingsType = {
@@ -12,9 +12,21 @@ export type KeyboardConversionSettingsType = {
   updateDoConversion: (newValue: boolean) => boolean;
 };
 
+export type SendUnimportantNotificationsSettingType = {
+  doSend: boolean;
+  updateDoSend: (newValue: boolean) => boolean;
+};
+
+export type IncludeUnknownWordsInDerivedTextPageViewSettingsType = {
+  doInclude: boolean;
+  updateDoInclude: (newValue: boolean) => boolean;
+};
+
 export interface SettingsType {
   fontSizeSettings: FontSizeSettingsType;
   keyboardConversionSettings: KeyboardConversionSettingsType;
+  sendUnimportantNotificationsSettings: SendUnimportantNotificationsSettingType;
+  includeUnknownWordsInDerivedTextPageViewSettings: IncludeUnknownWordsInDerivedTextPageViewSettingsType;
 }
 
 export const SettingsContext = createContext<SettingsType | undefined>(
@@ -30,7 +42,15 @@ export const SettingsContextProvider = ({
 }: SettingsContextProviderArgs) => {
   const { realFontSize, relativeFontSize, updateRelativeFontSize } =
     useFontSizeSettings();
-  const { doConversion, updateDoConversion } = useKeyboardConversionSettings();
+  const { value: doConversion, setter: updateDoConversion } = useBooleanSetting(
+    { nameOfSetting: "preferred-do-keyboard-conversion-on-search" }
+  );
+  const { value: doSend, setter: updateDoSend } = useBooleanSetting({
+    nameOfSetting: "preferred-send-unimportant-notifications",
+  });
+  const { value: doInclude, setter: updateDoInclude } = useBooleanSetting({
+    nameOfSetting: "preferred-include-unknown-words-in-derived-text-view",
+  });
 
   return (
     <SettingsContext.Provider
@@ -42,6 +62,14 @@ export const SettingsContextProvider = ({
         keyboardConversionSettings: {
           doConversion,
           updateDoConversion,
+        },
+        sendUnimportantNotificationsSettings: {
+          doSend,
+          updateDoSend,
+        },
+        includeUnknownWordsInDerivedTextPageViewSettings: {
+          doInclude,
+          updateDoInclude,
         },
       }}
     >

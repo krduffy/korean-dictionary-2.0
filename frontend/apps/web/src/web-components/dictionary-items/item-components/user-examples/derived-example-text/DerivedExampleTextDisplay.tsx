@@ -54,6 +54,15 @@ const DerivedExampleTextDisplaySideBar = ({
   interactionData: DerivedExampleTextInteractionData;
   imageUrl: string | null;
 }) => {
+  const { includeUnknownWordsInDerivedTextPageViewSettings } =
+    useSettingsContext();
+
+  if (
+    imageUrl === null &&
+    !includeUnknownWordsInDerivedTextPageViewSettings.doInclude
+  )
+    return;
+
   return (
     <aside
       className="w-full p-4 rounded-lg bg-[color:--background-tertiary]
@@ -63,10 +72,12 @@ const DerivedExampleTextDisplaySideBar = ({
       {imageUrl !== null && (
         <img className="min-h-16 max-h-64 object-fill" src={imageUrl}></img>
       )}
-      <ContainedHeadwordsSection
-        sourceTextPk={sourceTextPk}
-        interactionData={interactionData}
-      />
+      {includeUnknownWordsInDerivedTextPageViewSettings.doInclude && (
+        <ContainedHeadwordsSection
+          sourceTextPk={sourceTextPk}
+          interactionData={interactionData}
+        />
+      )}
     </aside>
   );
 };

@@ -20,16 +20,17 @@ export const SettingNameAndControls = ({
   return (
     <div
       ref={divRef}
-      className={`w-full flex flex-${belowCutoff ? "col" : "row"} p-4 gap-${belowCutoff ? "4" : "24"}`}
+      className={`w-full flex flex-${belowCutoff ? "col" : "row"} p-4
+      items-center justify-center`}
     >
       <div
-        className={`w-${belowCutoff ? "full" : "[30%]"} text-${belowCutoff ? "center" : "right"} cursor-help`}
+        className={`w-${belowCutoff ? "full" : "[50%]"} text-${belowCutoff ? "center" : "right"} cursor-help px-8 py-2`}
         title={settingHelp}
       >
         {settingName}
       </div>
       <div
-        className={`w-${belowCutoff ? "full" : "[70%]"}  text-${belowCutoff ? "center" : "left"}`}
+        className={`w-${belowCutoff ? "full" : "[50%]"}  text-${belowCutoff ? "center" : "left"}`}
       >
         {controls}
       </div>

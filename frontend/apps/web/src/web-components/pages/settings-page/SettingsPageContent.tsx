@@ -4,6 +4,8 @@ import { TitledPageContent } from "../TitledPageContent";
 import { Button } from "../../ui/Button";
 import { FontSizeSettingArea } from "./FontSizeSettingArea";
 import { KeyboardConversionSettingArea } from "./KeyboardConversionSettingArea";
+import { SendUnimportantNotificationsSettingsArea } from "./SendUnimportantNotificationsSettingsArea";
+import { IncludeUnknownWordsInDerivedTextPageViewSettingsArea } from "./IncludeUnknownWordsInDerivedTextPageViewSettingsArea";
 
 export const SettingsPageContent = () => {
   const { currentSettings, save } = useSettingsPageContent();
@@ -15,6 +17,16 @@ export const SettingsPageContent = () => {
         <FontSizeSettingArea fontSizeSettings={currentSettings.fontSize} />
         <KeyboardConversionSettingArea
           keyboardConversionSettings={currentSettings.keyboardConversion}
+        />
+        <SendUnimportantNotificationsSettingsArea
+          sendUnimportantNotificationSettings={
+            currentSettings.sendUnimportantNotifications
+          }
+        />
+        <IncludeUnknownWordsInDerivedTextPageViewSettingsArea
+          includeUnknownWordsInDerivedTextPageViewSettings={
+            currentSettings.includeUnknownWordsInDerivedTextPageView
+          }
         />
       </div>
     </TitledPageContent>

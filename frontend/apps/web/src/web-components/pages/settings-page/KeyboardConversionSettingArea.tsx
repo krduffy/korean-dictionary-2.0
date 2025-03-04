@@ -1,6 +1,7 @@
 import { SearchIcon } from "lucide-react";
 import "./keyboard-conversion.css";
 import { SettingNameAndControls } from "./SettingNameAndControls";
+import { SimpleCheckboxControl } from "./SimpleCheckboxControl";
 
 export const KeyboardConversionSettingArea = ({
   keyboardConversionSettings,
@@ -33,18 +34,10 @@ const KeyboardConversionSettingAreaControls = ({
 }) => {
   return (
     <div className="flex flex-row h-10">
-      <div className="min-w-8 flex-none flex justify-center items-center">
-        <input
-          type="checkbox"
-          className=""
-          checked={keyboardConversionSettings.demoDoConversion}
-          onChange={() =>
-            keyboardConversionSettings.setDemoDoConversion(
-              !keyboardConversionSettings.demoDoConversion
-            )
-          }
-        ></input>
-      </div>
+      <SimpleCheckboxControl
+        value={keyboardConversionSettings.demoDoConversion}
+        setter={keyboardConversionSettings.setDemoDoConversion}
+      />
       <div className="flex-1 flex justify-center items-center">
         <DemoSearchBar />
       </div>

@@ -8,6 +8,7 @@ import { useCallAPIWeb } from "../../../shared-web-hooks/useCallAPIWeb";
 import { ReplacedViewFormatter } from "../api-result-formatters/ReplacedViewFormatter";
 import { Footnote } from "../../text-formatters/SpanStylers";
 import { SimpleNotification } from "../../pages/notifications/SimpleNotification";
+import { useSettingsContext } from "../../../web-contexts/SettingsContext";
 
 export const FindLemmaView = ({
   word,
@@ -35,6 +36,7 @@ export const FindLemmaView = ({
 
   const { panelDispatchStateChangeSelf } = usePanelFunctionsContext();
   const { sendNotification } = useNotificationContext();
+  const { sendUnimportantNotificationsSettings } = useSettingsContext();
 
   /* If a word is found then this view will redirect to a new view for showing the
      korean search results using the word that was found */
@@ -42,7 +44,10 @@ export const FindLemmaView = ({
     if (requestState.response?.found) {
       const found = String(requestState.response.found);
 
-      sendNotification(<FoundWordNotification word={found} />, 4000);
+      if (sendUnimportantNotificationsSettings.doSend) {
+        sendNotification(<FoundWordNotification word={found} />, 4000);
+      }
+
       panelDispatchStateChangeSelf({
         type: "push_korean_search",
         searchConfig: {
