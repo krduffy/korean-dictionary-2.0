@@ -4,7 +4,12 @@ export const LoadingIndicator = ({
   maxDim?: number | undefined;
 }) => {
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div
+      style={{
+        height: `${maxDim}px`,
+      }}
+      className="flex justify-center items-center w-full h-full"
+    >
       <div
         style={{ maxHeight: `${maxDim}px` }}
         className="aspect-square h-full

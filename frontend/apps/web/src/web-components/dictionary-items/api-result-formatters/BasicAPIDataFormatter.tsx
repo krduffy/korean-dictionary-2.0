@@ -4,7 +4,7 @@ import { NoResponseError, WrongFormatError } from "./ErrorMessageTemplates";
 import { LoadingIndicator } from "../../ui/LoadingIndicator";
 import { ErrorMessage } from "../../text-formatters/messages/ErrorMessage";
 
-const DefaultLoadingComponent = () => <LoadingIndicator maxDim={32} />;
+const DefaultLoadingComponent = () => <LoadingIndicator maxDim={48} />;
 
 export const BasicAPIDataFormatter = <DataType, InteractionDataType>({
   requestState,
