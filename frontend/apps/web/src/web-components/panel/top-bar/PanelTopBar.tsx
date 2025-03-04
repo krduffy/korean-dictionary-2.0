@@ -8,14 +8,17 @@ import { JumpToViewButtonArea } from "./JumpToViewButtonArea";
 
 export const PanelTopBar = ({ state }: { state: PanelState }) => {
   return (
-    <div aria-label="panel-top-bar" className="flex flex-row h-12 mb-4 gap-4">
-      <div className="flex-none">
+    <div
+      aria-label="panel-top-bar"
+      className="flex flex-row h-12 min-h-12 mb-4 gap-4 w-full"
+    >
+      <div className="flex-none h-full">
         <JumpToViewButtonArea />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 h-full">
         <SearchBarArea searchConfig={state.searchConfig} />
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row h-full">
         <div className="h-full">
           <HistoryNavigationArea historyData={state.historyData} />
         </div>
