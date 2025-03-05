@@ -33,13 +33,10 @@ export const LoggedInUserButton = ({ username }: { username: string }) => {
 const LoggedInUserButtonDropdown = ({ username }: { username: string }) => {
   return (
     <NavBarDropdownMenu>
-      <div className="flex flex-row gap-4">
-        <div className="w-[50%]">
-          <LeftSideOfDropdown username={username} />
-        </div>
-        <div className="w-[50%]">
-          <RightSideOfDropdown />
-        </div>
+      <div className="flex flex-col">
+        <LeftSideOfDropdown username={username} />
+
+        <RightSideOfDropdown />
       </div>
     </NavBarDropdownMenu>
   );
@@ -48,7 +45,7 @@ const LoggedInUserButtonDropdown = ({ username }: { username: string }) => {
 const LeftSideOfDropdown = ({ username }: { username: string }) => {
   const menuTitle = `${username}님`;
 
-  return <div className="whitespace-nowrap text-[150%]">{menuTitle}</div>;
+  return <div className="whitespace-nowrap text-[150%] p-4">{menuTitle}</div>;
 };
 
 const RightSideOfDropdown = () => {
