@@ -19,27 +19,42 @@ export const DerivedExampleTextDisplay = ({
   const divRef = useRef<HTMLDivElement | null>(null);
   const { belowCutoff } = useWidthObserver({ ref: divRef, cutoff: 500 });
 
+  const { includeUnknownWordsInDerivedTextPageViewSettings } =
+    useSettingsContext();
+
+  let topLevelDivClassName: string;
+
+  if (includeUnknownWordsInDerivedTextPageViewSettings.doInclude) {
+    topLevelDivClassName = `flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`;
+  } else {
+    topLevelDivClassName = "";
+  }
+
+  let pictureAndUnknownWordsWrapperClassName: string;
+
+  if (includeUnknownWordsInDerivedTextPageViewSettings.doInclude) {
+    pictureAndUnknownWordsWrapperClassName = `w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-[30%] max-w-[40%]"}`;
+  } else {
+    pictureAndUnknownWordsWrapperClassName =
+      "min-w-[30%] float-right ml-4 mb-4";
+  }
+
   return (
     <DerivedExampleTextContextProvider sourceTextPk={data.id}>
-      <div
-        className={`flex flex-${belowCutoff ? "col" : "row"} gap-4 justify-between`}
-        ref={divRef}
-      >
-        <DerivedExampleTextDisplayMainContent
-          text={data.text}
-          source={data.source}
-          highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
-        />
-
-        <div
-          className={`w-full ${belowCutoff ? "" : "flex-grow-0 flex-shrink min-w-[30%] max-w-[40%]"}`}
-        >
+      <div className={topLevelDivClassName} ref={divRef}>
+        <div className={pictureAndUnknownWordsWrapperClassName}>
           <DerivedExampleTextDisplaySideBar
             sourceTextPk={data.id}
             interactionData={interactionData}
             imageUrl={data.image_url}
           />
         </div>
+
+        <DerivedExampleTextDisplayMainContent
+          text={data.text}
+          source={data.source}
+          highlightEojeolNumOnLoad={interactionData.highlightEojeolNumOnLoad}
+        />
       </div>
     </DerivedExampleTextContextProvider>
   );
