@@ -12,6 +12,7 @@ import {
   convertHanjaResultRankingIntoNumberOfStars,
   ResultRankingStars,
 } from "../shared/ResultRankingStars";
+import { StringWithNLPAndHanja } from "../shared/formatted-string/FormattedString";
 
 export const HanjaSearchResult = memo(
   ({ result }: { result: HanjaSearchResultType }) => {
@@ -20,7 +21,7 @@ export const HanjaSearchResult = memo(
         <HanjaSearchResultTopInfo result={result} />
 
         <div className="text-ellipsis whitespace-nowrap w-full overflow-hidden">
-          {result.explanation}
+          <StringWithNLPAndHanja string={result.explanation} />
         </div>
 
         <br />
@@ -49,7 +50,9 @@ const HanjaSearchResultTopInfo = ({
             <DetailViewLinkStyler>{result.character}</DetailViewLinkStyler>
           </PanelSpecificDispatcher>
         </div>
+
         <MeaningReadingsDisplay meaningReadings={result.meaning_readings} />
+
         <div className="flex justify-center items-center">
           <ResultRankingStars
             numStars={convertHanjaResultRankingIntoNumberOfStars(
@@ -59,23 +62,21 @@ const HanjaSearchResultTopInfo = ({
           />
         </div>
       </div>
-      <div className="flex flex-row gap-2">
-        <div>{result.exam_level}</div>
-        <div>{result.strokes}획</div>
-      </div>
-      {result.user_data ? (
-        <div>
-          <HanjaCharacterKnownStudiedTogglers
-            pk={result.character}
-            isKnown={result.user_data.is_known}
-            isStudied={result.user_data.is_studied}
-          />
+      <div className="flex flex-row gap-4 justify-center items-center">
+        <div className="flex flex-row gap-2">
+          <div>{result.exam_level}</div>
+          <div>{result.strokes}획</div>
         </div>
-      ) : (
-        /* this is here just to force the above div with exam level etc to not be at the
-               end when user data is null. (justify between) */
-        <div />
-      )}
+        {result.user_data && (
+          <div>
+            <HanjaCharacterKnownStudiedTogglers
+              pk={result.character}
+              isKnown={result.user_data.is_known}
+              isStudied={result.user_data.is_studied}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
