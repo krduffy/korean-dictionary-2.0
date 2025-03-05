@@ -44,7 +44,8 @@ const deleteTokens = async () => {
 const onRefreshFail = async () => {
   if (!alreadyShowedSessionInvalidMessage) {
     alreadyShowedSessionInvalidMessage = true;
-    //alert("session is invalid");
+    alert("로그인을 다시 해주세요.");
+    location.reload();
   }
 };
 

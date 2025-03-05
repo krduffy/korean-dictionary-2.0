@@ -33,7 +33,6 @@ export const useCallAPI = ({
       await tokenHandlers.saveTokens(refreshed);
       return refreshed.access;
     } else {
-      await tokenHandlers.onRefreshFail();
       return null;
     }
   };
@@ -152,6 +151,12 @@ export const useCallAPI = ({
       if (refreshedAccess === null) {
         const headers = new Headers(config.headers);
         const response = await fetch(url, { ...config, headers });
+
+        /* Still need to log in even after refresh; nonauthenticated users cannot
+           access whatever was attempted in the url passed into this func call */
+        if (response.status === 401) {
+          await tokenHandlers.onRefreshFail();
+        }
 
         return exitWithResponse(response, url, config.body);
       }

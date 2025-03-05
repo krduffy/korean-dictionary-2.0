@@ -11,9 +11,10 @@ from users.serializers import FullUserSerializer
 
 
 class RetrieveUserView(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
-
     def get(self, request, *args, **kwargs):
+        if not request.user:
+            return Response({}, status=HTTP_200_OK)
+
         serializer = FullUserSerializer(request.user)
         return Response(serializer.data, status=HTTP_200_OK)
 

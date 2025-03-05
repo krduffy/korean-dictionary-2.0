@@ -14,7 +14,6 @@ from rest_framework.status import (
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.views import APIView
 
-from backend.settings import MAX_REFRESH_COOKIE_AGE
 from users.models import User
 
 
@@ -27,7 +26,8 @@ def get_token_response(access, refresh):
         httponly=True,
         secure=True,
         samesite="None",
-        max_age=MAX_REFRESH_COOKIE_AGE,
+        # this is here but the actual age is set in settings under jwt
+        max_age=1,
     )
 
     return response

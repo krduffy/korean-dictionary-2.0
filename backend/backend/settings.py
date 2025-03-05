@@ -142,8 +142,8 @@ REST_FRAMEWORK = {
 
 # TOKENS
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
-    "REFRESH_TOKEN_LIFETIME": timedelta(hours=6),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 # CORS
@@ -161,7 +161,6 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
-MAX_REFRESH_COOKIE_AGE = 24 * 60 * 60  # 24 hrs * 60 min * 60 sec == 1 day
 SESSION_COOKIE_DOMAIN = "localhost"
 CSRF_COOKIE_DOMAIN = "localhost"
 
