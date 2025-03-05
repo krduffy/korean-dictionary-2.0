@@ -105,10 +105,10 @@ const HanjaMainInfoSources = ({
   radicalSource,
   character,
 }: {
-  radicalSource: "namuwiki" | "makemeahanzi";
+  radicalSource: "나무위키" | "makemeahanzi";
   character: string;
 }) => {
-  const fromNamuwiki = `훈음, ${radicalSource === "namuwiki" ? "부수, " : ""}교육용, 급수별, 획수`;
+  const fromNamuwiki = `훈음, ${radicalSource === "나무위키" ? "부수, " : ""}교육용, 급수별, 획수`;
   const fromMakemeahanzi = `${radicalSource === "makemeahanzi" ? "부수, " : ""}모양자 분해`;
 
   return (

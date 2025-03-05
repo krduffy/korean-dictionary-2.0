@@ -51,7 +51,7 @@ export interface DetailedHanjaType extends BaseHanjaType {
   explanation: string;
   decomposition: string | null;
   radical: string;
-  radical_source: "namuwiki" | "makemeahanzi";
+  radical_source: "나무위키" | "makemeahanzi";
 }
 
 export type KoreanHeadwordInHanjaPopupType = BaseKoreanHeadwordType;
@@ -123,6 +123,6 @@ export function isDetailedHanjaType(
     (value.decomposition === null || isString(value.decomposition)) &&
     isString(value.radical) &&
     (value.radical_source === "makemeahanzi" ||
-      value.radical_source === "namuwiki")
+      value.radical_source === "나무위키")
   );
 }

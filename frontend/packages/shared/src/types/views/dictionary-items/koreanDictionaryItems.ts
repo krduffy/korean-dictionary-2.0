@@ -145,7 +145,8 @@ export function isHistoryCenturyInfo(
 ): value is HistoryCenturyInfoType {
   const x =
     isObject(value) &&
-    isArrayOf(value.history_example_info, isHistoryCenturyExampleType) &&
+    (value.history_example_info === undefined ||
+      isArrayOf(value.history_example_info, isHistoryCenturyExampleType)) &&
     isString(value.century) &&
     isString(value.mark);
   return x;
