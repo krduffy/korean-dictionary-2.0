@@ -34,7 +34,7 @@ export const SearchBarArea = memo(
             submitSearch={submitSearch}
           />
         </div>
-        <div className="w-6 px-1">
+        <div className="h-full w-6 ml-1">
           <SearchSettingsButton
             searchConfig={searchConfig}
             updateKoreanSearchConfig={updateKoreanSearchConfig}

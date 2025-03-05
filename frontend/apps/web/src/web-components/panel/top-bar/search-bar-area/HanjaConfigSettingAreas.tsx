@@ -327,7 +327,9 @@ const ExamLevelSelector = ({
       }
     >
       {options.map((option) => (
-        <option value={option}>{option}</option>
+        <option value={option} key={option}>
+          {option}
+        </option>
       ))}
     </select>
   );

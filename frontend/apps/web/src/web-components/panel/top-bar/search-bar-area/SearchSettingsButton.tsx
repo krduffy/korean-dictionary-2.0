@@ -36,7 +36,7 @@ export const SearchSettingsButton = ({
   deleteSearchConfigItemByKey,
 }: SearchSettingsButtonArgs) => {
   const buttonContent = (
-    <div className="cursor-pointer w-full h-full">
+    <div className="cursor-pointer w-full h-full flex items-center justify-center">
       <Settings2 />
     </div>
   );
