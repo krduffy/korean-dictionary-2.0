@@ -25,7 +25,7 @@ class RelopField(serializers.CharField):
 
 class HanjaSearchParamValidator(serializers.Serializer):
     page = serializers.IntegerField(required=False, min_value=1)
-    search_term = serializers.CharField(max_length=50, required=True)
+    search_term = serializers.CharField(max_length=50, required=True, allow_blank=True)
     decomposition = serializers.CharField(max_length=5, required=False)
     radical = serializers.CharField(max_length=1, required=False)
     strokes = RelopField(required=False)

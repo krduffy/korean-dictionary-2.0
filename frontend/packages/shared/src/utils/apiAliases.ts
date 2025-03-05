@@ -1,4 +1,8 @@
-import { SearchConfig } from "../types/views/searchConfigTypes";
+import {
+  ExamLevel,
+  HanjaSearchConfig,
+  SearchConfig,
+} from "../types/views/searchConfigTypes";
 
 /* Cert requires localhost, not 127.0.0.1 */
 const API_URL = "https://localhost:8000/";
@@ -100,11 +104,20 @@ export const getEndpoint = ({ endpoint, pk, queryParams }: GetEndpointArgs) => {
 
   if (queryParams === undefined) return baseUrl;
 
-  const stringifiedParams = getArgsAsQueryParamString(queryParams);
+  let stringifiedParams: string;
+  if (endpoint === "search_hanja") {
+    stringifiedParams = getHanjaSearchQueryParamString(
+      queryParams as HanjaSearchConfig
+    );
+  } else {
+    stringifiedParams = getArgsAsQueryParamString(queryParams);
+  }
   return baseUrl + "?" + stringifiedParams;
 };
 
-const getArgsAsQueryParamString = (params: QueryParams) => {
+const getArgsAsQueryParamString = (
+  params: QueryParams | Record<string, string | number>
+) => {
   return (
     Object.entries(params)
       .reduce(
@@ -119,4 +132,76 @@ const getArgsAsQueryParamString = (params: QueryParams) => {
       /* the last char is deleted because it is a trailing '&' */
       .slice(0, -1)
   );
+};
+
+const getHanjaSearchQueryParamString = (params: HanjaSearchConfig) => {
+  const updatedParams: Record<string, string | number> = {
+    search_term: params.search_term,
+    page: params.page,
+  };
+
+  if (params.decomposition !== undefined) {
+    updatedParams.decomposition = params.decomposition;
+  }
+
+  if (params.exam_level !== undefined) {
+    updatedParams.result_ranking = `${params.exam_level.operand}${getExamRankNum(
+      params.exam_level.level
+    )}`;
+  }
+
+  if (params.grade_level !== undefined) {
+    updatedParams.grade_level = `${params.grade_level.operand}${params.grade_level.level}`;
+  }
+
+  if (params.strokes !== undefined) {
+    updatedParams.strokes = `${params.strokes.operand}${params.strokes.strokes}`;
+  }
+
+  if (params.radical !== undefined) {
+    updatedParams.radical = params.radical;
+  }
+
+  return getArgsAsQueryParamString(updatedParams);
+};
+
+const getExamRankNum = (examRank: ExamLevel) => {
+  switch (examRank) {
+    case "8급":
+      return 16;
+    case "준7급":
+      return 15;
+    case "7급":
+      return 14;
+    case "준6급":
+      return 13;
+    case "6급":
+      return 12;
+    case "준5급":
+      return 11;
+    case "5급":
+      return 10;
+    case "준4급":
+      return 9;
+    case "4급":
+      return 8;
+    case "준3급":
+      return 7;
+    case "3급":
+      return 6;
+    case "준2급":
+      return 5;
+    case "2급":
+      return 4;
+    case "준1급":
+      return 3;
+    case "1급":
+      return 2;
+    case "준특급":
+      return 1;
+    case "특급":
+      return 0;
+    case "미배정":
+      return -1;
+  }
 };
