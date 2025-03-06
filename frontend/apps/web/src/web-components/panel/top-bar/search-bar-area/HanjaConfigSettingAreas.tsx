@@ -2,7 +2,6 @@ import {
   ExamLevel,
   ExamLevelConfig,
   GradeLevel,
-  GradeLevelConfig,
   OperandPrefix,
   StrokeNumberConfig,
 } from "@repo/shared/types/views/searchConfigTypes";
@@ -118,18 +117,16 @@ export const StrokesArea = ({
 };
 
 export const GradeLevelArea = ({
-  gradeLevelConfig,
-  setOperand,
+  gradeLevel,
   setGradeLevel,
   deleteGradeLevel,
 }: GradeLevelAreaArgs) => {
-  if (gradeLevelConfig === undefined) {
+  if (gradeLevel === undefined) {
     return (
       <div className="flex justify-center">
         <KeyAdder
           param={"학교용"}
           onClick={() => {
-            setOperand("eq");
             setGradeLevel("고등학교");
           }}
         />
@@ -140,12 +137,8 @@ export const GradeLevelArea = ({
   return (
     <div className="flex flex-row gap-4 justify-end">
       <div className="flex flex-col gap-3 justify-end">
-        <OperandPrefixInput
-          operand={gradeLevelConfig.operand}
-          setOperand={setOperand}
-        />
         <GradeLevelSelector
-          gradeLevel={gradeLevelConfig.level}
+          gradeLevel={gradeLevel}
           setGradeLevel={setGradeLevel}
         />
       </div>
@@ -264,8 +257,7 @@ type StrokesAreaArgs = {
 };
 
 type GradeLevelAreaArgs = {
-  gradeLevelConfig: GradeLevelConfig | undefined;
-  setOperand: (operand: OperandPrefix) => void;
+  gradeLevel: GradeLevel | undefined;
   setGradeLevel: (gradeLevel: GradeLevel) => void;
   deleteGradeLevel: () => void;
 };

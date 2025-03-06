@@ -1,4 +1,5 @@
 import { isArrayOf, isNumber, isObject, isString } from "../../guardUtils";
+import { ExamLevel, GradeLevel } from "../searchConfigTypes";
 import {
   BaseKoreanHeadwordType,
   isBaseKoreanHeadwordType,
@@ -46,8 +47,8 @@ export interface HanjaSearchResultType extends BaseHanjaType {
 
 export interface DetailedHanjaType extends BaseHanjaType {
   strokes: number;
-  grade_level: string;
-  exam_level: string;
+  grade_level: GradeLevel;
+  exam_level: ExamLevel;
   explanation: string;
   decomposition: string | null;
   radical: string;

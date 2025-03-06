@@ -151,7 +151,7 @@ const getHanjaSearchQueryParamString = (params: HanjaSearchConfig) => {
   }
 
   if (params.grade_level !== undefined) {
-    updatedParams.grade_level = `${params.grade_level.operand}${params.grade_level.level}`;
+    updatedParams.grade_level = params.grade_level;
   }
 
   if (params.strokes !== undefined) {

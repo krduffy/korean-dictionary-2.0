@@ -79,30 +79,16 @@ export const useHanjaConfigSettingsMenu = ({
     />
   );
 
-  const setGradeLevelOperand = (operand: OperandPrefix) => {
-    updateHanjaSearchConfig({
-      field: "grade_level",
-      value: {
-        level: config.grade_level?.level ?? "고등학교",
-        operand: operand,
-      },
-    });
-  };
-
   const setGradeLevelSettingLevel = (level: GradeLevel) => {
     updateHanjaSearchConfig({
       field: "grade_level",
-      value: {
-        level: level,
-        operand: config.strokes?.operand ?? "eq",
-      },
+      value: level,
     });
   };
 
   const gradeLevelArea = (
     <GradeLevelArea
-      gradeLevelConfig={config.grade_level}
-      setOperand={setGradeLevelOperand}
+      gradeLevel={config.grade_level}
       setGradeLevel={setGradeLevelSettingLevel}
       deleteGradeLevel={() => deleteSearchConfigItemByKey("grade_level")}
     />

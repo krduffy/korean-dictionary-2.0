@@ -51,10 +51,6 @@ export interface StrokeNumberConfig {
   operand: OperandPrefix;
   strokes: number;
 }
-export interface GradeLevelConfig {
-  operand: OperandPrefix;
-  level: GradeLevel;
-}
 export interface ExamLevelConfig {
   operand: OperandPrefix;
   level: ExamLevel;
@@ -63,6 +59,6 @@ export interface HanjaSearchConfig extends BaseSearchConfig {
   decomposition?: string;
   radical?: string;
   strokes?: StrokeNumberConfig;
-  grade_level?: GradeLevelConfig;
+  grade_level?: GradeLevel;
   exam_level?: ExamLevelConfig;
 }

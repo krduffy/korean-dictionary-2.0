@@ -10,6 +10,9 @@ import {
   convertHanjaResultRankingIntoNumberOfStars,
   ResultRankingStars,
 } from "../../shared/ResultRankingStars";
+import { HanjaSearchConfig } from "@repo/shared/types/views/searchConfigTypes";
+import { PanelSpecificDispatcher } from "../../../../pages/dictionary-page/PanelSpecificDispatcher";
+import { Search } from "lucide-react";
 
 export const HanjaDetailDisplayTopInfo = ({
   data,
@@ -137,11 +140,20 @@ const HanjaMainInfoTable = memo(({ data }: { data: DetailedHanjaType }) => {
   const tableData: { label: string; item: ReactNode }[][] = [
     /* array of rows (which are arrays of cols) */
     [
-      { label: "부수", item: data.radical },
+      {
+        label: "부수",
+        item: (
+          <HanjaItemWithSearchButton
+            printedValue={data.radical}
+            dataName="radical"
+            data={data.radical}
+          />
+        ),
+      },
       {
         label: "유니코드",
         item: (
-          <span className="flex flex-row gap-2">
+          <span className="flex flex-row gap-3">
             {"0x" + data.character.charCodeAt(0).toString(16).toUpperCase()}
             <Copier textToCopy={data.character} />
           </span>
@@ -149,17 +161,59 @@ const HanjaMainInfoTable = memo(({ data }: { data: DetailedHanjaType }) => {
       },
     ],
     [
-      { label: "교육용", item: data.grade_level },
-      { label: "급수별", item: data.exam_level },
+      {
+        label: "교육용",
+        item: (
+          <HanjaItemWithSearchButton
+            printedValue={data.grade_level}
+            dataName="grade_level"
+            data={data.grade_level}
+          />
+        ),
+      },
+      {
+        label: "급수별",
+        item: (
+          <HanjaItemWithSearchButton
+            printedValue={data.exam_level}
+            dataName="exam_level"
+            data={{
+              level: data.exam_level,
+              operand: "eq",
+            }}
+          />
+        ),
+      },
     ],
     [
-      { label: "모양자 분해", item: data.decomposition },
-      { label: "획수", item: data.strokes + "획" },
+      {
+        label: "모양자 분해",
+        item: data.decomposition && (
+          <HanjaItemWithSearchButton
+            printedValue={data.decomposition}
+            dataName="decomposition"
+            data={data.decomposition}
+          />
+        ),
+      },
+      {
+        label: "획수",
+        item: (
+          <HanjaItemWithSearchButton
+            printedValue={`${data.strokes}획`}
+            dataName="strokes"
+            data={{
+              strokes: data.strokes,
+              operand: "eq",
+            }}
+          />
+        ),
+      },
     ],
   ];
 
   return (
-    <div className="w-full h-full grid grid-rows-3 grid-cols-2 gap-x-8 gap-y-1">
+    <div className="w-full h-full grid grid-rows-3 grid-cols-2 gap-x-8 gap-y-1 place-items-center justify-items-end">
       {tableData.map((row, rowId) =>
         row.map((col, colId) => (
           <HanjaMainInfoTableItem
@@ -175,6 +229,36 @@ const HanjaMainInfoTable = memo(({ data }: { data: DetailedHanjaType }) => {
   );
 });
 
+const HanjaItemWithSearchButton = <DataType extends keyof HanjaSearchConfig>({
+  printedValue,
+  dataName,
+  data,
+}: {
+  printedValue: string;
+  dataName: DataType;
+  data: HanjaSearchConfig[DataType];
+}) => {
+  return (
+    <div className="flex flex-row gap-3 items-center justify-center">
+      <div>{printedValue}</div>
+      <PanelSpecificDispatcher
+        panelStateAction={{
+          type: "push_hanja_search",
+          searchConfig: {
+            search_term: "",
+            page: 1,
+            [dataName]: data,
+          },
+        }}
+      >
+        <div title="검색">
+          <Search className="cursor-pointer aspect-square w-4 h-4" />
+        </div>
+      </PanelSpecificDispatcher>
+    </div>
+  );
+};
+
 const HanjaMainInfoTableItem = ({
   row,
   col,
@@ -189,7 +273,7 @@ const HanjaMainInfoTableItem = ({
   return (
     <div
       className={`flex flex-row justify-between row-start-${row} row-end-${row + 1} 
-      col-start-${col} col-end-${col + 1}`}
+      col-start-${col} col-end-${col + 1} w-full`}
     >
       <div>{label}</div>
       <div>{item}</div>
