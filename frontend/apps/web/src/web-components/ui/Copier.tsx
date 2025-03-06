@@ -37,7 +37,9 @@ export const Copier = ({ textToCopy }: { textToCopy: string }) => {
   return (
     <div onClick={handleClick}>
       {successful === null ? (
-        <ClipboardCopy />
+        <div title="복사">
+          <ClipboardCopy className="cursor-pointer" />
+        </div>
       ) : successful === true ? (
         <ClipboardCheck className="[color:--success-color]" />
       ) : (

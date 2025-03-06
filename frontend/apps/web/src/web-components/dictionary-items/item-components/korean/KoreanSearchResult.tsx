@@ -101,6 +101,7 @@ const KoreanSearchResultSource = ({ word }: { word: string }) => {
 const SimplifiedSense = ({ data }: { data: SimplifiedSenseType }) => {
   return (
     <div>
+      <span>{data.order}. </span>
       <SenseCategoriesAndDefinition
         definition={data.definition}
         type={data.type}

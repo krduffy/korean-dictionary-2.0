@@ -15,7 +15,10 @@ export const HeadwordDerivedExampleSearchResult = memo(
       >
         {result.image_url && (
           <div className="flex items-center justify-center">
-            <img className="min-w-16 object-fill" src={result.image_url} />
+            <img
+              className="min-w-16 object-contain max-h-32"
+              src={result.image_url}
+            />
           </div>
         )}
         <GoToDerivedExampleTextDetailViewButton
@@ -69,16 +72,16 @@ const GoToDerivedExampleTextDetailViewButton = ({
   eojeolNumberInSourceText: number;
 }) => {
   return (
-    <button className="flex items-center justify-center">
-      <PanelSpecificDispatcher
-        panelStateAction={{
-          type: "push_lemma_derived_text_detail",
-          sourceTextPk: sourceTextPk,
-          highlightEojeolNumOnLoad: eojeolNumberInSourceText,
-        }}
-      >
+    <PanelSpecificDispatcher
+      panelStateAction={{
+        type: "push_lemma_derived_text_detail",
+        sourceTextPk: sourceTextPk,
+        highlightEojeolNumOnLoad: eojeolNumberInSourceText,
+      }}
+    >
+      <button className="flex items-center justify-center">
         <TextSearch />
-      </PanelSpecificDispatcher>
-    </button>
+      </button>
+    </PanelSpecificDispatcher>
   );
 };

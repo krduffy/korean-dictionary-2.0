@@ -3,9 +3,17 @@ import { ComponentType } from "react";
 import { LoadingIndicator } from "../ui/LoadingIndicator";
 import { ErrorMessage } from "../text-formatters/messages/ErrorMessage";
 
+const SizedLoadingIndicator = () => {
+  return (
+    <div>
+      <LoadingIndicator maxDim={48} />
+    </div>
+  );
+};
+
 export const FormResultInfoArea = <SuccessComponentPropsType extends {}>({
   requestState,
-  LoadingComponent = LoadingIndicator,
+  LoadingComponent = SizedLoadingIndicator,
   SuccessComponent,
   successComponentProps,
 }: {

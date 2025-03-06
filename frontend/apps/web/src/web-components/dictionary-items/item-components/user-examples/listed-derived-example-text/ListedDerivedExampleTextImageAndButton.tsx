@@ -35,7 +35,7 @@ const GoToSourceTextButton = ({ sourceTextPk }: { sourceTextPk: number }) => {
           highlightEojeolNumOnLoad: null,
         }}
       >
-        <TextSearch />
+        <TextSearch width={36} height={36} />
       </PanelSpecificDispatcher>
     </button>
   );
