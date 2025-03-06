@@ -13,7 +13,10 @@ export type SearchConfigDictionary = "korean" | "hanja";
 
 /* KOREAN SEARCH CONFIG */
 
-export type AllowedKoreanSearchType = "word_exact" | "definition_contains";
+export type AllowedKoreanSearchType =
+  | "word_exact"
+  | "definition_contains"
+  | "word_regex";
 export interface KoreanSearchConfig extends BaseSearchConfig {
   search_type: AllowedKoreanSearchType;
 }

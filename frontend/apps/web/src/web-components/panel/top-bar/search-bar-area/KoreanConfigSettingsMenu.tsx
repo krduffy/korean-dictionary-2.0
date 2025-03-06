@@ -4,6 +4,7 @@ import {
   AllowedKoreanSearchType,
   KoreanSearchConfig,
 } from "@repo/shared/types/views/searchConfigTypes";
+import { useLoginStatusContext } from "@repo/shared/contexts/LoginStatusContextProvider";
 
 export const KoreanSearchConfigSettingsMenu = ({
   config,
@@ -32,36 +33,38 @@ const KoreanSwitchSearchTypeConfigurer = ({
   searchType: AllowedKoreanSearchType;
   setSearchType: (newType: AllowedKoreanSearchType) => void;
 }) => {
+  const { isStaff } = useLoginStatusContext();
+
+  const searchTypeOptions = [
+    {
+      label: "단어 맞춤",
+      optionSearchType: "word_exact",
+    },
+    {
+      label: "뜻풀이 포함",
+      optionSearchType: "definition_contains",
+    },
+    isStaff &&
+      ({
+        label: "리젝스",
+        optionSearchType: "word_regex",
+      } as const),
+  ] as const;
+
   const settingArea = (
-    <form className="text-right">
-      <div className="mb-2">
-        <label>
-          <input
-            type="radio"
-            className="mr-1"
-            name="search_type"
-            checked={searchType === "word_exact"}
-            onChange={() => {
-              setSearchType("word_exact");
-            }}
-          />
-          단어 맞춤
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            className="mr-1"
-            name="search_type"
-            checked={searchType === "definition_contains"}
-            onChange={() => {
-              setSearchType("definition_contains");
-            }}
-          />
-          뜻풀이 포함
-        </label>
-      </div>
+    <form className="text-right flex flex-col gap-2">
+      {searchTypeOptions.map(
+        (config) =>
+          config && (
+            <SearchTypeOptionWithCheckbox
+              key={config.label}
+              label={config.label}
+              searchType={searchType}
+              optionSearchType={config.optionSearchType}
+              setSearchType={setSearchType}
+            />
+          )
+      )}
     </form>
   );
 
@@ -70,5 +73,32 @@ const KoreanSwitchSearchTypeConfigurer = ({
       label={"검색형"}
       settingArea={settingArea}
     />
+  );
+};
+
+const SearchTypeOptionWithCheckbox = ({
+  label,
+  searchType,
+  optionSearchType,
+  setSearchType,
+}: {
+  label: string;
+  searchType: AllowedKoreanSearchType;
+  optionSearchType: AllowedKoreanSearchType;
+  setSearchType: (newType: AllowedKoreanSearchType) => void;
+}) => {
+  return (
+    <label>
+      <input
+        type="radio"
+        className="mr-1"
+        name="search_type"
+        checked={searchType === optionSearchType}
+        onChange={() => {
+          setSearchType(optionSearchType);
+        }}
+      />
+      {label}
+    </label>
   );
 };
