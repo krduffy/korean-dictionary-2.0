@@ -11,7 +11,7 @@ export const useNavBar = ({
   useCallAPIInstance: UseCallAPIReturns;
 }) => {
   const { globalSubscribe, globalUnsubscribe } = useGlobalFunctionsContext();
-  const { setLoggedInAs } = useLoginStatusContext();
+  const { setLoggedInAs, setIsStaff } = useLoginStatusContext();
 
   useEffect(() => {
     const listenerData = {
@@ -33,11 +33,14 @@ export const useNavBar = ({
   useEffect(() => {
     if (
       requestState.progress === "success" &&
-      requestState.response?.username
+      requestState.response?.username &&
+      requestState.response?.is_staff
     ) {
       setLoggedInAs(String(requestState.response.username));
+      setIsStaff(Boolean(requestState.response));
     } else {
       setLoggedInAs(null);
+      setIsStaff(false);
     }
   }, [requestState]);
 };
