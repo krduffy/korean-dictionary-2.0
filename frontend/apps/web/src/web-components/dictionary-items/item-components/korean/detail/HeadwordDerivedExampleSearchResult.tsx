@@ -10,7 +10,7 @@ export const HeadwordDerivedExampleSearchResult = memo(
   ({ result }: { result: HeadwordDerivedExampleSearchResultType }) => {
     return (
       <article
-        className="mb-2 flex flex-row gap-4"
+        className="mb-2 flex flex-row gap-4 items-center justify-center"
         aria-label="derived-example-lemma"
       >
         {result.image_url && (
